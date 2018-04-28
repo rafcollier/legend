@@ -1,0 +1,25 @@
+
+<div class = "align-page">
+
+  <section class="mat-typography">
+
+    <div *ngFor="let d of displayDocs; let i = index">
+      <h2 class="red-font">
+         {{ d.docTitle }}
+      </h2>
+      <p>
+        Section: {{ d.docSection }}
+      </p>
+      <p>
+        Author: {{ d.docAuthor }} 
+      </p>
+      <p>
+        DOI: {{ d.docDOI }}
+      </p>
+      <a href="" onClick="return false;">
+        <span (click)="onDocClick(d, i)"> See full entry </span>
+      </a>
+      <hr class="hr-style">
+    </div>
+  </section>
+</div>

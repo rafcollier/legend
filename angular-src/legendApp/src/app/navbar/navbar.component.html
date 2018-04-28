@@ -1,0 +1,47 @@
+<span class = "nav-center-tabs">
+  <nav mat-tab-nav-bar [disableRipple]="true">
+    <!-- disableRipple to remove the text in tabs from jumping on click -->
+      <a mat-tab-link 
+        [routerLink] = "['/home']" 
+        routerLinkActive #rla="routerLinkActive"
+        [active]="rla.isActive"
+      >
+        Home 
+      </a>
+      <a mat-tab-link 
+        [routerLink] = "['/register']" 
+        routerLinkActive #rlb="routerLinkActive"
+        [active]="rlb.isActive"
+      >
+        Register 
+      </a>
+      <a mat-tab-link 
+        [routerLink] = "['/login']" 
+        routerLinkActive #rlc="routerLinkActive"
+        [active]="rlc.isActive"
+      >
+        Login 
+      </a>
+      <a mat-tab-link 
+        (click)="onLogoutClick()" href=""
+      >
+        Logout 
+      </a>
+      <a mat-tab-link 
+        [routerLink] = "['/enterdoc']" 
+        routerLinkActive #rld="routerLinkActive"
+        [active]="rld.isActive"
+      >
+        Add Doc 
+      </a>
+      <a mat-tab-link 
+        [routerLink] = "['/search']" 
+        routerLinkActive #rle="routerLinkActive"
+        [active]="rle.isActive"
+      >
+        Search 
+      </a>
+      
+    </nav>
+
+</span>
