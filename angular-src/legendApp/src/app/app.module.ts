@@ -18,7 +18,8 @@ import { EnterdocComponent } from './enterdoc/enterdoc.component';
 import { RecentComponent } from './recent/recent.component';
 import { DetailsComponent } from './details/details.component';
 import { SearchComponent } from './search/search.component';
-import { SearchresultsComponent } from './searchresults/searchresults.component';  
+import { SearchresultsComponent } from './searchresults/searchresults.component';
+import { LayoutComponent } from './layout/layout.component';  
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -28,6 +29,7 @@ const appRoutes: Routes = [
   {path: 'enterdoc', component: EnterdocComponent},
   {path: 'recent', component: RecentComponent},
   {path: 'search', component: SearchComponent},
+  {path: 'layout', component: LayoutComponent},
   {path: 'search/:results', component: SearchComponent},
   {path: 'searchresults', component: SearchresultsComponent},
   {path: 'details/:doc', component: DetailsComponent}
@@ -44,7 +46,8 @@ const appRoutes: Routes = [
     RecentComponent,
     DetailsComponent,
     SearchComponent,
-    SearchresultsComponent
+    SearchresultsComponent,
+    LayoutComponent
   ],
   imports: [
     BrowserModule,

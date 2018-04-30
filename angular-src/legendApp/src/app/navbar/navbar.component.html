@@ -41,6 +41,13 @@
       >
         Search 
       </a>
+      <a mat-tab-link 
+        [routerLink] = "['/layout']" 
+        routerLinkActive #rlf="routerLinkActive"
+        [active]="rlf.isActive"
+      >
+        Layout 
+      </a>
       
     </nav>
 

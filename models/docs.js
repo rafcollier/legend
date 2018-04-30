@@ -4,29 +4,28 @@ const bcrypt = require('bcryptjs');
 const config = require('../config/database'); 
 
 let DocSchema = new Schema({
-	
+
+    //GENERAL FIELDS	
+
 	dateEntered: {
-	  type: Date
+	  type: Date, default: Date.now()
 	},
 	docUsername: {
-	  type: String
-	},
-	docSection: {
 	  type: String
 	},
 	docTitle: {
 	  type: String
 	},
-	docDescription: {
-	  type: String
-	},
 	docAuthor: {
 	  type: String
 	},
-	docOnlineIssue: {
+	docDOI: {
+	  type: Number
+	},
+	docSection: {
 	  type: String
 	},
-	docPrintIssue: {
+	docDescription: {
 	  type: String
 	},
 	docCollectionCode1: {
@@ -41,10 +40,7 @@ let DocSchema = new Schema({
 	docCollectionCode4: {
 	  type: String
 	},
-	docDOI: {
-		type: Number
-	},
-	docAuthorType: { //freelance or staff
+	docAuthorType: { 
 	  type: String
 	},
 	docCommissionDate: {
@@ -56,8 +52,17 @@ let DocSchema = new Schema({
 	docInvoiceAmount: {
 	  type: Number
 	},
-	docPublishDateCMAJnews: { //published on WordPress Site
-	  type: Date
+	
+    //ONLINE ISSUE
+
+	docOnlineIssue: {
+	  type: String
+	},
+	docFirstPageOnline: {
+	  type: Number
+	},
+	docLastPageOnline: {
+	  type: Number
 	},
 	docNumPagesOnline: {
 	  type: Number
@@ -65,20 +70,35 @@ let DocSchema = new Schema({
 	docOnlineNotes: {
       type: String	
 	},
-	docPrintNotes: {
+
+    //PRINT ISSUE
+
+   	docPrintIssue: {
+	  type: String
+	},
+	docFirstPagePrint: {
+	  type: Number
+	},
+	docLastPagePrint: {
+	  type: Number
+	},
+	docNumPagesPrint: {
+	  type: Number
+	},
+    docPrintNotes: {
       type: String	
 	},
 	docAdConflicts: {
       type: String	
 	},
-	docPrintIssue: {
+
+    //NEWS ONLY
+
+	docPublishDateCMAJnews: { 
+	  type: Date
+	},
+    docNewsAuthorType: { //freelance or staff
 	  type: String
-	},
-	docNumPagesPrint: {
-	  type: Number
-	},
-	docDOI: {
-	  type: Number
 	},
 	docNewsCommissionDate: {
 	  type: Date

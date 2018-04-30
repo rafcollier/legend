@@ -126,6 +126,23 @@ export class AuthService {
       .map(res => res.json());
   } 
 
+   getLayoutSearchResults(printIssue) {
+    let headers = new Headers();
+    let params = new URLSearchParams();
+    let options = new RequestOptions();
+    headers.append('Content-Type', 'application/json');
+    params.set('docPrintIssue', printIssue);
+    //params.set('itemOffset', itemOffset);
+    //params.set('limit', limit);
+    //params.set('searchParameter', searchParameter);
+    options.headers = headers;
+    options.search = params;
+    return this.http.get('http://localhost:3000/docs/getLayoutSearchResults', options) //add this for local dev: http://localhost:3000/
+    //return this.http.get('docs/getSearchResults', options) //add this for local dev: http://localhost:3000/
+      .map(res => res.json());
+  } 
+
+
   storeUserData(token, user) {
     console.log("login store token " + token + " " + user )
     localStorage.setItem('id_token', token);
