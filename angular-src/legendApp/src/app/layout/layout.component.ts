@@ -47,6 +47,15 @@ constructor(
     });
   }
 
+  onNewSearch() {
+    this.docPrintIssue = "";
+    this.ngOnInit();
+  }
+
+  onModifySearch() {
+    this.ngOnInit();
+  }
+
   onDocClick(doc, index) {
     this.docID = doc["_id"]; 
     this.docFirstPagePrint = doc["docFirstPagePrint"];

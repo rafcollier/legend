@@ -3,6 +3,15 @@
   max-width: 500px;  
   width: 100%;  
 }  
+
+.example-display {  
+  flex: 1 1 auto;
+  margin-left: 50px;
+  margin-top: 50px;
+  min-width: 150px;  
+  max-width: 500px;  
+  width: 100%;  
+} 
   
 .example-full-width {  
   width: 100%;  

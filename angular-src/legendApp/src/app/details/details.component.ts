@@ -118,7 +118,6 @@ export class DetailsComponent implements OnInit {
     this.authortypes = config.authortypes;
 
     this.route.params.subscribe(params => {
-      console.log(params);
       this.detailsID = params['doc'];
       }
     );
@@ -126,15 +125,80 @@ export class DetailsComponent implements OnInit {
     this.authService.getOneDoc(this.detailsID).subscribe(doc => {
       this.oneDoc = doc; 
       this.docID = doc._id;
+
+      if(doc.docSection == "News") {
+        this.showNews = true;
+      }
+
+     //GENERAL FIELDS
+    this.docTitle = doc.docTitle;
+    this.docAuthor = doc.docAuthor;
+    this.docDOI = doc.docDOI;
+    this.docSection = doc.docSection;
+    this.docDescription = doc.docDescription;
+    this.docCollectionCode1 = doc.docCollectionCode1;
+    this.docCollectionCode2 = doc.docCollectionCode2;
+    this.docCollectionCode3 = doc.docCollectionCode3;
+    this.docCollectionCode4 = doc.docCollectionCode4;
+    this.docAuthorType = doc.docAuthorType;
+    this.docCommissionDate = doc.docCommissionDate;
+    this.docInvoiceDate = doc.docInvoiceDate;
+    this.docInvoiceAmount = doc.docInvoiceAmount;
+
+    //TIMELINE
+
+    this.docAcceptDate = doc.docAcceptDate;
+    this.docPublishDate = doc.docPublishDate;
+    this.docEnteredDate = doc.docEnteredDate;
+    this.docCopyEditBeginDate = doc.docCopyEditBeginDate;
+    this.docCopyEditCompleteDate = doc.docCopyEditCompleteDate;
+    this.docSendSEDate = doc.docSendSEDate;
+    this.docReturnSEDate = doc.docReturnSEDate;
+    this.docSendAuthorDate = doc.docSendAuthorDate;
+    this.docReturnAuthorDate = doc.docReturnAuthorDate;
+    this.docFinalizeDate = doc.docFinalizeDate;
+
+    //EDITORS
+    this.docEditor = doc.docEditor;
+    this.docCoordinator = doc.docCoordinator;
+    this.docProofReader = doc.docProofReader;
+    this.docSE1 = doc.docSE1;
+    this.docSE2 = doc.docSE2;
+
+    //YES OR NO FIELDS
+    this.docOpenAccess = doc.docOpenAccess; 
+    this.docTranslation = doc.docTranslation;
+  
+    //ONLINE ISSUE
+
+    this.docOnlineIssue = doc.docOnlineIssue;
+    this.docFirstPageOnline = doc.docFirstPageOnline;
+    this.docLastPageOnline = doc.docLastPageOnline;
+    this.docNumPagesOnline = doc.docNumPagesOnline;
+    this.docOnlineNotes = doc.docOnlineNotes;
+
+    //PRINT ISSUE
+
+    this.docPrintIssue = doc.docPrintIssue;
+    this.docFirstPagePrint = doc.docFirstPagePrint;
+    this.docLastPagePrint = doc.docLastPagePrint;
+    this.docNumPagesPrint = doc.docNumPagesPrint;
+    this.docPrintNotes = doc.docPrintNotes;
+    this.docAdConflicts = doc.docAdConflicts;
+
+    //NEWS ONLY
+    this.docPublishDateCMAJnews = doc.docPublishDateCMAJnews;
+    this.docNewsAuthorType = doc.docNewsAuthorType;
+    this.docNewsCommissionDate = doc.docNewsCommissionDate;
+    this.docNewsInvoiceDate = doc.docNewsInvoiceDate;
+    this.docNewsInvoiceAmount = doc.docNewsInvoiceAmount;
+
     },
     err => {
       console.log(err);
       return false;
     });
 
-    if(this.docSection == "News") {
-        this.showNews = true;
-    }
 
   }
 
