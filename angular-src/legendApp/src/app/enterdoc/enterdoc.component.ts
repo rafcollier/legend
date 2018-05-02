@@ -11,33 +11,83 @@ const config = require('../../../../../config/docs');
   styleUrls: ['./enterdoc.component.css']
 })
 export class EnterdocComponent implements OnInit {
-
-  docSection: String;
+ 
+  //GENERAL FIELDS
   docTitle: String;
   docAuthor: String;
+  docDOI: Number;
+  docSection: String;
   docDescription: String;
-  docOnlineIssue: String;
-  docPrintIssue: String;
   docCollectionCode1: String;
   docCollectionCode2: String;
   docCollectionCode3: String;
   docCollectionCode4: String;
-  docPublishDateCMAJnews: Date;
+  docAuthorType: String;
+  docCommissionDate: Date;
+  docInvoiceDate: Date;
+  docInvoiceAmount: Number;
+
+  //TIMELINE
+
+  docAcceptDate: Date;
+  docPublishDate: Date;
+  docEnteredDate: Date;
+  docCopyEditBeginDate: Date;
+  docCopyEditCompleteDate: Date;
+  docSendSEDate: Date;
+  docReturnSEDate: Date;
+  docSendAuthorDate: Date;
+  docReturnAuthorDate: Date;
+  docFinalizeDate: Date;
+
+  //EDITORS
+  docEditor: String;
+  docCoordinator: String;
+  docProofReader: String;
+  docSE1: String;
+  docSE2: String;
+
+  //YES OR NO FIELDS
+  docOpenAccess: Boolean; 
+  docTranslation: Boolean;
+  
+  //ONLINE ISSUE
+
+  docOnlineIssue: String;
+  docFirstPageOnline: Number;
+  docLastPageOnline: Number;
   docNumPagesOnline: Number;
-  docNumPagesPrint: Number;
   docOnlineNotes: String;
+
+  //PRINT ISSUE
+
+  docPrintIssue: String;
+  docFirstPagePrint: Number;
+  docLastPagePrint: Number;
+  docNumPagesPrint: Number;
   docPrintNotes: String;
   docAdConflicts: String;
+
+  //NEWS ONLY
+  docPublishDateCMAJnews: Date; 
+  docNewsAuthorType: String;
   docNewsCommissionDate: Date;
   docNewsInvoiceDate: Date;
   docNewsInvoiceAmount: Number;
-  docDOI: Number;
 
+  //Generated from login user
   username: String;
+
+  //loaded from config file
   sections: [String]; 
   onlineIssues: [String]; 
   printIssues: [String]; 
   collectionCodes: [String]; 
+  authortypes: [String]; 
+  editors: [String]; 
+  coordinators: [String]; 
+  proofers: [String]; 
+  se1s: [String]; 
 
   constructor(
   	private authService: AuthService,
@@ -49,6 +99,11 @@ export class EnterdocComponent implements OnInit {
     this.onlineIssues = config.onlineIssues;
     this.printIssues = config.printIssues;
     this.collectionCodes = config.collectionCodes;
+    this.editors = config.editors;
+    this.coordinators = config.coordinators;
+    this.proofers = config.proofers;
+    this.se1s = config.se1s;
+    this.authortypes = config.authortypes;
     this.authService.getProfile().subscribe(profile => {
       this.username = profile.user.username;
       },
@@ -62,28 +117,73 @@ export class EnterdocComponent implements OnInit {
 
     const doc = {
       docUsername: this.username,
+       //GENERAL FIELDS 
+    
+      docTitle: this.docTitle,
+      docAuthor: this.docAuthor,
+      docDOI: this.docDOI,
       docSection: this.docSection,
-      docTitle: this.docTitle, 
-      docAuthor: this.docAuthor, 
-      docDescription: this.docDescription, 
-      docOnlineIssue: this.docOnlineIssue,
-      docPrintIssue: this.docPrintIssue,
+      docDescription: this.docDescription,
       docCollectionCode1: this.docCollectionCode1,
       docCollectionCode2: this.docCollectionCode2,
       docCollectionCode3: this.docCollectionCode3,
-      docCollectionCode4: this.docCollectionCode4,
-      docPublishDateCMAJnews: this.docPublishDateCMAJnews,
+      docCollectionCode4: this.docCollectionCode4,    
+      docAuthorType: this.docAuthorType,
+      docCommissionDate: this.docCommissionDate,
+      docInvoiceDate: this.docInvoiceDate,
+      docInvoiceAmount: this.docInvoiceAmount,
+
+      //TIMELINE
+      docAcceptDate: this.docAcceptDate,
+      docPublishDate: this.docPublishDate,
+      docEnteredDate: this.docEnteredDate,
+      docCopyEditBeginDate: this.docCopyEditBeginDate,
+      docCopyEditCompleteDate: this.docCopyEditCompleteDate,
+      docSendSEDate: this.docSendSEDate,
+      docReturnSEDate: this.docReturnSEDate, 
+      docSendAuthorDate: this.docSendAuthorDate,
+      docReturnAuthorDate: this.docReturnAuthorDate,
+      docFinalizeDate: this.docFinalizeDate, 
+
+      //EDITORS
+      docEditor: this.docEditor,
+      docCoordinator: this.docCoordinator,
+      docProofReader: this.docProofReader,
+      docSE1: this.docSE1,
+      docSE2: this.docSE2,  
+
+      //YES OR NO FIELDS
+      docOpenAccess: this.docOpenAccess,
+      docTranslation: this.docTranslation,
+
+      //ONLINE ISSUE
+
+      docOnlineIssue: this.docOnlineIssue,
+      docFirstPageOnline: this.docFirstPageOnline,
+      docLastPageOnline: this.docLastPageOnline,
       docNumPagesOnline: this.docNumPagesOnline,
-      docNumPagesPrint: this.docNumPagesPrint,
       docOnlineNotes: this.docOnlineNotes,
+
+      //PRINT ISSUE
+
+      docPrintIssue: this.docPrintIssue,
+      docFirstPagePrint: this.docFirstPagePrint,
+      docLastPagePrint: this.docLastPagePrint,
+      docNumPagesPrint: this.docNumPagesPrint,
       docPrintNotes: this.docPrintNotes,
       docAdConflicts: this.docAdConflicts,
-      docDOI: this.docDOI,
+
+      //NEWS ONLY
+
+      docPublishDateCMAJnews: this.docPublishDateCMAJnews,
+      docNewsAuthorType: this.docNewsAuthorType,
       docNewsCommissionDate: this.docNewsCommissionDate,
       docNewsInvoiceDate: this.docNewsInvoiceDate,
       docNewsInvoiceAmount: this.docNewsInvoiceAmount
     }
-    
+   
+    console.log(doc);
+
     this.authService.submitDoc(doc).subscribe(data => {
       if(data.success){
         this.router.navigate(['/recent']); 

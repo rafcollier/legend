@@ -44,6 +44,10 @@ router.post('/submitdoc', (req, res, next) => {
     docSE1: req.body.docSE1,
     docSE2: req.body.docSE2,  
 
+    //YES OR NO FIELDS
+    docOpenAccess: req.body.docOpenAccess,
+    docTranslation: req.body.docTranslation,
+
     //ONLINE ISSUE
 
     docOnlineIssue: req.body.docOnlineIssue,

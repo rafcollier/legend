@@ -23,5 +23,27 @@
   text-align: center;
 }
 
+h2 {
+    color: #4D6FAC;
+}
+
+a:link {
+    color: #A9A9A9;
+}
+
+a:visited {
+    color: #A9A9A9;
+}
+
+a:hover {
+    color: red;
+}
+
+a:active {
+    color: red;
+}
+
+
+
 
 

@@ -13,6 +13,8 @@ let DocSchema = new Schema({
 	docUsername: {
 	  type: String
 	},
+
+
 	docTitle: {
 	  type: String
 	},
@@ -51,6 +53,64 @@ let DocSchema = new Schema({
 	},
 	docInvoiceAmount: {
 	  type: Number
+	},
+
+    //TIMELINE
+
+	docAcceptDate: {
+	  type: Date
+	},
+	docPublishDate: {
+	  type: Date
+	},
+	docEnteredDate: {
+	  type: Date
+	},
+	docCopyEditBeginDate: {
+	  type: Date
+	},
+	docCopyEditCompleteDate: {
+	  type: Date
+	},
+	docSendSEDate: {
+	  type: Date
+	},
+	docReturnSEDate: {
+	  type: Date
+	},
+	docSendAuthorDate: {
+	  type: Date
+	},
+	docReturnAuthorDate: {
+	  type: Date
+	},
+	docFinalizeDate: {
+	  type: Date
+	},
+
+	//EDITORS
+	docEditor: {
+      type: String
+	},
+	docCoordinator: {
+      type: String
+	},
+	docProofReader: {
+      type: String
+	},
+	docSE1: {
+	  type: String
+	},
+	docSE2: {
+	  type: String
+	},
+
+	//YES OR NO FIELDS
+	docOpenAccess: {
+	  type: Boolean
+	},
+	docTranslation: {
+	  type: Boolean
 	},
 	
     //ONLINE ISSUE

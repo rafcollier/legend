@@ -19,32 +19,83 @@ export class DetailsComponent implements OnInit {
   docUsername: String; //user who entered document originally
   docID: String; //unique ID for database entry
 
+  //from config
   sections: [String]; 
   onlineIssues: [String]; 
   printIssues: [String]; 
   collectionCodes: [String]; 
+  authortypes: [String]; 
+  editors: [String]; 
+  coordinators: [String]; 
+  proofers: [String]; 
+  se1s: [String]; 
 
   //Same as in Enter Document Component
-  docSection: String;
+    //GENERAL FIELDS
   docTitle: String;
   docAuthor: String;
+  docDOI: Number;
+  docSection: String;
   docDescription: String;
-  docOnlineIssue: String;
-  docPrintIssue: String;
   docCollectionCode1: String;
   docCollectionCode2: String;
   docCollectionCode3: String;
   docCollectionCode4: String;
-  docPublishDateCMAJnews: Date;
+  docAuthorType: String;
+  docCommissionDate: String;
+  docInvoiceDate: Date;
+  docInvoiceAmount: Number;
+
+  //TIMELINE
+
+  docAcceptDate: Date;
+  docPublishDate: Date;
+  docEnteredDate: Date;
+  docCopyEditBeginDate: Date;
+  docCopyEditCompleteDate: Date;
+  docSendSEDate: Date;
+  docReturnSEDate: Date;
+  docSendAuthorDate: Date;
+  docReturnAuthorDate: Date;
+  docFinalizeDate: Date;
+
+  //EDITORS
+  docEditor: String;
+  docCoordinator: String;
+  docProofReader: String;
+  docSE1: String;
+  docSE2: String;
+
+  //YES OR NO FIELDS
+  docOpenAccess: Boolean; 
+  docTranslation: Boolean;
+  
+  //ONLINE ISSUE
+
+  docOnlineIssue: String;
+  docFirstPageOnline: Number;
+  docLastPageOnline: Number;
   docNumPagesOnline: Number;
-  docNumPagesPrint: Number;
   docOnlineNotes: String;
+
+  //PRINT ISSUE
+
+  docPrintIssue: String;
+  docFirstPagePrint: Number;
+  docLastPagePrint: Number;
+  docNumPagesPrint: Number;
   docPrintNotes: String;
   docAdConflicts: String;
+
+  //NEWS ONLY
+  docPublishDateCMAJnews: Date; 
+  docNewsAuthorType: String;
   docNewsCommissionDate: Date;
   docNewsInvoiceDate: Date;
   docNewsInvoiceAmount: Number;
-  docDOI: Number;
+
+  //FORMATTED DATES FOR DISPLAY
+  docCommissionDateFormatted: String;
 
   constructor(
   	private route: ActivatedRoute,
@@ -60,6 +111,11 @@ export class DetailsComponent implements OnInit {
     this.onlineIssues = config.onlineIssues;
     this.printIssues = config.printIssues;
     this.collectionCodes = config.collectionCodes;
+    this.editors = config.editors;
+    this.coordinators = config.coordinators;
+    this.proofers = config.proofers;
+    this.se1s = config.se1s;
+    this.authortypes = config.authortypes;
 
     this.route.params.subscribe(params => {
       console.log(params);
@@ -69,42 +125,18 @@ export class DetailsComponent implements OnInit {
 
     this.authService.getOneDoc(this.detailsID).subscribe(doc => {
       this.oneDoc = doc; 
-      this.docUsername = doc.docUsername;
       this.docID = doc._id;
-  
-      //Below same as in Enter Document Component
-      this.docSection = doc.docSection;
-      this.docTitle = doc.docTitle;
-      this.docAuthor = doc.docAuthor;
-      this.docDescription = doc.docDescription;
-      this.docOnlineIssue = doc.docOnlineIssue;
-      this.docPrintIssue = doc.docPrintIssue;
-      this.docCollectionCode1 = doc.docCollectionCode1;
-      this.docCollectionCode2 = doc.docCollectionCode2;
-      this.docCollectionCode3 = doc.docCollectionCode3;
-      this.docCollectionCode4 = doc.docCollectionCode4;
-      this.docPublishDateCMAJnews = doc.docPublishDateCMAJnews;
-      this.docNumPagesOnline = doc.docNumPagesOnline;
-      this.docNumPagesPrint = doc.docNumPagesPrint ;
-      this.docOnlineNotes = doc.docOnlineNotes;
-      this.docPrintNotes = doc.docPrintNotes;
-      this.docAdConflicts = doc.docAdConflicts;
-      this.docNewsCommissionDate = doc.docNewsCommissionDate;
-      this.docNewsInvoiceDate = doc.docNewsInvoiceDate;
-      this.docNewsInvoiceAmount = doc.docNewsInvoiceAmount;
-      this.docDOI = doc.docDOI;
-
-      if(this.docSection == "News") {
-        this.showNews = true;
-      }
     },
     err => {
       console.log(err);
       return false;
     });
 
-  }
+    if(this.docSection == "News") {
+        this.showNews = true;
+    }
 
+  }
 
   onDeleteDocSubmit() {
     this.authService.deleteOneDoc(this.docID).subscribe(doc => {
@@ -125,23 +157,64 @@ export class DetailsComponent implements OnInit {
  
       docID: this.docID, //to identify this doc in database
       
+      docTitle: this.docTitle,
+      docAuthor: this.docAuthor,
+      docDOI: this.docDOI,
       docSection: this.docSection,
-      docTitle: this.docTitle, 
-      docAuthor: this.docAuthor, 
-      docDescription: this.docDescription, 
-      docOnlineIssue: this.docOnlineIssue,
-      docPrintIssue: this.docPrintIssue,
+      docDescription: this.docDescription,
       docCollectionCode1: this.docCollectionCode1,
       docCollectionCode2: this.docCollectionCode2,
       docCollectionCode3: this.docCollectionCode3,
-      docCollectionCode4: this.docCollectionCode4,
-      docPublishDateCMAJnews: this.docPublishDateCMAJnews,
+      docCollectionCode4: this.docCollectionCode4,    
+      docAuthorType: this.docAuthorType,
+      docCommissionDate: this.docCommissionDate,
+      docInvoiceDate: this.docInvoiceDate,
+      docInvoiceAmount: this.docInvoiceAmount,
+
+      //TIMELINE
+      docAcceptDate: this.docAcceptDate,
+      docPublishDate: this.docPublishDate,
+      docEnteredDate: this.docEnteredDate,
+      docCopyEditBeginDate: this.docCopyEditBeginDate,
+      docCopyEditCompleteDate: this.docCopyEditCompleteDate,
+      docSendSEDate: this.docSendSEDate,
+      docReturnSEDate: this.docReturnSEDate, 
+      docSendAuthorDate: this.docSendAuthorDate,
+      docReturnAuthorDate: this.docReturnAuthorDate,
+      docFinalizeDate: this.docFinalizeDate, 
+
+      //EDITORS
+      docEditor: this.docEditor,
+      docCoordinator: this.docCoordinator,
+      docProofReader: this.docProofReader,
+      docSE1: this.docSE1,
+      docSE2: this.docSE2,  
+
+      //YES OR NO FIELDS
+      docOpenAccess: this.docOpenAccess,
+      docTranslation: this.docTranslation,
+
+      //ONLINE ISSUE
+
+      docOnlineIssue: this.docOnlineIssue,
+      docFirstPageOnline: this.docFirstPageOnline,
+      docLastPageOnline: this.docLastPageOnline,
       docNumPagesOnline: this.docNumPagesOnline,
-      docNumPagesPrint: this.docNumPagesPrint,
       docOnlineNotes: this.docOnlineNotes,
+
+      //PRINT ISSUE
+
+      docPrintIssue: this.docPrintIssue,
+      docFirstPagePrint: this.docFirstPagePrint,
+      docLastPagePrint: this.docLastPagePrint,
+      docNumPagesPrint: this.docNumPagesPrint,
       docPrintNotes: this.docPrintNotes,
       docAdConflicts: this.docAdConflicts,
-      docDOI: this.docDOI,
+
+      //NEWS ONLY
+
+      docPublishDateCMAJnews: this.docPublishDateCMAJnews,
+      docNewsAuthorType: this.docNewsAuthorType,
       docNewsCommissionDate: this.docNewsCommissionDate,
       docNewsInvoiceDate: this.docNewsInvoiceDate,
       docNewsInvoiceAmount: this.docNewsInvoiceAmount
