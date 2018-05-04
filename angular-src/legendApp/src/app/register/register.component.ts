@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
 
   onRegisterSubmit(){
     const user = {
-      username: this.username,
+      username: this.username.toLowerCase(),
       password: this.password
     }
 

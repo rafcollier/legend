@@ -25,6 +25,8 @@ export class SearchComponent implements OnInit {
   printIssues: [String]; 
   displayDocs: [Object];
 
+  username: String;
+
 constructor(
   	private authService: AuthService,
     private router: Router,
@@ -36,6 +38,14 @@ constructor(
     this.onlineIssues = config.onlineIssues;
     this.printIssues = config.printIssues;
     this.showResults = false;
+    this.authService.getProfile().subscribe(profile => {
+      this.username = this.authService.capitalizeFirstLetter(profile.user.username);
+      },
+    err => {
+      console.log(err);
+      return false;
+    });
+
   }
 
   onSearchSubmit() {

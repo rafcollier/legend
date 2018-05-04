@@ -8,45 +8,46 @@
       >
         Home 
       </a>
-      <a mat-tab-link 
+      <a *ngIf="authService.adminLoggedIn()" mat-tab-link 
         [routerLink] = "['/register']" 
         routerLinkActive #rlb="routerLinkActive"
         [active]="rlb.isActive"
       >
         Register 
       </a>
-      <a mat-tab-link 
+      <a *ngIf="!authService.loggedIn()" mat-tab-link 
         [routerLink] = "['/login']" 
         routerLinkActive #rlc="routerLinkActive"
         [active]="rlc.isActive"
       >
         Login 
       </a>
-      <a mat-tab-link 
-        (click)="onLogoutClick()" href=""
-      >
-        Logout 
-      </a>
-      <a mat-tab-link 
+      
+      <a *ngIf="authService.loggedIn()" mat-tab-link 
         [routerLink] = "['/enterdoc']" 
         routerLinkActive #rld="routerLinkActive"
         [active]="rld.isActive"
       >
         Add Doc 
       </a>
-      <a mat-tab-link 
+      <a *ngIf="authService.loggedIn()" mat-tab-link 
         [routerLink] = "['/search']" 
         routerLinkActive #rle="routerLinkActive"
         [active]="rle.isActive"
       >
         Search 
       </a>
-      <a mat-tab-link 
+      <a *ngIf="authService.loggedIn()" mat-tab-link 
         [routerLink] = "['/layout']" 
         routerLinkActive #rlf="routerLinkActive"
         [active]="rlf.isActive"
       >
         Layout 
+      </a>
+      <a *ngIf="authService.loggedIn()" mat-tab-link 
+        (click)="onLogoutClick()" href=""
+      >
+        Logout 
       </a>
       
     </nav>

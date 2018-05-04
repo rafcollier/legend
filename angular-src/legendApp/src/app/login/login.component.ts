@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
 
   onLoginSubmit(){
     const user = {
-      username: this.username,
+      username: this.username.toLowerCase(),
       password: this.password
     }
 
@@ -42,7 +42,11 @@ export class LoginComponent implements OnInit {
       this.authService.authenticateUser(user).subscribe(data => {
         if (data.success) {
           this.authService.storeUserData(data.token, data.user);
-          this.router.navigate(['/enterdoc']);
+
+          if(data.user["username"]=="admin") 
+            this.router.navigate(['/admin']);
+          else
+            this.router.navigate(['/search']);
         } 
         else {
           this.errorMessage = data.msg;

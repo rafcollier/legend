@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import{Http, Headers, URLSearchParams, RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/map';
-//import { tokenNotExpired } from 'angular2-jwt';
 
 @Injectable()
 export class AuthService {
@@ -144,7 +143,6 @@ export class AuthService {
 
 
   storeUserData(token, user) {
-    console.log("login store token " + token + " " + user )
     localStorage.setItem('id_token', token);
     localStorage.setItem('user', JSON.stringify(user)); //local storage can only store strings, not objects
     this.authToken = token;
@@ -154,6 +152,7 @@ export class AuthService {
   loadToken(){
     const token = localStorage.getItem('id_token');
     this.authToken = token;
+    return token;
   }
 
   loadUser(){
@@ -167,9 +166,20 @@ export class AuthService {
     localStorage.clear();
   }
 
-  //loggedIn() {
-    //return tokenNotExpired('id_token'); //may need this now
-   // return tokenNotExpired();
-//}
+  loggedIn() {
+    return (this.authToken != null);
+ 
+  }
+
+  adminLoggedIn() {
+    if (this.user != null) {
+      const userJSON = JSON.parse(this.loadUser()); 
+      return userJSON["username"] == "admin";
+    }
+  }
+
+  capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 }

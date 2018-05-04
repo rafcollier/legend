@@ -5,7 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import { AuthService } from './services/auth.service';
+import {AuthGuard} from './guards/auth.guard';
 import { ValidateService } from './services/validate.service';
 
 import { AppComponent } from './app.component';
@@ -19,20 +22,20 @@ import { RecentComponent } from './recent/recent.component';
 import { DetailsComponent } from './details/details.component';
 import { SearchComponent } from './search/search.component';
 import { SearchresultsComponent } from './searchresults/searchresults.component';
-import { LayoutComponent } from './layout/layout.component';  
+import { LayoutComponent } from './layout/layout.component';
+import { AdminComponent } from './admin/admin.component';  
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'enterdoc', component: EnterdocComponent},
-  {path: 'recent', component: RecentComponent},
-  {path: 'search', component: SearchComponent},
-  {path: 'layout', component: LayoutComponent},
-  {path: 'search/:results', component: SearchComponent},
-  {path: 'searchresults', component: SearchresultsComponent},
-  {path: 'details/:doc', component: DetailsComponent}
+  {path: 'enterdoc', component: EnterdocComponent, canActivate:[AuthGuard]},
+  {path: 'recent', component: RecentComponent, canActivate:[AuthGuard]},
+  {path: 'search', component: SearchComponent, canActivate:[AuthGuard]},
+  {path: 'layout', component: LayoutComponent, canActivate:[AuthGuard]},
+  {path: 'admin', component: AdminComponent, canActivate:[AuthGuard]},
+  {path: 'details/:doc', component: DetailsComponent, canActivate:[AuthGuard]}
 ]
 
 @NgModule({
@@ -47,7 +50,8 @@ const appRoutes: Routes = [
     DetailsComponent,
     SearchComponent,
     SearchresultsComponent,
-    LayoutComponent
+    LayoutComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -55,9 +59,10 @@ const appRoutes: Routes = [
     MaterialModule,
     FormsModule,
     HttpModule,
+    HttpClientModule,
     RouterModule.forRoot(appRoutes)   
   ],
-  providers: [ValidateService, AuthService],
+  providers: [ValidateService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
