@@ -23,18 +23,17 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatNativeDateModule,
     MatExpansionModule,
     MatCheckboxModule
-
   ],
   exports:[
-  MatInputModule,
-  MatTabsModule,
-  MatButtonModule,
-  MatFormFieldModule,
-  MatSelectModule,
-  MatDatepickerModule,
-  MatNativeDateModule,
-  MatExpansionModule,
-  MatCheckboxModule
+    MatInputModule,
+    MatTabsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatExpansionModule,
+    MatCheckboxModule
   ],
   declarations: []
 })

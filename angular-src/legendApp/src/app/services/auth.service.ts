@@ -141,7 +141,6 @@ export class AuthService {
       .map(res => res.json());
   } 
 
-
   storeUserData(token, user) {
     localStorage.setItem('id_token', token);
     localStorage.setItem('user', JSON.stringify(user)); //local storage can only store strings, not objects
@@ -167,15 +166,13 @@ export class AuthService {
   }
 
   loggedIn() {
-    return (this.authToken != null);
- 
+    const token = localStorage.getItem('id_token');
+    return token!=null;
   }
 
   adminLoggedIn() {
-    if (this.user != null) {
-      const userJSON = JSON.parse(this.loadUser()); 
-      return userJSON["username"] == "admin";
-    }
+    const userJSON = JSON.parse(this.loadUser()); 
+    return userJSON!=null && userJSON["username"]=="admin";
   }
 
   capitalizeFirstLetter(string) {
