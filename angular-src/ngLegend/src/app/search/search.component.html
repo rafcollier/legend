@@ -1,0 +1,86 @@
+
+
+
+<div *ngIf="!showResults" class = "align-form">
+
+  <section class = "mat-typography">
+    <h4>Welcome {{username}}</h4> 
+    <h2>Enter Search Query</h2>
+    <form (submit)="onSearchSubmit()" class="example-form">  
+
+      <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="Title" [(ngModel)]="docTitle" name="docTitle">  
+      </mat-form-field>  
+
+      <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="Author" [(ngModel)]="docAuthor" name="docAuthor">
+      </mat-form-field>  
+
+      <mat-form-field class="example-full-width">  
+        <input type="number" matInput placeholder="DOI" [(ngModel)]="docDOI" name="docDOI">
+      </mat-form-field>  
+
+      <mat-form-field class="example-full-width">
+        <mat-select [(ngModel)]="docOnlineIssue" name="docOnlineIssue" placeholder="Online Issue">
+          <mat-option *ngFor="let o of onlineIssues" [value]="o"> {{o}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select [(ngModel)]="docPrintIssue" name="docPrintIssue" placeholder="Print Issue">
+          <mat-option *ngFor="let p of printIssues" [value]="p"> {{p}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
+          <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+
+      <button mat-raised-button type="submit">Search</button>
+
+    </form>  
+  </section>
+</div>
+
+<div *ngIf="showResults" class = "align-page">
+
+  <section class="mat-typography">
+
+    <div *ngFor="let d of displayDocs; let i = index">
+      <h2>
+         {{ d.docTitle }}
+      </h2>
+      <p>
+        Section: {{ d.docSection }}
+      </p>
+      <p>
+        Author: {{ d.docAuthor }} 
+      </p>
+      <p>
+        DOI: {{ d.docDOI }}
+      </p>
+      <a href="" onClick="return false;">
+        <span (click)="onDocClick(d, i)"> See full entry </span>
+      </a>
+      <hr class="hr-style">
+    </div>
+
+    <div class="flex-center">
+      <span (click)="onModifySearch()">
+         <button mat-raised-button>Modify Search</button>
+      </span>
+      <span (click)="onNewSearch()">
+        <button mat-raised-button>New Search</button>
+      </span>
+    </div>
+
+  </section>
+</div>
+
+
+
+
