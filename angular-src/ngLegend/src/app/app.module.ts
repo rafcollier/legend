@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HttpClientModule } from '@angular/common/http';
+import * as moment from 'moment';
 
 import { AuthService } from './services/auth.service';
 import {AuthGuard} from './guards/auth.guard';
@@ -23,7 +24,8 @@ import { DetailsComponent } from './details/details.component';
 import { SearchComponent } from './search/search.component';
 import { SearchresultsComponent } from './searchresults/searchresults.component';
 import { LayoutComponent } from './layout/layout.component';
-import { AdminComponent } from './admin/admin.component';  
+import { AdminComponent } from './admin/admin.component';
+import { MetricsComponent } from './metrics/metrics.component';  
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -35,6 +37,7 @@ const appRoutes: Routes = [
   {path: 'search', component: SearchComponent, canActivate:[AuthGuard]},
   {path: 'layout', component: LayoutComponent, canActivate:[AuthGuard]},
   {path: 'admin', component: AdminComponent, canActivate:[AuthGuard]},
+  {path: 'metrics', component: MetricsComponent, canActivate:[AuthGuard]},
   {path: 'details/:doc', component: DetailsComponent, canActivate:[AuthGuard]}
 ]
 
@@ -51,7 +54,8 @@ const appRoutes: Routes = [
     SearchComponent,
     SearchresultsComponent,
     LayoutComponent,
-    AdminComponent
+    AdminComponent,
+    MetricsComponent
   ],
   imports: [
     BrowserModule,

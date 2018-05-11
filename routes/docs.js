@@ -145,19 +145,55 @@ router.get('/getSearchResults', (req, res, next) => {
   });
 });
 
+router.get('/getNumDocs', (req, res, next) => {
+  console.log("in get Num Docs");
+  let query1 = {};
+  let query2 = {};
+  if(req.query.docSection) 
+    query1 = {docSection : req.query.docSection};
+  if(req.query.docFirstDateNumDocs && req.query.docSecondDateNumDocs) { 
+    query2 = {docPublishDate: {$gte: new Date(req.query.docFirstDateNumDocs),
+                               $lte: new Date(req.query.docSecondDateNumDocs)
+                              }
+              }
+  }
+  Doc.find({$and: [query1, query2]}, 
+           null, 
+           {sort: {docSection: 1}}, 
+           (err, docs) => {
+    if (err) throw err;
+    res.json(docs);
+  });
+});
+
+router.get('/getTimeDiff', (req, res, next) => {
+  console.log("in get Time Diff");
+  let query1 = {};
+  let query2 = {};
+  if(req.query.docSection) 
+    query1 = {docSection : req.query.docSection};
+  if(req.query.docFirstDateTimeDifference && req.query.docSecondDateTimeDifference) { 
+    query2 = {docPublishDate: {$gte: new Date(req.query.docFirstDateTimeDifference),
+                               $lte: new Date(req.query.docSecondDateTimeDifference)
+                              }
+              }
+  }
+  console.log(query1, query2);
+
+  Doc.find({$and: [query1, query2]}, 
+           {docTitle: 1, docSection: 1, docDOI: 1, docAcceptDate: 1, docPublishDate: 1}, 
+           (err, docs) => {
+    if (err) throw err;
+    res.json(docs);
+  });
+});
+
 
 router.get('/getLayoutSearchResults', (req, res, next) => {
   let query1 = {};
-  //let query2 = {};
-  //if(req.query.docOnlineIssue) 
-   // query1 = {'docOnlineIssue' : req.query.docOnlineIssue};
   if(req.query.docPrintIssue) 
     query1 = {'docPrintIssue' : req.query.docPrintIssue};
-  //const offset = req.query.itemOffset;
-  //const limit = req.query.limit;
-  //Doc.find({'docOnlineIssue' : req.query.docOnlineIssue}, null, {skip: Number(offset), limit: Number(limit), sort: req.query.searchParameter }, (err, items) => {
   
-  //Doc.find({$and: [query1, query2, query3, query4, query5, query6]}, 
   Doc.find(query1,
            null, 
            {sort: {docFirstPagePrint: 1}}, 

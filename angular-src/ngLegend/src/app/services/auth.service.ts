@@ -127,6 +127,38 @@ export class AuthService {
       .pipe(map(res => res.json()));
   } 
 
+  getNumDocs(section, firstDateNumDocs, secondDateNumDocs) {
+    let headers = new Headers();
+    let params = new URLSearchParams();
+    let options = new RequestOptions();
+    headers.append('Content-Type', 'application/json');
+    params.set('docSection', section);
+    params.set('docFirstDateNumDocs', firstDateNumDocs);
+    params.set('docSecondDateNumDocs', secondDateNumDocs);
+    options.headers = headers;
+    options.search = params;
+    console.log(params);
+    return this.http.get('http://localhost:3000/docs/getNumDocs', options) //add this for local dev: http://localhost:3000/
+    //return this.http.get('docs/getSearchResults', options) //add this for local dev: http://localhost:3000/
+      .pipe(map(res => res.json()));
+  } 
+
+  getTimeDiff(section, firstDateTimeDiff, secondDateTimeDiff) {
+    let headers = new Headers();
+    let params = new URLSearchParams();
+    let options = new RequestOptions();
+    headers.append('Content-Type', 'application/json');
+    params.set('docSection', section);
+    params.set('docFirstDateTimeDifference', firstDateTimeDiff);
+    params.set('docSecondDateTimeDifference', secondDateTimeDiff);
+    options.headers = headers;
+    options.search = params;
+    console.log(params);
+    return this.http.get('http://localhost:3000/docs/getTimeDiff', options) //add this for local dev: http://localhost:3000/
+    //return this.http.get('docs/getSearchResults', options) //add this for local dev: http://localhost:3000/
+      .pipe(map(res => res.json()));
+  } 
+
    getLayoutSearchResults(printIssue) {
     let headers = new Headers();
     let params = new URLSearchParams();

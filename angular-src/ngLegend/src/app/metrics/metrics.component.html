@@ -1,0 +1,135 @@
+<div *ngIf="showMetricsRequest" class = "align-form">
+  <section class = "mat-typography">
+    <h4>Welcome {{username}}</h4> 
+    <h2>Number of manscripts published in date range</h2>
+    <form (submit)="onNumDocsSubmit()" class="example-form">  
+      <mat-form-field class="example-full-width">
+        <mat-select [(ngModel)]="docSectionNumDocs" name="docSectionNumDocs" placeholder="Section">
+          <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="firstDateNumDocsPicker" placeholder="Published after this date:" [(ngModel)]="firstDateNumDocs" name="firstDateNumDocs">
+        <mat-datepicker-toggle matSuffix [for]="firstDateNumDocsPicker"></mat-datepicker-toggle>
+        <mat-datepicker #firstDateNumDocsPicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="secondDateNumDocsPicker" placeholder="Published before this date:" [(ngModel)]="secondDateNumDocs" name="secondDateNumDocs">
+        <mat-datepicker-toggle matSuffix [for]="secondDateNumDocsPicker"></mat-datepicker-toggle>
+        <mat-datepicker #secondDateNumDocsPicker></mat-datepicker>
+      </mat-form-field>
+      <button mat-raised-button type="submit">Submit</button>
+    </form>  
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <h2>Average number of days between accept and publication in date range</h2>
+    <form (submit)="onTimeDifferenceSubmit()" class="example-form">  
+      <mat-form-field class="example-full-width">
+        <mat-select [(ngModel)]="docSectionTimeDifference" name="docSectionTimeDifference" placeholder="Section">
+          <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="firstDateTimeDifferencePicker" placeholder="Published after this date:" [(ngModel)]="firstDateTimeDifference" name="firstDateTimeDifference">
+        <mat-datepicker-toggle matSuffix [for]="firstDateTimeDifferencePicker"></mat-datepicker-toggle>
+        <mat-datepicker #firstDateTimeDifferencePicker></mat-datepicker>
+      </mat-form-field>
+       <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="secondDateTimeDifferencePicker" placeholder="Published before this date:" [(ngModel)]="secondDateTimeDifference" name="secondDateTimeDifference">
+        <mat-datepicker-toggle matSuffix [for]="secondDateTimeDifferencePicker"></mat-datepicker-toggle>
+        <mat-datepicker #secondDateTimeDifferencePicker></mat-datepicker>
+      </mat-form-field>
+      <button mat-raised-button type="submit">Submit</button>
+    </form>  
+  </section>
+</div>
+
+<div *ngIf="showResultsNumDocs" class = "align-page">
+  <section class="mat-typography">
+    <h2>There were <span style="color:red;">{{ numDocs }}</span> {{ docSectionNumDocs }} manuscripts published between {{ firstDateNumDocsFormatted }} and {{ secondDateNumDocsFormatted }}</h2>  
+    <div *ngFor="let d of displayDocs; let i = index">
+      <h2>
+        {{ d.docTitle }}
+      </h2>
+      <p>
+        Section: {{ d.docSection }}
+      </p>
+      <p>
+        Author: {{ d.docAuthor }} 
+      </p>
+      <p>
+        DOI: {{ d.docDOI }}
+      </p>
+      <p>
+        Publish Date: {{ d.docPublishDate }}
+      </p>
+      <a href="" onClick="return false;">
+        <span (click)="onDocClick(d, i)"> See full entry </span>
+      </a>
+      <hr class="hr-style">
+    </div>
+  </section>
+</div>
+
+<div *ngIf="showResultsDateDiff" class = "align-page">
+  <section class="mat-typography">
+
+    <h2>There was an average of <span style="color:red;">{{ dateDiff}} </span>days between accept and publication 
+    for {{docSectionTimeDifference}} manuscripts published between {{firstDateTimeDifferenceFormatted}} and {{secondDateTimeDifferenceFormatted}}</h2>
+
+    <div *ngFor="let d of displayDocs; let i = index">
+      <h2>
+        {{ d.docTitle }}
+      </h2>
+      <p>
+        Section: {{ d.docSection }}
+      </p>
+      <p>
+        Author: {{ d.docAuthor }} 
+      </p>
+      <p>
+        DOI: {{ d.docDOI }}
+      </p>
+      <p>
+        Accept Date: {{ d.docAcceptDate }}
+      </p>
+      <p>
+        Publish Date: {{ d.docPublishDate }}
+      </p>
+      <p>
+        Days between accept and publish: {{ d.dateDiff }}
+      </p>
+      <a href="" onClick="return false;">
+        <span (click)="onDocClick(d, i)"> See full entry </span>
+      </a>
+      <hr class="hr-style">
+    </div>
+
+  </section>
+</div>
+
+<div *ngIf="showNoResults">
+  <section class="mat-typography align-page">
+    <h2>There were no results found for your request</h2>
+  </section>
+  <hr class="hr-style">
+</div>
+
+<div *ngIf="!showMetricsRequest">
+  <br>
+  <div class="flex-center">
+    <span (click)="onModifyMetrics()">
+       <button mat-raised-button>Modify Metrics Request</button>
+    </span>
+    <span (click)="onNewMetrics()">
+      <button mat-raised-button>New Metrics Request</button>
+    </span>
+  </div>
+</div>
+
+
+

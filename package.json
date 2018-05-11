@@ -30,6 +30,7 @@
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
-    "@angular-devkit/build-optimizer": "^0.6.0"
+    "@angular-devkit/build-optimizer": "^0.6.0",
+    "nodemon": "^1.17.4"
   }
 }

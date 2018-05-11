@@ -3,6 +3,8 @@ import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
 
+import * as moment from 'moment';
+
 const config = require('../../../../../config/docs');
 
 @Component({
