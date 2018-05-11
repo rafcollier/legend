@@ -132,20 +132,32 @@ export class EnterdocComponent implements OnInit {
       docCollectionCode4: this.docCollectionCode4,    
       docAuthorType: this.docAuthorType,
       docCommissionDate: this.docCommissionDate,
+      docCommissionDateFormatted: this.formatDate(new Date(this.docCommissionDate)), 
       docInvoiceDate: this.docInvoiceDate,
+      docInvoiceDateFormatted: this.formatDate(new Date(this.docInvoiceDate)), 
       docInvoiceAmount: this.docInvoiceAmount,
 
       //TIMELINE
       docAcceptDate: this.docAcceptDate,
+      docAcceptDateFormatted: this.formatDate(new Date(this.docAcceptDate)), 
       docPublishDate: this.docPublishDate,
+      docPublishDateFormatted: this.formatDate(new Date(this.docPublishDate)), 
       docEnteredDate: this.docEnteredDate,
+      docEnteredDateFormatted: this.formatDate(new Date(this.docEnteredDate)), 
       docCopyEditBeginDate: this.docCopyEditBeginDate,
+      docCopyEditBeginDateFormatted: this.formatDate(new Date(this.docCopyEditBeginDate)), 
       docCopyEditCompleteDate: this.docCopyEditCompleteDate,
+      docCopyEditCompleteDateFormatted: this.formatDate(new Date(this.docCopyEditCompleteDate)), 
       docSendSEDate: this.docSendSEDate,
+      docSendSEDateFormatted: this.formatDate(new Date(this.docSendSEDate)), 
       docReturnSEDate: this.docReturnSEDate, 
+      docReturnSEDateFormatted: this.formatDate(new Date(this.docReturnSEDate)), 
       docSendAuthorDate: this.docSendAuthorDate,
+      docSendAuthorDateFormatted: this.formatDate(new Date(this.docSendAuthorDate)), 
       docReturnAuthorDate: this.docReturnAuthorDate,
+      //docReturnAuthorDateFormatted: this.formatDate(new Date(this.docReturnAuthorDate)), 
       docFinalizeDate: this.docFinalizeDate, 
+      docFinalizeDateFormatted: this.formatDate(new Date(this.docFinalizeDate)), 
 
       //EDITORS
       docEditor: this.docEditor,
@@ -178,9 +190,12 @@ export class EnterdocComponent implements OnInit {
       //NEWS ONLY
 
       docPublishDateCMAJnews: this.docPublishDateCMAJnews,
+      docPublishDateCMAJnewsFormatted: this.formatDate(new Date(this.docPublishDateCMAJnews)), 
       docNewsAuthorType: this.docNewsAuthorType,
       docNewsCommissionDate: this.docNewsCommissionDate,
+      docNewsCommissionDateFormatted: this.formatDate(new Date(this.docNewsCommissionDate)), 
       docNewsInvoiceDate: this.docNewsInvoiceDate,
+      docNewsInvoiceDateFormatted: this.formatDate(new Date(this.docNewsInvoiceDate)), 
       docNewsInvoiceAmount: this.docNewsInvoiceAmount
     }
    
@@ -195,6 +210,19 @@ export class EnterdocComponent implements OnInit {
       }
     });
 
+  }
+
+  formatDate(date) {
+    const monthNames = [
+      "January", "February", "March",
+      "April", "May", "June", "July",
+      "August", "September", "October",
+      "November", "December"
+    ];
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    return (monthNames[month] + " " + day + ", " + year);
   }
 
 }

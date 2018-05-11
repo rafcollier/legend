@@ -42,7 +42,7 @@ export class DetailsComponent implements OnInit {
   docCollectionCode3: String;
   docCollectionCode4: String;
   docAuthorType: String;
-  docCommissionDate: String;
+  docCommissionDate: Date;
   docInvoiceDate: Date;
   docInvoiceAmount: Number;
 
@@ -144,84 +144,83 @@ export class DetailsComponent implements OnInit {
         this.showNews = true;
       }
 
-     //GENERAL FIELDS
-    this.docTitle = doc.docTitle;
-    this.docAuthor = doc.docAuthor;
-    this.docDOI = doc.docDOI;
-    this.docSection = doc.docSection;
-    this.docDescription = doc.docDescription;
-    this.docCollectionCode1 = doc.docCollectionCode1;
-    this.docCollectionCode2 = doc.docCollectionCode2;
-    this.docCollectionCode3 = doc.docCollectionCode3;
-    this.docCollectionCode4 = doc.docCollectionCode4;
-    this.docAuthorType = doc.docAuthorType;
-    this.docCommissionDate = doc.docCommissionDate;
-    this.docCommissionDateFormatted = this.formatDate(new Date(doc.docCommissionDate)); 
-    this.docInvoiceDate = doc.docInvoiceDate;
-    this.docInvoiceDateFormatted = this.formatDate(new Date(doc.docInvoiceDate)); 
-    this.docInvoiceAmount = doc.docInvoiceAmount;
+      //GENERAL FIELDS
+      this.docTitle = doc.docTitle;
+      this.docAuthor = doc.docAuthor;
+      this.docDOI = doc.docDOI;
+      this.docSection = doc.docSection;
+      this.docDescription = doc.docDescription;
+      this.docCollectionCode1 = doc.docCollectionCode1;
+      this.docCollectionCode2 = doc.docCollectionCode2;
+      this.docCollectionCode3 = doc.docCollectionCode3;
+      this.docCollectionCode4 = doc.docCollectionCode4;
+      this.docAuthorType = doc.docAuthorType;
+      this.docCommissionDate = doc.docCommissionDate;
+      this.docCommissionDateFormatted = doc.docCommissionDateFormatted;
+      this.docInvoiceDate = doc.docInvoiceDate;
+      this.docInvoiceDateFormatted = doc.docInvoiceDateFormatted;
+      this.docInvoiceAmount = doc.docInvoiceAmount;
 
-    //TIMELINE
+      //TIMELINE
 
-    this.docAcceptDate = doc.docAcceptDate;
-    this.docAcceptDateFormatted = this.formatDate(new Date(doc.docAcceptDate)); 
-    this.docPublishDate = doc.docPublishDate;
-    this.docPublishDateFormatted = this.formatDate(new Date(doc.docPublishDate)); 
-    this.docEnteredDate = doc.docEnteredDate;
-    this.docEnteredDateFormatted = this.formatDate(new Date(doc.docEnteredDate)); 
-    this.docCopyEditBeginDate = doc.docCopyEditBeginDate;
-    this.docCopyEditBeginDateFormatted = this.formatDate(new Date(doc.docCopyEditBeginDate)); 
-    this.docCopyEditCompleteDate = doc.docCopyEditCompleteDate;
-    this.docCopyEditCompleteDateFormatted = this.formatDate(new Date(doc.docCopyEditCompleteDate)); 
-    this.docSendSEDate = doc.docSendSEDate;
-    this.docSendSEDateFormatted = this.formatDate(new Date(doc.docSendSEDate)); 
-    this.docReturnSEDate = doc.docReturnSEDate;
-    this.docReturnSEDateFormatted = this.formatDate(new Date(doc.docReturnSEDate)); 
-    this.docSendAuthorDate = doc.docSendAuthorDate;
-    this.docSendAuthorDateFormatted = this.formatDate(new Date(doc.docSendAuthorDate)); 
-    this.docReturnAuthorDate = doc.docReturnAuthorDate;
-    this.docReturnAuthorDateFormatted = this.formatDate(new Date(doc.docReturnAuthorDate)); 
-    this.docFinalizeDate = doc.docFinalizeDate;
-    this.docFinalizeDateFormatted = this.formatDate(new Date(doc.docFinalizeDate)); 
+      this.docAcceptDate = doc.docAcceptDate;
+      this.docAcceptDateFormatted = doc.docAcceptDateFormatted;
+      this.docPublishDate = doc.docPublishDate;
+      this.docPublishDateFormatted = doc.docPublishDateFormatted; 
+      this.docEnteredDate = doc.docEnteredDate;
+      this.docEnteredDateFormatted = doc.docEnteredDateFormatted; 
+      this.docCopyEditBeginDate = doc.docCopyEditBeginDate;
+      this.docCopyEditBeginDateFormatted = doc.docCopyEditBeginDateFormatted; 
+      this.docCopyEditCompleteDate = doc.docCopyEditCompleteDate;
+      this.docCopyEditCompleteDateFormatted = doc.docCopyEditCompleteDateFormatted; 
+      this.docSendSEDate = doc.docSendSEDate;
+      this.docSendSEDateFormatted = doc.docSendSEDateFormatted; 
+      this.docReturnSEDate = doc.docReturnSEDate;
+      this.docReturnSEDateFormatted = doc.docReturnSEDateFormatted; 
+      this.docSendAuthorDate = doc.docSendAuthorDate;
+      this.docSendAuthorDateFormatted = doc.docSendAuthorDateFormatted; 
+      this.docReturnAuthorDate = doc.docReturnAuthorDate;
+      this.docReturnAuthorDateFormatted = doc.docReturnAuthorDateFormatted; 
+      this.docFinalizeDate = doc.docFinalizeDate;
+      this.docFinalizeDateFormatted = doc.docFinalizeDateFormatted; 
 
-    //EDITORS
-    this.docEditor = doc.docEditor;
-    this.docCoordinator = doc.docCoordinator;
-    this.docProofReader = doc.docProofReader;
-    this.docSE1 = doc.docSE1;
-    this.docSE2 = doc.docSE2;
-
-    //YES OR NO FIELDS
-    this.docOpenAccess = doc.docOpenAccess; 
-    this.docTranslation = doc.docTranslation;
+      //EDITORS
+      this.docEditor = doc.docEditor;
+      this.docCoordinator = doc.docCoordinator;
+      this.docProofReader = doc.docProofReader;
+      this.docSE1 = doc.docSE1;
+      this.docSE2 = doc.docSE2;
   
-    //ONLINE ISSUE
-
-    this.docOnlineIssue = doc.docOnlineIssue;
-    this.docFirstPageOnline = doc.docFirstPageOnline;
-    this.docLastPageOnline = doc.docLastPageOnline;
-    this.docNumPagesOnline = doc.docNumPagesOnline;
-    this.docOnlineNotes = doc.docOnlineNotes;
-
-    //PRINT ISSUE
-
-    this.docPrintIssue = doc.docPrintIssue;
-    this.docFirstPagePrint = doc.docFirstPagePrint;
-    this.docLastPagePrint = doc.docLastPagePrint;
-    this.docNumPagesPrint = doc.docNumPagesPrint;
-    this.docPrintNotes = doc.docPrintNotes;
-    this.docAdConflicts = doc.docAdConflicts;
-
-    //NEWS ONLY
-    this.docPublishDateCMAJnews = doc.docPublishDateCMAJnews;
-    this.docPublishDateCMAJnewsFormatted = this.formatDate(new Date(doc.docPublishDateCMAJnews)); 
-    this.docNewsAuthorType = doc.docNewsAuthorType;
-    this.docNewsCommissionDate = doc.docNewsCommissionDate;
-    this.docNewsCommissionDateFormatted = this.formatDate(new Date(doc.docNewsCommissionDate)); 
-    this.docNewsInvoiceDate = doc.docNewsInvoiceDate;
-    this.docNewsInvoiceDateFormatted = this.formatDate(new Date(doc.docNewsInvoiceDate)); 
-    this.docNewsInvoiceAmount = doc.docNewsInvoiceAmount;
-
+      //YES OR NO FIELDS
+      this.docOpenAccess = doc.docOpenAccess; 
+      this.docTranslation = doc.docTranslation;
+    
+      //ONLINE ISSUE
+  
+      this.docOnlineIssue = doc.docOnlineIssue;
+      this.docFirstPageOnline = doc.docFirstPageOnline;
+      this.docLastPageOnline = doc.docLastPageOnline;
+      this.docNumPagesOnline = doc.docNumPagesOnline;
+      this.docOnlineNotes = doc.docOnlineNotes;
+  
+      //PRINT ISSUE
+  
+      this.docPrintIssue = doc.docPrintIssue;
+      this.docFirstPagePrint = doc.docFirstPagePrint;
+      this.docLastPagePrint = doc.docLastPagePrint;
+      this.docNumPagesPrint = doc.docNumPagesPrint;
+      this.docPrintNotes = doc.docPrintNotes;
+      this.docAdConflicts = doc.docAdConflicts;
+  
+      //NEWS ONLY
+      this.docPublishDateCMAJnews = doc.docPublishDateCMAJnews;
+      this.docPublishDateCMAJnewsFormatted = doc.docPublishDateCMAJnewsFormatted; 
+      this.docNewsAuthorType = doc.docNewsAuthorType;
+      this.docNewsCommissionDate = doc.docNewsCommissionDate;
+      this.docNewsCommissionDateFormatted = doc.docNewsCommissionDateFormatted; 
+      this.docNewsInvoiceDate = doc.docNewsInvoiceDate;
+      this.docNewsInvoiceDateFormatted = doc.docNewsInvoiceDateFormatted; 
+      this.docNewsInvoiceAmount = doc.docNewsInvoiceAmount;
     },
     err => {
       console.log(err);
@@ -261,20 +260,32 @@ export class DetailsComponent implements OnInit {
       docCollectionCode4: this.docCollectionCode4,    
       docAuthorType: this.docAuthorType,
       docCommissionDate: this.docCommissionDate,
+      docCommissionDateFormatted: this.formatDate(new Date(this.docCommissionDate)), 
       docInvoiceDate: this.docInvoiceDate,
+      docInvoiceDateFormatted: this.formatDate(new Date(this.docInvoiceDate)), 
       docInvoiceAmount: this.docInvoiceAmount,
 
       //TIMELINE
       docAcceptDate: this.docAcceptDate,
+      docAcceptDateFormatted: this.formatDate(new Date(this.docAcceptDate)), 
       docPublishDate: this.docPublishDate,
+      docPublishDateFormatted: this.formatDate(new Date(this.docPublishDate)), 
       docEnteredDate: this.docEnteredDate,
+      docEnteredDateFormatted: this.formatDate(new Date(this.docEnteredDate)), 
       docCopyEditBeginDate: this.docCopyEditBeginDate,
+      docCopyEditBeginDateFormatted: this.formatDate(new Date(this.docCopyEditBeginDate)), 
       docCopyEditCompleteDate: this.docCopyEditCompleteDate,
+      docCopyEditCompleteDateFormatted: this.formatDate(new Date(this.docCopyEditCompleteDate)), 
       docSendSEDate: this.docSendSEDate,
+      docSendSEDateFormatted: this.formatDate(new Date(this.docSendSEDate)), 
       docReturnSEDate: this.docReturnSEDate, 
+      docReturnSEDateFormatted: this.formatDate(new Date(this.docReturnSEDate)), 
       docSendAuthorDate: this.docSendAuthorDate,
+      docSendAuthorDateFormatted: this.formatDate(new Date(this.docSendAuthorDate)), 
       docReturnAuthorDate: this.docReturnAuthorDate,
+      //docReturnAuthorDateFormatted: this.formatDate(new Date(this.docReturnAuthorDate)), 
       docFinalizeDate: this.docFinalizeDate, 
+      docFinalizeDateFormatted: this.formatDate(new Date(this.docFinalizeDate)), 
 
       //EDITORS
       docEditor: this.docEditor,
@@ -307,9 +318,12 @@ export class DetailsComponent implements OnInit {
       //NEWS ONLY
 
       docPublishDateCMAJnews: this.docPublishDateCMAJnews,
+      docPublishDateCMAJnewsFormatted: this.formatDate(new Date(this.docPublishDateCMAJnews)), 
       docNewsAuthorType: this.docNewsAuthorType,
       docNewsCommissionDate: this.docNewsCommissionDate,
+      docNewsCommissionDateFormatted: this.formatDate(new Date(this.docNewsCommissionDate)), 
       docNewsInvoiceDate: this.docNewsInvoiceDate,
+      docNewsInvoiceDateFormatted: this.formatDate(new Date(this.docNewsInvoiceDate)), 
       docNewsInvoiceAmount: this.docNewsInvoiceAmount
     }
     console.log(editedDoc);
@@ -335,5 +349,7 @@ export class DetailsComponent implements OnInit {
     const day = date.getDate();
     return (monthNames[month] + " " + day + ", " + year);
   }
+
+
 
 }
