@@ -8,7 +8,7 @@
       >
         Home 
       </a>
-      <a *ngIf="authService.adminLoggedIn()" mat-tab-link 
+      <a mat-tab-link 
         [routerLink] = "['/register']" 
         routerLinkActive #rlb="routerLinkActive"
         [active]="rlb.isActive"
