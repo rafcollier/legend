@@ -8,7 +8,7 @@ let DocSchema = new Schema({
     //GENERAL FIELDS	
 
 	dateEntered: {
-	  type: Date, default: Date.now()
+	  type: Date, default: Date.now
 	},
 	docUsername: {
 	  type: String
