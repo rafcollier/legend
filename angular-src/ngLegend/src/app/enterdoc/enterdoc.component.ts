@@ -117,7 +117,7 @@ export class EnterdocComponent implements OnInit {
 
   onDocSubmit(){
 
-    const doc = {
+    let doc = {
       docUsername: this.username,
        //GENERAL FIELDS 
     
@@ -132,9 +132,7 @@ export class EnterdocComponent implements OnInit {
       docCollectionCode4: this.docCollectionCode4,    
       docAuthorType: this.docAuthorType,
       docCommissionDate: this.docCommissionDate,
-      docCommissionDateFormatted: this.formatDate(new Date(this.docCommissionDate)), 
       docInvoiceDate: this.docInvoiceDate,
-      docInvoiceDateFormatted: this.formatDate(new Date(this.docInvoiceDate)), 
       docInvoiceAmount: this.docInvoiceAmount,
 
       //TIMELINE
@@ -196,8 +194,14 @@ export class EnterdocComponent implements OnInit {
       docNewsCommissionDateFormatted: this.formatDate(new Date(this.docNewsCommissionDate)), 
       docNewsInvoiceDate: this.docNewsInvoiceDate,
       docNewsInvoiceDateFormatted: this.formatDate(new Date(this.docNewsInvoiceDate)), 
-      docNewsInvoiceAmount: this.docNewsInvoiceAmount
+      docNewsInvoiceAmount: this.docNewsInvoiceAmount,
     }
+
+    //ADD FORMATTED DATES IF DATES ENTERED
+    if(this.docCommissionDate)
+      doc['docCommissionDateFormatted'] = this.formatDate(new Date(this.docCommissionDate));
+    if(this.docInvoiceDate)
+      doc['docInvoiceDateFormatted'] = this.formatDate(new Date(this.docInvoiceDate)); 
    
     console.log(doc);
 
