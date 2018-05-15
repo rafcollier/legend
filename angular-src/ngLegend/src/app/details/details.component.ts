@@ -156,33 +156,33 @@ export class DetailsComponent implements OnInit {
       this.docCollectionCode4 = doc.docCollectionCode4;
       this.docAuthorType = doc.docAuthorType;
       this.docCommissionDate = doc.docCommissionDate;
-      this.docCommissionDateFormatted = (this.formatDate(new Date(doc.docCommissionDate))) || " ";
+      this.docCommissionDateFormatted = doc.docCommissionDateFormatted;
       this.docInvoiceDate = doc.docInvoiceDate;
-      this.docInvoiceDateFormatted = (this.formatDate(new Date(doc.docInvoiceDate))) || " ";
+      this.docInvoiceDateFormatted = doc.docInvoiceDateFormatted;
       this.docInvoiceAmount = doc.docInvoiceAmount;
 
       //TIMELINE
 
       this.docAcceptDate = doc.docAcceptDate;
-      this.docAcceptDateFormatted = this.formatDate(new Date(doc.docAcceptDate));
+      this.docAcceptDateFormatted = doc.docAcceptDateFormatted;
       this.docPublishDate = doc.docPublishDate;
-      this.docPublishDateFormatted = this.formatDate(new Date(doc.docPublishDate));
+      this.docPublishDateFormatted = doc.docPublishDateFormatted;
       this.docEnteredDate = doc.docEnteredDate;
-      this.docEnteredDateFormatted = this.formatDate(new Date(doc.docEnteredDate));
+      this.docEnteredDateFormatted = doc.docEnteredDateFormatted;
       this.docCopyEditBeginDate = doc.docCopyEditBeginDate;
-      this.docCopyEditBeginDateFormatted = this.formatDate(new Date(doc.docCopyEditBeginDate));
+      this.docCopyEditBeginDateFormatted = doc.docCopyEditBeginDateFormatted;
       this.docCopyEditCompleteDate = doc.docCopyEditCompleteDate;
-      this.docCopyEditCompleteDateFormatted = this.formatDate(new Date(doc.docCopyEditCompleteDate));
+      this.docCopyEditCompleteDateFormatted = doc.docCopyEditCompleteDateFormatted;
       this.docSendSEDate = doc.docSendSEDate;
-      this.docSendSEDateFormatted = this.formatDate(new Date(doc.docSendSEDate));
+      this.docSendSEDateFormatted = doc.docSendSEDateFormatted;
       this.docReturnSEDate = doc.docReturnSEDate;
-      this.docReturnSEDateFormatted = this.formatDate(new Date(doc.docReturnSEDate));
+      this.docReturnSEDateFormatted = doc.docReturnSEDateFormatted;
       this.docSendAuthorDate = doc.docSendAuthorDate;
-      this.docSendAuthorDateFormatted = this.formatDate(new Date(doc.docSendAuthorDate));
+      this.docSendAuthorDateFormatted = doc.docSendAuthorDateFormatted
       this.docReturnAuthorDate = doc.docReturnAuthorDate;
-      this.docReturnAuthorDateFormatted = this.formatDate(new Date(doc.docReturnAuthorDate));
+      this.docReturnAuthorDateFormatted = doc.docReturnAuthorDateFormatted
       this.docFinalizeDate = doc.docFinalizeDate;
-      this.docFinalizeDateFormatted = this.formatDate(new Date(doc.docFinalizeDate));
+      this.docFinalizeDateFormatted = doc.docFinalizeDateFormatted
 
       //EDITORS
       this.docEditor = doc.docEditor;
@@ -214,12 +214,12 @@ export class DetailsComponent implements OnInit {
   
       //NEWS ONLY
       this.docPublishDateCMAJnews = doc.docPublishDateCMAJnews;
-      this.docPublishDateCMAJnewsFormatted = this.formatDate(new Date(doc.docPublishDateCMAJnews));
+      this.docPublishDateCMAJnewsFormatted = doc.docPublishDateCMAJnewsFormatted;
       this.docNewsAuthorType = doc.docNewsAuthorType;
       this.docNewsCommissionDate = doc.docNewsCommissionDate;
-      this.docNewsCommissionDateFormatted = this.formatDate(new Date(doc.docCommissionDate));
+      this.docNewsCommissionDateFormatted = doc.docNewsCommissionDateFormatted;
       this.docNewsInvoiceDate = doc.docNewsInvoiceDate;
-      this.docNewsInvoiceDateFormatted = this.formatDate(new Date(doc.docNewsInvoiceDate));
+      this.docNewsInvoiceDateFormatted = doc.docNewsInvoiceDateFormatted;
       this.docNewsInvoiceAmount = doc.docNewsInvoiceAmount;
     },
     err => {

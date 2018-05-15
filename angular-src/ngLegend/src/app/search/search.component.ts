@@ -64,22 +64,6 @@ constructor(
       this.showResults = true;
       this.displayDocs = entries; 
       console.log(entries);
-      for(let i=0; i<entries.length; i++) {
-        this.displayDocs[i]['docCommissionDateFormatted'] = (this.formatDate(new Date(entries[i].docCommissionDate))) || " ";  
-        this.displayDocs[i]['docInvoiceDateFormatted'] = (this.formatDate(new Date(entries[i].docCommissionDate))) || " ";  
-        this.displayDocs[i]['docAcceptDateFormatted'] = (this.formatDate(new Date(entries[i].docCommissionDate))) || " ";  
-        this.displayDocs[i]['docPublishDateFormatted'] = (this.formatDate(new Date(entries[i].docCommissionDate))) || " ";  
-        this.displayDocs[i]['docEnteredDateFormatted'] = (this.formatDate(new Date(entries[i].docCommissionDate))) || " ";  
-        this.displayDocs[i]['docCopyEditBeginDateFormatted'] = (this.formatDate(new Date(entries[i].docCommissionDate))) || " ";  
-        this.displayDocs[i]['docCopyEditCompleteDateFormatted'] = (this.formatDate(new Date(entries[i].docCommissionDate))) || " ";  
-        this.displayDocs[i]['docSendSEDateFormatted'] = (this.formatDate(new Date(entries[i].docCommissionDate))) || " ";  
-        this.displayDocs[i]['docReturnSEDateFormatted'] = (this.formatDate(new Date(entries[i].docCommissionDate))) || " ";  
-        this.displayDocs[i]['docSendAuthorDateFormatted'] = (this.formatDate(new Date(entries[i].docCommissionDate))) || " ";  
-        this.displayDocs[i]['docFinalizeDateFormatted'] = (this.formatDate(new Date(entries[i].docCommissionDate))) || " ";  
-        this.displayDocs[i]['docPublishDateCMAJnewsDateFormatted'] = (this.formatDate(new Date(entries[i].docCommissionDate))) || " ";  
-        this.displayDocs[i]['docNewsCommissionDateFormatted'] = (this.formatDate(new Date(entries[i].docCommissionDate))) || " ";  
-        this.displayDocs[i]['docNewsInvoiceDateDateFormatted'] = (this.formatDate(new Date(entries[i].docCommissionDate))) || " ";  
-      }
     }, 
     err => {
         console.log(err);

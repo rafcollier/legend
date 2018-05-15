@@ -168,53 +168,53 @@ let DocSchema = new Schema({
 	},
 	docNewsInvoiceAmount: {
 	  type: Number	
-	}
+	},
     //FORMATTED DATES
-	//docCommissionDateFormatted: {
-	//  type: String
-	//},
-    //docInvoiceDateFormatted: {
-	//  type: String
-	//},
-    //docAcceptDateFormatted: { 
-	//  type: String
-	//},
-    //docPublishDateFormatted: { 
-	//  type: String
-	//},
-    //docEnteredDateFormatted: { 
-	//  type: String
-	//},
-    //docCopyEditBeginDateFormatted: { 
-	//  type: String
-	//},
-    //docCopyEditCompleteDateFormatted: { 
-	//  type: String
-	//},
-    //docSendSEDateFormatted: { 
-	//  type: String
-	//},
-    //docReturnSEDateFormatted: { 
-	//  type: String
-	//},
-    //docSendAuthorDateFormatted: { 
-	//  type: String
-	//},
-    //docReturnAuthorDateFormatted: { 
-	//  type: String
-	//},
-    //docFinalizeDateFormatted: { 
-	//  type: String
-	//},
-    //docPublishDateCMAJnewsFormatted: { 
-	//  type: String
-	//},
-    //docNewsCommissionDateFormatted: { 
-	//  type: String
-	//},
-    //docNewsInvoiceDateFormatted: { 
-	//  type: String
-	//}
+	docCommissionDateFormatted: {
+	  type: String
+	},
+    docInvoiceDateFormatted: {
+	  type: String
+	},
+    docAcceptDateFormatted: { 
+	  type: String
+	},
+    docPublishDateFormatted: { 
+	  type: String
+	},
+    docEnteredDateFormatted: { 
+	  type: String
+	},
+    docCopyEditBeginDateFormatted: { 
+	  type: String
+	},
+    docCopyEditCompleteDateFormatted: { 
+	  type: String
+	},
+    docSendSEDateFormatted: { 
+	  type: String
+	},
+    docReturnSEDateFormatted: { 
+	  type: String
+	},
+    docSendAuthorDateFormatted: { 
+	  type: String
+	},
+    docReturnAuthorDateFormatted: { 
+	  type: String
+	},
+    docFinalizeDateFormatted: { 
+	  type: String
+	},
+    docPublishDateCMAJnewsFormatted: { 
+	  type: String
+	},
+    docNewsCommissionDateFormatted: { 
+	  type: String
+	},
+    docNewsInvoiceDateFormatted: { 
+	  type: String
+	}
 });
 
 let Doc = mongoose.model('Doc', DocSchema)

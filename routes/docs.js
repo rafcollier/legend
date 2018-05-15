@@ -71,24 +71,24 @@ router.post('/submitdoc', (req, res, next) => {
     docNewsAuthorType: req.body.docNewsAuthorType,
     docNewsCommissionDate: req.body.docNewsCommissionDate,
     docNewsInvoiceDate: req.body.docNewsInvoiceDate,
-    docNewsInvoiceAmount: req.body.docNewsInvoiceAmount
+    docNewsInvoiceAmount: req.body.docNewsInvoiceAmount,
 
     //FORMATTED DATES FOR DISPLAY
-    //docCommissionDateFormatted: req.body.docCommissionDateFormatted, 
-    //docInvoiceDateFormatted: req.body.docInvoiceDateFormatted, 
-    //docAcceptDateFormatted: req.body.docAcceptDateFormatted, 
-    //docPublishDateFormatted: req.body.docPublishDateFormatted,
-    //docEnteredDateFormatted: req.body.docEnteredDateFormatted,
-    //docCopyEditBeginDateFormatted: req.body.docCopyEditBeginDateFormatted,
-    //docCopyEditCompleteDateFormatted: req.body.docCopyEditCompleteDateFormatted,
-    //docSendSEDateFormatted: req.body.docSendSEDateFormatted,
-    //docReturnSEDateFormatted: req.body.docReturnSEDateFormatted,
-    //docSendAuthorDateFormatted: req.body.docReturnSEDateFormatted,
-    //docReturnAuthorDateFormatted: req.body.docReturnAuthorDateFormatted,
-    //docFinalizeDateFormatted: req.body.docFinalizeDateFormatted,
-    //docPublishDateCMAJnewsFormatted: req.body.docPublishDateCMAJnewsFormatted,
-    //docNewsCommissionDateFormatted: req.body.docNewsCommissionDateFormatted,
-    //docNewsInvoiceDateFormatted: req.body.docNewsInvoiceDateFormatted
+    docCommissionDateFormatted: req.body.docCommissionDateFormatted, 
+    docInvoiceDateFormatted: req.body.docInvoiceDateFormatted, 
+    docAcceptDateFormatted: req.body.docAcceptDateFormatted, 
+    docPublishDateFormatted: req.body.docPublishDateFormatted,
+    docEnteredDateFormatted: req.body.docEnteredDateFormatted,
+    docCopyEditBeginDateFormatted: req.body.docCopyEditBeginDateFormatted,
+    docCopyEditCompleteDateFormatted: req.body.docCopyEditCompleteDateFormatted,
+    docSendSEDateFormatted: req.body.docSendSEDateFormatted,
+    docReturnSEDateFormatted: req.body.docReturnSEDateFormatted,
+    docSendAuthorDateFormatted: req.body.docReturnSEDateFormatted,
+    docReturnAuthorDateFormatted: req.body.docReturnAuthorDateFormatted,
+    docFinalizeDateFormatted: req.body.docFinalizeDateFormatted,
+    docPublishDateCMAJnewsFormatted: req.body.docPublishDateCMAJnewsFormatted,
+    docNewsCommissionDateFormatted: req.body.docNewsCommissionDateFormatted,
+    docNewsInvoiceDateFormatted: req.body.docNewsInvoiceDateFormatted
   });
 
   console.log("router doc" + newDoc);
