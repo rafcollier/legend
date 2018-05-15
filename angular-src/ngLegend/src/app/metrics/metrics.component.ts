@@ -83,6 +83,8 @@ export class MetricsComponent implements OnInit {
       else {
         this.showNoResults=true;
       }
+
+      console.log(this.displayDocs);
     }, 
     err => {
         console.log(err);
@@ -122,6 +124,7 @@ export class MetricsComponent implements OnInit {
       else {
         this.showNoResults=true;
       }
+          console.log(this.displayDocs);
     }, 
     err => {
         console.log(err);
