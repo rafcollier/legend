@@ -156,33 +156,33 @@ export class DetailsComponent implements OnInit {
       this.docCollectionCode4 = doc.docCollectionCode4;
       this.docAuthorType = doc.docAuthorType;
       this.docCommissionDate = doc.docCommissionDate;
-      this.docCommissionDateFormatted = this.formatDate(new Date(this.docCommissionDate));
+      this.docCommissionDateFormatted = (this.formatDate(new Date(doc.docCommissionDate))) || " ";
       this.docInvoiceDate = doc.docInvoiceDate;
-      this.docInvoiceDateFormatted = this.formatDate(new Date(this.docInvoiceDate));
+      this.docInvoiceDateFormatted = (this.formatDate(new Date(doc.docInvoiceDate))) || " ";
       this.docInvoiceAmount = doc.docInvoiceAmount;
 
       //TIMELINE
 
       this.docAcceptDate = doc.docAcceptDate;
-      this.docAcceptDateFormatted = this.formatDate(new Date(this.docAcceptDate));
+      this.docAcceptDateFormatted = this.formatDate(new Date(doc.docAcceptDate));
       this.docPublishDate = doc.docPublishDate;
-      this.docPublishDateFormatted = this.formatDate(new Date(this.docPublishDate));
+      this.docPublishDateFormatted = this.formatDate(new Date(doc.docPublishDate));
       this.docEnteredDate = doc.docEnteredDate;
-      this.docEnteredDateFormatted = this.formatDate(new Date(this.docEnteredDate));
+      this.docEnteredDateFormatted = this.formatDate(new Date(doc.docEnteredDate));
       this.docCopyEditBeginDate = doc.docCopyEditBeginDate;
-      this.docCopyEditBeginDateFormatted = this.formatDate(new Date(this.docCopyEditBeginDate));
+      this.docCopyEditBeginDateFormatted = this.formatDate(new Date(doc.docCopyEditBeginDate));
       this.docCopyEditCompleteDate = doc.docCopyEditCompleteDate;
-      this.docCopyEditCompleteDateFormatted = this.formatDate(new Date(this.docCopyEditCompleteDate));
+      this.docCopyEditCompleteDateFormatted = this.formatDate(new Date(doc.docCopyEditCompleteDate));
       this.docSendSEDate = doc.docSendSEDate;
-      this.docSendSEDateFormatted = this.formatDate(new Date(this.docSendSEDate));
+      this.docSendSEDateFormatted = this.formatDate(new Date(doc.docSendSEDate));
       this.docReturnSEDate = doc.docReturnSEDate;
-      this.docReturnSEDateFormatted = this.formatDate(new Date(this.docReturnSEDate));
+      this.docReturnSEDateFormatted = this.formatDate(new Date(doc.docReturnSEDate));
       this.docSendAuthorDate = doc.docSendAuthorDate;
-      this.docSendAuthorDateFormatted = this.formatDate(new Date(this.docSendAuthorDate));
+      this.docSendAuthorDateFormatted = this.formatDate(new Date(doc.docSendAuthorDate));
       this.docReturnAuthorDate = doc.docReturnAuthorDate;
-      this.docReturnAuthorDateFormatted = this.formatDate(new Date(this.docReturnAuthorDate));
+      this.docReturnAuthorDateFormatted = this.formatDate(new Date(doc.docReturnAuthorDate));
       this.docFinalizeDate = doc.docFinalizeDate;
-      this.docFinalizeDateFormatted = this.formatDate(new Date(this.docFinalizeDate));
+      this.docFinalizeDateFormatted = this.formatDate(new Date(doc.docFinalizeDate));
 
       //EDITORS
       this.docEditor = doc.docEditor;
@@ -214,12 +214,12 @@ export class DetailsComponent implements OnInit {
   
       //NEWS ONLY
       this.docPublishDateCMAJnews = doc.docPublishDateCMAJnews;
-      this.docPublishDateCMAJnewsFormatted = this.formatDate(new Date(this.docPublishDateCMAJnews));
+      this.docPublishDateCMAJnewsFormatted = this.formatDate(new Date(doc.docPublishDateCMAJnews));
       this.docNewsAuthorType = doc.docNewsAuthorType;
       this.docNewsCommissionDate = doc.docNewsCommissionDate;
-      this.docNewsCommissionDateFormatted = this.formatDate(new Date(this.docCommissionDate));
+      this.docNewsCommissionDateFormatted = this.formatDate(new Date(doc.docCommissionDate));
       this.docNewsInvoiceDate = doc.docNewsInvoiceDate;
-      this.docNewsInvoiceDateFormatted = this.formatDate(new Date(this.docNewsInvoiceDate));
+      this.docNewsInvoiceDateFormatted = this.formatDate(new Date(doc.docNewsInvoiceDate));
       this.docNewsInvoiceAmount = doc.docNewsInvoiceAmount;
     },
     err => {
