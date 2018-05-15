@@ -137,25 +137,15 @@ export class EnterdocComponent implements OnInit {
 
       //TIMELINE
       docAcceptDate: this.docAcceptDate,
-      docAcceptDateFormatted: this.formatDate(new Date(this.docAcceptDate)), 
       docPublishDate: this.docPublishDate,
-      docPublishDateFormatted: this.formatDate(new Date(this.docPublishDate)), 
       docEnteredDate: this.docEnteredDate,
-      docEnteredDateFormatted: this.formatDate(new Date(this.docEnteredDate)), 
       docCopyEditBeginDate: this.docCopyEditBeginDate,
-      docCopyEditBeginDateFormatted: (this.formatDate(new Date(this.docCopyEditBeginDate))) || undefined, 
       docCopyEditCompleteDate: this.docCopyEditCompleteDate,
-      docCopyEditCompleteDateFormatted: (this.formatDate(new Date(this.docCopyEditCompleteDate))) || undefined, 
       docSendSEDate: this.docSendSEDate,
-      docSendSEDateFormatted: this.formatDate(new Date(this.docSendSEDate)), 
       docReturnSEDate: this.docReturnSEDate, 
-      docReturnSEDateFormatted: this.formatDate(new Date(this.docReturnSEDate)), 
       docSendAuthorDate: this.docSendAuthorDate,
-      docSendAuthorDateFormatted: this.formatDate(new Date(this.docSendAuthorDate)), 
       docReturnAuthorDate: this.docReturnAuthorDate,
-      docReturnAuthorDateFormatted: this.formatDate(new Date(this.docReturnAuthorDate)), 
       docFinalizeDate: this.docFinalizeDate, 
-      docFinalizeDateFormatted: this.formatDate(new Date(this.docFinalizeDate)), 
 
       //EDITORS
       docEditor: this.docEditor,
@@ -195,13 +185,13 @@ export class EnterdocComponent implements OnInit {
     }
 
     //ADD FORMATTED DATES IF DATES ENTERED
-    if(this.docCommissionDate)
+    if(this.docCommissionDate) 
       doc['docCommissionDateFormatted'] = this.formatDate(new Date(this.docCommissionDate));
-    if(this.docInvoiceDate)
+    if(this.docInvoiceDate) 
       doc['docInvoiceDateFormatted'] = this.formatDate(new Date(this.docInvoiceDate)); 
-    if(this.docAcceptDate)
+    if(this.docAcceptDate) 
       doc['docAcceptDateFormatted'] = this.formatDate(new Date(this.docAcceptDate)); 
-    if(this.docPublishDate)
+    if(this.docPublishDate) 
       doc['docPublishDateFormatted'] = this.formatDate(new Date(this.docPublishDate)); 
     if(this.docEnteredDate)
       doc['docEnteredDateFormatted'] = this.formatDate(new Date(this.docEnteredDate)); 
