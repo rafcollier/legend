@@ -51,6 +51,7 @@
 <div *ngIf="showResultsNumDocs" class = "align-page">
   <section class="mat-typography">
     <h2>There were <span style="color:red;">{{ numDocs }}</span> {{ docSectionNumDocs }} manuscripts published between {{ firstDateNumDocsFormatted }} and {{ secondDateNumDocsFormatted }}</h2>  
+    <hr class="hr-style">
     <div *ngFor="let d of displayDocs; let i = index">
       <h2>
         {{ d.docTitle }}
@@ -80,6 +81,8 @@
 
     <h2>There was an average of <span style="color:red;">{{ dateDiff}} </span>days between accept and publication 
     for {{docSectionTimeDifference}} manuscripts published between {{firstDateTimeDifferenceFormatted}} and {{secondDateTimeDifferenceFormatted}}</h2>
+
+    <hr class="hr-style">
 
     <div *ngFor="let d of displayDocs; let i = index">
       <h2>
