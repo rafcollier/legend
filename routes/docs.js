@@ -198,7 +198,7 @@ router.get('/getTimeDiff', (req, res, next) => {
   console.log(query1, query2);
 
   Doc.find({$and: [query1, query2]}, 
-           {docTitle: 1, docSection: 1, docDOI: 1, docAcceptDate: 1, docPublishDate: 1}, 
+           {docTitle: 1, docAuthor: 1, docSection: 1, docDOI: 1, docAcceptDate: 1, docPublishDate: 1}, 
            (err, docs) => {
     if (err) throw err;
     res.json(docs);
