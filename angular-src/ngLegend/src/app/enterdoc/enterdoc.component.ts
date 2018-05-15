@@ -188,13 +188,10 @@ export class EnterdocComponent implements OnInit {
       //NEWS ONLY
 
       docPublishDateCMAJnews: this.docPublishDateCMAJnews,
-      docPublishDateCMAJnewsFormatted: this.formatDate(new Date(this.docPublishDateCMAJnews)), 
       docNewsAuthorType: this.docNewsAuthorType,
       docNewsCommissionDate: this.docNewsCommissionDate,
-      docNewsCommissionDateFormatted: this.formatDate(new Date(this.docNewsCommissionDate)), 
       docNewsInvoiceDate: this.docNewsInvoiceDate,
-      docNewsInvoiceDateFormatted: this.formatDate(new Date(this.docNewsInvoiceDate)), 
-      docNewsInvoiceAmount: this.docNewsInvoiceAmount,
+      docNewsInvoiceAmount: this.docNewsInvoiceAmount
     }
 
     //ADD FORMATTED DATES IF DATES ENTERED
@@ -202,7 +199,33 @@ export class EnterdocComponent implements OnInit {
       doc['docCommissionDateFormatted'] = this.formatDate(new Date(this.docCommissionDate));
     if(this.docInvoiceDate)
       doc['docInvoiceDateFormatted'] = this.formatDate(new Date(this.docInvoiceDate)); 
-   
+    if(this.docAcceptDate)
+      doc['docAcceptDateFormatted'] = this.formatDate(new Date(this.docAcceptDate)); 
+    if(this.docPublishDate)
+      doc['docPublishDateFormatted'] = this.formatDate(new Date(this.docPublishDate)); 
+    if(this.docEnteredDate)
+      doc['docEnteredDateFormatted'] = this.formatDate(new Date(this.docEnteredDate)); 
+    if(this.docCopyEditBeginDate)
+      doc['docCopyEditBeginDateFormatted'] = this.formatDate(new Date(this.docCopyEditBeginDate)); 
+    if(this.docCopyEditCompleteDate)
+      doc['docCopyEditCompleteDateFormatted'] = this.formatDate(new Date(this.docCopyEditCompleteDate)); 
+    if(this.docSendSEDate)
+      doc['docSendSEDateFormatted'] = this.formatDate(new Date(this.docSendSEDate)); 
+    if(this.docReturnSEDate)
+      doc['docReturnSEDateFormatted'] = this.formatDate(new Date(this.docReturnSEDate)); 
+    if(this.docSendAuthorDate)
+      doc['docSendAuthorDateFormatted'] = this.formatDate(new Date(this.docSendAuthorDate)); 
+    if(this.docReturnAuthorDate)
+      doc['docReturnAuthorDateFormatted'] = this.formatDate(new Date(this.docReturnAuthorDate)); 
+    if(this.docFinalizeDate)
+      doc['docFinalizeDateFormatted'] = this.formatDate(new Date(this.docFinalizeDate)); 
+    if(this.docPublishDateCMAJnews)
+      doc['docPublishDateCMAJnewsFormatted'] = this.formatDate(new Date(this.docPublishDateCMAJnews)); 
+    if(this.docNewsCommissionDate)
+      doc['docNewsCommissionDateFormatted'] = this.formatDate(new Date(this.docNewsCommissionDate)); 
+    if(this.docNewsInvoiceDate)
+      doc['docNewsInvoiceDateFormatted'] = this.formatDate(new Date(this.docNewsInvoiceDate)); 
+
     console.log(doc);
 
     this.authService.submitDoc(doc).subscribe(data => {
