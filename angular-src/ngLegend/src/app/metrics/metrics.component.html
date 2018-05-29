@@ -1,6 +1,7 @@
 <div *ngIf="showMetricsRequest" class = "align-form">
   <section class = "mat-typography">
     <h4>Welcome {{username}}</h4> 
+    
     <h2>Number of manscripts published in date range</h2>
     <form (submit)="onNumDocsSubmit()" class="example-form">  
       <mat-form-field class="example-full-width">
@@ -45,8 +46,35 @@
       </mat-form-field>
       <button mat-raised-button type="submit">Submit</button>
     </form>  
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <h2>Average number of days between payment and publication in date range</h2>
+    <form (submit)="onPaymentToPublicationSubmit()" class="example-form">  
+      <mat-form-field class="example-full-width">
+        <mat-select [(ngModel)]="docSectionPayToPub" name="docSectionPayToPub" placeholder="Section">
+          <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="firstDatePayToPubPicker" placeholder="Published after this date:" [(ngModel)]="firstDatePayToPub" name="firstDatePayToPub">
+        <mat-datepicker-toggle matSuffix [for]="firstDatePayToPubPicker"></mat-datepicker-toggle>
+        <mat-datepicker #firstDatePayToPubPicker></mat-datepicker>
+      </mat-form-field>
+       <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="secondDatePayToPubPicker" placeholder="Published before this date:" [(ngModel)]="secondDatePayToPub" name="secondDatePayToPub">
+        <mat-datepicker-toggle matSuffix [for]="secondDatePayToPubPicker"></mat-datepicker-toggle>
+        <mat-datepicker #secondDatePayToPubPicker></mat-datepicker>
+      </mat-form-field>
+      <button mat-raised-button type="submit">Submit</button>
+    </form>  
   </section>
 </div>
+
+
 
 <div *ngIf="showResultsNumDocs" class = "align-page">
   <section class="mat-typography">
@@ -80,7 +108,7 @@
   <section class="mat-typography">
 
     <h2>There was an average of <span style="color:red;">{{ dateDiff}} </span>days between accept and publication 
-    for {{docSectionTimeDifference}} manuscripts published between {{firstDateTimeDifferenceFormatted}} and {{secondDateTimeDifferenceFormatted}}</h2>
+    for <span style="color:red;">{{ numDocs }}</span>  {{docSectionTimeDifference}} manuscripts published between {{firstDateTimeDifferenceFormatted}} and {{secondDateTimeDifferenceFormatted}}</h2>
 
     <hr class="hr-style">
 
@@ -114,6 +142,47 @@
 
   </section>
 </div>
+
+<div *ngIf="showResultsPayToPub" class = "align-page">
+  <section class="mat-typography">
+
+    <h2>There was an average of <span style="color:red;">{{ dateDiff}} </span>days between payment and publication 
+    for <span style="color:red;">{{ numDocs }}</span>  {{docSectionTimeDifference}} manuscripts published between {{firstDatePayToPubFormatted}} and {{secondDatePayToPubFormatted}}</h2>
+
+    <hr class="hr-style">
+
+    <div *ngFor="let d of displayDocs; let i = index">
+      <h2>
+        {{ d.docTitle }}
+      </h2>
+      <p>
+        Section: {{ d.docSection }}
+      </p>
+      <p>
+        Author: {{ d.docAuthor }} 
+      </p>
+      <p>
+        DOI: {{ d.docDOI }}
+      </p>
+      <p>
+        Payment Date: {{ d.docPaymentDate }}
+      </p>
+      <p>
+        Publish Date: {{ d.docPublishDate }}
+      </p>
+      <p>
+        Days between payment and publish: {{ d.dateDiff }}
+      </p>
+      <a href="" onClick="return false;">
+        <span (click)="onDocClick(d, i)"> See full entry </span>
+      </a>
+      <hr class="hr-style">
+    </div>
+
+  </section>
+</div>
+
+
 
 <div *ngIf="showNoResults">
   <section class="mat-typography align-page">

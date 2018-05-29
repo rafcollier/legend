@@ -58,6 +58,7 @@ export class DetailsComponent implements OnInit {
   docSendAuthorDate: Date;
   docReturnAuthorDate: Date;
   docFinalizeDate: Date;
+  docPaymentDate: Date;
 
   //EDITORS
   docEditor: String;
@@ -99,6 +100,7 @@ export class DetailsComponent implements OnInit {
   docInvoiceDateFormatted: String;
   docAcceptDateFormatted: String;
   docPublishDateFormatted: String;
+  docPaymentDateFormatted: String;
   docEnteredDateFormatted: String;
   docCopyEditBeginDateFormatted: String;
   docCopyEditCompleteDateFormatted: String;
@@ -183,7 +185,9 @@ export class DetailsComponent implements OnInit {
       this.docReturnAuthorDateFormatted = doc.docReturnAuthorDateFormatted
       this.docFinalizeDate = doc.docFinalizeDate;
       this.docFinalizeDateFormatted = doc.docFinalizeDateFormatted
-
+      this.docPaymentDate = doc.docPaymentDate;
+      this.docPaymentDateFormatted = doc.docPaymentDateFormatted;
+ 
       //EDITORS
       this.docEditor = doc.docEditor;
       this.docCoordinator = doc.docCoordinator;
@@ -237,7 +241,7 @@ export class DetailsComponent implements OnInit {
       console.log(err);
       return false;
     });
-    this.router.navigate(['/recent']);
+    this.router.navigate(['/search']);
   }
 
   onEditDocSubmit() {
@@ -322,6 +326,8 @@ export class DetailsComponent implements OnInit {
       editedDoc['docAcceptDateFormatted'] = this.formatDate(new Date(this.docAcceptDate)); 
     if(this.docPublishDate)
       editedDoc['docPublishDateFormatted'] = this.formatDate(new Date(this.docPublishDate)); 
+    if(this.docPaymentDate)
+      editedDoc['docPaymentDateFormatted'] = this.formatDate(new Date(this.docPaymentDate)); 
     if(this.docEnteredDate)
       editedDoc['docEnteredDateFormatted'] = this.formatDate(new Date(this.docEnteredDate)); 
     if(this.docCopyEditBeginDate)
@@ -354,7 +360,7 @@ export class DetailsComponent implements OnInit {
       console.log(err);
       return false;
     });
-    this.router.navigate(['/recent']);
+    this.router.navigate(['/search']);
   }
 
   formatDate(date) {

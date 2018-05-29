@@ -8,8 +8,14 @@
     <h2>Enter Search Query</h2>
     <form (submit)="onSearchSubmit()" class="example-form">  
 
+      <mat-form-field class="example-full-width">
+        <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
+          <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <mat-form-field class="example-full-width">  
-        <input type="text" matInput placeholder="Title" [(ngModel)]="docTitle" name="docTitle">  
+        <input type="text" matInput placeholder="Title Keywords" [(ngModel)]="docTitle" name="docTitle">  
       </mat-form-field>  
 
       <mat-form-field class="example-full-width">  
@@ -32,11 +38,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
-        <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
-          <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
-        </mat-select>
-      </mat-form-field>
+
 
 
 

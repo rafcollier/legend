@@ -87,6 +87,9 @@ let DocSchema = new Schema({
 	docFinalizeDate: {
 	  type: Date
 	},
+    docPaymentDate: {
+	  type: Date
+	},
 
 	//EDITORS
 	docEditor: {
@@ -180,6 +183,9 @@ let DocSchema = new Schema({
 	  type: String
 	},
     docPublishDateFormatted: { 
+	  type: String
+	},
+    docPaymentDateFormatted: { 
 	  type: String
 	},
     docEnteredDateFormatted: { 

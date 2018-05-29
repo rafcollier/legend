@@ -36,6 +36,7 @@ router.post('/submitdoc', (req, res, next) => {
     docSendAuthorDate: req.body.docSendAuthorDate,
     docReturnAuthorDate: req.body.docReturnAuthorDate,
     docFinalizeDate: req.body.docFinalizeDate, 
+    docPaymentDate: req.body.docPaymentDate, 
 
     //EDITORS
     docEditor: req.body.docEditor,
@@ -78,6 +79,7 @@ router.post('/submitdoc', (req, res, next) => {
     docInvoiceDateFormatted: req.body.docInvoiceDateFormatted, 
     docAcceptDateFormatted: req.body.docAcceptDateFormatted, 
     docPublishDateFormatted: req.body.docPublishDateFormatted,
+    docPaymentDateFormatted: req.body.docPaymentDateFormatted,
     docEnteredDateFormatted: req.body.docEnteredDateFormatted,
     docCopyEditBeginDateFormatted: req.body.docCopyEditBeginDateFormatted,
     docCopyEditCompleteDateFormatted: req.body.docCopyEditCompleteDateFormatted,
@@ -137,17 +139,17 @@ router.get('/getSearchResults', (req, res, next) => {
   let query5 = {};
   let query6 = {};
   if(req.query.docOnlineIssue) 
-    query1 = {'docOnlineIssue' : req.query.docOnlineIssue};
+    query1 = {'docOnlineIssue' : {$regex: req.query.docOnlineIssue, $options: 'i'}};
   if(req.query.docPrintIssue) 
-    query2 = {'docPrintIssue' : req.query.docPrintIssue};
+    query2 = {'docPrintIssue' : {$regex: req.query.docPrintIssue, $options: 'i'}};
   if(req.query.docSection) 
-    query3 = {'docSection' : req.query.docSection};
+    query3 = {'docSection' : {$regex: req.query.docSection, $options: 'i'}};
   if(req.query.docAuthor) 
-    query4 = {'docAuthor' : req.query.docAuthor};
+    query4 = {'docAuthor' : {$regex: req.query.docAuthor, $options: 'i'}};
   if(req.query.docDOI) 
     query4 = {'docDOI' : req.query.docDOI};
   if(req.query.docTitle) 
-    query4 = {'docTitle' : req.query.docTitle};
+    query4 = {'docTitle' : {$regex: req.query.docTitle, $options: 'i'}};
     
   //const offset = req.query.itemOffset;
   //const limit = req.query.limit;
@@ -155,12 +157,13 @@ router.get('/getSearchResults', (req, res, next) => {
   
   Doc.find({$and: [query1, query2, query3, query4, query5, query6]}, 
            null, 
-           {sort: {docSection: 1}}, 
-           (err, docs) => {
-    if (err) throw err;
-    res.json(docs);
+           {sort: {docSection: 1}
+           }, 
+    (err, docs) => {
+      if (err) throw err;
+      res.json(docs);
+    });
   });
-});
 
 router.get('/getNumDocs', (req, res, next) => {
   console.log("in get Num Docs");
@@ -174,6 +177,8 @@ router.get('/getNumDocs', (req, res, next) => {
                               }
               }
   }
+  console.log(query1, query2);
+  
   Doc.find({$and: [query1, query2]}, 
            null, 
            {sort: {docSection: 1}}, 
@@ -198,7 +203,7 @@ router.get('/getTimeDiff', (req, res, next) => {
   console.log(query1, query2);
 
   Doc.find({$and: [query1, query2]}, 
-           {docTitle: 1, docAuthor: 1, docSection: 1, docDOI: 1, docAcceptDate: 1, docPublishDate: 1}, 
+           {docTitle: 1, docAuthor: 1, docSection: 1, docDOI: 1, docAcceptDate: 1, docPublishDate: 1, docPaymentDate: 1}, 
            (err, docs) => {
     if (err) throw err;
     res.json(docs);

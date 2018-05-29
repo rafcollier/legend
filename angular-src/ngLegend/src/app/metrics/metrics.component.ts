@@ -15,6 +15,7 @@ const config = require('../../../../../config/docs');
 export class MetricsComponent implements OnInit {
   showResultsNumDocs: Boolean = false;
   showResultsDateDiff: Boolean = false;
+  showResultsPayToPub: Boolean = false;
   showMetricsRequest: Boolean = true;
   showNoResults: Boolean = false;
   username: String;
@@ -38,6 +39,12 @@ export class MetricsComponent implements OnInit {
   firstDateTimeDifferenceFormatted: String;
   secondDateTimeDifferenceFormatted: String;
 
+  docSectionPayToPub: String;
+  firstDatePayToPub: Date;
+  secondDatePayToPub: Date;
+  firstDatePayToPubFormatted: String;
+  secondDatePayToPubFormatted: String;
+
   dateDiff: Number;
 
   constructor(
@@ -50,6 +57,7 @@ export class MetricsComponent implements OnInit {
     this.showMetricsRequest = true;
     this.showResultsNumDocs = false;
     this.showResultsDateDiff = false;
+    this.showResultsPayToPub = false;
     this.showNoResults = false;
     console.log(this.showMetricsRequest);
     this.authService.getProfile().subscribe(profile => {
@@ -105,6 +113,7 @@ export class MetricsComponent implements OnInit {
         this.firstDateTimeDifferenceFormatted = this.formatDate(new Date(this.firstDateTimeDifference)); 
         this.secondDateTimeDifferenceFormatted = this.formatDate(new Date(this.secondDateTimeDifference)); 
         this.displayDocs = entries;
+        this.numDocs = entries.length;
         for (let i=0; i<entries.length; i++) {
           this.displayDocs[i]['docAcceptDate'] = this.formatDate(new Date(entries[i].docAcceptDate)); 
           this.displayDocs[i]['docPublishDate'] = this.formatDate(new Date(entries[i].docPublishDate)); 
@@ -119,7 +128,50 @@ export class MetricsComponent implements OnInit {
         }
         let sum = arrDateDiff.reduce((x,y) => x+y);
         let average = sum/arrDateDiff.length;
-        this.dateDiff = average;
+        this.dateDiff = Math.round(average);
+      }
+      else {
+        this.showNoResults=true;
+      }
+          console.log(this.displayDocs);
+    }, 
+    err => {
+        console.log(err);
+        return false;
+    });
+  }
+
+  onPaymentToPublicationSubmit() {
+    this.showMetricsRequest = false;
+    this.authService.getTimeDiff(
+      this.docSectionPayToPub,
+      this.firstDatePayToPub,
+      this.secondDatePayToPub
+    ).subscribe(entries => {
+      if(entries.length >0) {
+        this.showResultsPayToPub = true;
+        this.showNoResults=false;
+        this.firstDatePayToPubFormatted = this.formatDate(new Date(this.firstDatePayToPub)); 
+        this.secondDatePayToPubFormatted = this.formatDate(new Date(this.secondDatePayToPub)); 
+        this.displayDocs = entries;
+        console.log(entries);
+        this.numDocs = entries.length;
+        for (let i=0; i<entries.length; i++) {
+          this.displayDocs[i]['docPaymentDate'] = this.formatDate(new Date(entries[i].docPaymentDate)); 
+          this.displayDocs[i]['docPublishDate'] = this.formatDate(new Date(entries[i].docPublishDate)); 
+        }
+        let arrDateDiff = [];
+        for(let i=0; i<entries.length; i++) {
+          let paymentMoment = moment(entries[i].docPaymentDate);
+          let publishMoment = moment(entries[i].docPublishDate);
+          console.log(paymentMoment, publishMoment);
+          let dateDiff = publishMoment.diff(paymentMoment, 'days');
+          this.displayDocs[i]['dateDiff'] = dateDiff;
+          arrDateDiff.push(dateDiff);
+        }
+        let sum = arrDateDiff.reduce((x,y) => x+y);
+        let average = sum/arrDateDiff.length;
+        this.dateDiff = Math.round(average);
       }
       else {
         this.showNoResults=true;

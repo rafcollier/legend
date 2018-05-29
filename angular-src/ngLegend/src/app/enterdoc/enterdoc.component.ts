@@ -33,6 +33,7 @@ export class EnterdocComponent implements OnInit {
 
   docAcceptDate: Date;
   docPublishDate: Date;
+  docPaymentDate: Date;
   docEnteredDate: Date;
   docCopyEditBeginDate: Date;
   docCopyEditCompleteDate: Date;
@@ -41,6 +42,7 @@ export class EnterdocComponent implements OnInit {
   docSendAuthorDate: Date;
   docReturnAuthorDate: Date;
   docFinalizeDate: Date;
+
 
   //EDITORS
   docEditor: String;
@@ -146,6 +148,7 @@ export class EnterdocComponent implements OnInit {
       docSendAuthorDate: this.docSendAuthorDate,
       docReturnAuthorDate: this.docReturnAuthorDate,
       docFinalizeDate: this.docFinalizeDate, 
+      docPaymentDate: this.docPaymentDate, 
 
       //EDITORS
       docEditor: this.docEditor,
@@ -193,6 +196,8 @@ export class EnterdocComponent implements OnInit {
       doc['docAcceptDateFormatted'] = this.formatDate(new Date(this.docAcceptDate)); 
     if(this.docPublishDate) 
       doc['docPublishDateFormatted'] = this.formatDate(new Date(this.docPublishDate)); 
+    if(this.docPaymentDate) 
+      doc['docPaymentDateFormatted'] = this.formatDate(new Date(this.docPaymentDate)); 
     if(this.docEnteredDate)
       doc['docEnteredDateFormatted'] = this.formatDate(new Date(this.docEnteredDate)); 
     if(this.docCopyEditBeginDate)
@@ -220,7 +225,7 @@ export class EnterdocComponent implements OnInit {
 
     this.authService.submitDoc(doc).subscribe(data => {
       if(data.success){
-        this.router.navigate(['/recent']); 
+        this.router.navigate(['/search']); 
       } else {
         this.router.navigate(['/enterdoc']); 
         return false;

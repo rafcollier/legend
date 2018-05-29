@@ -156,7 +156,7 @@ export class AuthService {
       .pipe(map(res => res.json()));
   } 
 
-   getLayoutSearchResults(printIssue) {
+  getLayoutSearchResults(printIssue) {
     let headers = new Headers();
     let params = new URLSearchParams();
     let options = new RequestOptions();

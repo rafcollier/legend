@@ -25,7 +25,8 @@ import { SearchComponent } from './search/search.component';
 import { SearchresultsComponent } from './searchresults/searchresults.component';
 import { LayoutComponent } from './layout/layout.component';
 import { AdminComponent } from './admin/admin.component';
-import { MetricsComponent } from './metrics/metrics.component';  
+import { MetricsComponent } from './metrics/metrics.component';
+import { LoadfileComponent } from './loadfile/loadfile.component';  
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -33,6 +34,7 @@ const appRoutes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
   {path: 'enterdoc', component: EnterdocComponent, canActivate:[AuthGuard]},
+  {path: 'loadfile', component: LoadfileComponent, canActivate:[AuthGuard]},
   {path: 'recent', component: RecentComponent, canActivate:[AuthGuard]},
   {path: 'search', component: SearchComponent, canActivate:[AuthGuard]},
   {path: 'layout', component: LayoutComponent, canActivate:[AuthGuard]},
@@ -55,7 +57,8 @@ const appRoutes: Routes = [
     SearchresultsComponent,
     LayoutComponent,
     AdminComponent,
-    MetricsComponent
+    MetricsComponent,
+    LoadfileComponent
   ],
   imports: [
     BrowserModule,
