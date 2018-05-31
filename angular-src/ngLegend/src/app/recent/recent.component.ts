@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
 })
 export class RecentComponent implements OnInit {
   username: string;
-  numDocs: number = 10;
+  numDocs: number = 20;
   displayDocs: [Object];
 
   constructor(

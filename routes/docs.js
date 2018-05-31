@@ -103,7 +103,7 @@ router.post('/submitdoc', (req, res, next) => {
 router.get('/getRecentAdded', (req, res, next) => {
   const limit = req.query.limit;
   //Doc.find({'docUsername' : req.query.docUsername}, null, {limit: Number(limit), sort: {dateEntered: -1}}, (err, docs) => {
-  Doc.find({}, null, {limit: Number(limit), sort: {dateEntered: -1}}, (err, docs) => {
+  Doc.find({}, null, {limit: Number(limit), sort: {docAcceptDate: -1}}, (err, docs) => {
     if (err) throw err;
     res.json(docs);
   });

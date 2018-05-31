@@ -76,7 +76,7 @@ export class AuthService {
     params.set('docID', docID);
     options.headers = headers;
     options.search = params;
-    //return this.http.get('http://localhost:3000/docs/getOneDoc', options)
+   // return this.http.get('http://localhost:3000/docs/getOneDoc', options)
     return this.http.get('docs/getOneDoc', options)
       .pipe(map(res => res.json()));
   }
@@ -134,7 +134,6 @@ export class AuthService {
     params.set('docSecondDateNumDocs', secondDateNumDocs);
     options.headers = headers;
     options.search = params;
-    console.log(params);
     //return this.http.get('http://localhost:3000/docs/getNumDocs', options) //add this for local dev: http://localhost:3000/
     return this.http.get('docs/getNumDocs', options) //add this for local dev: http://localhost:3000/
       .pipe(map(res => res.json()));
@@ -150,7 +149,6 @@ export class AuthService {
     params.set('docSecondDateTimeDifference', secondDateTimeDiff);
     options.headers = headers;
     options.search = params;
-    console.log(params);
     //return this.http.get('http://localhost:3000/docs/getTimeDiff', options) //add this for local dev: http://localhost:3000/
     return this.http.get('docs/getTimeDiff', options) //add this for local dev: http://localhost:3000/
       .pipe(map(res => res.json()));

@@ -45,6 +45,10 @@ export class LoginComponent implements OnInit {
 
           if(data.user["username"]=="admin") 
             this.router.navigate(['/admin']);
+          else if (data.user["username"]=="managingeditor")  
+            this.router.navigate(['/recent']);
+          else if (data.user["username"]=="manuscripteditor")  
+            this.router.navigate(['/enterdoc']);
           else
             this.router.navigate(['/search']);
         } 

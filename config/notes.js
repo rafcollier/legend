@@ -12,12 +12,17 @@ db.docs.insertMany(
 
 )
 
+//LOCAL MONGO IMPORT AND EXPORT
+
 //Import json array into collection from regular command prompt (not mongo shell)
 mongoimport --db legend --collection docs --file legendJSON.json --jsonArray
 
 
 //export json array into collection from regular command prompt (not mongo shell)
 mongoexport --db legend --collection docs --out legendNewDates.json --jsonArray
+
+//IMPORT FROM LOCAL TO MLAB ON HEROKU
+mongoimport -h ds123490.mlab.com:23490 -d heroku_k52f5vsp -c docs -u heroku_k52f5vsp -p efhqgaaq5augddhfj8g61hb7l4 --file legendDocs.json --jsonArray
 
 
 //convert string dates to date objects in mongodb
