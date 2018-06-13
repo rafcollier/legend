@@ -14,8 +14,17 @@
         routerLinkActive #rlb="routerLinkActive"
         [active]="rlb.isActive"
       >
-        Register 
+        Users 
       </a>
+
+      <a *ngIf="authService.adminLoggedIn()" mat-tab-link 
+        [routerLink] = "['/sections']" 
+        routerLinkActive #rlj="routerLinkActive"
+        [active]="rlj.isActive"
+      >
+        Sections 
+      </a>
+
       <!--
       <a *ngIf="!authService.loggedIn()" mat-tab-link 
         [routerLink] = "['/login']" 
@@ -26,35 +35,35 @@
       </a>
       -->
       
-      <a *ngIf="authService.loggedIn()" mat-tab-link 
+      <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
         [routerLink] = "['/enterdoc']" 
         routerLinkActive #rld="routerLinkActive"
         [active]="rld.isActive"
       >
         Add Doc 
       </a>
-      <a *ngIf="authService.loggedIn()" mat-tab-link 
+      <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
         [routerLink] = "['/recent']" 
         routerLinkActive #rlh="routerLinkActive"
         [active]="rlh.isActive"
       >
         Recent 
       </a>
-      <a *ngIf="authService.loggedIn()" mat-tab-link 
+      <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
         [routerLink] = "['/search']" 
         routerLinkActive #rle="routerLinkActive"
         [active]="rle.isActive"
       >
         Search 
       </a>
-      <a *ngIf="authService.loggedIn()" mat-tab-link 
+      <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
         [routerLink] = "['/layout']" 
         routerLinkActive #rlf="routerLinkActive"
         [active]="rlf.isActive"
       >
         Layout 
       </a>
-      <a *ngIf="authService.loggedIn()" mat-tab-link 
+      <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
         [routerLink] = "['/metrics']" 
         routerLinkActive #rlg="routerLinkActive"
         [active]="rlg.isActive"

@@ -26,13 +26,17 @@ import { SearchresultsComponent } from './searchresults/searchresults.component'
 import { LayoutComponent } from './layout/layout.component';
 import { AdminComponent } from './admin/admin.component';
 import { MetricsComponent } from './metrics/metrics.component';
-import { LoadfileComponent } from './loadfile/loadfile.component';  
+import { LoadfileComponent } from './loadfile/loadfile.component';
+import { SectionsComponent } from './sections/sections.component';
+import { UsersComponent } from './users/users.component';
+import { RefreshComponent } from './refresh/refresh.component';  
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
+  {path: 'refresh', component: RefreshComponent},
   {path: 'enterdoc', component: EnterdocComponent, canActivate:[AuthGuard]},
   {path: 'loadfile', component: LoadfileComponent, canActivate:[AuthGuard]},
   {path: 'recent', component: RecentComponent, canActivate:[AuthGuard]},
@@ -40,6 +44,8 @@ const appRoutes: Routes = [
   {path: 'layout', component: LayoutComponent, canActivate:[AuthGuard]},
   {path: 'admin', component: AdminComponent, canActivate:[AuthGuard]},
   {path: 'metrics', component: MetricsComponent, canActivate:[AuthGuard]},
+  {path: 'sections', component: SectionsComponent, canActivate:[AuthGuard]},
+  {path: 'users', component: UsersComponent, canActivate:[AuthGuard]},
   {path: 'details/:doc', component: DetailsComponent, canActivate:[AuthGuard]}
 ]
 
@@ -58,7 +64,10 @@ const appRoutes: Routes = [
     LayoutComponent,
     AdminComponent,
     MetricsComponent,
-    LoadfileComponent
+    LoadfileComponent,
+    SectionsComponent,
+    UsersComponent,
+    RefreshComponent
   ],
   imports: [
     BrowserModule,

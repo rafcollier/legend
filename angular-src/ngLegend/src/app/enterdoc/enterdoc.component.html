@@ -1,26 +1,57 @@
 <div class = "align-form">
+
   <section class = "mat-typography">
+
+    <h4>Welcome {{username}}</h4> 
+
     <h2>Enter Document</h2>
+
     <form (submit)="onDocSubmit()" class="example-form">  
 
+
+      <!-- Automatically Generate DOI for News articles-->
+      <div *ngIf="showNews">
+        Section: News
+        <br><br>
+         DOI: {{docDOI}}
+        <br><br>
+      </div>
+
+      <!--Input Title and Author for all manuscripts-->
       <mat-form-field class="example-full-width">  
         <input type="text" matInput placeholder="Title" [(ngModel)]="docTitle" name="docTitle">  
       </mat-form-field>  
-
       <mat-form-field class="example-full-width">  
         <input type="text" matInput placeholder="Author" [(ngModel)]="docAuthor" name="docAuthor">
       </mat-form-field>  
 
-      <mat-form-field class="example-full-width">  
-        <input type="number" matInput placeholder="DOI" [(ngModel)]="docDOI" name="docDOI">
-      </mat-form-field>  
+      <div *ngIf="showNews">
+        <mat-form-field class="example-full-width">
+          <input matInput [matDatepicker]="docPublishDateCMAJnewsDatePicker" placeholder="Date Posted on cmajnews.com" [(ngModel)]="docPublishDateCMAJnews" name="docPublishDateCMAJnews">
+          <mat-datepicker-toggle matSuffix [for]="docPublishDateCMAJnewsDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #docPublishDateCMAJnewsDatePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
 
       <mat-form-field class="example-full-width">
-        <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
-          <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
-        </mat-select>
+        <input matInput [matDatepicker]="docETOCDatePicker" placeholder="eTOC Date" [(ngModel)]="docETOCDate" name="docETOCDate">
+          <mat-datepicker-toggle matSuffix [for]="docETOCDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #docETOCDatePicker></mat-datepicker>
       </mat-form-field>
 
+      <!--input DOI and section for all non-News manuscripts-->
+      <div *ngIf="!showNews">
+        <mat-form-field class="example-full-width">  
+          <input type="number" matInput placeholder="DOI" [(ngModel)]="docDOI" name="docDOI">
+        </mat-form-field>  
+        <mat-form-field class="example-full-width">
+          <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
+            <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!--Select Collection Codes for all manuscripts-->
       <mat-accordion>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
@@ -36,7 +67,7 @@
               <mat-option *ngFor="let c of collectionCodes" [value]="c"> {{c}} </mat-option>
             </mat-select>
           </mat-form-field>
-
+ 
           <mat-form-field class="example-full-width">
             <mat-select [(ngModel)]="docCollectionCode2" name="docCollectionCode2" placeholder="Collection Code 2">
               <mat-option *ngFor="let c of collectionCodes" [value]="c"> {{c}} </mat-option>
@@ -59,6 +90,40 @@
       </mat-accordion>
 
       <br>
+
+      <!--Show freelancer input fields for News manuscripts-->
+      <div *ngIf="showNews">
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Freelance 
+            </mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-form-field class="example-full-width">
+              <input matInput [matDatepicker]="docNewsCommissionDatePicker" placeholder="Commission Date" [(ngModel)]="docNewsCommissionDate" name="docNewsCommissionDate">
+              <mat-datepicker-toggle matSuffix [for]="docNewsCommissionDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #docNewsCommissionDatePicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <input matInput [matDatepicker]="docNewsInvoiceDatePicker" placeholder="Invoice Date" [(ngModel)]="docNewsInvoiceDate" name="docNewsInvoiceDate">
+              <mat-datepicker-toggle matSuffix [for]="docNewsInvoiceDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #docNewsInvoiceDatePicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <input type="number" matInput [(ngModel)]="docNewsInvoiceAmount" name="docNewsInvoiceAmount" placeholder="Invoice Amount">
+              <span matPrefix>$&nbsp;</span>
+              <span matSuffix>.00</span>
+            </mat-form-field>
+        </mat-expansion-panel> 
+      </mat-accordion>
+      <br>
+      </div>
+
+
+      <div *ngIf="!showNews">
 
       <mat-accordion>
         <mat-expansion-panel>
@@ -120,6 +185,11 @@
       </mat-accordion> 
 
       <br>
+
+      </div>
+
+
+      <div *ngIf="!showNews">
 
       <mat-accordion>
         <mat-expansion-panel>
@@ -192,14 +262,12 @@
             <mat-datepicker #docFinalizeDatePicker></mat-datepicker>
           </mat-form-field>
 
-
-
-          
         </mat-expansion-panel> 
       </mat-accordion> 
 
       <br>
 
+      </div>
 
       <mat-accordion>
         <mat-expansion-panel>
@@ -208,32 +276,16 @@
               Online Issue 
             </mat-panel-title>
             <mat-panel-description>
-              
             </mat-panel-description>
           </mat-expansion-panel-header>
-
           <mat-form-field class="example-full-width">
             <mat-select [(ngModel)]="docOnlineIssue" name="docOnlineIssue" placeholder="Issue">
               <mat-option *ngFor="let o of onlineIssues" [value]="o"> {{o}} </mat-option>
             </mat-select>
           </mat-form-field>
-
-          <mat-form-field class="example-full-width">
-            <input type="number" matInput [(ngModel)]="docFirstPageOnline" name="docFirstPageOnline" placeholder="Start Page">
-          </mat-form-field>
-
-          <mat-form-field class="example-full-width">
-            <input type="number" matInput [(ngModel)]="docLastPageOnline" name="docLastPageOnline" placeholder="End Page">
-          </mat-form-field>
-
-          <mat-form-field class="example-full-width">
-            <input type="number" matInput [(ngModel)]="docNumPagesOnline" name="docNumPagesOnline" placeholder="Number Online Pages">
-          </mat-form-field>
-
           <mat-form-field class="example-full-width">  
             <input type="text" matInput placeholder="Notes" [(ngModel)]="docOnlineNotes" name="docOnlineNotes">  
           </mat-form-field>  
-
         </mat-expansion-panel> 
       </mat-accordion>
 
@@ -274,52 +326,6 @@
       </mat-accordion>
 
       <br>
-
-      <mat-accordion>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              News 
-            </mat-panel-title>
-            <mat-panel-description>
-              
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-
-          <mat-form-field class="example-full-width">
-            <mat-select [(ngModel)]="docNewsAuthorType" name="docNewsAuthorType" placeholder="Author Type">
-              <mat-option *ngFor="let a of authortypes" [value]="a"> {{a}} </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field class="example-full-width">
-            <input matInput [matDatepicker]="docPublishDateCMAJnewsPicker" placeholder="Date Posted on cmajnews.com" [(ngModel)]="docPublishDateCMAJnews" name="docPublishDateCMAJnews">
-            <mat-datepicker-toggle matSuffix [for]="docPublishDateCMAJnewsPicker"></mat-datepicker-toggle>
-            <mat-datepicker #docPublishDateCMAJnewsPicker></mat-datepicker>
-          </mat-form-field>
-
-          <mat-form-field class="example-full-width">
-            <input matInput [matDatepicker]="docNewsCommissionDatePicker" placeholder="Commission Date" [(ngModel)]="docNewsCommissionDate" name="docNewsCommissionDate">
-            <mat-datepicker-toggle matSuffix [for]="docNewsCommissionDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #docNewsCommissionDatePicker></mat-datepicker>
-          </mat-form-field>
-
-          <mat-form-field class="example-full-width">
-            <input matInput [matDatepicker]="docNewsInvoiceDatePicker" placeholder="Invoice Date" [(ngModel)]="docNewsInvoiceDate" name="docNewsInvoiceDate">
-            <mat-datepicker-toggle matSuffix [for]="docNewsInvoiceDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #docNewsInvoiceDatePicker></mat-datepicker>
-          </mat-form-field>
-
-          <mat-form-field class="example-full-width">
-            <input type="number" matInput [(ngModel)]="docNewsInvoiceAmount" name="docNewsInvoiceAmount" placeholder="Invoice Amount">
-            <span matPrefix>$&nbsp;</span>
-            <span matSuffix>.00</span>
-          </mat-form-field>
-          
-        </mat-expansion-panel> 
-      </mat-accordion>
-
-    <br>
       
     <button mat-raised-button type="submit">Submit</button>
 

@@ -4,9 +4,10 @@
 
     <div *ngIf="oneDoc && !editDoc">
       <h2> {{ oneDoc.docTitle }}</h2>
-      <p *ngIf="oneDoc.docSection">Section: {{ oneDoc.docSection }}</p>
-      <p *ngIf="oneDoc.docAuthor">Author: {{ oneDoc.docAuthor }}</p> 
-      <p *ngIf="oneDoc.docDOI">DOI: {{ oneDoc.docDOI }}</p>
+      <p *ngIf="oneDoc.docSection"><b>Section:</b> {{ oneDoc.docSection }}</p>
+      <p *ngIf="oneDoc.docAuthor"><b>Author:</b> {{ oneDoc.docAuthor }}</p> 
+      <p *ngIf="oneDoc.docDOI"><b>DOI:</b> {{ oneDoc.docDOI }}</p>
+      <p *ngIf="oneDoc.docETOCDateFormatted"><b>eTOC Date:</b> {{ docETOCDateFormatted }}</p>
 
       <mat-accordion>
         <mat-expansion-panel>
@@ -43,12 +44,12 @@
 
           <p *ngIf="oneDoc.docOpenAccess">Open Access</p>
           <p *ngIf="oneDoc.docTranslation">Translation Required</p>
-          <p *ngIf="oneDoc.docCommissionDateFormatted">Commission Date: {{ docCommissionDateFormatted }}</p>
-          <p *ngIf="oneDoc.docAcceptDateFormatted">Accept Date: {{ docAcceptDateFormatted }}</p>
-          <p *ngIf="oneDoc.docPublishDateFormatted">Publish Date: {{ docPublishDateFormatted }}</p>
-          <p *ngIf="oneDoc.docPaymentDateFormatted">Payment Date: {{ docPaymentDateFormatted }}</p>
-          <p *ngIf="oneDoc.docInvoiceDateFormatted">Invoice Date: {{ docInvoiceDateFormatted }}</p>
-          <p *ngIf="oneDoc.docInvoiceAmountFormatted">Invoice Amount: ${{ oneDoc.docInvoiceAmount }}</p>
+          <p *ngIf="oneDoc.docCommissionDateFormatted"><b>Commission Date:</b> {{ docCommissionDateFormatted }}</p>
+          <p *ngIf="oneDoc.docAcceptDateFormatted"><b>Accept Date:</b> {{ docAcceptDateFormatted }}</p>
+          <p *ngIf="oneDoc.docPaymentDateFormatted"><b>Payment Date:</b> {{ docPaymentDateFormatted }}</p>
+          <p *ngIf="oneDoc.docPublishDateFormatted"><b>Publish Date:</b> {{ docPublishDateFormatted }}</p>
+          <p *ngIf="oneDoc.docInvoiceDateFormatted"><b>Invoice Date:</b> {{ docInvoiceDateFormatted }}</p>
+          <p *ngIf="oneDoc.docInvoiceAmountFormatted"><b>Invoice Amount:</b> ${{ oneDoc.docInvoiceAmount }}</p>
 
         </mat-expansion-panel> 
       </mat-accordion>
@@ -66,11 +67,11 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
 
-          <p *ngIf="oneDoc.docOnlineIssue">Issue: {{ oneDoc.docOnlineIssue }}</p>
-          <p *ngIf="oneDoc.docFirstPageOnline">Start Page: {{ oneDoc.docFirstPageOnline }}</p>
-          <p *ngIf="oneDoc.docLastPageOnline">End Page: {{ oneDoc.docLastPageOnline }}</p>
-          <p *ngIf="oneDoc.docNumPagesOnline">Number Pages: {{ oneDoc.docNumPagesOnline }}</p>
-          <p *ngIf="oneDoc.docOnlineNotes">Notes: {{ oneDoc.docOnlineNotes }}</p>
+          <p *ngIf="oneDoc.docOnlineIssue"><b>Issue:</b> {{ oneDoc.docOnlineIssue }}</p>
+          <p *ngIf="oneDoc.docFirstPageOnline"><b>Start Page:</b> {{ oneDoc.docFirstPageOnline }}</p>
+          <p *ngIf="oneDoc.docLastPageOnline"><b>End Page:</b> {{ oneDoc.docLastPageOnline }}</p>
+          <p *ngIf="oneDoc.docNumPagesOnline"><b>Number Pages:</b> {{ oneDoc.docNumPagesOnline }}</p>
+          <p *ngIf="oneDoc.docOnlineNotes"><b>Notes:</b> {{ oneDoc.docOnlineNotes }}</p>
 
         </mat-expansion-panel> 
       </mat-accordion>
@@ -88,12 +89,12 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
 
-          <p *ngIf="oneDoc.docPrintIssue">Issue: {{ oneDoc.docPrintIssue }}</p>
-          <p *ngIf="oneDoc.docFirstPagePrint">Start Page: {{ oneDoc.docFirstPagePrint }}</p>
-          <p *ngIf="oneDoc.docLastPagePrint">End Page: {{ oneDoc.docLastPagePrint }}</p>
-          <p *ngIf="oneDoc.docNumPagesPrint">Number Pages: {{ oneDoc.docNumPagesPrint }}</p>
-          <p *ngIf="oneDoc.docAdConflicts">Advertising Conflicts: {{ oneDoc.docAdConflicts }}</p>
-          <p *ngIf="oneDoc.docPrintNotes">Notes: {{ oneDoc.docPrintNotes }}</p>
+          <p *ngIf="oneDoc.docPrintIssue"><b>Issue:</b> {{ oneDoc.docPrintIssue }}</p>
+          <p *ngIf="oneDoc.docFirstPagePrint"><b>Start Page:</b> {{ oneDoc.docFirstPagePrint }}</p>
+          <p *ngIf="oneDoc.docLastPagePrint"><b>End Page:</b> {{ oneDoc.docLastPagePrint }}</p>
+          <p *ngIf="oneDoc.docNumPagesPrint"><b>Number Pages:</b> {{ oneDoc.docNumPagesPrint }}</p>
+          <p *ngIf="oneDoc.docAdConflicts"><b>Advertising Conflicts:</b> {{ oneDoc.docAdConflicts }}</p>
+          <p *ngIf="oneDoc.docPrintNotes"><b>Notes:</b> {{ oneDoc.docPrintNotes }}</p>
 
         </mat-expansion-panel> 
       </mat-accordion>
@@ -112,18 +113,18 @@
           </mat-expansion-panel-header> 
           <br>
 
-          <p *ngIf="oneDoc.docEditor">Editor: {{ oneDoc.docEditor }}</p>
-          <p *ngIf="oneDoc.docCoordinator">Coordinator: {{ oneDoc.docCoordinator }}</p>
-          <p *ngIf="oneDoc.docProofReader">Proofreader: {{ oneDoc.docProofReader }}</p>
-          <p *ngIf="oneDoc.docSE1">SE1: {{ oneDoc.docSE1 }}</p>
-          <p *ngIf="oneDoc.docEnteredDate">Entered Date: {{ docEnteredDateFormatted }}</p>
-          <p *ngIf="oneDoc.docCopyEditBeginDate">Copy Edit Begin Date: {{ docCopyEditBeginDateFormatted }}</p>
-          <p *ngIf="oneDoc.docCopyEditCompleteDate">Copy Edit Complete Date: {{ docCopyEditCompleteDateFormatted }}</p>
-          <p *ngIf="oneDoc.docSendSEDate">Send to SE Date: {{ docSendSEDateFormatted }}</p>
-          <p *ngIf="oneDoc.docReturnSEDate">Return from SE Date: {{ docReturnSEDateFormatted }}</p>
-          <p *ngIf="oneDoc.docSendAuthorDate">Sent to Author Date: {{ docSendAuthorDateFormatted }}</p>
-          <p *ngIf="oneDoc.docReturnAuthorDate">Return from Author Date: {{ docReturnAuthorDateFormatted }}</p>
-          <p *ngIf="oneDoc.docReturnAuthorDate">Finalized Date: {{ docReturnAuthorDateFormatted}}</p>
+          <p *ngIf="oneDoc.docEditor"><b>Editor:</b> {{ oneDoc.docEditor }}</p>
+          <p *ngIf="oneDoc.docCoordinator"><b>Coordinator:</b> {{ oneDoc.docCoordinator }}</p>
+          <p *ngIf="oneDoc.docProofReader"><b>Proofreader:</b> {{ oneDoc.docProofReader }}</p>
+          <p *ngIf="oneDoc.docSE1"><b>SE1:</b> {{ oneDoc.docSE1 }}</p>
+          <p *ngIf="oneDoc.docEnteredDate"><b>Entered Date:</b> {{ docEnteredDateFormatted }}</p>
+          <p *ngIf="oneDoc.docCopyEditBeginDate"><b>Copy Edit Begin Date:</b> {{ docCopyEditBeginDateFormatted }}</p>
+          <p *ngIf="oneDoc.docCopyEditCompleteDate"><b>Copy Edit Complete Date:</b> {{ docCopyEditCompleteDateFormatted }}</p>
+          <p *ngIf="oneDoc.docSendSEDate"><b>Send to SE Date:</b> {{ docSendSEDateFormatted }}</p>
+          <p *ngIf="oneDoc.docReturnSEDate"><b>Return from SE Date:</b> {{ docReturnSEDateFormatted }}</p>
+          <p *ngIf="oneDoc.docSendAuthorDate"><b>Sent to Author Date:</b> {{ docSendAuthorDateFormatted }}</p>
+          <p *ngIf="oneDoc.docReturnAuthorDate"><b>Return from Author Date:</b> {{ docReturnAuthorDateFormatted }}</p>
+          <p *ngIf="oneDoc.docReturnAuthorDate"><b>Finalized Date:</b> {{ docReturnAuthorDateFormatted}}</p>
 
         </mat-expansion-panel> 
       </mat-accordion>
@@ -143,11 +144,11 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
 
-          <p *ngIf="oneDoc.docNewsAuthorType">Author Type: {{ oneDoc.docNewsAuthorType }}</p>
-          <p *ngIf="oneDoc.docPublishDateCMAJnews">Date posted on cmajnews.com: {{ docPublishDateCMAJnewsFormatted }}</p>
-          <p *ngIf="oneDoc.docNewsCommissionDate">Commission Date: {{ docNewsCommissionDateFormatted }}</p>
-          <p *ngIf="oneDoc.docNewsInvoiceDate">Invoice Date: {{ docNewsInvoiceDateFormatted }}</p>
-          <p *ngIf="oneDoc.docNewsInvoiceAmount">Invoice Amount: ${{ oneDoc.docNewsInvoiceAmount }}</p>
+          <p *ngIf="oneDoc.docNewsAuthorType"><b>Author Type:</b> {{ oneDoc.docNewsAuthorType }}</p>
+          <p *ngIf="oneDoc.docPublishDateCMAJnews"><b>Date posted on cmajnews.com:</b> {{ docPublishDateCMAJnewsFormatted }}</p>
+          <p *ngIf="oneDoc.docNewsCommissionDate"><b>Commission Date:</b> {{ docNewsCommissionDateFormatted }}</p>
+          <p *ngIf="oneDoc.docNewsInvoiceDate"><b>Invoice Date:</b> {{ docNewsInvoiceDateFormatted }}</p>
+          <p *ngIf="oneDoc.docNewsInvoiceAmount"><b>Invoice Amount:</b> ${{ oneDoc.docNewsInvoiceAmount }}</p>
 
         </mat-expansion-panel> 
       </mat-accordion>

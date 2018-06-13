@@ -63,6 +63,9 @@ let DocSchema = new Schema({
 	docPublishDate: {
 	  type: Date
 	},
+	docETOCDate: {
+	  type: Date
+	},
 	docEnteredDate: {
 	  type: Date
 	},
@@ -183,6 +186,9 @@ let DocSchema = new Schema({
 	  type: String
 	},
     docPublishDateFormatted: { 
+	  type: String
+	},
+    docETOCDateFormatted: { 
 	  type: String
 	},
     docPaymentDateFormatted: { 

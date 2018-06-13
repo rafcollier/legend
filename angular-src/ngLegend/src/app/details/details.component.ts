@@ -50,6 +50,7 @@ export class DetailsComponent implements OnInit {
 
   docAcceptDate: Date;
   docPublishDate: Date;
+  docETOCDate: Date;
   docEnteredDate: Date;
   docCopyEditBeginDate: Date;
   docCopyEditCompleteDate: Date;
@@ -100,6 +101,7 @@ export class DetailsComponent implements OnInit {
   docInvoiceDateFormatted: String;
   docAcceptDateFormatted: String;
   docPublishDateFormatted: String;
+  docETOCDateFormatted: String;
   docPaymentDateFormatted: String;
   docEnteredDateFormatted: String;
   docCopyEditBeginDateFormatted: String;
@@ -169,6 +171,8 @@ export class DetailsComponent implements OnInit {
       this.docAcceptDateFormatted = doc.docAcceptDateFormatted;
       this.docPublishDate = doc.docPublishDate;
       this.docPublishDateFormatted = doc.docPublishDateFormatted;
+      this.docETOCDate = doc.docETOCDate;
+      this.docETOCDateFormatted = doc.docETOCDateFormatted;
       this.docEnteredDate = doc.docEnteredDate;
       this.docEnteredDateFormatted = doc.docEnteredDateFormatted;
       this.docCopyEditBeginDate = doc.docCopyEditBeginDate;
@@ -270,6 +274,7 @@ export class DetailsComponent implements OnInit {
       //TIMELINE
       docAcceptDate: this.docAcceptDate,
       docPublishDate: this.docPublishDate,
+      docETOCDate: this.docETOCDate,
       docEnteredDate: this.docEnteredDate,
       docCopyEditBeginDate: this.docCopyEditBeginDate,
       docCopyEditCompleteDate: this.docCopyEditCompleteDate,
@@ -326,6 +331,8 @@ export class DetailsComponent implements OnInit {
       editedDoc['docAcceptDateFormatted'] = this.formatDate(new Date(this.docAcceptDate)); 
     if(this.docPublishDate)
       editedDoc['docPublishDateFormatted'] = this.formatDate(new Date(this.docPublishDate)); 
+    if(this.docETOCDate)
+      editedDoc['docETOCDateFormatted'] = this.formatDate(new Date(this.docETOCDate)); 
     if(this.docPaymentDate)
       editedDoc['docPaymentDateFormatted'] = this.formatDate(new Date(this.docPaymentDate)); 
     if(this.docEnteredDate)

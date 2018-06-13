@@ -1,0 +1,35 @@
+<div class = "align-form">
+  <section class = "mat-typography">
+    <h4>Welcome {{username}}</h4> 
+    <h2>Add Section</h2>
+    <form (submit)="onSectionSubmit()" class="example-form">  
+      <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="Section" [(ngModel)]="section" name="section">  
+      </mat-form-field>  
+      <button mat-raised-button type="submit">Submit</button>
+    </form>  
+    <div *ngIf="errorMessage">
+      <h4 class="red-font">{{errorMessage}}</h4>
+    </div>
+    <div *ngIf="validateMessage">
+      <h4 class="red-font">{{validateMessage}}</h4>
+    </div>
+    <div *ngIf="successMessage">
+      <h4 class="red-font">{{successMessage}}</h4>
+    </div>
+
+    <br><br>
+    <h2>Current Sections</h2>
+
+    <div *ngFor="let d of displaySections; let i = index">
+      <h3>
+         {{ d.section }}
+      </h3>
+      <a href="" onClick="return false;">
+        <span (click)="onSectionDelete(d, i)"> Delete</span>
+      </a>
+      <hr class="hr-style">
+    </div>
+
+  </section>
+</div>

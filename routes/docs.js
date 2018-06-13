@@ -4,6 +4,131 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const Doc = require('../models/docs');
+const moment = require('moment');
+
+/*
+let Converter = require("csvtojson").Converter;
+let converter = new Converter({});
+let jsonData =  {}; 
+
+converter.fromFile('./data/data2.csv', (err, result) => {
+  if(err) 
+    console.log(err);
+  else { 
+    jsonData = result;
+
+    for(let i=0; i<jsonData.length; i++)  {
+
+      let newDoc = new Doc({
+        docTitle: jsonData[i]['docTitle'],
+        docAuthor: jsonData[i]['docAuthor'],
+        docSection: jsonData[i]['docSection'],
+        docDOI: parseInt(jsonData[i]['docDOI']),
+        docOpenAccess: (jsonData[i]['docOpenAccess'] == 'TRUE'),
+        docTranslation: (jsonData[i]['docTranslation'] == 'TRUE')
+       // docAcceptDate: moment(jsonData[i]['docAcceptDate']).toISOString(),
+       // docAcceptDateFormatted: moment(jsonData[i]['docAcceptDate']).format("MMMM DD, YYYY")
+        //docPaymentDate: moment(jsonData[i]['docPaymentDate']).toISOString(),
+        //docPaymentDateFormatted: moment(jsonData[i]['docPaymentDate']).format("MMMM DD, YYYY"),
+        //docPublishDate: moment(jsonData[i]['docPublishDate']).toISOString(),
+        //docPublishDateFormatted: moment(jsonData[i]['docPublishDate']).format("MMMM DD, YYYY")
+       // docEnteredDate: moment(jsonData[i]['docEnteredDate']).toISOString(),
+       // docCopyEditBeginDate: moment(jsonData[i]['docCopyEditBeginDate']).toISOString(),
+       // docCopyEditCompleteDate: moment(jsonData[i]['docCopyEditCompleteDate']).toISOString(),
+       // docSendSEDate: moment(jsonData[i]['docSendSEDate']).toISOString(),
+       // docReturnSEDate: moment(jsonData[i]['docReturnSEDate']).toISOString(),
+       // docSendAuthorDate: moment(jsonData[i]['docSendAuthorDate']).toISOString(),
+       // docReturnAuthorDate: moment(jsonData[i]['docReturnAuthorDate']).toISOString(),
+       // docFinalizeDate: moment(jsonData[i]['docFinalizeDate']).toISOString()
+      })
+
+      const docOnlineIssue = moment(jsonData[i]['docOnlineIssue']);
+      const docPrintIssue = moment(jsonData[i]['docPrintIssue']);
+      const docAcceptDate =  moment(jsonData[i]['docAcceptDate']);
+      const docPaymentDate =  moment(jsonData[i]['docPaymentDate']);
+      const docPublishDate =  moment(jsonData[i]['docPublishDate']);
+      const docEnteredDate =  moment(jsonData[i]['docEnteredDate']);
+      const docCopyEditBeginDate =  moment(jsonData[i]['docCopyEditBeginDate']);
+      const docCopyEditCompleteDate =  moment(jsonData[i]['docCopyEditCompleteDate']);
+      const docSendSEDate =  moment(jsonData[i]['docSendSEDate']);
+      const docReturnSEDate =  moment(jsonData[i]['docReturnSEDate']);
+      const docSendAuthorDate =  moment(jsonData[i]['docSendAuthorDate']);
+      const docReturnAuthorDate =  moment(jsonData[i]['docReturnAuthorDate']);
+      const docFinalizeDate =  moment(jsonData[i]['docFinalizeDate']);
+
+      //if(docOnlineIssue.isValid()) {
+      //  newDoc['docOnlineIssue'] = docAcceptDate.toISOString();
+      //  newDoc['docAcceptDateFormatted'] = docAcceptDate.format("MMMM DD, YYYY"); 
+      //} 
+
+
+
+      if(docAcceptDate.isValid()) {
+        newDoc['docAcceptDate'] = docAcceptDate.toISOString();
+        newDoc['docAcceptDateFormatted'] = docAcceptDate.format("MMMM DD, YYYY"); 
+      }
+      if(docPaymentDate.isValid()) {
+        newDoc['docPaymentDate'] = docPaymentDate.toISOString();
+        newDoc['docPaymentDateFormatted'] = docPaymentDate.format("MMMM DD, YYYY"); 
+      }
+      if(docPublishDate.isValid()) {
+        newDoc['docPublishDate'] = docPublishDate.toISOString();
+        newDoc['docPublishDateFormatted'] = docPublishDate.format("MMMM DD, YYYY"); 
+      }
+      if(docEnteredDate.isValid()) {
+        newDoc['docEnteredDate'] = docEnteredDate.toISOString();
+        newDoc['docEnteredDateFormatted'] = docEnteredDate.format("MMMM DD, YYYY"); 
+      }
+      if(docPaymentDate.isValid()) {
+        newDoc['docCopyEditBeginDate'] = docCopyEditBeginDate.toISOString();
+        newDoc['docCopyEditBeginDateFormatted'] = docCopyEditBeginDate.format("MMMM DD, YYYY"); 
+      }
+      if(docCopyEditBeginDate.isValid()) {
+        newDoc['docCopyEditBeginDate'] = docCopyEditBeginDate.toISOString();
+        newDoc['docCopyEditBeginDateFormatted'] = docCopyEditBeginDate.format("MMMM DD, YYYY"); 
+      }
+      if(docCopyEditCompleteDate.isValid()) {
+        newDoc['docCopyEditCompleteDate'] = docCopyEditCompleteDate.toISOString();
+        newDoc['docCopyEditCompleteDateFormatted'] = docCopyEditCompleteDate.format("MMMM DD, YYYY"); 
+      }
+      if(docSendSEDate.isValid()) {
+        newDoc['docSendSEDate'] = docSendSEDate.toISOString();
+        newDoc['docSendSEDateFormatted'] = docSendSEDate.format("MMMM DD, YYYY"); 
+      }
+      if(docReturnSEDate.isValid()) {
+        newDoc['docReturnSEDate'] = docReturnSEDate.toISOString();
+        newDoc['docReturnSEDateFormatted'] = docReturnSEDate.format("MMMM DD, YYYY"); 
+      }
+      if(docPaymentDate.isValid()) {
+        newDoc['docSendAuthorDate'] = docSendAuthorDate.toISOString();
+        newDoc['docSendAuthorDateFormatted'] = docSendAuthorDate.format("MMMM DD, YYYY"); 
+      }
+      if(docSendAuthorDate.isValid()) {
+        newDoc['docSendAuthorDate'] = docSendAuthorDate.toISOString();
+        newDoc['docSendAuthorDateFormatted'] = docSendAuthorDate.format("MMMM DD, YYYY"); 
+      }
+      if(docReturnAuthorDate.isValid()) {
+        newDoc['docReturnAuthorDate'] = docReturnAuthorDate.toISOString();
+        newDoc['docReturnAuthorDateFormatted'] = docReturnAuthorDate.format("MMMM DD, YYYY"); 
+      }
+      if(docFinalizeDate.isValid()) {
+        newDoc['docFinalizeDate'] = docFinalizeDate.toISOString();
+        newDoc['docFinalizeDateFormatted'] = docFinalizeDate.format("MMMM DD, YYYY"); 
+      }
+
+      newDoc.save((err) => {
+        if(err) throw err;
+      });
+
+
+    }
+
+  }
+
+});
+
+*/
+
 
 router.post('/submitdoc', (req, res, next) => {
   let newDoc = new Doc({
@@ -28,6 +153,7 @@ router.post('/submitdoc', (req, res, next) => {
     //TIMELINE
     docAcceptDate: req.body.docAcceptDate,
     docPublishDate: req.body.docPublishDate,
+    docETOCDate: req.body.docETOCDate,
     docEnteredDate: req.body.docEnteredDate,
     docCopyEditBeginDate: req.body.docCopyEditBeginDate,
     docCopyEditCompleteDate: req.body.docCopyEditCompleteDate,
@@ -79,6 +205,7 @@ router.post('/submitdoc', (req, res, next) => {
     docInvoiceDateFormatted: req.body.docInvoiceDateFormatted, 
     docAcceptDateFormatted: req.body.docAcceptDateFormatted, 
     docPublishDateFormatted: req.body.docPublishDateFormatted,
+    docETOCDateFormatted: req.body.docETOCDateFormatted,
     docPaymentDateFormatted: req.body.docPaymentDateFormatted,
     docEnteredDateFormatted: req.body.docEnteredDateFormatted,
     docCopyEditBeginDateFormatted: req.body.docCopyEditBeginDateFormatted,
@@ -115,6 +242,15 @@ router.get('/getOneDoc', (req, res, next) => {
     res.json(doc);
   });
 });
+
+router.get('/getNewsDOI', (req, res, next) => {
+  //Doc.find({'docUsername' : req.query.docUsername}, null, {limit: Number(limit), sort: {dateEntered: -1}}, (err, docs) => {
+  Doc.find({docSection: 'News'}, {docDOI: 1}, {limit: 1, sort: {docDOI: -1}}, (err, docs) => {
+    if (err) throw err;
+    res.json(docs);
+  });
+});
+
 
 router.delete('/deleteOneDoc', (req, res, next) => {
   Doc.findByIdAndRemove(req.query.docID, (err, doc) => { 

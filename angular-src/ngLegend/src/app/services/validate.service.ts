@@ -13,4 +13,12 @@ export class ValidateService {
     }
   }
 
+  validateSection(section){
+    if(section.section == "" || undefined) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
 }

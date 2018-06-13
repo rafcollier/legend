@@ -64,4 +64,18 @@ router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res
 	res.json({user: req.user});
 });
 
+router.get('/getUsers', (req, res, next) => {
+  //Doc.find({'docUsername' : req.query.docUsername}, null, {limit: Number(limit), sort: {dateEntered: -1}}, (err, docs) => {
+  User.find({}, null, {sort: {username: 1}}, (err, users) => {
+    if (err) throw err;
+    res.json(users);
+  });
+});
+
+router.delete('/deleteUser', (req, res, next) => {
+  User.findByIdAndRemove(req.query.docID, (err, doc) => { 
+    if (err) throw err;
+  });
+});
+
 module.exports = router;

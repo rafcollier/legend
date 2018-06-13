@@ -187,10 +187,13 @@ export class MetricsComponent implements OnInit {
   onNewMetrics() {
   	this.docSectionNumDocs = "";
   	this.docSectionTimeDifference = "";
+    this.docSectionPayToPub = "";
   	this.firstDateNumDocs = null;
   	this.secondDateNumDocs = null;
   	this.firstDateTimeDifference = null;
   	this.secondDateTimeDifference = null;
+    this.firstDatePayToPub = null;
+    this.secondDatePayToPub = null;
   	this.ngOnInit();
   }
 

@@ -11,9 +11,12 @@ import {ValidateService} from '../services/validate.service';
 })
 export class RegisterComponent implements OnInit {
   username: String;
+  currentUser: String;
   password: String;
   errorMessage: String = "";
   validateMessage: String = "";
+  displayUsers :[Object];
+  deleteMessage : String = "";
 
   constructor(
     private authService: AuthService,
@@ -22,11 +25,49 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.authService.getProfile().subscribe(profile => {
+      this.currentUser = profile.user.username;
+    },
+    err => {
+      console.log(err);
+      return false;
+    });
+    this.onGetUsers();
+  }
+
+  onGetUsers() {
+    this.authService.getUsers().subscribe(entries => {
+      this.displayUsers = entries; 
+      console.log(entries);
+    }, 
+    err => {
+        console.log(err);
+        return false;
+    });
+  }
+
+
+  onUserDelete(user, index) {
+    console.log("delete user");
+    const userID = user["_id"]; 
+    this.authService.deleteUser(userID).subscribe(user => {
+    },
+    err => {
+      console.log(err);
+      return false;
+    });
+    setTimeout(() => {
+      this.username = "";
+      this.password = "";
+      this.onGetUsers();
+      this.router.navigate(['/register']); 
+    }, 1000);
   }
 
   onRegisterSubmit(){
     const user = {
-      username: this.username.toLowerCase(),
+      username: this.username,
       password: this.password
     }
 
@@ -42,7 +83,12 @@ export class RegisterComponent implements OnInit {
       //Register User
       this.authService.registerUser(user).subscribe(data => {
         if(data.success){
-          this.router.navigate(['/login']); 
+          setTimeout(() => {
+            this.username = "";
+            this.password = "";
+            this.onGetUsers();
+            this.router.navigate(['/register']); 
+          }, 1000);
         } 
         else {
           this.errorMessage = data.msg;
@@ -53,8 +99,13 @@ export class RegisterComponent implements OnInit {
             this.router.navigate(['/register']); 
           }, 2000);
         }
+      },
+      err => {
+      console.log(err);
+      return false;
       });
     }
   }
+
 
 }

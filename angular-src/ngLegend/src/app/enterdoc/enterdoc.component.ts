@@ -33,6 +33,7 @@ export class EnterdocComponent implements OnInit {
 
   docAcceptDate: Date;
   docPublishDate: Date;
+  docETOCDate: Date;
   docPaymentDate: Date;
   docEnteredDate: Date;
   docCopyEditBeginDate: Date;
@@ -93,12 +94,15 @@ export class EnterdocComponent implements OnInit {
   proofers: [String]; 
   se1s: [String]; 
 
+  showNews: Boolean = false;
+
   constructor(
   	private authService: AuthService,
     private router: Router
   ) { }
 
   ngOnInit() {
+    this.showNews = false;
   	this.sections = config.sections;
     this.onlineIssues = config.onlineIssues;
     this.printIssues = config.printIssues;
@@ -110,10 +114,25 @@ export class EnterdocComponent implements OnInit {
     this.authortypes = config.authortypes;
     this.authService.getProfile().subscribe(profile => {
       this.username = profile.user.username;
-      },
-      err => {
-        console.log(err);
-        return false;
+      if(this.username == "NewsEditor") {
+        this.showNews = true;
+        this.docSection = 'News';
+        this.getNewsDOI();
+      }
+    },
+    err => {
+      console.log(err);
+      return false;
+    });
+  }
+
+  getNewsDOI() {
+    this.authService.getNewsDOI().subscribe(doi => {
+      this.docDOI = doi[0].docDOI + 1;
+    },
+    err => {
+      console.log(err);
+      return false;
     });
   }
 
@@ -140,6 +159,7 @@ export class EnterdocComponent implements OnInit {
       //TIMELINE
       docAcceptDate: this.docAcceptDate,
       docPublishDate: this.docPublishDate,
+      docETOCDate: this.docETOCDate,
       docEnteredDate: this.docEnteredDate,
       docCopyEditBeginDate: this.docCopyEditBeginDate,
       docCopyEditCompleteDate: this.docCopyEditCompleteDate,
@@ -196,6 +216,8 @@ export class EnterdocComponent implements OnInit {
       doc['docAcceptDateFormatted'] = this.formatDate(new Date(this.docAcceptDate)); 
     if(this.docPublishDate) 
       doc['docPublishDateFormatted'] = this.formatDate(new Date(this.docPublishDate)); 
+    if(this.docETOCDate) 
+      doc['docETOCDateFormatted'] = this.formatDate(new Date(this.docETOCDate)); 
     if(this.docPaymentDate) 
       doc['docPaymentDateFormatted'] = this.formatDate(new Date(this.docPaymentDate)); 
     if(this.docEnteredDate)
