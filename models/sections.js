@@ -4,6 +4,9 @@ const config = require('../config/database');
 
 //User Schema
 const SectionSchema = mongoose.Schema({
+  dateEntered: {
+    type: Date, default: Date.now
+  },
   section: {
 	type: String,
 	required: true

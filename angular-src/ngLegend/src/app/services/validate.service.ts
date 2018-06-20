@@ -21,4 +21,12 @@ export class ValidateService {
     }
   }
 
+  validatePrintIssue(printIssue){
+    if(printIssue.printIssue == "" || undefined) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
 }

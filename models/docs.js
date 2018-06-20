@@ -10,15 +10,7 @@ let DocSchema = new Schema({
 	dateEntered: {
 	  type: Date, default: Date.now
 	},
-	docUsername: {
-	  type: String
-	},
-
-
-	docTitle: {
-	  type: String
-	},
-	docAuthor: {
+	docUsername: { //user who entered document
 	  type: String
 	},
 	docDOI: {
@@ -27,9 +19,87 @@ let DocSchema = new Schema({
 	docSection: {
 	  type: String
 	},
-	docDescription: {
+	docDepartment: {
 	  type: String
 	},
+	docAuthor: {
+	  type: String
+	},
+	docTitle: {
+	  type: String
+	},
+	docFocusArea: {
+	  type: String
+	},
+	docNotes: {
+	  type: String
+	},
+
+	//DOCUMENT DETAILS
+
+	docOpenAccess: {
+	  type: Boolean
+	},
+	docTranslation: {
+	  type: Boolean
+	},
+	docPressRelease: {
+	  type: Boolean
+	},
+	docProfessionalDev: {
+	  type: Boolean
+	},
+	docNumPages: {
+	  type: Number
+	},
+	docNumAppendices: {
+	  type: Number
+	},
+    docRelatedMaterial: {
+	  type: String
+	},
+	docOutStandingMaterial: {
+	  type: String
+	},
+	docInvoiceNum: {
+	  type: String
+	},
+
+	//MULTIMEDIA
+
+	docMultiMedia: {
+	  type: String
+	},
+	docPodcastEmbargoLink: {
+	  type: String
+	},
+	docPodcastPermLink: {
+	  type: String
+	},
+	docPodcastEmbedCode: {
+	  type: String
+	},
+	docVideoEmbedCode: {
+	  type: String
+	},
+	docVideoLink: {
+	  type: String
+	},
+
+    //SOCIAL MEDIA
+
+	docURL: {
+	  type: String
+	},
+	docHashTags: {
+	  type: String
+	},
+	docSocialSummary: {
+	  type: String
+	},
+    
+	// COLLECTION CODES
+
 	docCollectionCode1: {
 	  type: String
 	},
@@ -42,29 +112,47 @@ let DocSchema = new Schema({
 	docCollectionCode4: {
 	  type: String
 	},
-	docAuthorType: { 
+	docCollectionCode5: {
 	  type: String
 	},
-	docCommissionDate: {
-	  type: Date
-	},
-	docInvoiceDate: {
-	  type: Date
-	},
-	docInvoiceAmount: {
-	  type: Number
+	docCollectionCode6: {
+	  type: String
 	},
 
-    //TIMELINE
+    //DOCUMENT TIMELINE
 
 	docAcceptDate: {
 	  type: Date
 	},
-	docPublishDate: {
+    docPaymentDate: {
 	  type: Date
 	},
 	docETOCDate: {
 	  type: Date
+	},
+	docOnlineIssue: {
+	  type: Date
+	},
+  	docPrintIssue: {
+	  type: Date
+	},
+
+	//EDITING TIMELINE
+
+	docEditor: {
+      type: String
+	},
+	docCoordinator: {
+      type: String
+	},
+	docProofReader: {
+      type: String
+	},
+	docSE1: {
+	  type: String
+	},
+	docSE2: {
+	  type: String
 	},
 	docEnteredDate: {
 	  type: Date
@@ -87,42 +175,26 @@ let DocSchema = new Schema({
 	docReturnAuthorDate: {
 	  type: Date
 	},
+	docSendFineTune: {
+	  type: Date
+	},
+	docReturnFineTune: {
+	  type: Date
+	},
+	docSendProofRead: {
+	  type: Date
+	},
+	docReturnProofRead: {
+	  type: Date
+	},
 	docFinalizeDate: {
 	  type: Date
 	},
-    docPaymentDate: {
-	  type: Date
-	},
 
-	//EDITORS
-	docEditor: {
-      type: String
-	},
-	docCoordinator: {
-      type: String
-	},
-	docProofReader: {
-      type: String
-	},
-	docSE1: {
-	  type: String
-	},
-	docSE2: {
-	  type: String
-	},
-
-	//YES OR NO FIELDS
-	docOpenAccess: {
-	  type: Boolean
-	},
-	docTranslation: {
-	  type: Boolean
-	},
-	
     //ONLINE ISSUE
 
-	docOnlineIssue: {
-	  type: String
+    docOnlineNotes: {
+      type: String	
 	},
 	docFirstPageOnline: {
 	  type: Number
@@ -130,17 +202,11 @@ let DocSchema = new Schema({
 	docLastPageOnline: {
 	  type: Number
 	},
-	docNumPagesOnline: {
-	  type: Number
-	},
-	docOnlineNotes: {
-      type: String	
-	},
 
     //PRINT ISSUE
 
-   	docPrintIssue: {
-	  type: String
+    docAdConflicts: {
+      type: String	
 	},
 	docFirstPagePrint: {
 	  type: Number
@@ -148,23 +214,11 @@ let DocSchema = new Schema({
 	docLastPagePrint: {
 	  type: Number
 	},
-	docNumPagesPrint: {
-	  type: Number
-	},
-    docPrintNotes: {
-      type: String	
-	},
-	docAdConflicts: {
-      type: String	
-	},
-
+	
     //NEWS ONLY
 
 	docPublishDateCMAJnews: { 
 	  type: Date
-	},
-    docNewsAuthorType: { //freelance or staff
-	  type: String
 	},
 	docNewsCommissionDate: {
 	  type: Date
@@ -174,59 +228,8 @@ let DocSchema = new Schema({
 	},
 	docNewsInvoiceAmount: {
 	  type: Number	
-	},
-    //FORMATTED DATES
-	docCommissionDateFormatted: {
-	  type: String
-	},
-    docInvoiceDateFormatted: {
-	  type: String
-	},
-    docAcceptDateFormatted: { 
-	  type: String
-	},
-    docPublishDateFormatted: { 
-	  type: String
-	},
-    docETOCDateFormatted: { 
-	  type: String
-	},
-    docPaymentDateFormatted: { 
-	  type: String
-	},
-    docEnteredDateFormatted: { 
-	  type: String
-	},
-    docCopyEditBeginDateFormatted: { 
-	  type: String
-	},
-    docCopyEditCompleteDateFormatted: { 
-	  type: String
-	},
-    docSendSEDateFormatted: { 
-	  type: String
-	},
-    docReturnSEDateFormatted: { 
-	  type: String
-	},
-    docSendAuthorDateFormatted: { 
-	  type: String
-	},
-    docReturnAuthorDateFormatted: { 
-	  type: String
-	},
-    docFinalizeDateFormatted: { 
-	  type: String
-	},
-    docPublishDateCMAJnewsFormatted: { 
-	  type: String
-	},
-    docNewsCommissionDateFormatted: { 
-	  type: String
-	},
-    docNewsInvoiceDateFormatted: { 
-	  type: String
 	}
+
 });
 
 let Doc = mongoose.model('Doc', DocSchema)

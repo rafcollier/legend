@@ -28,10 +28,10 @@ const sections = require('./routes/sections');
 //const editors = require('./routes/editors');
 //const se = require('./routes/se');
 //const online = require('./routes/online');
-//const print = require('./routes/print');
+const print = require('./routes/print');
 
-//const port = 3000; //This is port for local development
-const port = process.env.PORT || 8080; //This is for deployment to Heroku
+const port = 3000; //This is port for local development
+//const port = process.env.PORT || 8080; //This is for deployment to Heroku
 
 //Middleware
 app.use(cors());
@@ -51,7 +51,7 @@ app.use('/sections', sections)
 //app.use('/editors', editors)
 //app.use('/se', se)
 //app.use('/online', online)
-//app.use('/print', print)
+app.use('/print', print)
 //
 //Index Route
 app.get('/', (req, res) => {

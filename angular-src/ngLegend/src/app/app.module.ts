@@ -29,7 +29,8 @@ import { MetricsComponent } from './metrics/metrics.component';
 import { LoadfileComponent } from './loadfile/loadfile.component';
 import { SectionsComponent } from './sections/sections.component';
 import { UsersComponent } from './users/users.component';
-import { RefreshComponent } from './refresh/refresh.component';  
+import { RefreshComponent } from './refresh/refresh.component';
+import { PrintissuesComponent } from './printissues/printissues.component';  
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -46,6 +47,7 @@ const appRoutes: Routes = [
   {path: 'metrics', component: MetricsComponent, canActivate:[AuthGuard]},
   {path: 'sections', component: SectionsComponent, canActivate:[AuthGuard]},
   {path: 'users', component: UsersComponent, canActivate:[AuthGuard]},
+  {path: 'printissues', component: PrintissuesComponent, canActivate:[AuthGuard]},
   {path: 'details/:doc', component: DetailsComponent, canActivate:[AuthGuard]}
 ]
 
@@ -67,7 +69,8 @@ const appRoutes: Routes = [
     LoadfileComponent,
     SectionsComponent,
     UsersComponent,
-    RefreshComponent
+    RefreshComponent,
+    PrintissuesComponent
   ],
   imports: [
     BrowserModule,

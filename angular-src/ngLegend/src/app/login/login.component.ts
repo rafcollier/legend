@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
       this.authService.authenticateUser(user).subscribe(data => {
         if (data.success) {
           this.authService.storeUserData(data.token, data.user);
+          this.onConfigSections();
           if(data.user.username == "admin") 
             this.router.navigate(['/register']);
           else
@@ -58,6 +59,21 @@ export class LoginComponent implements OnInit {
         }
       });
     }
+  }
+
+  onConfigSections() {
+    this.authService.getSections().subscribe(entries => {
+      console.log(entries);
+      let sectionArr = [];
+      for(let i = 0; i < entries.length; i++) {
+       sectionArr.push(entries[i].section);
+      }
+      this.authService.localStoreSections(sectionArr);
+    }, 
+    err => {
+        console.log(err);
+        return false;
+    }); 
   }
 
 }

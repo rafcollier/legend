@@ -3,13 +3,22 @@
     <h4>Welcome {{currentUser}}</h4> 
     <h2>Add User</h2>
     <form (submit)="onRegisterSubmit()" class="example-form">  
+
       <mat-form-field class="example-full-width">  
         <input type="text" matInput placeholder="Username" [(ngModel)]="username" name="username">  
       </mat-form-field>  
+
       <mat-form-field class="example-full-width">  
         <input type="password" matInput placeholder="Password" [(ngModel)]="password" name="password">  
       </mat-form-field>  
+
+      <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+        <input matInput placeholder="" style="display: none">
+        <mat-checkbox [(ngModel)]="newsAddDelete" name="newsAddDelete">User can add and delete News articles</mat-checkbox>
+      </mat-form-field>
+
       <button mat-raised-button type="submit">Submit</button>
+
     </form>  
     <div *ngIf="errorMessage">
       <h4 class="red-font">{{errorMessage}}</h4>
@@ -22,9 +31,12 @@
     <h2>Current Users</h2>
 
     <div *ngFor="let d of displayUsers; let i = index">
-      <h3>
+      <h3><b>
          {{ d.username }}
-      </h3>
+      </b></h3>
+      <p *ngIf= "d.newsAddDelete">
+        Can add and delete News articles
+      </p>
       <a href="" onClick="return false;">
         <span (click)="onUserDelete(d, i)"> Delete</span>
       </a>

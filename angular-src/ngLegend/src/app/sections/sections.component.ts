@@ -74,17 +74,17 @@ export class SectionsComponent implements OnInit {
     else {
       this.authService.addSection(section).subscribe(data => {
         if(data.success){
+          this.section = "";
           setTimeout(() => {
-            this.section = "";
             this.onGetSections();
             this.router.navigate(['/sections']); 
           }, 1000);
         } 
         else {
+          this.section = "";
           this.errorMessage = data.msg;
           setTimeout(() => {
             this.errorMessage = "";
-            this.section = "";
             this.router.navigate(['/sections']); 
           }, 2000);
         }

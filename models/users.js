@@ -11,6 +11,9 @@ const UserSchema = mongoose.Schema({
   password: {
 	type: String,
 	required: true
+  },
+  newsAddDelete: {
+  	type: Boolean
   }
 });
 

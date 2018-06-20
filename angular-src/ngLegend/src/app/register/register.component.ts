@@ -17,6 +17,7 @@ export class RegisterComponent implements OnInit {
   validateMessage: String = "";
   displayUsers :[Object];
   deleteMessage : String = "";
+  newsAddDelete : Boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -68,12 +69,13 @@ export class RegisterComponent implements OnInit {
   onRegisterSubmit(){
     const user = {
       username: this.username,
-      password: this.password
+      password: this.password,
+      newsAddDelete: this.newsAddDelete
     }
 
     //Required fields
     if(!this.validateService.validateRegister(user)) {
-      this.validateMessage = "Please fill in all fields";
+      this.validateMessage = "Please fill in username and password";
       setTimeout(() => {
         this.validateMessage = "";
         return false;

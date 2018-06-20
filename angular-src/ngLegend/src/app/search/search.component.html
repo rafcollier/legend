@@ -8,10 +8,27 @@
     <h2>Enter Search Query</h2>
     <form (submit)="onSearchSubmit()" class="example-form">  
 
+      <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+        <input matInput placeholder="" style="display: none">
+          <mat-checkbox [(ngModel)]="docPublished" name="docPublished">Published (defaults to unpublished)</mat-checkbox>
+      </mat-form-field>
+
       <mat-form-field class="example-full-width">
         <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
           <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
         </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="afterAcceptDatePicker" placeholder="Accepted after this date:" [(ngModel)]="afterAcceptDate" name="afterAcceptDate">
+        <mat-datepicker-toggle matSuffix [for]="afterAcceptDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #afterAcceptDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="beforeAcceptDatePicker" placeholder="Accepted before this date:" [(ngModel)]="beforeAcceptDate" name="beforeAcceptDate">
+        <mat-datepicker-toggle matSuffix [for]="beforeAcceptDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #beforeAcceptDatePicker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">  

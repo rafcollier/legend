@@ -10,7 +10,8 @@ router.post('/register', (req, res, next) => {
 
   let newUser = new User({
 	username: req.body.username,
-	password: req.body.password
+	password: req.body.password,
+	newsAddDelete: req.body.newsAddDelete
   });
 
   User.getUserByUsername(newUser.username, (err, user) => {
