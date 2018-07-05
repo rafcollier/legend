@@ -77,7 +77,16 @@ module.exports = {
          'Diane Kelsall', 
          'Matthew Stanbrook', 
          'Ken Flegel'
-        ] 
+        ],
+  multimedia: ['Podcast',
+              'Video',
+              'Infographic',
+              'Visual Abstract'
+              ],
+  focusareas: ['Sepsis',
+               'Mental Health',
+               'Health Services',
+               'Vulnerable Populations']
  }
 
 

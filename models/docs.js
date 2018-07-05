@@ -15,6 +15,7 @@ let DocSchema = new Schema({
 	},
 	docDOI: {
 	  type: Number
+	  //type: String
 	},
 	docSection: {
 	  type: String
@@ -50,10 +51,12 @@ let DocSchema = new Schema({
 	  type: Boolean
 	},
 	docNumPages: {
-	  type: Number
+	  //type: Number
+	  type: String
 	},
 	docNumAppendices: {
-	  type: Number
+	  //type: Number
+	  type: String
 	},
     docRelatedMaterial: {
 	  type: String
@@ -64,10 +67,22 @@ let DocSchema = new Schema({
 	docInvoiceNum: {
 	  type: String
 	},
+	docShortTitle: {
+	  type: String
+	},
+	docWebBlurb: {
+	  type: String
+	},
 
 	//MULTIMEDIA
 
-	docMultiMedia: {
+	docMultiMedia1: {
+	  type: String
+	},
+	docMultiMedia2: {
+	  type: String
+	},
+	docMultiMedia3: {
 	  type: String
 	},
 	docPodcastEmbargoLink: {
@@ -77,6 +92,9 @@ let DocSchema = new Schema({
 	  type: String
 	},
 	docPodcastEmbedCode: {
+	  type: String
+	},
+	docVideoEmbedCode: {
 	  type: String
 	},
 	docVideoEmbedCode: {

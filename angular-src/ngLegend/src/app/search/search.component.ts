@@ -20,7 +20,8 @@ export class SearchComponent implements OnInit {
   showResults: Boolean = false;
 
   docSection: String;
-  docPublished: Boolean = false;
+  docNotUsedOnline: Boolean;
+  docNotUsedPrint: Boolean;
   docTitle: String;
   docAuthor: String;
   docDOI: Number;
@@ -47,7 +48,6 @@ constructor(
     this.onlineIssues = config.onlineIssues;
     this.printIssues = config.printIssues;
     this.showResults = false;
-    this.docPublished = false;
     this.authService.getProfile().subscribe(profile => {
       this.username = this.authService.capitalizeFirstLetter(profile.user.username);
       },
@@ -65,7 +65,8 @@ constructor(
     	this.docAuthor,
     	this.docDOI,
     	this.docTitle,
-      this.docPublished,
+      this.docNotUsedOnline,
+      this.docNotUsedPrint,
       this.afterAcceptDate,
       this.beforeAcceptDate
     ).subscribe(entries => {
@@ -86,7 +87,8 @@ constructor(
   	this.docPrintIssue = "";
   	this.docDOI = null;
   	this.docTitle = "";
-    this.docPublished = false;
+    this.docNotUsedOnline = null;
+    this.docNotUsedPrint = null;
     this.afterAcceptDate = null;
     this.beforeAcceptDate = null;
   	this.ngOnInit();

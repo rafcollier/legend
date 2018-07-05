@@ -8,11 +8,11 @@
 
     <form (submit)="onDocSubmit()" class="example-form">  
 
+      Section: {{docSection}}
+      <br><br>
 
       <!-- Automatically Generate DOI for News articles-->
       <div *ngIf="showNews">
-        Section: News
-        <br><br>
          DOI: {{docDOI}}
         <br><br>
       </div>
@@ -35,13 +35,9 @@
         <mat-form-field class="example-full-width">  
           <input type="number" matInput placeholder="DOI" [(ngModel)]="docDOI" name="docDOI">
         </mat-form-field>  
+      </div>
 
-        <mat-form-field class="example-full-width">
-          <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
-            <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
-          </mat-select>
-        </mat-form-field>
-
+      <div *ngIf="!showNews && !showLetter">
         <mat-form-field class="example-full-width">
           <mat-select [(ngModel)]="docDepartment" name="docDepartment" placeholder="Department">
             <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
@@ -68,7 +64,10 @@
                 <mat-datepicker-toggle matSuffix [for]="docAcceptDatePicker"></mat-datepicker-toggle>
                 <mat-datepicker #docAcceptDatePicker></mat-datepicker>
               </mat-form-field>
+            </div>
   
+            <div *ngIf="!showNews && !showLetter">
+
               <mat-form-field class="example-full-width">
                 <input matInput [matDatepicker]="docPaymentDatePicker" placeholder="Payment Date" [(ngModel)]="docPaymentDate" name="docPaymentDate">
                 <mat-datepicker-toggle matSuffix [for]="docPaymentDatePicker"></mat-datepicker-toggle>
@@ -83,13 +82,13 @@
                 <mat-datepicker-toggle matSuffix [for]="docPublishDateCMAJnewsDatePicker"></mat-datepicker-toggle>
                 <mat-datepicker #docPublishDateCMAJnewsDatePicker></mat-datepicker>
               </mat-form-field>
-            </div>
 
              <mat-form-field class="example-full-width">
                <input matInput [matDatepicker]="docETOCDatePicker" placeholder="eTOC Date" [(ngModel)]="docETOCDate" name="docETOCDate">
                <mat-datepicker-toggle matSuffix [for]="docETOCDatePicker"></mat-datepicker-toggle>
                <mat-datepicker #docETOCDatePicker></mat-datepicker>
              </mat-form-field>
+            </div>
 
              <mat-form-field class="example-full-width">
                <input matInput [matDatepicker]="docOnlineIssueDatePicker" placeholder="Online Issue Date" [(ngModel)]="docOnlineIssue" name="docOnlineIssue">
@@ -98,7 +97,7 @@
              </mat-form-field>
 
              <mat-form-field class="example-full-width">
-               <input matInput [matDatepicker]="docPrintIssuePicker" placeholder="Print Issue Date (select 1st day of month)" [(ngModel)]="docPrintIssue" name="docPrintIssue">
+               <input matInput [matDatepicker]="docPrintIssueDatePicker" placeholder="Print Issue Date (select 1st day of month)" [(ngModel)]="docPrintIssue" name="docPrintIssue">
                <mat-datepicker-toggle matSuffix [for]="docPrintIssueDatePicker"></mat-datepicker-toggle>
                <mat-datepicker #docPrintIssueDatePicker></mat-datepicker>
             </mat-form-field>
@@ -119,24 +118,36 @@
               </mat-panel-description>
             </mat-expansion-panel-header>
 
-            <mat-form-field class="example-full-width">
-              <mat-select [(ngModel)]="docFocusArea" name="docFocusArea" placeholder="Area of Focus">
-                <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div *ngIf="!showLetter">
 
-            <mat-form-field class="example-full-width">  
-              <input type="text" matInput placeholder="Advertising Conflicts" [(ngModel)]="docAdConflicts" name="docAdConflicts">  
-            </mat-form-field>  
- 
-            <div *ngIf="!showNews">
+              <mat-form-field class="example-full-width">
+                <mat-select [(ngModel)]="docFocusArea" name="docFocusArea" placeholder="Area of Focus">
+                  <mat-option *ngFor="let f of focusareas" [value]="f"> {{f}} </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width">  
+                <input type="text" matInput placeholder="Advertising Conflicts" [(ngModel)]="docAdConflicts" name="docAdConflicts">  
+              </mat-form-field>  
+
+            </div>
+            
+            <div *ngIf="!showNews && !showLetter">
+
+              <mat-form-field class="example-full-width">  
+                <input type="text" matInput placeholder="Short Title" [(ngModel)]="docShortTitle" name="docShortTitle">  
+              </mat-form-field>  
+
+              <mat-form-field class="example-full-width">  
+                <input type="text" matInput placeholder="Web Blurb" [(ngModel)]="docWebBlurb" name="docWebBlurb">  
+              </mat-form-field>  
 
               <mat-form-field class="example-full-width">  
                 <input type="number" matInput placeholder="Number of Pages" [(ngModel)]="docNumPages" name="docNumPages">
               </mat-form-field>  
 
               <mat-form-field class="example-full-width">  
-                <input type="number" matInput placeholder="Number of Appendices" [(ngModel)]="docNumAppendcies" name="docNumAppendcies">
+                <input type="number" matInput placeholder="Number of Appendices" [(ngModel)]="docNumAppendices" name="docNumAppendices">
               </mat-form-field>  
 
               <mat-form-field class="example-full-width">  
@@ -144,12 +155,16 @@
               </mat-form-field>  
 
               <mat-form-field class="example-full-width">  
-                <input type="text" matInput placeholder="Outstanding Material" [(ngModel)]="docOutstandingMaterial" name="docOutstandingMaterial">  
+                <input type="text" matInput placeholder="Outstanding Material" [(ngModel)]="docOutStandingMaterial" name="docOutStandingMaterial">  
               </mat-form-field>  
 
               <mat-form-field class="example-full-width">  
                 <input type="text" matInput placeholder="Invoice Number" [(ngModel)]="docInvoiceNumber" name="docInvoiceNumber">  
               </mat-form-field>  
+
+            </div>
+            
+            <div *ngIf="!showNews">
 
               <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
                 <input matInput placeholder="" style="display: none">
@@ -160,6 +175,10 @@
                 <input matInput placeholder="" style="display: none">
                   <mat-checkbox [(ngModel)]="docTranslation" name="docTranslation">Translation</mat-checkbox>
               </mat-form-field>
+
+            </div>
+
+            <div *ngIf="!showNews && !showLetter">
 
               <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
                 <input matInput placeholder="" style="display: none">
@@ -178,7 +197,7 @@
       <br>
       </div>
 
-      <div *ngIf="!showNews">
+      <div *ngIf="!showNews && !showLetter">
         <mat-accordion>
           <mat-expansion-panel>
             <mat-expansion-panel-header>
@@ -199,6 +218,60 @@
 
             <mat-form-field class="example-full-width">  
               <input type="text" matInput placeholder="Social Summary" [(ngModel)]="docSocialSummary" name="docSocialSummary">  
+            </mat-form-field>  
+
+          </mat-expansion-panel> 
+        </mat-accordion> 
+      <br>
+      </div>
+
+      <div *ngIf="!showNews && !showLetter">
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Multimedia
+              </mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+  
+            <mat-form-field class="example-full-width">
+              <mat-select [(ngModel)]="docMultiMedia1" name="docMultiMedia1" placeholder="Multimedia 1">
+                <mat-option *ngFor="let m of multimedia" [value]="m"> {{m}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-select [(ngModel)]="docMultiMedia2" name="docMultiMedia2" placeholder="Multimedia 2">
+                <mat-option *ngFor="let m of multimedia" [value]="m"> {{m}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-select [(ngModel)]="docMultiMedia3" name="docMultiMedia3" placeholder="Multimedia 3">
+                <mat-option *ngFor="let m of multimedia" [value]="m"> {{m}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">  
+              <input type="text" matInput placeholder="Podcast Pre-Embargo Link" [(ngModel)]="docPodcastEmbargoLink" name="docPodcastEmbargoLink">  
+            </mat-form-field> 
+
+            <mat-form-field class="example-full-width">  
+              <input type="text" matInput placeholder="Podcast Permanent Link" [(ngModel)]="docPodcastPermLink" name="docPodcastPermLink">  
+            </mat-form-field>  
+
+            <mat-form-field class="example-full-width">  
+              <input type="text" matInput placeholder="Podcast Embed Code" [(ngModel)]="docPodcastEmbedCode" name="docPodcastEmbedCode">  
+            </mat-form-field>  
+
+            <mat-form-field class="example-full-width">  
+              <input type="text" matInput placeholder="Video Embed Code" [(ngModel)]="docVideoEmbedCode" name="docVideoEmbedCode">  
+            </mat-form-field> 
+
+            <mat-form-field class="example-full-width">  
+              <input type="text" matInput placeholder="Video Link" [(ngModel)]="docVideoLink" name="docVideoLink">  
             </mat-form-field>  
 
           </mat-expansion-panel> 
@@ -228,97 +301,100 @@
               <mat-option *ngFor="let c of coordinators" [value]="c"> {{c}} </mat-option>
               </mat-select>
             </mat-form-field>
-  
-            <mat-form-field class="example-full-width">
-              <mat-select [(ngModel)]="docProofReader" name="docProofReader" placeholder="Manuscript Proofreader">
-              <mat-option *ngFor="let p of proofers" [value]="p"> {{p}} </mat-option>
-              </mat-select>
-            </mat-form-field>
-  
-            <mat-form-field class="example-full-width">
-              <mat-select [(ngModel)]="docSE1" name="docSE1" placeholder="SE1">
-              <mat-option *ngFor="let s of se1s" [value]="s"> {{s}} </mat-option>
-              </mat-select>
-            </mat-form-field>
 
-            <mat-form-field class="example-full-width">
-              <mat-select [(ngModel)]="docSE2" name="docSE2" placeholder="SE2">
-              <mat-option *ngFor="let s of se1s" [value]="s"> {{s}} </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div *ngIf="!showLetter">
   
-            <mat-form-field class="example-full-width">
-              <input matInput [matDatepicker]="docEnteredDatePicker" placeholder="InCopy Entered Date" [(ngModel)]="docEnteredDate" name="docEnteredDate">
-              <mat-datepicker-toggle matSuffix [for]="docEnteredDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #docEnteredDatePicker></mat-datepicker>
-            </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-select [(ngModel)]="docProofReader" name="docProofReader" placeholder="Manuscript Proofreader">
+                <mat-option *ngFor="let p of proofers" [value]="p"> {{p}} </mat-option>
+                </mat-select>
+              </mat-form-field>
+    
+              <mat-form-field class="example-full-width">
+                <mat-select [(ngModel)]="docSE1" name="docSE1" placeholder="SE1">
+                <mat-option *ngFor="let s of se1s" [value]="s"> {{s}} </mat-option>
+                </mat-select>
+              </mat-form-field>
   
-            <mat-form-field class="example-full-width">
-              <input matInput [matDatepicker]="docCopyEditBeginDatePicker" placeholder="Copyedit Begin Date" [(ngModel)]="docCopyEditBeginDate" name="docCopyEditBeginDate">
-              <mat-datepicker-toggle matSuffix [for]="docCopyEditBeginDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #docCopyEditBeginDatePicker></mat-datepicker>
-            </mat-form-field>
-  
-            <mat-form-field class="example-full-width">
-              <input matInput [matDatepicker]="docCopyEditCompleteDatePicker" placeholder="Copyedit Complete Date" [(ngModel)]="docCopyEditCompleteDate" name="docCopyEditCompleteDate">
-              <mat-datepicker-toggle matSuffix [for]="docCopyEditCompleteDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #docCopyEditCompleteDatePicker></mat-datepicker>
-            </mat-form-field>
-  
-            <mat-form-field class="example-full-width">
-              <input matInput [matDatepicker]="docSendSEDatePicker" placeholder="Send SE Date" [(ngModel)]="docSendSEDate" name="docSendSEDate">
-              <mat-datepicker-toggle matSuffix [for]="docSendSEDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #docSendSEDatePicker></mat-datepicker>
-            </mat-form-field>
-  
-            <mat-form-field class="example-full-width">
-              <input matInput [matDatepicker]="docReturnSEDatePicker" placeholder="Return SE Date" [(ngModel)]="docReturnSEDate" name="docReturnSEDate">
-              <mat-datepicker-toggle matSuffix [for]="docReturnSEDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #docReturnSEDatePicker></mat-datepicker>
-            </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-select [(ngModel)]="docSE2" name="docSE2" placeholder="SE2">
+                <mat-option *ngFor="let s of se1s" [value]="s"> {{s}} </mat-option>
+                </mat-select>
+              </mat-form-field>
+    
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="docEnteredDatePicker" placeholder="InCopy Entered Date" [(ngModel)]="docEnteredDate" name="docEnteredDate">
+                <mat-datepicker-toggle matSuffix [for]="docEnteredDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #docEnteredDatePicker></mat-datepicker>
+              </mat-form-field>
+    
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="docCopyEditBeginDatePicker" placeholder="Copyedit Begin Date" [(ngModel)]="docCopyEditBeginDate" name="docCopyEditBeginDate">
+                <mat-datepicker-toggle matSuffix [for]="docCopyEditBeginDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #docCopyEditBeginDatePicker></mat-datepicker>
+              </mat-form-field>
+    
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="docCopyEditCompleteDatePicker" placeholder="Copyedit Complete Date" [(ngModel)]="docCopyEditCompleteDate" name="docCopyEditCompleteDate">
+                <mat-datepicker-toggle matSuffix [for]="docCopyEditCompleteDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #docCopyEditCompleteDatePicker></mat-datepicker>
+              </mat-form-field>
+    
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="docSendSEDatePicker" placeholder="Send SE Date" [(ngModel)]="docSendSEDate" name="docSendSEDate">
+                <mat-datepicker-toggle matSuffix [for]="docSendSEDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #docSendSEDatePicker></mat-datepicker>
+              </mat-form-field>
+    
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="docReturnSEDatePicker" placeholder="Return SE Date" [(ngModel)]="docReturnSEDate" name="docReturnSEDate">
+                <mat-datepicker-toggle matSuffix [for]="docReturnSEDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #docReturnSEDatePicker></mat-datepicker>
+              </mat-form-field>
 
-            <mat-form-field class="example-full-width">
-              <input matInput [matDatepicker]="docSendAuthorDatePicker" placeholder="Send Author Date" [(ngModel)]="docSendAuthorDate" name="docSendAuthorDate">
-              <mat-datepicker-toggle matSuffix [for]="docSendAuthorDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #docSendAuthorDatePicker></mat-datepicker>
-            </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="docSendAuthorDatePicker" placeholder="Send Author Date" [(ngModel)]="docSendAuthorDate" name="docSendAuthorDate">
+                <mat-datepicker-toggle matSuffix [for]="docSendAuthorDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #docSendAuthorDatePicker></mat-datepicker>
+              </mat-form-field>
+    
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="docReturnAuthorDatePicker" placeholder="Return Author Date" [(ngModel)]="docReturnAuthorDate" name="docReturnAuthorDate">
+                <mat-datepicker-toggle matSuffix [for]="docReturnAuthorDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #docReturnAuthorDatePicker></mat-datepicker>
+              </mat-form-field>
   
-            <mat-form-field class="example-full-width">
-              <input matInput [matDatepicker]="docReturnAuthorDatePicker" placeholder="Return Author Date" [(ngModel)]="docReturnAuthorDate" name="docReturnAuthorDate">
-              <mat-datepicker-toggle matSuffix [for]="docReturnAuthorDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #docReturnAuthorDatePicker></mat-datepicker>
-            </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="docSendFineTuneDatePicker" placeholder="Send Fine Tune Date" [(ngModel)]="docSendFineTuneDate" name="docSendFineTuneDate">
+                <mat-datepicker-toggle matSuffix [for]="docSendFineTuneDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #docSendFineTuneDatePicker></mat-datepicker>
+              </mat-form-field>
+    
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="docReturnFineTuneDatePicker" placeholder="Return Fine Tune Date" [(ngModel)]="docReturnFineTuneDate" name="docReturnFineTuneDate">
+                <mat-datepicker-toggle matSuffix [for]="docReturnFineTuneDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #docReturnFineTuneDatePicker></mat-datepicker>
+              </mat-form-field>
+  
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="docSendProofReadDatePicker" placeholder="Send Proofread Date" [(ngModel)]="docSendProofReadDate" name="docSendProofReadDate">
+                <mat-datepicker-toggle matSuffix [for]="docSendProofReadDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #docSendProofReadDatePicker></mat-datepicker>
+              </mat-form-field>
+    
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="docReturnProofReadDatePicker" placeholder="Return Proofread Date" [(ngModel)]="docReturnProofReadDate" name="docReturnProofReadDate">
+                <mat-datepicker-toggle matSuffix [for]="docReturnProofReadDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #docReturnProofReadDatePicker></mat-datepicker>
+              </mat-form-field>
+    
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="docFinalizeDatePicker" placeholder="Finalize Date" [(ngModel)]="docFinalizeDate" name="docFinalizeDate">
+                <mat-datepicker-toggle matSuffix [for]="docFinalizeDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #docFinalizeDatePicker></mat-datepicker>
+                </mat-form-field>
 
-            <mat-form-field class="example-full-width">
-              <input matInput [matDatepicker]="docSendFineTuneDatePicker" placeholder="Send Fine Tune Date" [(ngModel)]="docSendFineTuneDate" name="docSendFineTuneDate">
-              <mat-datepicker-toggle matSuffix [for]="docSendFineTuneDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #docSendFineTuneDatePicker></mat-datepicker>
-            </mat-form-field>
-  
-            <mat-form-field class="example-full-width">
-              <input matInput [matDatepicker]="docReturnFineTuneDatePicker" placeholder="Return Fine Tune Date" [(ngModel)]="docReturnFineTuneDate" name="docReturnFineTuneDate">
-              <mat-datepicker-toggle matSuffix [for]="docReturnFineTuneDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #docReturnFineTuneDatePicker></mat-datepicker>
-            </mat-form-field>
-
-            <mat-form-field class="example-full-width">
-              <input matInput [matDatepicker]="docSendProofReadDatePicker" placeholder="Send Proofread Date" [(ngModel)]="docSendProofReadDate" name="docSendProofReadDate">
-              <mat-datepicker-toggle matSuffix [for]="docSendProofReadDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #docSendProofReadDatePicker></mat-datepicker>
-            </mat-form-field>
-  
-            <mat-form-field class="example-full-width">
-              <input matInput [matDatepicker]="docReturnProofReadDatePicker" placeholder="Return Proofread Date" [(ngModel)]="docReturnProofReadDate" name="docReturnProofReadDate">
-              <mat-datepicker-toggle matSuffix [for]="docReturnProofReadDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #docReturnProofReadDatePicker></mat-datepicker>
-            </mat-form-field>
-  
-            <mat-form-field class="example-full-width">
-              <input matInput [matDatepicker]="docFinalizeDatePicker" placeholder="Finalize Date" [(ngModel)]="docFinalizeDate" name="docFinalizeDate">
-              <mat-datepicker-toggle matSuffix [for]="docFinalizeDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #docFinalizeDatePicker></mat-datepicker>
-            </mat-form-field>
-
+            </div>
           </mat-expansion-panel> 
         </mat-accordion> 
 
@@ -380,7 +456,7 @@
       <br>
     </div>
 
-    <div>
+    <div *ngIf="!showLetter">
       <mat-accordion>
         <mat-expansion-panel>
           <mat-expansion-panel-header>

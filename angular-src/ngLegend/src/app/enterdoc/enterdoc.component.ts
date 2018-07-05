@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
 
 import * as moment from 'moment';
 
@@ -17,6 +18,7 @@ export class EnterdocComponent implements OnInit {
   //GENERAL FIELDS
 
   docDOI: Number;
+  //docDOI: String;
   docSection: String;
   docDepartment: String;
   docAuthor: String;
@@ -30,15 +32,21 @@ export class EnterdocComponent implements OnInit {
   docTranslation: Boolean;
   docPressRelease: Boolean;
   docProfessionalDev: Boolean;
-  docNumPages: Number;
-  docNumAppendices: Number;
+  //docNumPages: Number;
+  docNumPages: String;
+  //docNumAppendices: Number;
+  docNumAppendices: String;
   docRelatedMaterial: String;
   docOutStandingMaterial: String;
   docInvoiceNum: String;
+  docShortTitle: String;
+  docWebBlurb: String;
 
   //MULTIMEDIA
 
-  docMultiMedia: String;
+  docMultiMedia1: String;
+  docMultiMedia2: String;
+  docMultiMedia3: String;
   docPodcastEmbargoLink: String;
   docPodcastPermLink: String;
   docPodcastEmbedCode: String;
@@ -119,18 +127,24 @@ export class EnterdocComponent implements OnInit {
   coordinators: [String]; 
   proofers: [String]; 
   se1s: [String]; 
+  multimedia: [String]; 
+  focusareas: [String]; 
 
   showNews: Boolean = false;
+  showLetter: Boolean = false;
 
   constructor(
   	private authService: AuthService,
+    private route: ActivatedRoute,
     private router: Router
   ) { }
 
   ngOnInit() {
     this.showNews = false;
+    this.showLetter = false;
   	//this.sections = config.sections;
     this.sections = this.authService.localGetSections(); 
+    this.username = this.authService.loadUsername(); 
     this.onlineIssues = config.onlineIssues;
     this.printIssues = config.printIssues;
     this.collectionCodes = config.collectionCodes;
@@ -138,23 +152,26 @@ export class EnterdocComponent implements OnInit {
     this.coordinators = config.coordinators;
     this.proofers = config.proofers;
     this.se1s = config.se1s;
+    this.multimedia = config.multimedia;
+    this.focusareas = config.focusareas;
 
-    this.authService.getProfile().subscribe(profile => {
-      this.username = profile.user.username;
-      if(this.username == "NewsEditor") {
+
+    this.route.params.subscribe(params => {
+      this.docSection = params['section'];
+      if (this.docSection == "News") { 
         this.showNews = true;
-        this.docSection = 'News';
         this.getNewsDOI();
       }
-    },
-    err => {
-      console.log(err);
-      return false;
+      else if (this.docSection == "Letter") {
+        this.showLetter = true;
+      }
+
     });
   }
 
   getNewsDOI() {
     this.authService.getNewsDOI().subscribe(doi => {
+      console.log(doi);
       this.docDOI = doi[0].docDOI + 1;
     },
     err => {
@@ -164,6 +181,10 @@ export class EnterdocComponent implements OnInit {
   }
 
   onDocSubmit(){
+
+    if (this.docSection != "News") {
+      this.docETOCDate = this.docOnlineIssue;
+    }
 
     let doc = {
 
@@ -190,10 +211,14 @@ export class EnterdocComponent implements OnInit {
       docRelatedMaterial: this.docRelatedMaterial,
       docOutStandingMaterial: this.docOutStandingMaterial,
       docInvoiceNum: this.docInvoiceNum,
+      docShortTitle: this.docShortTitle,
+      docWebBlurb: this.docWebBlurb,
     
       //MULTIMEDIA
     
-      docMultiMedia: this.docMultiMedia,
+      docMultiMedia1: this.docMultiMedia1,
+      docMultiMedia2: this.docMultiMedia2,
+      docMultiMedia3: this.docMultiMedia3,
       docPodcastEmbargoLink: this.docPodcastEmbargoLink,
       docPodcastPermLink: this.docPodcastPermLink,
       docPodcastEmbedCode: this.docPodcastEmbedCode,
@@ -264,43 +289,6 @@ export class EnterdocComponent implements OnInit {
     
     }
 
-    //ADD FORMATTED DATES IF DATES ENTERED
-    /*
-    if(this.docCommissionDate) 
-      doc['docCommissionDateFormatted'] = this.formatDate(new Date(this.docCommissionDate));
-    if(this.docInvoiceDate) 
-      doc['docInvoiceDateFormatted'] = this.formatDate(new Date(this.docInvoiceDate)); 
-    if(this.docAcceptDate) 
-      doc['docAcceptDateFormatted'] = this.formatDate(new Date(this.docAcceptDate)); 
-    if(this.docPublishDate) 
-      doc['docPublishDateFormatted'] = this.formatDate(new Date(this.docPublishDate)); 
-    if(this.docETOCDate) 
-      doc['docETOCDateFormatted'] = this.formatDate(new Date(this.docETOCDate)); 
-    if(this.docPaymentDate) 
-      doc['docPaymentDateFormatted'] = this.formatDate(new Date(this.docPaymentDate)); 
-    if(this.docEnteredDate)
-      doc['docEnteredDateFormatted'] = this.formatDate(new Date(this.docEnteredDate)); 
-    if(this.docCopyEditBeginDate)
-      doc['docCopyEditBeginDateFormatted'] = this.formatDate(new Date(this.docCopyEditBeginDate)); 
-    if(this.docCopyEditCompleteDate)
-      doc['docCopyEditCompleteDateFormatted'] = this.formatDate(new Date(this.docCopyEditCompleteDate)); 
-    if(this.docSendSEDate)
-      doc['docSendSEDateFormatted'] = this.formatDate(new Date(this.docSendSEDate)); 
-    if(this.docReturnSEDate)
-      doc['docReturnSEDateFormatted'] = this.formatDate(new Date(this.docReturnSEDate)); 
-    if(this.docSendAuthorDate)
-      doc['docSendAuthorDateFormatted'] = this.formatDate(new Date(this.docSendAuthorDate)); 
-    if(this.docReturnAuthorDate)
-      doc['docReturnAuthorDateFormatted'] = this.formatDate(new Date(this.docReturnAuthorDate)); 
-    if(this.docFinalizeDate)
-      doc['docFinalizeDateFormatted'] = this.formatDate(new Date(this.docFinalizeDate)); 
-    if(this.docPublishDateCMAJnews)
-      doc['docPublishDateCMAJnewsFormatted'] = this.formatDate(new Date(this.docPublishDateCMAJnews)); 
-    if(this.docNewsCommissionDate)
-      doc['docNewsCommissionDateFormatted'] = this.formatDate(new Date(this.docNewsCommissionDate)); 
-    if(this.docNewsInvoiceDate)
-      doc['docNewsInvoiceDateFormatted'] = this.formatDate(new Date(this.docNewsInvoiceDate)); 
-*/
 
     this.authService.submitDoc(doc).subscribe(data => {
       if(data.success){
@@ -312,18 +300,5 @@ export class EnterdocComponent implements OnInit {
     });
 
   }
-
-  /*formatDate(date) {
-    const monthNames = [
-      "January", "February", "March",
-      "April", "May", "June", "July",
-      "August", "September", "October",
-      "November", "December"
-    ];
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDate();
-    return (monthNames[month] + " " + day + ", " + year);
-  }*/
 
 }

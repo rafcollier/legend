@@ -6,12 +6,11 @@ const config = require('../config/database');
 const Doc = require('../models/docs');
 const moment = require('moment');
 
-/*
 let Converter = require("csvtojson").Converter;
 let converter = new Converter({});
 let jsonData =  {}; 
-
-converter.fromFile('./data/data2.csv', (err, result) => {
+/*
+converter.fromFile('./data/data2017news.csv', (err, result) => {
   if(err) 
     console.log(err);
   else { 
@@ -20,33 +19,69 @@ converter.fromFile('./data/data2.csv', (err, result) => {
     for(let i=0; i<jsonData.length; i++)  {
 
       let newDoc = new Doc({
-        docTitle: jsonData[i]['docTitle'],
-        docAuthor: jsonData[i]['docAuthor'],
+
+        //GENERAL FIELDS
+
+        docDOI: jsonData[i]['docDOI'],
         docSection: jsonData[i]['docSection'],
-        docDOI: parseInt(jsonData[i]['docDOI']),
-        docOpenAccess: (jsonData[i]['docOpenAccess'] == 'TRUE'),
-        docTranslation: (jsonData[i]['docTranslation'] == 'TRUE')
-       // docAcceptDate: moment(jsonData[i]['docAcceptDate']).toISOString(),
-       // docAcceptDateFormatted: moment(jsonData[i]['docAcceptDate']).format("MMMM DD, YYYY")
-        //docPaymentDate: moment(jsonData[i]['docPaymentDate']).toISOString(),
-        //docPaymentDateFormatted: moment(jsonData[i]['docPaymentDate']).format("MMMM DD, YYYY"),
-        //docPublishDate: moment(jsonData[i]['docPublishDate']).toISOString(),
-        //docPublishDateFormatted: moment(jsonData[i]['docPublishDate']).format("MMMM DD, YYYY")
-       // docEnteredDate: moment(jsonData[i]['docEnteredDate']).toISOString(),
-       // docCopyEditBeginDate: moment(jsonData[i]['docCopyEditBeginDate']).toISOString(),
-       // docCopyEditCompleteDate: moment(jsonData[i]['docCopyEditCompleteDate']).toISOString(),
-       // docSendSEDate: moment(jsonData[i]['docSendSEDate']).toISOString(),
-       // docReturnSEDate: moment(jsonData[i]['docReturnSEDate']).toISOString(),
-       // docSendAuthorDate: moment(jsonData[i]['docSendAuthorDate']).toISOString(),
-       // docReturnAuthorDate: moment(jsonData[i]['docReturnAuthorDate']).toISOString(),
-       // docFinalizeDate: moment(jsonData[i]['docFinalizeDate']).toISOString()
+        docDepartment: jsonData[i]['docDepartment'],
+        docAuthor: jsonData[i]['docAuthor'],
+        docTitle: jsonData[i]['docTitle'],
+        docFocusArea: jsonData[i]['docFocusArea'],
+        docNotes: jsonData[i]['docNotes'],
+
+        //DOCUMENT DETAILS 
+
+        docOpenAccess: (jsonData[i]['docOpenAccess'] == 'Yes'),
+        docTranslation: (jsonData[i]['docTranslation'] == 'Yes'),
+        docPressRelease: (jsonData[i]['docPressRelease'] == 'Yes'),
+        docProfessionalDev: (jsonData[i]['docProfessionalDev'] == 'Yes'),
+        docNumPages: jsonData[i]['docNumPages'],
+        docNumAppendices: jsonData[i]['docNumAppendices'],
+        docRelatedMaterial: jsonData[i]['docRelatedMaterial'],
+        docOutStandingMaterial: jsonData[i]['docOutStandingMaterial'],
+        docInvoiceNum: jsonData[i]['docInvoiceNum'],
+        docShortTitle: jsonData[i]['docShortTitle'],
+        docWebBlurb: jsonData[i]['docWebBlurb'],
+
+        //MULTIMEDIA
+
+        docMultiMedia1: jsonData[i]['docMultiMedia1'],
+        docPodcastEmbargoLink: jsonData[i]['docPodcastEmbargoLink'],
+        docPodcastPermLink: jsonData[i]['docPodcastPermLink'],
+        docPodcastEmbedCode: jsonData[i]['docPodcastEmbedCode'],
+        docVideoEmbedCode: jsonData[i]['docVideoEmbedCode'],
+        docVideoLink: jsonData[i]['docVideoLink'],
+
+        // COLLECTION CODES
+
+        docCollectionCode1: jsonData[i]['docCollectionCode1'],
+
+        //SOCIAL MEDIA
+
+        docURL: jsonData[i]['docURL'],
+        docHashTags: jsonData[i]['docHashTags'],
+        docSocialSummary: jsonData[i]['docSocialSummary'],
+
+        //EDITING TIMELINE
+
+        docEditor: jsonData[i]['docEditor'],
+        docCoordinator: jsonData[i]['docCoordinator'],
+        docProofReader: jsonData[i]['docProofReader'],
+        docSE1: jsonData[i]['docSE1'],
+        docSE2: jsonData[i]['docSE2'],
+
+        //PRINT ISSUE
+
+        docAdConflicts: jsonData[i]['docAdConflicts']
+    
       })
 
-      const docOnlineIssue = moment(jsonData[i]['docOnlineIssue']);
-      const docPrintIssue = moment(jsonData[i]['docPrintIssue']);
       const docAcceptDate =  moment(jsonData[i]['docAcceptDate']);
       const docPaymentDate =  moment(jsonData[i]['docPaymentDate']);
-      const docPublishDate =  moment(jsonData[i]['docPublishDate']);
+      const docOnlineIssue = moment(jsonData[i]['docOnlineIssue']);
+      const docPrintIssue = moment(jsonData[i]['docPrintIssue']);
+
       const docEnteredDate =  moment(jsonData[i]['docEnteredDate']);
       const docCopyEditBeginDate =  moment(jsonData[i]['docCopyEditBeginDate']);
       const docCopyEditCompleteDate =  moment(jsonData[i]['docCopyEditCompleteDate']);
@@ -54,68 +89,58 @@ converter.fromFile('./data/data2.csv', (err, result) => {
       const docReturnSEDate =  moment(jsonData[i]['docReturnSEDate']);
       const docSendAuthorDate =  moment(jsonData[i]['docSendAuthorDate']);
       const docReturnAuthorDate =  moment(jsonData[i]['docReturnAuthorDate']);
+      const docSendFineTune =  moment(jsonData[i]['docSendFineTune']);
+      const docReturnFineTune =  moment(jsonData[i]['docReturnFineTune']);
+      const docSendProofRead =  moment(jsonData[i]['docSendProofRead']);
+      const docReturnProofRead =  moment(jsonData[i]['docReturnProofRead']);
       const docFinalizeDate =  moment(jsonData[i]['docFinalizeDate']);
 
-      //if(docOnlineIssue.isValid()) {
-      //  newDoc['docOnlineIssue'] = docAcceptDate.toISOString();
-      //  newDoc['docAcceptDateFormatted'] = docAcceptDate.format("MMMM DD, YYYY"); 
-      //} 
 
+      const docPublishDateCMAJnews =  moment(jsonData[i]['docPublishDateCMAJnews']);
+      const docNewsCommissionDate =  moment(jsonData[i]['docNewsCommissionDate']);
+      const docNewsInvoiceDate =  moment(jsonData[i]['docNewsInvoiceDate']);
 
-
-      if(docAcceptDate.isValid()) {
+      if(docOnlineIssue.isValid()) 
+        newDoc['docOnlineIssue'] = docOnlineIssue.toISOString();
+      if(docAcceptDate.isValid()) 
         newDoc['docAcceptDate'] = docAcceptDate.toISOString();
-        newDoc['docAcceptDateFormatted'] = docAcceptDate.format("MMMM DD, YYYY"); 
-      }
-      if(docPaymentDate.isValid()) {
+      if(docPaymentDate.isValid()) 
         newDoc['docPaymentDate'] = docPaymentDate.toISOString();
-        newDoc['docPaymentDateFormatted'] = docPaymentDate.format("MMMM DD, YYYY"); 
-      }
-      if(docPublishDate.isValid()) {
-        newDoc['docPublishDate'] = docPublishDate.toISOString();
-        newDoc['docPublishDateFormatted'] = docPublishDate.format("MMMM DD, YYYY"); 
-      }
-      if(docEnteredDate.isValid()) {
+      if(docOnlineIssue.isValid()) 
+        newDoc['docOnlineIssue'] = docOnlineIssue.toISOString();
+      if(docPrintIssue.isValid()) 
+        newDoc['docPrintIssue'] = docPrintIssue.toISOString();
+      if(docEnteredDate.isValid()) 
         newDoc['docEnteredDate'] = docEnteredDate.toISOString();
-        newDoc['docEnteredDateFormatted'] = docEnteredDate.format("MMMM DD, YYYY"); 
-      }
-      if(docPaymentDate.isValid()) {
+      if(docCopyEditBeginDate.isValid()) 
         newDoc['docCopyEditBeginDate'] = docCopyEditBeginDate.toISOString();
-        newDoc['docCopyEditBeginDateFormatted'] = docCopyEditBeginDate.format("MMMM DD, YYYY"); 
-      }
-      if(docCopyEditBeginDate.isValid()) {
-        newDoc['docCopyEditBeginDate'] = docCopyEditBeginDate.toISOString();
-        newDoc['docCopyEditBeginDateFormatted'] = docCopyEditBeginDate.format("MMMM DD, YYYY"); 
-      }
-      if(docCopyEditCompleteDate.isValid()) {
+      if(docCopyEditCompleteDate.isValid()) 
         newDoc['docCopyEditCompleteDate'] = docCopyEditCompleteDate.toISOString();
-        newDoc['docCopyEditCompleteDateFormatted'] = docCopyEditCompleteDate.format("MMMM DD, YYYY"); 
-      }
-      if(docSendSEDate.isValid()) {
+      if(docSendSEDate.isValid()) 
         newDoc['docSendSEDate'] = docSendSEDate.toISOString();
-        newDoc['docSendSEDateFormatted'] = docSendSEDate.format("MMMM DD, YYYY"); 
-      }
-      if(docReturnSEDate.isValid()) {
+      if(docReturnSEDate.isValid()) 
         newDoc['docReturnSEDate'] = docReturnSEDate.toISOString();
-        newDoc['docReturnSEDateFormatted'] = docReturnSEDate.format("MMMM DD, YYYY"); 
-      }
-      if(docPaymentDate.isValid()) {
+      if(docSendAuthorDate.isValid()) 
         newDoc['docSendAuthorDate'] = docSendAuthorDate.toISOString();
-        newDoc['docSendAuthorDateFormatted'] = docSendAuthorDate.format("MMMM DD, YYYY"); 
-      }
-      if(docSendAuthorDate.isValid()) {
-        newDoc['docSendAuthorDate'] = docSendAuthorDate.toISOString();
-        newDoc['docSendAuthorDateFormatted'] = docSendAuthorDate.format("MMMM DD, YYYY"); 
-      }
-      if(docReturnAuthorDate.isValid()) {
+      if(docReturnAuthorDate.isValid()) 
         newDoc['docReturnAuthorDate'] = docReturnAuthorDate.toISOString();
-        newDoc['docReturnAuthorDateFormatted'] = docReturnAuthorDate.format("MMMM DD, YYYY"); 
-      }
-      if(docFinalizeDate.isValid()) {
+      if(docSendFineTune.isValid()) 
+        newDoc['docSendFineTune'] = docSendFineTune.toISOString();
+      if(docReturnFineTune.isValid()) 
+        newDoc['docReturnFineTune'] = docReturnFineTune.toISOString();
+      if(docSendProofRead.isValid()) 
+        newDoc['docSendProofRead'] = docSendProofRead.toISOString();
+      if(docReturnProofRead.isValid()) 
+        newDoc['docReturnProofRead'] = docReturnProofRead.toISOString();
+      if(docFinalizeDate.isValid()) 
         newDoc['docFinalizeDate'] = docFinalizeDate.toISOString();
-        newDoc['docFinalizeDateFormatted'] = docFinalizeDate.format("MMMM DD, YYYY"); 
-      }
-
+      if(docPublishDateCMAJnews.isValid()) 
+        newDoc['docPublishDateCMAJnews'] = docPublishDateCMAJnews.toISOString();
+      if(docNewsCommissionDate.isValid()) 
+        newDoc['docNewsCommissionDate'] = docNewsCommissionDate.toISOString();
+      if(docNewsInvoiceDate.isValid()) 
+        newDoc['docNewsInvoiceDate'] = docNewsInvoiceDate.toISOString();
+//
       newDoc.save((err) => {
         if(err) throw err;
       });
@@ -128,7 +153,6 @@ converter.fromFile('./data/data2.csv', (err, result) => {
 });
 
 */
-
 
 router.post('/submitdoc', (req, res, next) => {
   let newDoc = new Doc({
@@ -151,17 +175,22 @@ router.post('/submitdoc', (req, res, next) => {
     docPressRelease: req.body.docPressRelease,
     docProfessionalDev: req.body.docProfessionalDev,
     docNumPages: req.body.docNumPages,
-    docNumAppendices: req.body.docNumAppendicies,
+    docNumAppendices: req.body.docNumAppendices,
     docRelatedMaterial: req.body.docRelatedMaterial,
-    docOutstandingMaterial: req.body.docOutstandingMaterial,
+    docOutStandingMaterial: req.body.docOutStandingMaterial,
     docInvoiceNum: req.body.docInvoiceNum,
+    docShortTitle: req.body.docShortTitle,
+    docWebBlurb: req.body.docWebBlurb,
 
     //MULTIMEDIA
 
-    docMultiMedia: req.body.docMultiMedia,
+    docMultiMedia1: req.body.docMultiMedia1,
+    docMultiMedia2: req.body.docMultiMedia2,
+    docMultiMedia3: req.body.docMultiMedia3,
     docPodcastEmbargoLink: req.body.docPodcastEmbargoLink,
     docPodcastPermLink: req.body.docPodcastPermLink,
     docPodcastEmbedCode: req.body.docPodcastEmbedCode,
+    docVideoEmbedCode: req.body.docVideoEmbedCode,
     docVideoLink: req.body.docVideoLink,
 
     //SOCIAL MEDIA
@@ -239,7 +268,7 @@ router.post('/submitdoc', (req, res, next) => {
 router.get('/getRecentAdded', (req, res, next) => {
   const limit = req.query.limit;
   //Doc.find({'docUsername' : req.query.docUsername}, null, {limit: Number(limit), sort: {dateEntered: -1}}, (err, docs) => {
-  Doc.find({}, null, {limit: Number(limit), sort: {docAcceptDate: -1}}, (err, docs) => {
+  Doc.find({}, null, {limit: Number(limit), sort: {dateEntered: -1}}, (err, docs) => {
     if (err) throw err;
     res.json(docs);
   });
@@ -253,6 +282,7 @@ router.get('/getOneDoc', (req, res, next) => {
 });
 
 router.get('/getNewsDOI', (req, res, next) => {
+  console.log("in roure");
   //Doc.find({'docUsername' : req.query.docUsername}, null, {limit: Number(limit), sort: {dateEntered: -1}}, (err, docs) => {
   Doc.find({docSection: 'News'}, {docDOI: 1}, {limit: 1, sort: {docDOI: -1}}, (err, docs) => {
     if (err) throw err;
@@ -287,6 +317,7 @@ router.get('/getSearchResults', (req, res, next) => {
   let query7 = {};
   let query8 = {};
   let query9 = {};
+  let query10 = {};
 
   if(req.query.docOnlineIssue) 
     query1 = {'docOnlineIssue' : {$regex: req.query.docOnlineIssue, $options: 'i'}};
@@ -306,21 +337,20 @@ router.get('/getSearchResults', (req, res, next) => {
   if(req.query.docTitle) 
     query6 = {'docTitle' : {$regex: req.query.docTitle, $options: 'i'}};
 
-  if(req.query.docPublished == 'false') { 
-    query7 = {'docPublishDate' : {$exists : false}};
-  }
-  else {
-    query7 = {'docPublishDate' : {$exists : true}};
-  }
+  if(req.query.docNotUsedOnline)  
+    query7 = {'docOnlineIssue' : {$exists : false}};
+
+  if(req.query.docNotUsedPrint)  
+    query8 = {'docPrintIssue' : {$exists : false}};
 
   if(req.query.afterAcceptDate)
-    query8 = {docAcceptDate: {$gte: new Date(req.query.afterAcceptDate)}};
+    query9 = {docAcceptDate: {$gte: new Date(req.query.afterAcceptDate)}};
 
   if(req.query.beforeAcceptDate)
-    query9 = {docAcceptDate: {$lte: new Date(req.query.beforeAcceptDate)}};
+    query10 = {docAcceptDate: {$lte: new Date(req.query.beforeAcceptDate)}};
 
 
-  Doc.find({$and: [query1, query2, query3, query4, query5, query6, query7, query8, query9]}, 
+  Doc.find({$and: [query1, query2, query3, query4, query5, query6, query7, query8, query9, query10]}, 
            null, 
            {sort: {docSection: 1}
            }, 

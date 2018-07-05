@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {ActivatedRoute} from '@angular/router';
+
+import * as moment from 'moment';
+
 const config = require('../../../../../config/docs');
 
 @Component({
@@ -16,6 +19,7 @@ export class DetailsComponent implements OnInit {
   oneDoc: Object;
   editDoc: Boolean = false;
   showNews: Boolean = false;
+  showLetter: Boolean = false;
   docUsername: String; //user who entered document originally
   docID: String; //unique ID for database entry
 
@@ -29,28 +33,79 @@ export class DetailsComponent implements OnInit {
   coordinators: [String]; 
   proofers: [String]; 
   se1s: [String]; 
+  multimedia: [String]; 
+  focusareas: [String]; 
 
   //Same as in Enter Document Component
-    //GENERAL FIELDS
-  docTitle: String;
-  docAuthor: String;
+
+  //GENERAL FIELDS
+
   docDOI: Number;
+  //docDOI: String;
   docSection: String;
-  docDescription: String;
+  docDepartment: String;
+  docAuthor: String;
+  docTitle: String;
+  docFocusArea: String;
+  docNotes: String;
+
+  //DOCUMENT DETAILS
+
+  docOpenAccess: Boolean;
+  docTranslation: Boolean;
+  docPressRelease: Boolean;
+  docProfessionalDev: Boolean;
+  //docNumPages: Number;
+  docNumPages: String;
+  //docNumAppendices: Number;
+  docNumAppendices: String;
+  docRelatedMaterial: String;
+  docOutStandingMaterial: String;
+  docInvoiceNum: String;
+  docShortTitle: String;
+  docWebBlurb: String;
+
+  //MULTIMEDIA
+
+  docMultiMedia1: String;
+  docMultiMedia2: String;
+  docMultiMedia3: String;
+  docPodcastEmbargoLink: String;
+  docPodcastPermLink: String;
+  docPodcastEmbedCode: String;
+  docVideoEmbedCode: String;
+  docVideoLink: String;
+
+  //SOCIAL MEDIA
+
+  docURL: String;
+  docHashTags: String;
+  docSocialSummary: String;
+    
+  // COLLECTION CODES
+
   docCollectionCode1: String;
   docCollectionCode2: String;
   docCollectionCode3: String;
   docCollectionCode4: String;
-  docAuthorType: String;
-  docCommissionDate: Date;
-  docInvoiceDate: Date;
-  docInvoiceAmount: Number;
+  docCollectionCode5: String;
+  docCollectionCode6: String;
 
-  //TIMELINE
+  //DOCUMENT TIMELINE
 
   docAcceptDate: Date;
-  docPublishDate: Date;
+  docPaymentDate: Date;
   docETOCDate: Date;
+  docOnlineIssue: Date;
+  docPrintIssue: Date;
+
+  //EDITING TIMELINE
+
+  docEditor: String;
+  docCoordinator: String;
+  docProofReader: String;
+  docSE1: String;
+  docSE2: String;
   docEnteredDate: Date;
   docCopyEditBeginDate: Date;
   docCopyEditCompleteDate: Date;
@@ -58,51 +113,39 @@ export class DetailsComponent implements OnInit {
   docReturnSEDate: Date;
   docSendAuthorDate: Date;
   docReturnAuthorDate: Date;
+  docSendFineTune: Date;
+  docReturnFineTune: Date;
+  docSendProofRead: Date;
+  docReturnProofRead: Date;
   docFinalizeDate: Date;
-  docPaymentDate: Date;
 
-  //EDITORS
-  docEditor: String;
-  docCoordinator: String;
-  docProofReader: String;
-  docSE1: String;
-  docSE2: String;
-
-  //YES OR NO FIELDS
-  docOpenAccess: Boolean; 
-  docTranslation: Boolean;
-  
   //ONLINE ISSUE
 
-  docOnlineIssue: String;
+  docOnlineNotes: String;
   docFirstPageOnline: Number;
   docLastPageOnline: Number;
-  docNumPagesOnline: Number;
-  docOnlineNotes: String;
 
   //PRINT ISSUE
 
-  docPrintIssue: String;
+  docAdConflicts: String;
   docFirstPagePrint: Number;
   docLastPagePrint: Number;
-  docNumPagesPrint: Number;
-  docPrintNotes: String;
-  docAdConflicts: String;
-
+  
   //NEWS ONLY
-  docPublishDateCMAJnews: Date; 
-  docNewsAuthorType: String;
+
+  docPublishDateCMAJnews: Date;
   docNewsCommissionDate: Date;
   docNewsInvoiceDate: Date;
   docNewsInvoiceAmount: Number;
 
   //FORMATTED DATES FOR DISPLAY
-  docCommissionDateFormatted: String;
-  docInvoiceDateFormatted: String;
+
   docAcceptDateFormatted: String;
-  docPublishDateFormatted: String;
-  docETOCDateFormatted: String;
   docPaymentDateFormatted: String;
+  docETOCDateFormatted: String;
+  docOnlineIssueFormatted: String;
+  docPrintIssueFormatted: String;
+
   docEnteredDateFormatted: String;
   docCopyEditBeginDateFormatted: String;
   docCopyEditCompleteDateFormatted: String;
@@ -110,7 +153,12 @@ export class DetailsComponent implements OnInit {
   docReturnSEDateFormatted: String;
   docSendAuthorDateFormatted: String;
   docReturnAuthorDateFormatted: String;
+  docSendFineTuneDateFormatted: String;
+  docReturnFineTuneDateFormatted: String;
+  docSendProofReadDateFormatted: String;
+  docReturnProofReadDateFormatted: String;
   docFinalizeDateFormatted: String;
+
   docPublishDateCMAJnewsFormatted: String; 
   docNewsCommissionDateFormatted: String;
   docNewsInvoiceDateFormatted: String;
@@ -124,8 +172,9 @@ export class DetailsComponent implements OnInit {
     ngOnInit() {
 
     this.editDoc = false;
-
-    this.sections = config.sections;
+    this.showNews = false;
+    this.showLetter = false;
+    this.sections = this.authService.localGetSections(); 
     this.onlineIssues = config.onlineIssues;
     this.printIssues = config.printIssues;
     this.collectionCodes = config.collectionCodes;
@@ -133,7 +182,11 @@ export class DetailsComponent implements OnInit {
     this.coordinators = config.coordinators;
     this.proofers = config.proofers;
     this.se1s = config.se1s;
+    this.multimedia = config.multimedia;
+    this.focusareas = config.focusareas;
     this.authortypes = config.authortypes;
+
+    this.username = this.authService.loadUsername();
 
     this.route.params.subscribe(params => {
       this.detailsID = params['doc'];
@@ -145,96 +198,140 @@ export class DetailsComponent implements OnInit {
       this.docID = doc._id;
 
       if(doc.docSection == "News") {
+        console.log("news");
         this.showNews = true;
+      }
+      else if (doc.docSection == "Letter") {
+        console.log("letter");
+        this.showLetter = true;
       }
 
       //GENERAL FIELDS
-      this.docTitle = doc.docTitle;
-      this.docAuthor = doc.docAuthor;
+
       this.docDOI = doc.docDOI;
       this.docSection = doc.docSection;
-      this.docDescription = doc.docDescription;
+      this.docDepartment = doc.docDepartment;
+      this.docAuthor = doc.docAuthor;
+      this.docTitle = doc.docTitle;
+      this.docFocusArea = doc.docFocusArea;
+      this.docNotes = doc.docNotes;
+    
+      //DOCUMENT DETAILS
+    
+      this.docOpenAccess = doc.docOpenAccess;
+      this.docTranslation = doc.docTranslation;
+      this.docPressRelease = doc.docPressRelease;
+      this.docProfessionalDev = doc.docProfessionalDev;
+      this.docNumPages = doc.docNumPages;
+      this.docNumAppendices = doc.docNumAppendices;
+      this.docRelatedMaterial = doc.docRelatedMaterial;
+      this.docOutStandingMaterial = doc.docOutStandingMaterial;
+      this.docInvoiceNum = doc.docInvoiceNum;
+      this.docShortTitle = doc.docShortTitle;
+      this.docWebBlurb = doc.docWebBlurb;
+    
+      //MULTIMEDIA
+    
+      this.docMultiMedia1 = doc.docMultiMedia1;
+      this.docMultiMedia2 = doc.docMultiMedia2;
+      this.docMultiMedia3 = doc.docMultiMedia3;
+      this.docPodcastEmbargoLink = doc.docPodcastEmbargoLink;
+      this.docPodcastPermLink = doc.docPodcastPermLink;
+      this.docPodcastEmbedCode = doc.docPodcastEmbedCode;
+      this.docVideoEmbedCode = doc.docVideoEmbedCode;
+      this.docVideoLink = doc.docVideoLink;
+    
+      //SOCIAL MEDIA
+    
+      this.docURL = doc.docURL;
+      this.docHashTags = doc.docHashTags;
+      this.docSocialSummary = doc.docSocialSummary;
+        
+      //COLLECTION CODES
+    
       this.docCollectionCode1 = doc.docCollectionCode1;
       this.docCollectionCode2 = doc.docCollectionCode2;
       this.docCollectionCode3 = doc.docCollectionCode3;
       this.docCollectionCode4 = doc.docCollectionCode4;
-      this.docAuthorType = doc.docAuthorType;
-      this.docCommissionDate = doc.docCommissionDate;
-      this.docCommissionDateFormatted = doc.docCommissionDateFormatted;
-      this.docInvoiceDate = doc.docInvoiceDate;
-      this.docInvoiceDateFormatted = doc.docInvoiceDateFormatted;
-      this.docInvoiceAmount = doc.docInvoiceAmount;
-
-      //TIMELINE
-
+      this.docCollectionCode5 = doc.docCollectionCode5;
+      this.docCollectionCode6 = doc.docCollectionCode6;
+    
+      //DOCUMENT TIMELINE
+    
       this.docAcceptDate = doc.docAcceptDate;
-      this.docAcceptDateFormatted = doc.docAcceptDateFormatted;
-      this.docPublishDate = doc.docPublishDate;
-      this.docPublishDateFormatted = doc.docPublishDateFormatted;
-      this.docETOCDate = doc.docETOCDate;
-      this.docETOCDateFormatted = doc.docETOCDateFormatted;
-      this.docEnteredDate = doc.docEnteredDate;
-      this.docEnteredDateFormatted = doc.docEnteredDateFormatted;
-      this.docCopyEditBeginDate = doc.docCopyEditBeginDate;
-      this.docCopyEditBeginDateFormatted = doc.docCopyEditBeginDateFormatted;
-      this.docCopyEditCompleteDate = doc.docCopyEditCompleteDate;
-      this.docCopyEditCompleteDateFormatted = doc.docCopyEditCompleteDateFormatted;
-      this.docSendSEDate = doc.docSendSEDate;
-      this.docSendSEDateFormatted = doc.docSendSEDateFormatted;
-      this.docReturnSEDate = doc.docReturnSEDate;
-      this.docReturnSEDateFormatted = doc.docReturnSEDateFormatted;
-      this.docSendAuthorDate = doc.docSendAuthorDate;
-      this.docSendAuthorDateFormatted = doc.docSendAuthorDateFormatted
-      this.docReturnAuthorDate = doc.docReturnAuthorDate;
-      this.docReturnAuthorDateFormatted = doc.docReturnAuthorDateFormatted
-      this.docFinalizeDate = doc.docFinalizeDate;
-      this.docFinalizeDateFormatted = doc.docFinalizeDateFormatted
       this.docPaymentDate = doc.docPaymentDate;
-      this.docPaymentDateFormatted = doc.docPaymentDateFormatted;
- 
-      //EDITORS
+      this.docETOCDate = doc.docETOCDate;
+      this.docOnlineIssue = doc.docOnlineIssue;
+      this.docPrintIssue = doc.docPrintIssue;
+    
+      //EDITING TIMELINE
+    
       this.docEditor = doc.docEditor;
       this.docCoordinator = doc.docCoordinator;
       this.docProofReader = doc.docProofReader;
       this.docSE1 = doc.docSE1;
       this.docSE2 = doc.docSE2;
-  
-      //YES OR NO FIELDS
-      this.docOpenAccess = doc.docOpenAccess; 
-      this.docTranslation = doc.docTranslation;
+      this.docEnteredDate = doc.docEnteredDate;
+      this.docCopyEditBeginDate = doc.docCopyEditBeginDate;
+      this.docCopyEditCompleteDate = doc.docCopyEditCompleteDate;
+      this.docSendSEDate = doc.docSendSEDate;
+      this.docReturnSEDate = doc.docReturnSEDate;
+      this.docSendAuthorDate = doc.docSendAuthorDate;
+      this.docReturnAuthorDate = doc.docReturnAuthorDate;
+      this.docSendFineTune = doc.docSendFineTune;
+      this.docReturnFineTune = doc.docReturnFineTune;
+      this.docSendProofRead = doc.docSendProofRead;
+      this.docReturnProofRead = doc.docReturnProofRead;
+      this.docFinalizeDate = doc.docFinalizeDate;
     
       //ONLINE ISSUE
-  
-      this.docOnlineIssue = doc.docOnlineIssue;
+    
+      this.docOnlineNotes = doc.docOnlineNotes;
       this.docFirstPageOnline = doc.docFirstPageOnline;
       this.docLastPageOnline = doc.docLastPageOnline;
-      this.docNumPagesOnline = doc.docNumPagesOnline;
-      this.docOnlineNotes = doc.docOnlineNotes;
-  
+    
       //PRINT ISSUE
-  
-      this.docPrintIssue = doc.docPrintIssue;
+    
+      this.docAdConflicts = doc.docAdConflicts;
       this.docFirstPagePrint = doc.docFirstPagePrint;
       this.docLastPagePrint = doc.docLastPagePrint;
-      this.docNumPagesPrint = doc.docNumPagesPrint;
-      this.docPrintNotes = doc.docPrintNotes;
-      this.docAdConflicts = doc.docAdConflicts;
-  
+      
       //NEWS ONLY
+    
       this.docPublishDateCMAJnews = doc.docPublishDateCMAJnews;
-      this.docPublishDateCMAJnewsFormatted = doc.docPublishDateCMAJnewsFormatted;
-      this.docNewsAuthorType = doc.docNewsAuthorType;
       this.docNewsCommissionDate = doc.docNewsCommissionDate;
-      this.docNewsCommissionDateFormatted = doc.docNewsCommissionDateFormatted;
       this.docNewsInvoiceDate = doc.docNewsInvoiceDate;
-      this.docNewsInvoiceDateFormatted = doc.docNewsInvoiceDateFormatted;
-      this.docNewsInvoiceAmount = doc.docNewsInvoiceAmount;
+      this.docNewsInvoiceAmount = doc.docNewsInvoiceAmount; 
+
+      //FORMATTED DATE FIELDS
+      this.docAcceptDateFormatted = moment(doc.docAcceptDate).format('MMMM DD, YYYY');
+      this.docPaymentDateFormatted = moment(doc.docPaymentDate).format('MMMM DD, YYYY');
+      this.docETOCDateFormatted = moment(doc.docETOCDate).format('MMMM DD, YYYY');
+      this.docOnlineIssueFormatted = moment(doc.docOnlineIssue).format('MMMM DD, YYYY');
+      this.docPrintIssueFormatted = moment(doc.docPrintIssue).format('MMMM YYYY');
+
+      this.docEnteredDateFormatted = moment(doc.docEnteredDate).format('MMMM DD, YYYY');
+      this.docCopyEditBeginDateFormatted = moment(doc.docCopyEditBeginDate).format('MMMM DD, YYYY');
+      this.docCopyEditCompleteDateFormatted = moment(doc.docCopyEditCompleteDate).format('MMMM DD, YYYY');
+      this.docSendSEDateFormatted = moment(doc.docSendSEDate).format('MMMM DD, YYYY');
+      this.docReturnSEDateFormatted = moment(doc.docReturnSEDate).format('MMMM DD, YYYY');
+      this.docSendAuthorDateFormatted = moment(doc.docSendAuthorDate).format('MMMM DD, YYYY');
+      this.docReturnAuthorDateFormatted = moment(doc.docReturnAuthorDateF).format('MMMM DD, YYYY');
+      this.docSendFineTuneDateFormatted = moment(doc.docSendFineTuneDate).format('MMMM DD, YYYY');
+      this.docReturnFineTuneDateFormatted = moment(doc.docReturnFineTuneDate).format('MMMM DD, YYYY');
+      this.docSendProofReadDateFormatted = moment(doc.docSendProofReadDate).format('MMMM DD, YYYY');
+      this.docReturnProofReadDateFormatted = moment(doc.docReturnProofReadDate).format('MMMM DD, YYYY');
+      this.docFinalizeDateFormatted = moment(doc.docFinalizeDate).format('MMMM DD, YYYY');
+
+      this.docPublishDateCMAJnewsFormatted = moment(doc.docPublishDateCMAJnews).format('MMMM DD, YYYY');
+      this.docNewsCommissionDateFormatted = moment(doc.docNewsCommissionDate).format('MMMM DD, YYYY');
+      this.docNewsInvoiceDateFormatted = moment(doc.docNewsInvoiceDate).format('MMMM DD, YYYY');
+
     },
     err => {
       console.log(err);
       return false;
     });
-
 
   }
 
@@ -257,109 +354,104 @@ export class DetailsComponent implements OnInit {
  
       docID: this.docID, //to identify this doc in database
       
-      docTitle: this.docTitle,
-      docAuthor: this.docAuthor,
+      //GENERAL FIELDS
+
       docDOI: this.docDOI,
       docSection: this.docSection,
-      docDescription: this.docDescription,
+      docDepartment: this.docDepartment,
+      docAuthor: this.docAuthor,
+      docTitle: this.docTitle,
+      docFocusArea: this.docFocusArea,
+      docNotes: this.docNotes,
+    
+      //DOCUMENT DETAILS
+    
+      docOpenAccess: this.docOpenAccess,
+      docTranslation: this.docTranslation,
+      docPressRelease: this.docPressRelease,
+      docProfessionalDev: this.docProfessionalDev,
+      docNumPages: this.docNumPages,
+      docNumAppendices: this.docNumAppendices,
+      docRelatedMaterial: this.docRelatedMaterial,
+      docOutStandingMaterial: this.docOutStandingMaterial,
+      docInvoiceNum: this.docInvoiceNum,
+      docShortTitle: this.docShortTitle,
+      docWebBlurb: this.docWebBlurb,
+    
+      //MULTIMEDIA
+    
+      docMultiMedia1: this.docMultiMedia1,
+      docMultiMedia2: this.docMultiMedia2,
+      docMultiMedia3: this.docMultiMedia3,
+      docPodcastEmbargoLink: this.docPodcastEmbargoLink,
+      docPodcastPermLink: this.docPodcastPermLink,
+      docPodcastEmbedCode: this.docPodcastEmbedCode,
+      docVideoEmbedCode: this.docVideoEmbedCode,
+      docVideoLink: this.docVideoLink,
+    
+      //SOCIAL MEDIA
+    
+      docURL: this.docURL,
+      docHashTags: this.docHashTags,
+      docSocialSummary: this.docSocialSummary,
+        
+      //COLLECTION CODES
+    
       docCollectionCode1: this.docCollectionCode1,
       docCollectionCode2: this.docCollectionCode2,
       docCollectionCode3: this.docCollectionCode3,
-      docCollectionCode4: this.docCollectionCode4,    
-      docAuthorType: this.docAuthorType,
-      docCommissionDate: this.docCommissionDate,
-      docInvoiceDate: this.docInvoiceDate,
-      docInvoiceAmount: this.docInvoiceAmount,
-
-      //TIMELINE
+      docCollectionCode4: this.docCollectionCode4,
+      docCollectionCode5: this.docCollectionCode5,
+      docCollectionCode6: this.docCollectionCode6,
+    
+      //DOCUMENT TIMELINE
+    
       docAcceptDate: this.docAcceptDate,
-      docPublishDate: this.docPublishDate,
+      docPaymentDate: this.docPaymentDate,
       docETOCDate: this.docETOCDate,
-      docEnteredDate: this.docEnteredDate,
-      docCopyEditBeginDate: this.docCopyEditBeginDate,
-      docCopyEditCompleteDate: this.docCopyEditCompleteDate,
-      docSendSEDate: this.docSendSEDate,
-      docReturnSEDate: this.docReturnSEDate, 
-      docSendAuthorDate: this.docSendAuthorDate,
-      docReturnAuthorDate: this.docReturnAuthorDate,
-      docFinalizeDate: this.docFinalizeDate, 
-
-      //EDITORS
+      docOnlineIssue: this.docOnlineIssue,
+      docPrintIssue: this.docPrintIssue,
+    
+      //EDITING TIMELINE
+    
       docEditor: this.docEditor,
       docCoordinator: this.docCoordinator,
       docProofReader: this.docProofReader,
       docSE1: this.docSE1,
-      docSE2: this.docSE2,  
-
-      //YES OR NO FIELDS
-      docOpenAccess: this.docOpenAccess,
-      docTranslation: this.docTranslation,
-
+      docSE2: this.docSE2,
+      docEnteredDate: this.docEnteredDate,
+      docCopyEditBeginDate: this.docCopyEditBeginDate,
+      docCopyEditCompleteDate: this.docCopyEditCompleteDate,
+      docSendSEDate: this.docSendSEDate,
+      docReturnSEDate: this.docReturnSEDate,
+      docSendAuthorDate: this.docSendAuthorDate,
+      docReturnAuthorDate: this.docReturnAuthorDate,
+      docSendFineTune: this.docSendFineTune,
+      docReturnFineTune: this.docReturnFineTune,
+      docSendProofRead: this.docSendProofRead,
+      docReturnProofRead: this.docReturnProofRead,
+      docFinalizeDate: this.docFinalizeDate,
+    
       //ONLINE ISSUE
-
-      docOnlineIssue: this.docOnlineIssue,
+    
+      docOnlineNotes: this.docOnlineNotes,
       docFirstPageOnline: this.docFirstPageOnline,
       docLastPageOnline: this.docLastPageOnline,
-      docNumPagesOnline: this.docNumPagesOnline,
-      docOnlineNotes: this.docOnlineNotes,
-
+    
       //PRINT ISSUE
-
-      docPrintIssue: this.docPrintIssue,
+    
+      docAdConflicts: this.docAdConflicts,
       docFirstPagePrint: this.docFirstPagePrint,
       docLastPagePrint: this.docLastPagePrint,
-      docNumPagesPrint: this.docNumPagesPrint,
-      docPrintNotes: this.docPrintNotes,
-      docAdConflicts: this.docAdConflicts,
-
+      
       //NEWS ONLY
-
+    
       docPublishDateCMAJnews: this.docPublishDateCMAJnews,
-      docNewsAuthorType: this.docNewsAuthorType,
       docNewsCommissionDate: this.docNewsCommissionDate,
       docNewsInvoiceDate: this.docNewsInvoiceDate,
       docNewsInvoiceAmount: this.docNewsInvoiceAmount
+
     }
-
-
-    //ADD FORMATTED DATES IF DATES ENTERED
-    if(this.docCommissionDate)
-      editedDoc['docCommissionDateFormatted'] = this.formatDate(new Date(this.docCommissionDate));
-    if(this.docInvoiceDate)
-      editedDoc['docInvoiceDateFormatted'] = this.formatDate(new Date(this.docInvoiceDate)); 
-    if(this.docAcceptDate)
-      editedDoc['docAcceptDateFormatted'] = this.formatDate(new Date(this.docAcceptDate)); 
-    if(this.docPublishDate)
-      editedDoc['docPublishDateFormatted'] = this.formatDate(new Date(this.docPublishDate)); 
-    if(this.docETOCDate)
-      editedDoc['docETOCDateFormatted'] = this.formatDate(new Date(this.docETOCDate)); 
-    if(this.docPaymentDate)
-      editedDoc['docPaymentDateFormatted'] = this.formatDate(new Date(this.docPaymentDate)); 
-    if(this.docEnteredDate)
-      editedDoc['docEnteredDateFormatted'] = this.formatDate(new Date(this.docEnteredDate)); 
-    if(this.docCopyEditBeginDate)
-      editedDoc['docCopyEditBeginDateFormatted'] = this.formatDate(new Date(this.docCopyEditBeginDate)); 
-    if(this.docCopyEditCompleteDate)
-      editedDoc['docCopyEditCompleteDateFormatted'] = this.formatDate(new Date(this.docCopyEditCompleteDate)); 
-    if(this.docSendSEDate)
-      editedDoc['docSendSEDateFormatted'] = this.formatDate(new Date(this.docSendSEDate)); 
-    if(this.docReturnSEDate)
-      editedDoc['docReturnSEDateFormatted'] = this.formatDate(new Date(this.docReturnSEDate)); 
-    if(this.docSendAuthorDate)
-      editedDoc['docSendAuthorDateFormatted'] = this.formatDate(new Date(this.docSendAuthorDate)); 
-    if(this.docReturnAuthorDate)
-      editedDoc['docReturnAuthorDateFormatted'] = this.formatDate(new Date(this.docReturnAuthorDate)); 
-    if(this.docFinalizeDate)
-      editedDoc['docFinalizeDateFormatted'] = this.formatDate(new Date(this.docFinalizeDate)); 
-    if(this.docPublishDateCMAJnews)
-      editedDoc['docPublishDateCMAJnewsFormatted'] = this.formatDate(new Date(this.docPublishDateCMAJnews)); 
-    if(this.docNewsCommissionDate)
-      editedDoc['docNewsCommissionDateFormatted'] = this.formatDate(new Date(this.docNewsCommissionDate)); 
-    if(this.docNewsInvoiceDate)
-      editedDoc['docNewsInvoiceDateFormatted'] = this.formatDate(new Date(this.docNewsInvoiceDate)); 
-
-
-    console.log(editedDoc);
 
     this.authService.putUpdateDoc(editedDoc).subscribe(doc => {
     },
@@ -369,20 +461,5 @@ export class DetailsComponent implements OnInit {
     });
     this.router.navigate(['/search']);
   }
-
-  formatDate(date) {
-    const monthNames = [
-      "January", "February", "March",
-      "April", "May", "June", "July",
-      "August", "September", "October",
-      "November", "December"
-    ];
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDate();
-    return (monthNames[month] + " " + day + ", " + year);
-  }
-
-
 
 }

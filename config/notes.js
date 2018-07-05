@@ -13,6 +13,7 @@ db.docs.insertMany(
 )
 
 //LOCAL MONGO IMPORT AND EXPORT
+//in mongofiles directory in legend under projects
 
 //Import json array into collection from regular command prompt (not mongo shell)
 mongoimport --db legend --collection docs --file legendJSON.json --jsonArray

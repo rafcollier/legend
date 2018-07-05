@@ -20,16 +20,16 @@ export class AuthService {
   registerUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/users/register', user, {headers: headers}) 
-    //return this.http.post('users/register', user, {headers: headers})
+    //return this.http.post('http://localhost:3000/users/register', user, {headers: headers}) 
+    return this.http.post('users/register', user, {headers: headers})
       .pipe(map(res => res.json()));
   }
 
   authenticateUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    //return this.http.post('users/authenticate', user, {headers: headers}) 
-    return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers}) 
+    return this.http.post('users/authenticate', user, {headers: headers}) 
+    //return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers}) 
       .pipe(map(res => res.json()));
   }
 
@@ -38,8 +38,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/users/getUsers', {headers: headers}) 
-    //return this.http.get('/users/getUsers', {headers: headers}) 
+    //return this.http.get('http://localhost:3000/users/getUsers', {headers: headers}) 
+    return this.http.get('/users/getUsers', {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -54,8 +54,8 @@ export class AuthService {
     params.set('docID', docID);
     options.headers = headers;
     options.search = params;
-    return this.http.delete('http://localhost:3000/users/deleteUser', options)
-    //return this.http.delete('/users/deleteUser', options)
+    //return this.http.delete('http://localhost:3000/users/deleteUser', options)
+    return this.http.delete('/users/deleteUser', options)
       .pipe(map(res => res.json()));
   }
 
@@ -64,8 +64,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    //return this.http.get('users/profile', {headers: headers}) 
-    return this.http.get('http://localhost:3000/users/profile', {headers: headers}) 
+    return this.http.get('users/profile', {headers: headers}) 
+    //return this.http.get('http://localhost:3000/users/profile', {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -76,8 +76,8 @@ export class AuthService {
   addSection(section) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/sections/addSection', section, {headers: headers}) 
-    //return this.http.post('/sections/addSection', section, {headers: headers}) 
+    //return this.http.post('http://localhost:3000/sections/addSection', section, {headers: headers}) 
+    return this.http.post('/sections/addSection', section, {headers: headers}) 
       .pipe(map(res => res.json()));
   }
 
@@ -86,8 +86,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/sections/getSections', {headers: headers}) 
-    //return this.http.get('/sections/getSections', {headers: headers}) 
+    //return this.http.get('http://localhost:3000/sections/getSections', {headers: headers}) 
+    return this.http.get('/sections/getSections', {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -101,8 +101,8 @@ export class AuthService {
     params.set('docID', docID);
     options.headers = headers;
     options.search = params;
-    return this.http.delete('http://localhost:3000/sections/deleteSection', options)
-    //return this.http.delete('/sections/deleteSection', options)
+    //return this.http.delete('http://localhost:3000/sections/deleteSection', options)
+    return this.http.delete('/sections/deleteSection', options)
       .pipe(map(res => res.json()));
   }
 
@@ -114,8 +114,8 @@ export class AuthService {
     console.log("in auth services " + printIssue)
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/print/addPrintIssue', printIssue, {headers: headers}) 
-    //return this.http.post('/sections/addSection', section, {headers: headers}) 
+    //return this.http.post('http://localhost:3000/print/addPrintIssue', printIssue, {headers: headers}) 
+    return this.http.post('/print/addPrintIssue', printIssue, {headers: headers}) 
       .pipe(map(res => res.json()));
   }
 
@@ -124,8 +124,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/print/getPrintIssues', {headers: headers}) 
-    //return this.http.get('/sections/getSections', {headers: headers}) 
+    //return this.http.get('http://localhost:3000/print/getPrintIssues', {headers: headers}) 
+    return this.http.get('/print/getPrintIssues', {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -139,8 +139,8 @@ export class AuthService {
     params.set('docID', docID);
     options.headers = headers;
     options.search = params;
-    return this.http.delete('http://localhost:3000/print/deletePrintIssue', options)
-    //return this.http.delete('/print/deletePrintIssue', options)
+    //return this.http.delete('http://localhost:3000/print/deletePrintIssue', options)
+    return this.http.delete('/print/deletePrintIssue', options)
       .pipe(map(res => res.json()));
   }
 
@@ -157,8 +157,8 @@ export class AuthService {
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
     console.log("auth....doc" + doc);
-    return this.http.post('http://localhost:3000/docs/submitdoc', doc, {headers: headers}) 
-    //return this.http.post('docs/submitdoc', doc, {headers: headers}) 
+    //return this.http.post('http://localhost:3000/docs/submitdoc', doc, {headers: headers}) 
+    return this.http.post('docs/submitdoc', doc, {headers: headers}) 
       .pipe(map(res => res.json()));
   }
 
@@ -173,8 +173,8 @@ export class AuthService {
     params.set('limit', limit);
     options.headers = headers;
     options.search = params;
-    return this.http.get('http://localhost:3000/docs/getRecentAdded', options) 
-    //return this.http.get('docs/getRecentAdded', options) 
+    //return this.http.get('http://localhost:3000/docs/getRecentAdded', options) 
+    return this.http.get('docs/getRecentAdded', options) 
       .pipe(map(res => res.json()));
   } 
 
@@ -188,8 +188,8 @@ export class AuthService {
     params.set('docID', docID);
     options.headers = headers;
     options.search = params;
-    return this.http.get('http://localhost:3000/docs/getOneDoc', options)
-   // return this.http.get('docs/getOneDoc', options)
+    //return this.http.get('http://localhost:3000/docs/getOneDoc', options)
+    return this.http.get('docs/getOneDoc', options)
       .pipe(map(res => res.json()));
   }
 
@@ -198,8 +198,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.put('http://localhost:3000/docs/updateDoc', editedDoc, {headers: headers}) 
-    //return this.http.put('docs/updateDoc', editedDoc, {headers: headers}) 
+    //return this.http.put('http://localhost:3000/docs/updateDoc', editedDoc, {headers: headers}) 
+    return this.http.put('docs/updateDoc', editedDoc, {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -213,12 +213,12 @@ export class AuthService {
     params.set('docID', docID);
     options.headers = headers;
     options.search = params;
-    return this.http.delete('http://localhost:3000/docs/deleteOneDoc', options)
-    //return this.http.delete('docs/deleteOneDoc', options)
+    //return this.http.delete('http://localhost:3000/docs/deleteOneDoc', options)
+    return this.http.delete('docs/deleteOneDoc', options)
       .pipe(map(res => res.json()));
   }
 
-  getSearchResults(onlineIssue, section, printIssue, author, DOI, title, published, afterAcceptDate, beforeAcceptDate) {
+  getSearchResults(onlineIssue, section, printIssue, author, DOI, title, notusedonline, notusedprint, afterAcceptDate, beforeAcceptDate) {
     let headers = new Headers();
     let params = new URLSearchParams();
     let options = new RequestOptions();
@@ -229,13 +229,15 @@ export class AuthService {
     params.set('docAuthor', author);
     params.set('docDOI', DOI);
     params.set('docTitle', title);
-    params.set('docPublished', published);
+    params.set('docNotUsedOnline', notusedonline);
+    params.set('docNotUsedPrint', notusedprint);
     params.set('afterAcceptDate', afterAcceptDate);
     params.set('beforeAcceptDate', beforeAcceptDate);
     options.headers = headers;
     options.search = params;
-    return this.http.get('http://localhost:3000/docs/getSearchResults', options) 
-    //return this.http.get('/docs/getSearchResults', options) 
+    console.log(options);
+    //return this.http.get('http://localhost:3000/docs/getSearchResults', options) 
+    return this.http.get('/docs/getSearchResults', options) 
       .pipe(map(res => res.json()));
   } 
 
@@ -249,8 +251,8 @@ export class AuthService {
     params.set('docSecondDateNumDocs', secondDateNumDocs);
     options.headers = headers;
     options.search = params;
-    return this.http.get('http://localhost:3000/docs/getNumDocs', options) 
-    //return this.http.get('docs/getNumDocs', options) 
+    //return this.http.get('http://localhost:3000/docs/getNumDocs', options) 
+    return this.http.get('docs/getNumDocs', options) 
       .pipe(map(res => res.json()));
   } 
 
@@ -264,8 +266,8 @@ export class AuthService {
     params.set('docSecondDateTimeDifference', secondDateTimeDiff);
     options.headers = headers;
     options.search = params;
-    return this.http.get('http://localhost:3000/docs/getTimeDiff', options) 
-    //return this.http.get('docs/getTimeDiff', options) 
+    //return this.http.get('http://localhost:3000/docs/getTimeDiff', options) 
+    return this.http.get('docs/getTimeDiff', options) 
       .pipe(map(res => res.json()));
   } 
 
@@ -280,8 +282,8 @@ export class AuthService {
     //params.set('searchParameter', searchParameter);
     options.headers = headers;
     options.search = params;
-    return this.http.get('http://localhost:3000/docs/getLayoutSearchResults', options) 
-    //return this.http.get('docs/getLayoutSearchResults', options) 
+    //return this.http.get('http://localhost:3000/docs/getLayoutSearchResults', options) 
+    return this.http.get('docs/getLayoutSearchResults', options) 
       .pipe(map(res => res.json()));
   } 
 
@@ -290,8 +292,9 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/docs/getNewsDOI', {headers: headers}) 
-    //return this.http.get('/docs/getNewsDOI', {headers: headers}) 
+    console.log(headers);
+    //return this.http.get('http://localhost:3000/docs/getNewsDOI', {headers: headers}) 
+    return this.http.get('/docs/getNewsDOI', {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -331,6 +334,11 @@ export class AuthService {
   loggedIn() {
     const token = localStorage.getItem('id_token');
     return token != null;
+  }
+
+  loadUsername() {
+    const userJSON = JSON.parse(this.loadUser()); 
+    return userJSON["username"];
   }
 
   adminLoggedIn() {

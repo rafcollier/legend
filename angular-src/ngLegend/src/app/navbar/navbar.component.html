@@ -36,7 +36,7 @@
       -->
       
       <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
-        [routerLink] = "['/enterdoc']" 
+        [routerLink] = "['/picksection']" 
         routerLinkActive #rld="routerLinkActive"
         [active]="rld.isActive"
       >

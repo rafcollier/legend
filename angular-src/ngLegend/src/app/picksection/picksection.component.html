@@ -1,0 +1,24 @@
+<div class = "align-form">
+
+  <section class = "mat-typography">
+
+    <h4>Welcome {{username}}</h4> 
+
+    <h2>Pick Section of Document to be Entered</h2>
+
+    <form (submit)="onSectionSubmit()" class="example-form">  
+
+      <mat-form-field class="example-full-width">
+        <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
+           <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
+         </mat-select>
+      </mat-form-field>
+      
+      <button mat-raised-button type="submit">Next</button>
+
+    </form>  
+  </section>
+</div>
+
+     
+

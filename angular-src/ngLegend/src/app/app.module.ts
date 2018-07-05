@@ -30,7 +30,8 @@ import { LoadfileComponent } from './loadfile/loadfile.component';
 import { SectionsComponent } from './sections/sections.component';
 import { UsersComponent } from './users/users.component';
 import { RefreshComponent } from './refresh/refresh.component';
-import { PrintissuesComponent } from './printissues/printissues.component';  
+import { PrintissuesComponent } from './printissues/printissues.component';
+import { PicksectionComponent } from './picksection/picksection.component';  
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -38,6 +39,7 @@ const appRoutes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
   {path: 'refresh', component: RefreshComponent},
+  {path: 'picksection', component: PicksectionComponent, canActivate:[AuthGuard]},
   {path: 'enterdoc', component: EnterdocComponent, canActivate:[AuthGuard]},
   {path: 'loadfile', component: LoadfileComponent, canActivate:[AuthGuard]},
   {path: 'recent', component: RecentComponent, canActivate:[AuthGuard]},
@@ -48,6 +50,7 @@ const appRoutes: Routes = [
   {path: 'sections', component: SectionsComponent, canActivate:[AuthGuard]},
   {path: 'users', component: UsersComponent, canActivate:[AuthGuard]},
   {path: 'printissues', component: PrintissuesComponent, canActivate:[AuthGuard]},
+  {path: 'enterdoc/:section', component: EnterdocComponent, canActivate:[AuthGuard]},
   {path: 'details/:doc', component: DetailsComponent, canActivate:[AuthGuard]}
 ]
 
@@ -70,7 +73,8 @@ const appRoutes: Routes = [
     SectionsComponent,
     UsersComponent,
     RefreshComponent,
-    PrintissuesComponent
+    PrintissuesComponent,
+    PicksectionComponent
   ],
   imports: [
     BrowserModule,
