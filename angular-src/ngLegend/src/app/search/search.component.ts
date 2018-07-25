@@ -49,6 +49,7 @@ constructor(
   }
 
   onSearchSubmit() {
+    console.log(this.afterAcceptDate);
     this.authService.getSearchResults(
     	this.docSection,
     	this.docAuthor,

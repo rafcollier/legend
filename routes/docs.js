@@ -346,6 +346,8 @@ router.get('/getSearchResults', (req, res, next) => {
   if(req.query.afterAcceptDate)
     query9 = {docAcceptDate: {$gte: new Date(req.query.afterAcceptDate)}};
 
+  console.log(query9);
+
   if(req.query.beforeAcceptDate)
     query10 = {docAcceptDate: {$lte: new Date(req.query.beforeAcceptDate)}};
 
@@ -421,20 +423,14 @@ router.get('/getLayoutSearchResults', (req, res, next) => {
 });
 
 router.get('/getOnlineSearchResults', (req, res, next) => {
-  //let query1 = {};
- console.log("in route docs");
-  //if(req.query.docOnlineIssue) 
-  //  query1 = {'docOnlineIssue' : req.query.docOnlineIssue};
-  //  console.log(query1);
-  
-  //Doc.find(query1,
-  //         null, 
-  //         {sort: {docOnlinePosition: 1}}, 
-  //         (err, docs) => {
+  let query1 = {docOnlineIssue: {$eq: new Date(req.query.docOnlineIssue)}};
+  console.log("in route docs");
+  console.log(query1);
 
-  console.log(req.query.docOnlineIssue); 
-
-  Doc.find({docOnlineIssue: req.query.docOnlineIssue}, (err, docs) => {
+  Doc.find(query1, 
+           null,
+           {sort: {docOnlinePosition: 1}}, 
+           (err, docs) => {
     if (err) throw err;
     else {
       console.log(docs);
@@ -446,7 +442,12 @@ router.get('/getOnlineSearchResults', (req, res, next) => {
 
 router.get('/getOnlineLastPage', (req, res, next) => {
   console.log(req.query.docOnlineIssue);
-  Doc.find({docOnlineIssue: req.query.docOnlineIssue}, {docLastPageOnline: 1}, {limit: 1, sort: {docLastPageOnline: -1}}, (err, docs) => {
+  let query1 = {docOnlineIssue: {$eq: new Date(req.query.docOnlineIssue)}};
+  console.log(query1);
+  Doc.find(query1, 
+          {docLastPageOnline: 1}, 
+          {limit: 1, sort: {docLastPageOnline: -1}}, 
+          (err, docs) => {
     if (err) throw err;
     else {
       console.log(docs);
