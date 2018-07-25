@@ -422,9 +422,10 @@ router.get('/getLayoutSearchResults', (req, res, next) => {
 
 router.get('/getOnlineSearchResults', (req, res, next) => {
   let query1 = {};
-  console.log("in route docs" + query1);
+  console.log("in route docs");
   if(req.query.docOnlineIssue) 
     query1 = {'docOnlineIssue' : req.query.docOnlineIssue};
+    console.log(query1);
   
   Doc.find(query1,
            null, 
