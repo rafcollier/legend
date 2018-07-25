@@ -15,9 +15,9 @@ let Json2csvParser = require('json2csv').Parser;
   styleUrls: ['./online.component.css']
 })
 export class OnlineComponent implements OnInit {
-  showResults: Boolean = false;
-  onlineIssues: [<any>]; 
-  onlineIssuesDates: [String]; 
+  showResults: Boolean;
+  onlineIssues: [Object]; 
+  onlineIssuesDates: Array<any>; 
   onlineIssuesVolume: String;
   onlineIssuesIssue: String; 
   displayDocs: [Object];
