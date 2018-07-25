@@ -423,8 +423,10 @@ router.get('/getLayoutSearchResults', (req, res, next) => {
 });
 
 router.get('/getOnlineSearchResults', (req, res, next) => {
-  const onlineDate =  moment(req.query.docOnlineIssue);
-  const query1 = {docOnlineIssue: {$eq: new Date(onlineDate)}};
+  //const onlineDate =  moment(req.query.docOnlineIssue);
+  //const onlineDate =  moment(req.query.docOnlineIssue);
+  //const query1 = {docOnlineIssue: {$eq: new Date(onlineDate)}};
+  const query1 = {docOnlineIssue: {$eq: ISODate(onlineDate)}};
   console.log("in route docs");
   console.log(query1);
 
