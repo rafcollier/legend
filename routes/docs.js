@@ -424,15 +424,18 @@ router.get('/getLayoutSearchResults', (req, res, next) => {
 
 router.get('/getOnlineSearchResults', (req, res, next) => {
   let query1 = {}; 
-  if (req.query.docOnlineIssue) 
+  let query2 = {}; 
+  if (req.query.docOnlineIssue) { 
     query1 = {docOnlineIssue: {$gte: new Date(req.query.docOnlineIssue)}};
-
+    query2 = {docOnlineIssue: {$lte: new Date(req.query.docOnlineIssue)}};
+  }
   //query9 = {docAcceptDate: {$gte: new Date(req.query.afterAcceptDate)}};
 
   console.log("in route docs");
   console.log(query1);
+  console.log(query2);
 
-  Doc.find(query1, 
+  Doc.find({$and: [query1, query2]}, 
            null,
            {sort: {docOnlinePosition: 1}}, 
            (err, docs) => {
