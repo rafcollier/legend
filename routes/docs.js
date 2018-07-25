@@ -421,23 +421,28 @@ router.get('/getLayoutSearchResults', (req, res, next) => {
 });
 
 router.get('/getOnlineSearchResults', (req, res, next) => {
-  let query1 = {};
-  console.log("in route docs");
-  if(req.query.docOnlineIssue) 
-    query1 = {'docOnlineIssue' : req.query.docOnlineIssue};
-    console.log(query1);
+  //let query1 = {};
+ /console.log("in route docs");
+  //if(req.query.docOnlineIssue) 
+  //  query1 = {'docOnlineIssue' : req.query.docOnlineIssue};
+  //  console.log(query1);
   
-  Doc.find(query1,
-           null, 
-           {sort: {docOnlinePosition: 1}}, 
-           (err, docs) => {
+  //Doc.find(query1,
+  //         null, 
+  //         {sort: {docOnlinePosition: 1}}, 
+  //         (err, docs) => {
+
+  console.log(req.query.docOnlineIssue); 
+
+  Doc.find({docOnlineIssue: req.query.docOnlineIssue}, (err, docs) => {
     if (err) throw err;
     else {
       console.log(docs);
       res.json(docs);
-  }
+    }
   });
 });
+
 
 router.get('/getOnlineLastPage', (req, res, next) => {
   console.log(req.query.docOnlineIssue);
