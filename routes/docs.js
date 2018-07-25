@@ -423,7 +423,12 @@ router.get('/getLayoutSearchResults', (req, res, next) => {
 });
 
 router.get('/getOnlineSearchResults', (req, res, next) => {
-  let query1 = {docOnlineIssue: {$eq: new Date(req.query.docOnlineIssue)}};
+  let query1 = {}; 
+  if (req.query.docOnlineIssue) 
+    query1 = {docOnlineIssue: {$gte: new Date(req.query.docOnlineIssue)}};
+
+  //query9 = {docAcceptDate: {$gte: new Date(req.query.afterAcceptDate)}};
+
   console.log("in route docs");
   console.log(query1);
 
