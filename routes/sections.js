@@ -6,19 +6,6 @@ const config = require('../config/database');
 
 const Section = require('../models/sections');
 
-/*router.post('/addSection', (req, res, next) => {
-
-  let newSection = new Section({
-	section: req.body.section
-  });
-
-  newSection.save((err) => {
-    if(err) throw err;
-    res.json({success: true, msg: 'Section added'});
-  });
-
-});*/
-
 router.post('/addSection', (req, res, next) => {
 
   let newSection = new Section({
@@ -43,8 +30,6 @@ router.post('/addSection', (req, res, next) => {
 });
 
 router.get('/getSections', (req, res, next) => {
-	console.log("getting sections");
-  //Doc.find({'docUsername' : req.query.docUsername}, null, {limit: Number(limit), sort: {dateEntered: -1}}, (err, docs) => {
   Section.find({}, null, {sort: {section: 1}}, (err, sections) => {
     if (err) throw err;
     else {

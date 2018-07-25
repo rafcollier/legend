@@ -1,0 +1,55 @@
+<div class = "align-form">
+
+  <section class = "mat-typography">
+
+    <h4>Welcome {{currentUser}}</h4> 
+    <h2>Add Online issue</h2>
+
+    <form (submit)="onOnlineSubmit()" class="example-form">  
+
+      <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="Date" [(ngModel)]="date" name="date">  
+      </mat-form-field>  
+
+      <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="Volume" [(ngModel)]="volume" name="volume">  
+      </mat-form-field>  
+
+      <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="Issue" [(ngModel)]="issue" name="issue">  
+      </mat-form-field>  
+
+      <button mat-raised-button type="submit">Submit</button>
+
+    </form>  
+
+    <div *ngIf="errorMessage">
+      <h4 class="red-font">{{errorMessage}}</h4>
+    </div>
+    <div *ngIf="validateMessage">
+      <h4 class="red-font">{{validateMessage}}</h4>
+    </div>
+
+    <br><br>
+    <h2>Online Issues</h2>
+
+    <div *ngFor="let o of onlineIssues; let i = index">
+
+      <p>
+         Date: {{ o.date }}
+      </p>
+      <p>
+         Volume: {{ o.volume }}
+      </p>
+      <p>
+         Issue: {{ o.issue }}
+      </p>
+      <a href="" onClick="return false;">
+        <span (click)="onOnlineDelete(o, i)"> Delete</span>
+      </a>
+      <hr class="hr-style">
+
+    </div>
+
+  </section>
+</div>

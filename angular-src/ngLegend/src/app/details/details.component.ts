@@ -25,6 +25,7 @@ export class DetailsComponent implements OnInit {
 
   //from config
   sections: [String]; 
+  departments: [String]; 
   onlineIssues: [String]; 
   printIssues: [String]; 
   collectionCodes: [String]; 
@@ -47,7 +48,6 @@ export class DetailsComponent implements OnInit {
   docAuthor: String;
   docTitle: String;
   docFocusArea: String;
-  docNotes: String;
 
   //DOCUMENT DETAILS
 
@@ -57,6 +57,8 @@ export class DetailsComponent implements OnInit {
   docProfessionalDev: Boolean;
   //docNumPages: Number;
   docNumPages: String;
+  docNumTables: String;
+  docNumFigures: String;
   //docNumAppendices: Number;
   docNumAppendices: String;
   docRelatedMaterial: String;
@@ -119,11 +121,16 @@ export class DetailsComponent implements OnInit {
   docReturnProofRead: Date;
   docFinalizeDate: Date;
 
+  //NOTES 
+  docNotes: String;
+  docOnlineNotes: String;
+  docPrintNotes: String;
+
   //ONLINE ISSUE
 
-  docOnlineNotes: String;
   docFirstPageOnline: Number;
   docLastPageOnline: Number;
+  docOnlinePosition: Number;
 
   //PRINT ISSUE
 
@@ -175,6 +182,7 @@ export class DetailsComponent implements OnInit {
     this.showNews = false;
     this.showLetter = false;
     this.sections = this.authService.localGetSections(); 
+    this.departments = config.departments;
     this.onlineIssues = config.onlineIssues;
     this.printIssues = config.printIssues;
     this.collectionCodes = config.collectionCodes;
@@ -214,7 +222,6 @@ export class DetailsComponent implements OnInit {
       this.docAuthor = doc.docAuthor;
       this.docTitle = doc.docTitle;
       this.docFocusArea = doc.docFocusArea;
-      this.docNotes = doc.docNotes;
     
       //DOCUMENT DETAILS
     
@@ -223,6 +230,8 @@ export class DetailsComponent implements OnInit {
       this.docPressRelease = doc.docPressRelease;
       this.docProfessionalDev = doc.docProfessionalDev;
       this.docNumPages = doc.docNumPages;
+      this.docNumFigures = doc.docNumFigures;
+      this.docNumTables = doc.docNumTables;
       this.docNumAppendices = doc.docNumAppendices;
       this.docRelatedMaterial = doc.docRelatedMaterial;
       this.docOutStandingMaterial = doc.docOutStandingMaterial;
@@ -283,10 +292,14 @@ export class DetailsComponent implements OnInit {
       this.docSendProofRead = doc.docSendProofRead;
       this.docReturnProofRead = doc.docReturnProofRead;
       this.docFinalizeDate = doc.docFinalizeDate;
+
+      //NOTES
+      this.docNotes = doc.docNotes;
+      this.docOnlineNotes = doc.docOnlineNotes;
+      this.docPrintNotes = doc.docPrintNotes;
     
       //ONLINE ISSUE
     
-      this.docOnlineNotes = doc.docOnlineNotes;
       this.docFirstPageOnline = doc.docFirstPageOnline;
       this.docLastPageOnline = doc.docLastPageOnline;
     
@@ -362,7 +375,6 @@ export class DetailsComponent implements OnInit {
       docAuthor: this.docAuthor,
       docTitle: this.docTitle,
       docFocusArea: this.docFocusArea,
-      docNotes: this.docNotes,
     
       //DOCUMENT DETAILS
     
@@ -371,6 +383,8 @@ export class DetailsComponent implements OnInit {
       docPressRelease: this.docPressRelease,
       docProfessionalDev: this.docProfessionalDev,
       docNumPages: this.docNumPages,
+      docNumFigures: this.docNumFigures,
+      docNumTables: this.docNumTables,
       docNumAppendices: this.docNumAppendices,
       docRelatedMaterial: this.docRelatedMaterial,
       docOutStandingMaterial: this.docOutStandingMaterial,
@@ -431,10 +445,14 @@ export class DetailsComponent implements OnInit {
       docSendProofRead: this.docSendProofRead,
       docReturnProofRead: this.docReturnProofRead,
       docFinalizeDate: this.docFinalizeDate,
+
+      //NOTES
+      docNotes: this.docNotes,
+      docOnlineNotes: this.docOnlineNotes,
+      docPrintNotes: this.docPrintNotes,
     
       //ONLINE ISSUE
     
-      docOnlineNotes: this.docOnlineNotes,
       docFirstPageOnline: this.docFirstPageOnline,
       docLastPageOnline: this.docLastPageOnline,
     

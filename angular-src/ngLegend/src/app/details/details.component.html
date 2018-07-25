@@ -49,6 +49,8 @@
               <p *ngIf="oneDoc.docShortTitle"><b>Short Title:</b> {{ docShortTitle }}</p>
               <p *ngIf="oneDoc.docWebBlurb"><b>Web Blurb:</b> {{ docWebBlurb }}</p>
               <p *ngIf="oneDoc.docNumPages"><b>Number of Pages:</b> {{ docNumPages }}</p>
+              <p *ngIf="oneDoc.docNumFigures"><b>Number of Figures:</b> {{ docNumFigures }}</p>
+              <p *ngIf="oneDoc.docNumTables"><b>Number of Tables:</b> {{ docNumTables }}</p>
               <p *ngIf="oneDoc.docNumAppendices"><b>Number of Appendices:</b> {{ docNumAppendices }}</p>
               <p *ngIf="oneDoc.docRelatedMaterial"><b>Related Material:</b> {{ docRelatedMaterial }}</p>
               <p *ngIf="oneDoc.docOutStandingMaterial"><b>Outstanding Material:</b> {{ docOutStandingMaterial }}</p>
@@ -181,8 +183,9 @@
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <br> 
-              <p *ngIf="oneDoc.docNotes"><b>Scheduling Notes:</b> {{ docNotes }}</p>
-              <p *ngIf="oneDoc.docOnlineNotes"><b>Online Notes:</b> {{ docOnlineNotes }}</p>
+              <p *ngIf="oneDoc.docOnlineNotes"><b>Online Issue Notes:</b> {{ docOnlineNotes }}</p>
+              <p *ngIf="oneDoc.docPrintNotes"><b>Print Issue Notes:</b> {{ docPrintNotes }}</p>
+              <p *ngIf="oneDoc.docNotes"><b>General Notes:</b> {{ docNotes }}</p>
 
           </mat-expansion-panel> 
         </mat-accordion>
@@ -283,7 +286,7 @@
       <div *ngIf="!showNews && !showLetter">
         <mat-form-field class="example-full-width">
           <mat-select [(ngModel)]="docDepartment" name="docDepartment" placeholder="Department">
-            <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
+            <mat-option *ngFor="let d of departments" [value]="d"> {{d}} </mat-option>
           </mat-select>
         </mat-form-field>
         <br>
@@ -388,6 +391,14 @@
               <mat-form-field class="example-full-width">  
                 <input type="number" matInput placeholder="Number of Pages" [(ngModel)]="docNumPages" name="docNumPages">
               </mat-form-field>  
+
+              <mat-form-field class="example-full-width">  
+                <input type="number" matInput placeholder="Number of Figures" [(ngModel)]="docNumFigures" name="docNumFigures">
+              </mat-form-field> 
+
+              <mat-form-field class="example-full-width">  
+                <input type="number" matInput placeholder="Number of Tables" [(ngModel)]="docNumTables" name="docNumTables">
+              </mat-form-field> 
 
               <mat-form-field class="example-full-width">  
                 <input type="number" matInput placeholder="Number of Appendices" [(ngModel)]="docNumAppendices" name="docNumAppendices">
@@ -687,11 +698,15 @@
           </mat-expansion-panel-header>
 
           <mat-form-field class="example-full-width">  
-            <input type="text" matInput placeholder="Scheduling Notes" [(ngModel)]="docNotes" name="docNotes">
+            <input type="text" matInput placeholder="Online Issue Notes" [(ngModel)]="docOnlineNotes" name="docOnlineNotes">  
           </mat-form-field> 
 
           <mat-form-field class="example-full-width">  
-            <input type="text" matInput placeholder="Online Notes " [(ngModel)]="docOnlineNotes" name="docOnlineNotes">  
+            <input type="text" matInput placeholder="Print Issue Notes" [(ngModel)]="docPrintNotes" name="docPrintNotes">  
+          </mat-form-field> 
+
+          <mat-form-field class="example-full-width">  
+            <input type="text" matInput placeholder="General Notes" [(ngModel)]="docNotes" name="docNotes">
           </mat-form-field> 
 
         </mat-expansion-panel> 

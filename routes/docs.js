@@ -9,8 +9,9 @@ const moment = require('moment');
 let Converter = require("csvtojson").Converter;
 let converter = new Converter({});
 let jsonData =  {}; 
+
 /*
-converter.fromFile('./data/data2017news.csv', (err, result) => {
+converter.fromFile('./data/data2017news3.csv', (err, result) => {
   if(err) 
     console.log(err);
   else { 
@@ -38,6 +39,8 @@ converter.fromFile('./data/data2017news.csv', (err, result) => {
         docProfessionalDev: (jsonData[i]['docProfessionalDev'] == 'Yes'),
         docNumPages: jsonData[i]['docNumPages'],
         docNumAppendices: jsonData[i]['docNumAppendices'],
+        docNumFigures: jsonData[i]['docNumFigures'],
+        docNumTables: jsonData[i]['docNumTables'],
         docRelatedMaterial: jsonData[i]['docRelatedMaterial'],
         docOutStandingMaterial: jsonData[i]['docOutStandingMaterial'],
         docInvoiceNum: jsonData[i]['docInvoiceNum'],
@@ -166,7 +169,6 @@ router.post('/submitdoc', (req, res, next) => {
     docAuthor: req.body.docAuthor,
     docTitle: req.body.docTitle,
     docFocusArea: req.body.docFocusArea,
-    docNotes: req.body.docNotes,
 
     //DOCUMENT DETAILS
 
@@ -175,6 +177,8 @@ router.post('/submitdoc', (req, res, next) => {
     docPressRelease: req.body.docPressRelease,
     docProfessionalDev: req.body.docProfessionalDev,
     docNumPages: req.body.docNumPages,
+    docNumFigures: req.body.docNumFigures,
+    docNumTables: req.body.docNumTables,
     docNumAppendices: req.body.docNumAppendices,
     docRelatedMaterial: req.body.docRelatedMaterial,
     docOutStandingMaterial: req.body.docOutStandingMaterial,
@@ -236,12 +240,16 @@ router.post('/submitdoc', (req, res, next) => {
     docReturnProofRead: req.body.docReturnProofRead,
     docFinalizeDate: req.body.docFinalizeDate, 
 
+    //NOTES
+    docOnlineNotes: req.body.docOnlineNotes,
+    docPrintNotes: req.body.docPrintNotes,
+    docNotes: req.body.docNotes,
 
     //ONLINE ISSUE
 
-    docOnlineNotes: req.body.docOnlineNotes,
     docFirstPageOnline: req.body.docFirstPageOnline,
     docLastPageOnline: req.body.docLastPageOnline,
+    docOnlinePosition: req.body.docOnlinePosition,
 
     //PRINT ISSUE
 
@@ -308,8 +316,6 @@ router.put('/updateDoc', (req, res, next) => {
 
 router.get('/getSearchResults', (req, res, next) => {
 
-  let query1 = {};
-  let query2 = {};
   let query3 = {};
   let query4 = {};
   let query5 = {};
@@ -319,14 +325,8 @@ router.get('/getSearchResults', (req, res, next) => {
   let query9 = {};
   let query10 = {};
 
-  if(req.query.docOnlineIssue) 
-    query1 = {'docOnlineIssue' : {$regex: req.query.docOnlineIssue, $options: 'i'}};
-
-  if(req.query.docPrintIssue) 
-    query2 = {'docPrintIssue' : {$regex: req.query.docPrintIssue, $options: 'i'}};
-
   if(req.query.docSection) 
-    query3 = {'docSection' : {$regex: req.query.docSection, $options: 'i'}};
+    query3 = {'docSection' : req.query.docSection};
 
   if(req.query.docAuthor) 
     query4 = {'docAuthor' : {$regex: req.query.docAuthor, $options: 'i'}};
@@ -350,9 +350,9 @@ router.get('/getSearchResults', (req, res, next) => {
     query10 = {docAcceptDate: {$lte: new Date(req.query.beforeAcceptDate)}};
 
 
-  Doc.find({$and: [query1, query2, query3, query4, query5, query6, query7, query8, query9, query10]}, 
+  Doc.find({$and: [query3, query4, query5, query6, query7, query8, query9, query10]}, 
            null, 
-           {sort: {docSection: 1}
+           {sort: {docOnlinePosition: 1}
            }, 
     (err, docs) => {
       if (err) throw err;
@@ -420,6 +420,29 @@ router.get('/getLayoutSearchResults', (req, res, next) => {
   });
 });
 
+router.get('/getOnlineSearchResults', (req, res, next) => {
+  let query1 = {};
+  if(req.query.docOnlineIssue) 
+    query1 = {'docOnlineIssue' : req.query.docOnlineIssue};
+  
+  Doc.find(query1,
+           null, 
+           {sort: {docOnlinePosition: 1}}, 
+           (err, docs) => {
+    if (err) throw err;
+    res.json(docs);
+  });
+});
 
+router.get('/getOnlineLastPage', (req, res, next) => {
+  console.log(req.query.docOnlineIssue);
+  Doc.find({docOnlineIssue: req.query.docOnlineIssue}, {docLastPageOnline: 1}, {limit: 1, sort: {docLastPageOnline: -1}}, (err, docs) => {
+    if (err) throw err;
+    else {
+      console.log(docs);
+      res.json(docs);
+    }
+  });
+});
 
 module.exports = router;

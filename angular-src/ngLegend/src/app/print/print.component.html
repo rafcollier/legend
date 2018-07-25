@@ -1,0 +1,71 @@
+<div *ngIf="!showResults" class = "align-form">
+
+  <section class = "mat-typography">
+    <h2>Select Print Issue</h2>
+    <form (submit)="onLayoutSearchSubmit()" class="example-form">  
+
+      <mat-form-field class="example-full-width">
+        <mat-select [(ngModel)]="docPrintIssue" name="docPrintIssue" placeholder="Print Issue">
+          <mat-option *ngFor="let p of printIssues" [value]="p"> {{p}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button type="submit">Search</button>
+
+    </form>  
+  </section>
+</div>
+
+<div *ngIf="showResults" class = "align-page">
+
+  <section class="mat-typography">
+
+    <div *ngFor="let d of displayDocs; let i = index">
+      <h2>
+         {{ d.docTitle }}
+      </h2>
+      <p>
+        DOI: {{ d.docDOI }}
+      </p>
+      <p>
+        Section: {{ d.docSection }}
+      </p>
+      <div *ngIf="i != docIndex">
+        <p>
+        First Page: {{ d.docFirstPagePrint }}
+        </p>
+        <p>
+        Last Page: {{ d.docLastPagePrint }}
+        </p>
+        <a href="" onClick="return false;">
+          <span (click)="onDocClick(d, i)"> edit </span>
+        </a>
+      </div>
+
+      <div *ngIf="i == docIndex">
+        <div class = "align-form">
+          <section class = "mat-typography">
+           <h4>Enter Page Numbers</h4>
+            <form (submit)="onDocSubmit()" class="example-form">  
+              <mat-form-field class="example-full-width">
+                <input type="number" matInput [(ngModel)]="docFirstPagePrint" name="docFirstPagePrint" placeholder="First Page">
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <input type="number" matInput [(ngModel)]="docLastPagePrint" name="docLastPagePrint" placeholder="Last Page">
+              </mat-form-field>
+            <button mat-raised-button type="submit">Submit</button>
+            </form>  
+          </section>
+        </div>
+      </div>
+
+      <hr class="hr-style">
+    </div>
+
+    <div class="flex-center">
+      <span (click)="onNewSearch()">
+        <button mat-raised-button>New Search</button>
+      </span>
+    </div>
+  </section>
+</div>

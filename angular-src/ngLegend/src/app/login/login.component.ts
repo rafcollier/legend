@@ -43,10 +43,6 @@ export class LoginComponent implements OnInit {
         if (data.success) {
           this.authService.storeUserData(data.token, data.user);
           this.onConfigSections();
-          if(data.user.username == "admin") 
-            this.router.navigate(['/register']);
-          else
-            this.router.navigate(['/search']);
         } 
         else {
           this.errorMessage = data.msg;
@@ -63,17 +59,46 @@ export class LoginComponent implements OnInit {
 
   onConfigSections() {
     this.authService.getSections().subscribe(entries => {
-      console.log(entries);
       let sectionArr = [];
       for(let i = 0; i < entries.length; i++) {
        sectionArr.push(entries[i].section);
       }
+      console.log(sectionArr);
       this.authService.localStoreSections(sectionArr);
+      this.onConfigOnline();
     }, 
     err => {
         console.log(err);
         return false;
     }); 
   }
+
+  onConfigOnline() {
+    this.authService.getOnline().subscribe(online => {
+      console.log(online);
+      let onlineArr = [];
+      for(let i = 0; i < online.length; i++) {
+       //onlineArr.push(online[i].date);
+       onlineArr.push(online[i]);
+      }
+      console.log(onlineArr);
+      this.authService.localStoreOnline(onlineArr);
+      this.onGoSearchPage();
+    }, 
+    err => {
+        console.log(err);
+        return false;
+    }); 
+
+  }
+
+  onGoSearchPage() {
+    if(this.username == "admin") 
+      this.router.navigate(['/register']);
+    else
+      this.router.navigate(['/search']);
+  }
+
+
 
 }

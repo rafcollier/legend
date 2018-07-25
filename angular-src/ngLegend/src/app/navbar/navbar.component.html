@@ -1,7 +1,7 @@
 <section class = "mat-typography">
 <span class = "nav-center-tabs">
   <nav mat-tab-nav-bar [disableRipple]="true">
-    <!-- disableRipple to remove the text in tabs from jumping on click -->
+
       <a mat-tab-link 
         [routerLink] = "['/home']" 
         routerLinkActive #rla="routerLinkActive"
@@ -19,22 +19,20 @@
 
       <a *ngIf="authService.adminLoggedIn()" mat-tab-link 
         [routerLink] = "['/sections']" 
-        routerLinkActive #rlj="routerLinkActive"
-        [active]="rlj.isActive"
+        routerLinkActive #rlc="routerLinkActive"
+        [active]="rlc.isActive"
       >
         Sections 
       </a>
 
-      <!--
-      <a *ngIf="!authService.loggedIn()" mat-tab-link 
-        [routerLink] = "['/login']" 
-        routerLinkActive #rlc="routerLinkActive"
-        [active]="rlc.isActive"
+      <a *ngIf="authService.adminLoggedIn()" mat-tab-link 
+        [routerLink] = "['/online-issue-config']" 
+        routerLinkActive #rlj="routerLinkActive"
+        [active]="rlj.isActive"
       >
-        Login 
+        Online 
       </a>
-      -->
-      
+
       <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
         [routerLink] = "['/picksection']" 
         routerLinkActive #rld="routerLinkActive"
@@ -44,33 +42,43 @@
       </a>
       <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
         [routerLink] = "['/recent']" 
-        routerLinkActive #rlh="routerLinkActive"
-        [active]="rlh.isActive"
+        routerLinkActive #rle="routerLinkActive"
+        [active]="rle.isActive"
       >
         Recent 
       </a>
       <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
         [routerLink] = "['/search']" 
-        routerLinkActive #rle="routerLinkActive"
-        [active]="rle.isActive"
+        routerLinkActive #rlf="routerLinkActive"
+        [active]="rlf.isActive"
       >
         Search 
       </a>
       <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
-        [routerLink] = "['/layout']" 
-        routerLinkActive #rlf="routerLinkActive"
-        [active]="rlf.isActive"
-      >
-        Layout 
-      </a>
-      <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
-        [routerLink] = "['/metrics']" 
+        [routerLink] = "['/online']" 
         routerLinkActive #rlg="routerLinkActive"
         [active]="rlg.isActive"
       >
+        Online 
+      </a>
+      <!--
+      <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
+        [routerLink] = "['/print']" 
+        routerLinkActive #rlh="routerLinkActive"
+        [active]="rlh.isActive"
+      >
+        Print 
+      </a>
+      -->
+      <!--
+      <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
+        [routerLink] = "['/metrics']" 
+        routerLinkActive #rli="routerLinkActive"
+        [active]="rli.isActive"
+      >
         Metrics 
       </a>
-
+      -->
       <a *ngIf="authService.loggedIn()" mat-tab-link 
         (click)="onLogoutClick()" href=""
       >

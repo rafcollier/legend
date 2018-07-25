@@ -24,7 +24,7 @@ export class EnterdocComponent implements OnInit {
   docAuthor: String;
   docTitle: String;
   docFocusArea: String;
-  docNotes: String;
+
 
   //DOCUMENT DETAILS
 
@@ -34,6 +34,8 @@ export class EnterdocComponent implements OnInit {
   docProfessionalDev: Boolean;
   //docNumPages: Number;
   docNumPages: String;
+  docNumFigures: String;
+  docNumTables: String;
   //docNumAppendices: Number;
   docNumAppendices: String;
   docRelatedMaterial: String;
@@ -96,11 +98,16 @@ export class EnterdocComponent implements OnInit {
   docReturnProofRead: Date;
   docFinalizeDate: Date;
 
+  //NOTES
+  docNotes: String;
+  docOnlineNotes: String;
+  docPrintNotes: String;
+
   //ONLINE ISSUE
 
-  docOnlineNotes: String;
   docFirstPageOnline: Number;
   docLastPageOnline: Number;
+  docOnlinePosition: Number;
 
   //PRINT ISSUE
 
@@ -120,6 +127,7 @@ export class EnterdocComponent implements OnInit {
 
   //loaded from config file
   sections: [String]; 
+  departments: [String]; 
   onlineIssues: [String]; 
   printIssues: [String]; 
   collectionCodes: [String]; 
@@ -133,6 +141,8 @@ export class EnterdocComponent implements OnInit {
   showNews: Boolean = false;
   showLetter: Boolean = false;
 
+  onlineOrder: [Object];
+
   constructor(
   	private authService: AuthService,
     private route: ActivatedRoute,
@@ -145,6 +155,7 @@ export class EnterdocComponent implements OnInit {
   	//this.sections = config.sections;
     this.sections = this.authService.localGetSections(); 
     this.username = this.authService.loadUsername(); 
+    this.departments = config.departments;
     this.onlineIssues = config.onlineIssues;
     this.printIssues = config.printIssues;
     this.collectionCodes = config.collectionCodes;
@@ -154,15 +165,16 @@ export class EnterdocComponent implements OnInit {
     this.se1s = config.se1s;
     this.multimedia = config.multimedia;
     this.focusareas = config.focusareas;
+    this.onlineOrder = config.onlineorder;
 
 
     this.route.params.subscribe(params => {
       this.docSection = params['section'];
-      if (this.docSection == "News") { 
+      if (this.docSection.toLowerCase() == "news") { 
         this.showNews = true;
         this.getNewsDOI();
       }
-      else if (this.docSection == "Letter") {
+      else if (this.docSection.toLowerCase() == "letter") {
         this.showLetter = true;
       }
 
@@ -180,11 +192,40 @@ export class EnterdocComponent implements OnInit {
     });
   }
 
+  getOnlinePosition(department, section) {
+
+    console.log(this.onlineOrder);
+
+    if(department) {
+      for (let i = 0; i < this.onlineOrder.length; i++) {
+        console.log("checking department");
+        console.log(this.onlineOrder['type'].toLowerCase());
+        console.log(department.toLowerCase());
+        if (this.onlineOrder['type'].toLowerCase() == department.toLowerCase())
+          return this.onlineOrder['position'];
+      }
+    }
+    else if(section) {
+      for (let j = 0; j < this.onlineOrder.length; j++) {
+        console.log("checking section");
+        console.log(this.onlineOrder[j]['type']);
+        console.log(section);
+        if (this.onlineOrder[j]['type'].toLowerCase() == section.toLowerCase())
+          return this.onlineOrder[j]['position'];
+      }
+    }
+  }
+
   onDocSubmit(){
 
     if (this.docSection != "News") {
       this.docETOCDate = this.docOnlineIssue;
     }
+
+    console.log(this.docDepartment);
+    console.log(this.docSection);
+    this.docOnlinePosition = this.getOnlinePosition(this.docDepartment, this.docSection);
+    console.log(this.docOnlinePosition);
 
     let doc = {
 
@@ -198,7 +239,6 @@ export class EnterdocComponent implements OnInit {
       docAuthor: this.docAuthor,
       docTitle: this.docTitle,
       docFocusArea: this.docFocusArea,
-      docNotes: this.docNotes,
     
       //DOCUMENT DETAILS
     
@@ -207,6 +247,8 @@ export class EnterdocComponent implements OnInit {
       docPressRelease: this.docPressRelease,
       docProfessionalDev: this.docProfessionalDev,
       docNumPages: this.docNumPages,
+      docNumFigures: this.docNumFigures,
+      docNumTables: this.docNumTables,
       docNumAppendices: this.docNumAppendices,
       docRelatedMaterial: this.docRelatedMaterial,
       docOutStandingMaterial: this.docOutStandingMaterial,
@@ -267,12 +309,17 @@ export class EnterdocComponent implements OnInit {
       docSendProofRead: this.docSendProofRead,
       docReturnProofRead: this.docReturnProofRead,
       docFinalizeDate: this.docFinalizeDate,
-    
+   
+      //NOTES 
+      docNotes: this.docNotes,
+      docOnlineNotes: this.docOnlineNotes,
+      docPrintNotes: this.docPrintNotes,
+
       //ONLINE ISSUE
     
-      docOnlineNotes: this.docOnlineNotes,
       docFirstPageOnline: this.docFirstPageOnline,
       docLastPageOnline: this.docLastPageOnline,
+      docOnlinePosition: this.docOnlinePosition,
     
       //PRINT ISSUE
     

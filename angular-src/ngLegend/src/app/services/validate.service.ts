@@ -13,6 +13,15 @@ export class ValidateService {
     }
   }
 
+  validateOnline(online){
+    console.log(online);
+    if(online.date == ("" || undefined) || online.volume == ("" || undefined) || online.issue == ("" || undefined)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   validateSection(section){
     if(section.section == "" || undefined) {
       return false;

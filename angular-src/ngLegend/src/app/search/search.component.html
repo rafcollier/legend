@@ -48,22 +48,6 @@
         <input type="number" matInput placeholder="DOI" [(ngModel)]="docDOI" name="docDOI">
       </mat-form-field>  
 
-      <mat-form-field class="example-full-width">
-        <mat-select [(ngModel)]="docOnlineIssue" name="docOnlineIssue" placeholder="Online Issue">
-          <mat-option *ngFor="let o of onlineIssues" [value]="o"> {{o}} </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="example-full-width">
-        <mat-select [(ngModel)]="docPrintIssue" name="docPrintIssue" placeholder="Print Issue">
-          <mat-option *ngFor="let p of printIssues" [value]="p"> {{p}} </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-
-
-
-
       <button mat-raised-button type="submit">Search</button>
 
     </form>  
@@ -81,15 +65,44 @@
       <p>
         Section: {{ d.docSection }}
       </p>
+      <p *ngIf="d.docDepartment">
+        Department: {{ d.docDepartment }}
+      </p>
       <p>
         Author: {{ d.docAuthor }} 
       </p>
       <p>
         DOI: {{ d.docDOI }}
       </p>
-      <a href="" onClick="return false;">
-        <span (click)="onDocClick(d, i)"> See full entry </span>
-      </a>
+      <div *ngIf="i != docIndex">
+        <div *ngIf="showOnlineOrder">
+          <p>
+            Online Issue Position: {{ d.docOnlinePosition }}
+          </p>
+          <a href="" onClick="return false;">
+            <span (click)="onOnlineOrderClick(d, i)"> Edit online position </span>
+          </a>
+          <br><br>
+        </div>
+        <a href="" onClick="return false;">
+          <span (click)="onDocClick(d, i)"> See full entry </span>
+        </a>
+      </div>
+
+      <div *ngIf="i == docIndex">
+        <div class = "align-form">
+          <section class = "mat-typography">
+           <h4>Enter Online Position</h4>
+            <form (submit)="onOnlineOrderSubmit()" class="example-form">  
+              <mat-form-field class="example-full-width">
+                <input type="number" matInput [(ngModel)]="docOnlinePosition" name="docOnlinePosition" placeholder="Position">
+              </mat-form-field>
+            <button mat-raised-button type="submit">Submit</button>
+            </form>  
+          </section>
+        </div>
+      </div>
+
       <hr class="hr-style">
     </div>
 

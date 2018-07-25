@@ -3,32 +3,45 @@ import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
 
-
 const config = require('../../../../../config/docs');
 
 declare var require: any;
 declare var fs: any;
 let Json2csvParser = require('json2csv').Parser;
-//var fs = require('fs');
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  selector: 'app-online',
+  templateUrl: './online.component.html',
+  styleUrls: ['./online.component.css']
 })
-export class SearchComponent implements OnInit {
+export class OnlineComponent implements OnInit {
   showResults: Boolean = false;
-  docSection: String;
-  docNotUsedOnline: Boolean;
-  docNotUsedPrint: Boolean;
-  docTitle: String;
-  docAuthor: String;
-  docDOI: Number;
-  afterAcceptDate: Date;
-  beforeAcceptDate: Date;
-  sections: [String];
+  onlineIssues: [<any>]; 
+  onlineIssuesDates: [String]; 
+  onlineIssuesVolume: String;
+  onlineIssuesIssue: String; 
   displayDocs: [Object];
+  onlineOrder: [Object];
   username: String;
+  docOnlineIssue: String;
+  docID: String;
+  docOnlinePosition: Number;
+  docIndex: Number;
+  docFirstPageOnline: Number;
+  docLastPageOnline: Number;
+  docOnlineNotes: String;
+  docNumFigures: String;
+  docNumTables: String;
+  docNumAppendices: String;
+  docCollectionCode1: String;
+  docCollectionCode2: String;
+  docCollectionCode3: String;
+  docCollectionCode4: String;
+  docCollectionCode5: String;
+  docCollectionCode6: String;
+
+  lastPagePrevIssue: Number;
+  sorted: Boolean;
 
 constructor(
   	private authService: AuthService,
@@ -36,11 +49,117 @@ constructor(
 ) { }
 
   ngOnInit() {
-    this.sections = this.authService.localGetSections();
+    this.username = this.authService.loadUsername(); 
+    this.onlineIssues = this.authService.localGetOnline(); 
+    console.log(this.onlineIssues);
+    this.onlineIssuesDates = this.onlineIssues.map(a => a['date']);
+    this.onlineOrder = config.onlineorder;
     this.showResults = false;
+    this.sorted = true;
+  }
 
-    this.authService.getProfile().subscribe(profile => {
-      this.username = this.authService.capitalizeFirstLetter(profile.user.username);
+  onSearchSubmit() {
+    this.authService.getOnlineSearchResults(this.docOnlineIssue).subscribe(entries => {
+    
+      this.displayDocs = entries;
+
+      console.log(this.displayDocs);
+
+      this.getVolumeIssue(); 
+      this.checkSorted();
+    }, 
+    err => {
+        console.log(err);
+        return false;
+    });
+  }
+
+  getVolumeIssue() {
+    for(let i = 0; i <this.onlineIssues.length; i++) {
+      if(this.onlineIssues[i]['date'] == this.docOnlineIssue) {
+        this.onlineIssuesVolume = this.onlineIssues[i]['volume'];
+        this.onlineIssuesIssue = this.onlineIssues[i]['issue'];
+        if(this.onlineIssues[i]['date'] != 'May 7, 2018') {
+          this.getLastPagePreviousIssue(this.onlineIssues[i + 1]['date']);
+        }
+        break;
+      }
+    }
+  }
+
+  getLastPagePreviousIssue(onlineIssue) {
+    console.log("calling auth services" + onlineIssue);
+    this.authService.getOnlineLastPage(onlineIssue).subscribe(entries => {
+      console.log(entries);
+      this.lastPagePrevIssue = entries[0]['docLastPageOnline'];
+    }, 
+    err => {
+        console.log(err);
+        return false;
+    });
+  }
+
+  checkSorted() {
+    for (let i = 0; i < this.displayDocs.length; i++) {
+      if (!(this.displayDocs[i]['docOnlinePosition'])) {
+        this.sorted = false;
+        break;
+      }
+      else {
+        this.sorted = true;
+        this.showResults = true;
+      }
+    }
+    if (!(this.sorted)) {
+      this.getTypes();
+    }
+  }
+
+  getTypes() {
+    console.log(this.displayDocs);
+    let types = [];
+    for (let i = 0; i < this.displayDocs.length; i++) {
+      if (this.displayDocs[i]['docSection'].toLowerCase() == 'practice' || this.displayDocs[i]['docSection'].toLowerCase() == 'humanities') {
+        if (this.displayDocs[i]['docDepartment']) {
+          types[i] = this.displayDocs[i]['docDepartment'].toLowerCase(); 
+        }
+        else {
+          types[i] = this.displayDocs[i]['docSection'].toLowerCase(); 
+        }
+      }
+      else {
+        types[i] = this.displayDocs[i]['docSection'].toLowerCase();
+      }
+    }
+    console.log(types);
+    this.getOnlinePosition(types, 0);
+  }
+
+  
+  getOnlinePosition(types, index) {
+
+    console.log(this.onlineOrder);
+
+    if (!(this.displayDocs[index]['docOnlinePosition'])) {
+      for(let i=0; i<this.onlineOrder.length; i++) {
+        if(this.onlineOrder[i]['type'].toLowerCase() == types[index].toLowerCase())  {
+          console.log(this.onlineOrder[i]['type'].toLowerCase());
+          console.log(this.onlineOrder[i]['position']);
+          this.updateOnlinePosition(this.displayDocs[index], this.onlineOrder[i]['position']);
+        }
+      }
+    }
+  } 
+
+  updateOnlinePosition(doc, position) {
+    const docOrderUpdate = {
+      docID: doc['_id'],
+      docOnlinePosition: position 
+    }
+    this.authService.putUpdateDoc(docOrderUpdate).subscribe(doc => {
+      //this.onSearchSubmit();
+     // this.showResults = true;
+      this.onSearchSubmit();
     },
     err => {
       console.log(err);
@@ -48,20 +167,35 @@ constructor(
     });
   }
 
-  onSearchSubmit() {
-    this.authService.getSearchResults(
-    	this.docSection,
-    	this.docAuthor,
-    	this.docDOI,
-    	this.docTitle,
-      this.docNotUsedOnline,
-      this.docNotUsedPrint,
-      this.afterAcceptDate,
-      this.beforeAcceptDate
-    ).subscribe(entries => {
-      this.showResults = true;
-      this.displayDocs = entries; 
-    }, 
+  onOnlineOrderClick(doc, index) {
+    this.docID = doc["_id"]; 
+    this.docOnlinePosition = doc['docOnlinePosition']; 
+    this.docFirstPageOnline = doc['docFirstPageOnline']; 
+    this.docLastPageOnline = doc['docLastPageOnline']; 
+    this.docOnlineNotes = doc['docOnlineNotes']; 
+    this.docNumFigures = doc['docNumFigures']; 
+    this.docNumTables = doc['docNumTables'];
+    this.docNumAppendices = doc['docNumAppendices'];
+    this.docIndex = index;
+  }
+
+  onOnlineOrderSubmit() {
+    console.log("submit online order edits");
+    const onlineOrderDoc = {
+      docID: this.docID, //to identify this doc in database
+      docOnlinePosition: this.docOnlinePosition,
+      docFirstPageOnline: this.docFirstPageOnline,
+      docLastPageOnline: this.docLastPageOnline,
+      docOnlineNotes: this.docOnlineNotes,
+      docNumFigures: this.docNumFigures,
+      docNumTables: this.docNumTables,
+      docNumAppendices: this.docNumAppendices
+    }
+    console.log(onlineOrderDoc);
+    this.authService.putUpdateDoc(onlineOrderDoc).subscribe(doc => {
+      this.onSearchSubmit();
+      this.docIndex = null;
+    },
     err => {
       console.log(err);
       return false;
@@ -69,19 +203,12 @@ constructor(
   }
 
   onNewSearch() {
-  	this.docSection = "";
-  	this.docAuthor = "";
-  	this.docDOI = null;
-  	this.docTitle = "";
-    this.docNotUsedOnline = null;
-    this.docNotUsedPrint = null;
-    this.afterAcceptDate = null;
-    this.beforeAcceptDate = null;
+  	this.docOnlineIssue = "";
   	this.ngOnInit();
   }
 
   onModifySearch() {
-    this.ngOnInit();
+  	this.ngOnInit();
   }
 
   onDocClick(doc, index) {

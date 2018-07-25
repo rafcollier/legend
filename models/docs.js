@@ -32,9 +32,7 @@ let DocSchema = new Schema({
 	docFocusArea: {
 	  type: String
 	},
-	docNotes: {
-	  type: String
-	},
+
 
 	//DOCUMENT DETAILS
 
@@ -56,6 +54,12 @@ let DocSchema = new Schema({
 	},
 	docNumAppendices: {
 	  //type: Number
+	  type: String
+	},
+	docNumFigures: {
+	  type: String
+	},
+	docNumTables: {
 	  type: String
 	},
     docRelatedMaterial: {
@@ -209,19 +213,33 @@ let DocSchema = new Schema({
 	  type: Date
 	},
 
-    //ONLINE ISSUE
+	//NOTES
 
+	docNotes: {
+	  type: String
+	},
     docOnlineNotes: {
       type: String	
 	},
+    docPrintNotes: {
+      type: String	
+	},
+
+    //ONLINE ISSUE
+
+
 	docFirstPageOnline: {
 	  type: Number
 	},
 	docLastPageOnline: {
 	  type: Number
 	},
+	docOnlinePosition: {
+	  type: Number
+	},
 
     //PRINT ISSUE
+
 
     docAdConflicts: {
       type: String	
