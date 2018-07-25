@@ -425,14 +425,23 @@ router.get('/getLayoutSearchResults', (req, res, next) => {
 router.get('/getOnlineSearchResults', (req, res, next) => {
 
   const onlineDate = new Date(req.query.docOnlineIssue);
+  const month = onlineDate.getMonth() + 1;
+  const year = onlineDate.getFullYear() + 1;
   const dayBefore = onlineDate.getDate() - 1;
   const dayAfter = onlineDate.getDate() + 1;
+  const date1 = year + '-' + month + '-' + dayBefore;
+  const date2 = year + '-' + month + '-' + dayAfter;
 
+  console.log(onlineDate);
   console.log(dayBefore);
   console.log(dayAfter);
+  console.log(date1);
+  console.log(date2);
 
-  const query1 = {docOnlineIssue: {$gt: new Date('May 6, 2018')}};
-  const query2 = {docOnlineIssue: {$lt: new Date('May 8, 2018')}};
+  //const query1 = {docOnlineIssue: {$gt: new Date('May 6, 2018')}};
+  //const query2 = {docOnlineIssue: {$lt: new Date('May 8, 2018')}};
+  const query1 = {docOnlineIssue: {$gt: new Date(date1)}};
+  const query2 = {docOnlineIssue: {$lt: new Date(date2)}};
   console.log("in route docs");
   console.log(query1);
   console.log(query2);
