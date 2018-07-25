@@ -426,7 +426,7 @@ router.get('/getOnlineSearchResults', (req, res, next) => {
 
   const onlineDate = new Date(req.query.docOnlineIssue);
   const month = onlineDate.getMonth() + 1;
-  const year = onlineDate.getFullYear() + 1;
+  const year = onlineDate.getFullYear();
   const dayBefore = onlineDate.getDate() - 1;
   const dayAfter = onlineDate.getDate() + 1;
   const date1 = year + '-' + month + '-' + dayBefore;
