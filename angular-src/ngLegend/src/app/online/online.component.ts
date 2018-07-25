@@ -59,6 +59,7 @@ constructor(
   }
 
   onSearchSubmit() {
+    console.log(this.docOnlineIssue);
     this.authService.getOnlineSearchResults(this.docOnlineIssue).subscribe(entries => {
     
       this.displayDocs = entries;

@@ -325,6 +325,7 @@ export class AuthService {
   } 
 
   getOnlineSearchResults(onlineIssue) {
+    console.log("in authservices with" + onlineIssue)
     let headers = new Headers();
     let params = new URLSearchParams();
     let options = new RequestOptions();

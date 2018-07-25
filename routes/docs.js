@@ -422,6 +422,7 @@ router.get('/getLayoutSearchResults', (req, res, next) => {
 
 router.get('/getOnlineSearchResults', (req, res, next) => {
   let query1 = {};
+  console.log("in route docs" + query1);
   if(req.query.docOnlineIssue) 
     query1 = {'docOnlineIssue' : req.query.docOnlineIssue};
   
@@ -430,7 +431,10 @@ router.get('/getOnlineSearchResults', (req, res, next) => {
            {sort: {docOnlinePosition: 1}}, 
            (err, docs) => {
     if (err) throw err;
-    res.json(docs);
+    else {
+      console.log(docs);
+      res.json(docs);
+  }
   });
 });
 
