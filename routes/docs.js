@@ -431,22 +431,10 @@ router.get('/getOnlineSearchResults', (req, res, next) => {
   const dayAfter = onlineDate.getDate() + 1;
   const date1 = year + '-' + month + '-' + dayBefore;
   const date2 = year + '-' + month + '-' + dayAfter;
-
-  console.log(onlineDate);
-  console.log(dayBefore);
-  console.log(dayAfter);
-  console.log(date1);
-  console.log(date2);
-
-  //const query1 = {docOnlineIssue: {$gt: new Date('May 6, 2018')}};
-  //const query2 = {docOnlineIssue: {$lt: new Date('May 8, 2018')}};
   const query1 = {docOnlineIssue: {$gt: new Date(date1)}};
   const query2 = {docOnlineIssue: {$lt: new Date(date2)}};
-  console.log("in route docs");
-  console.log(query1);
-  console.log(query2);
 
-  //Doc.find(query1, 
+  //Have to query great than day before and less than day after, equal doesn't work
   Doc.find({$and: [query1, query2]}, 
            null,
            {sort: {docOnlinePosition: 1}}, 
@@ -461,10 +449,18 @@ router.get('/getOnlineSearchResults', (req, res, next) => {
 
 
 router.get('/getOnlineLastPage', (req, res, next) => {
-  console.log(req.query.docOnlineIssue);
-  let query1 = {docOnlineIssue: {$eq: new Date(req.query.docOnlineIssue)}};
-  console.log(query1);
-  Doc.find(query1, 
+  
+  const onlineDate = new Date(req.query.docOnlineIssue);
+  const month = onlineDate.getMonth() + 1;
+  const year = onlineDate.getFullYear();
+  const dayBefore = onlineDate.getDate() - 1;
+  const dayAfter = onlineDate.getDate() + 1;
+  const date1 = year + '-' + month + '-' + dayBefore;
+  const date2 = year + '-' + month + '-' + dayAfter;
+  const query1 = {docOnlineIssue: {$gt: new Date(date1)}};
+  const query2 = {docOnlineIssue: {$lt: new Date(date2)}};
+
+  Doc.find({$and: [query1, query2]},
           {docLastPageOnline: 1}, 
           {limit: 1, sort: {docLastPageOnline: -1}}, 
           (err, docs) => {
