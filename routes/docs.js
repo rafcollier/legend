@@ -426,7 +426,7 @@ router.get('/getOnlineSearchResults', (req, res, next) => {
   //const onlineDate =  moment(req.query.docOnlineIssue);
   //const onlineDate =  moment(req.query.docOnlineIssue);
   const query1 = {docOnlineIssue: {$gt: new Date('May 6, 2018')}};
-  const query1 = {docOnlineIssue: {$lt: new Date('May 8, 2018')}};
+  const query2 = {docOnlineIssue: {$lt: new Date('May 8, 2018')}};
   console.log("in route docs");
   console.log(query1);
   console.log(query2);
