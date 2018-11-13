@@ -17,6 +17,14 @@ const OnlineSchema = mongoose.Schema({
   issue: {
     type: String,
     required: true
+  },
+  firstPage: {
+    type: Number,
+    required: true
+  },
+  lastPage: {
+    type: Number,
+    required: true
   }
 
 });

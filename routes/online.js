@@ -13,7 +13,9 @@ router.post('/addOnline', (req, res, next) => {
   let newOnline = new Online({
     date: req.body.date,
     volume: req.body.volume,
-    issue: req.body.issue
+    issue: req.body.issue,
+    firstPage: req.body.firstPage,
+    lastPage: req.body.lastPage
   });
 
   Online.getOnlineByName(newOnline.date, (err, online) => {
@@ -34,7 +36,7 @@ router.post('/addOnline', (req, res, next) => {
 });
 
 router.get('/getOnline', (req, res, next) => {
-  Online.find({}, null, {sort: {issue: -1}}, (err, online) => {
+  Online.find({}, null, {sort: {volume: -1, issue: -1}}, (err, online) => {
     if (err) throw err;
     else {
       res.json(online);

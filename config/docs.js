@@ -100,11 +100,32 @@ module.exports = {
              'Erin Driscoll', 
              'Lea Libiseja', 
              'Olivier Nguyen-Huu'
-            ], 
+            ],
+  status: ['1 - Accepted',
+           '2 - InCopy',
+           '3 - Copy Edit',
+           '4 - SE Review',
+           '5 - Author Review',
+           '6 - Fine Tuning',
+           '7 - Proof Reading',
+           '8 - Final'
+          ], 
   se1s: ['Kirsten Patrick', 
          'Diane Kelsall', 
          'Matthew Stanbrook', 
          'Ken Flegel'
+        ],
+  alleditors: [
+                'Kate Brown', 
+                'Vicky Bell', 
+                'Wendy Caroll', 
+                'Erin Driscoll', 
+                'Lea Libiseja', 
+                'Olivier Nguyen-Huu',
+                'Kirsten Patrick', 
+                'Diane Kelsall', 
+                'Matthew Stanbrook', 
+                'Ken Flegel'
         ],
   multimedia: ['Podcast',
               'Video',
@@ -191,12 +212,16 @@ module.exports = {
                     position: 18
                   },
                   {
-                    type: 'News',
+                    type: 'Correction',
                     position: 19
                   },
                   {
-                    type: 'CODA',
+                    type: 'News',
                     position: 20 
+                  },
+                  {
+                    type: 'CODA',
+                    position: 21 
                   }
                 ],
   printorder: ['Editorial',

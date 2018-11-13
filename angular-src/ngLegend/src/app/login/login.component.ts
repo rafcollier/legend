@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
       password: this.password
     }
 
-    //Required fields
+    //Will not work if either username or password field is blank.
     if(!this.validateService.validateRegister(user)) {
       this.validateMessage = "Please fill in all fields";
       setTimeout(() => {
@@ -57,48 +57,55 @@ export class LoginComponent implements OnInit {
     }
   }
 
+ //Load sections for dropdown menus from section collection into an array, 
+ //store into array and save in local memory.
   onConfigSections() {
+    let sectionArr = [];
+    let sectionArrUnique = [];
+    let departmentArr = [];
     this.authService.getSections().subscribe(entries => {
-      let sectionArr = [];
       for(let i = 0; i < entries.length; i++) {
-       sectionArr.push(entries[i].section);
+        sectionArr.push(entries[i]);
+        if (entries[i]['department']) {
+          departmentArr.push(entries[i]['department']); 
+        }
+        if(i == 0) {
+          sectionArrUnique.push(entries[i]['section']);
+        }
+        else if(entries[i]['section'] != entries[i-1]['section']) {
+          sectionArrUnique.push(entries[i]['section']);
+        }
       }
-      console.log(sectionArr);
       this.authService.localStoreSections(sectionArr);
-      this.onConfigOnline();
+      this.authService.localStoreUniqueSections(sectionArrUnique);
+      this.authService.localStoreDepartments(departmentArr);
+      this.onLoadConfigFile();
     }, 
     err => {
-        console.log(err);
-        return false;
+      console.log(err);
+      return false;
     }); 
   }
 
-  onConfigOnline() {
-    this.authService.getOnline().subscribe(online => {
-      console.log(online);
-      let onlineArr = [];
-      for(let i = 0; i < online.length; i++) {
-       //onlineArr.push(online[i].date);
-       onlineArr.push(online[i]);
-      }
-      console.log(onlineArr);
-      this.authService.localStoreOnline(onlineArr);
+  onLoadConfigFile() {
+    let configFile = {};
+    this.authService.getConfig().subscribe(entries => {
+      configFile = entries[0];
+      this.authService.localStoreConfigFile(configFile);
       this.onGoSearchPage();
     }, 
     err => {
         console.log(err);
         return false;
-    }); 
-
+    });
   }
 
+  //Will go to admin page if username is admin, or will go to search page for all other users.
   onGoSearchPage() {
     if(this.username == "admin") 
       this.router.navigate(['/register']);
     else
       this.router.navigate(['/search']);
   }
-
-
 
 }

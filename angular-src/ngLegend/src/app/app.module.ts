@@ -9,7 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import * as moment from 'moment';
 
 import { AuthService } from './services/auth.service';
-import {AuthGuard} from './guards/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
 import { ValidateService } from './services/validate.service';
 
 import { AppComponent } from './app.component';
@@ -34,12 +35,13 @@ import { PrintissuesComponent } from './printissues/printissues.component';
 import { PicksectionComponent } from './picksection/picksection.component';
 import { PrintComponent } from './print/print.component';  
 import { OnlineComponent } from './online/online.component';
-import { OnlineIssueConfigComponent } from './online-issue-config/online-issue-config.component';  
+import { OnlineIssueConfigComponent } from './online-issue-config/online-issue-config.component';
+import { ConfigComponent } from './config/config.component';  
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'register', component: RegisterComponent},
+  {path: 'register', component: RegisterComponent, canActivate:[AdminGuard]},
   {path: 'login', component: LoginComponent},
   {path: 'refresh', component: RefreshComponent},
   {path: 'picksection', component: PicksectionComponent, canActivate:[AuthGuard]},
@@ -52,6 +54,7 @@ const appRoutes: Routes = [
   {path: 'admin', component: AdminComponent, canActivate:[AuthGuard]},
   {path: 'metrics', component: MetricsComponent, canActivate:[AuthGuard]},
   {path: 'sections', component: SectionsComponent, canActivate:[AuthGuard]},
+  {path: 'config', component: ConfigComponent, canActivate:[AuthGuard]},
   {path: 'users', component: UsersComponent, canActivate:[AuthGuard]},
   {path: 'printissues', component: PrintissuesComponent, canActivate:[AuthGuard]},
   {path: 'online-issue-config', component: OnlineIssueConfigComponent, canActivate:[AuthGuard]},
@@ -82,7 +85,8 @@ const appRoutes: Routes = [
     PicksectionComponent,
     PrintComponent,
     OnlineComponent,
-    OnlineIssueConfigComponent
+    OnlineIssueConfigComponent,
+    ConfigComponent
   ],
   imports: [
     BrowserModule,
@@ -93,7 +97,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(appRoutes)   
   ],
-  providers: [ValidateService, AuthService, AuthGuard],
+  providers: [ValidateService, AuthService, AuthGuard, AdminGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

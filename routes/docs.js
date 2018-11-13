@@ -11,7 +11,7 @@ let converter = new Converter({});
 let jsonData =  {}; 
 
 /*
-converter.fromFile('./data/data2017news3.csv', (err, result) => {
+converter.fromFile('./data/data2017news4.csv', (err, result) => {
   if(err) 
     console.log(err);
   else { 
@@ -69,6 +69,7 @@ converter.fromFile('./data/data2017news3.csv', (err, result) => {
         //EDITING TIMELINE
 
         docEditor: jsonData[i]['docEditor'],
+        docStatus: jsonData[i]['docStatus'],
         docCoordinator: jsonData[i]['docCoordinator'],
         docProofReader: jsonData[i]['docProofReader'],
         docSE1: jsonData[i]['docSE1'],
@@ -156,7 +157,6 @@ converter.fromFile('./data/data2017news3.csv', (err, result) => {
 });
 
 */
-
 router.post('/submitdoc', (req, res, next) => {
   let newDoc = new Doc({
 
@@ -239,6 +239,7 @@ router.post('/submitdoc', (req, res, next) => {
     docSendProofRead: req.body.docSendProofRead,
     docReturnProofRead: req.body.docReturnProofRead,
     docFinalizeDate: req.body.docFinalizeDate, 
+    docStatus: req.body.docStatus,
 
     //NOTES
     docOnlineNotes: req.body.docOnlineNotes,
@@ -256,9 +257,11 @@ router.post('/submitdoc', (req, res, next) => {
     docAdConflicts: req.body.docAdConflicts,
     docFirstPagePrint: req.body.docFirstPagePrint,
     docLastPagePrint: req.body.docLastPagePrint,
+    docPrintPosition: req.body.docPrintPosition,
 
     //NEWS ONLY
 
+    docNewsReady: req.body.docNewsReady,
     docPublishDateCMAJnews: req.body.docPublishDateCMAJnews,
     docNewsCommissionDate: req.body.docNewsCommissionDate,
     docNewsInvoiceDate: req.body.docNewsInvoiceDate,
@@ -266,9 +269,11 @@ router.post('/submitdoc', (req, res, next) => {
 
   });
 
-  console.log("router doc" + newDoc);
   newDoc.save((err) => {
-    if(err) throw err;
+    if(err) {
+      console.log(err);
+      throw err;
+    }
     res.json({success: true, msg: 'Doc added'});
   });
 });
@@ -298,7 +303,6 @@ router.get('/getNewsDOI', (req, res, next) => {
   });
 });
 
-
 router.delete('/deleteOneDoc', (req, res, next) => {
   Doc.findByIdAndRemove(req.query.docID, (err, doc) => { 
     if (err) throw err;
@@ -316,6 +320,13 @@ router.put('/updateDoc', (req, res, next) => {
 
 router.get('/getSearchResults', (req, res, next) => {
 
+  let query1 = {};
+  let query2 = {};
+  let query2A = {};
+  let query2B = {};
+  let query2C = {};
+  let query2D = {};
+  let query2E = {};
   let query3 = {};
   let query4 = {};
   let query5 = {};
@@ -324,6 +335,20 @@ router.get('/getSearchResults', (req, res, next) => {
   let query8 = {};
   let query9 = {};
   let query10 = {};
+
+  if(req.query.status)
+    query1 = {'docStatus' : req.query.status};
+
+  console.log(query1);
+
+  if(req.query.editor) { 
+    query2A = {'docEditor' : req.query.editor};
+    query2B = {'docCoordinator' : req.query.editor};
+    query2C = {'docProofReader' : req.query.editor};
+    query2D = {'docSE1' : req.query.editor};
+    query2E = {'docSE2' : req.query.editor};
+    query2 = {$or: [query2A, query2B, query2C, query2D, query2E]};
+  }
 
   if(req.query.docSection) 
     query3 = {'docSection' : req.query.docSection};
@@ -337,8 +362,11 @@ router.get('/getSearchResults', (req, res, next) => {
   if(req.query.docTitle) 
     query6 = {'docTitle' : {$regex: req.query.docTitle, $options: 'i'}};
 
-  if(req.query.docNotUsedOnline)  
-    query7 = {'docOnlineIssue' : {$exists : false}};
+  if(req.query.docNotUsedOnline) {  
+    query7A = {'docOnlineIssue' : {$exists : false}};
+    query7B = {'docOnlineIssue' : null};
+    query7 = {$or: [query7A, query7B]};
+  }
 
   if(req.query.docNotUsedPrint)  
     query8 = {'docPrintIssue' : {$exists : false}};
@@ -346,19 +374,19 @@ router.get('/getSearchResults', (req, res, next) => {
   if(req.query.afterAcceptDate)
     query9 = {docAcceptDate: {$gte: new Date(req.query.afterAcceptDate)}};
 
-  console.log(query9);
-
   if(req.query.beforeAcceptDate)
     query10 = {docAcceptDate: {$lte: new Date(req.query.beforeAcceptDate)}};
 
 
-  Doc.find({$and: [query3, query4, query5, query6, query7, query8, query9, query10]}, 
+  Doc.find({$and: [query1, query2, query3, query4, query5, query6, query7, query8, query9, query10]}, 
            null, 
-           {sort: {docOnlinePosition: 1}
+           {sort: {docStatus: 1}
            }, 
     (err, docs) => {
       if (err) throw err;
-      res.json(docs);
+      else {
+        res.json(docs);
+      }
     });
   });
 
@@ -424,18 +452,9 @@ router.get('/getLayoutSearchResults', (req, res, next) => {
 
 router.get('/getOnlineSearchResults', (req, res, next) => {
 
-  const onlineDate = new Date(req.query.docOnlineIssue);
-  const month = onlineDate.getMonth() + 1;
-  const year = onlineDate.getFullYear();
-  const dayBefore = onlineDate.getDate() - 1;
-  const dayAfter = onlineDate.getDate() + 1;
-  const date1 = year + '-' + month + '-' + dayBefore;
-  const date2 = year + '-' + month + '-' + dayAfter;
-  const query1 = {docOnlineIssue: {$gt: new Date(date1)}};
-  const query2 = {docOnlineIssue: {$lt: new Date(date2)}};
+  let query1 = {'docOnlineIssue': req.query.docOnlineIssue}; 
 
-  //Have to query great than day before and less than day after, equal doesn't work
-  Doc.find({$and: [query1, query2]}, 
+  Doc.find(query1, 
            null,
            {sort: {docOnlinePosition: 1}}, 
            (err, docs) => {
@@ -445,7 +464,27 @@ router.get('/getOnlineSearchResults', (req, res, next) => {
       res.json(docs);
     }
   });
+
 });
+
+router.get('/getCheckPreviousOnlineIssue', (req, res, next) => {
+
+  let query1 = {docOnlineIssue: {$lt: new Date(req.query.docOnlineIssue)}};
+
+  Doc.find(query1, 
+           //{docOnlineIssue: 1},
+           null,
+           {limit: 1, sort: {docOnlineIssue: 1}}, 
+           (err, docs) => {
+    if (err) throw err;
+    else {
+      console.log(docs);
+      res.json(docs);
+    }
+  });
+
+});
+
 
 
 router.get('/getOnlineLastPage', (req, res, next) => {

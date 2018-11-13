@@ -12,6 +12,8 @@ export class OnlineIssueConfigComponent implements OnInit {
   date: String;
   volume: String;
   issue: String;
+  firstPage: number;
+  lastPage: number;
   currentUser: String;
   errorMessage: String = "";
   validateMessage: String = "";
@@ -26,14 +28,24 @@ export class OnlineIssueConfigComponent implements OnInit {
 
   ngOnInit() {
 
-    this.authService.getProfile().subscribe(profile => {
-      this.currentUser = profile.user.username;
-    },
-    err => {
-      console.log(err);
-      return false;
-    });
-    this.onGetOnline();
+   // this.authService.getProfile().subscribe(profile => {
+   //   this.currentUser = profile.user.username;
+   // },
+   // err => {
+   //   console.log(err);
+   //   return false;
+   // });
+   // this.onGetOnline();
+  }
+
+  /*
+
+  clearFields() {
+    this.date = "";
+    this.volume = "";
+    this.issue = "";
+    this.firstPage = null;
+    this.lastPage = null;
   }
 
   onGetOnline() {
@@ -56,9 +68,7 @@ export class OnlineIssueConfigComponent implements OnInit {
       return false;
     });
     setTimeout(() => {
-      this.date = "";
-      this.volume = "";
-      this.issue = "";
+      this.clearFields();
       this.onGetOnline();
       this.router.navigate(['/online-issue-config']); 
     }, 1000);
@@ -68,27 +78,26 @@ export class OnlineIssueConfigComponent implements OnInit {
     const online = {
       date: this.date,
       volume: this.volume,
-      issue: this.issue
+      issue: this.issue,
+      firstPage: this.firstPage,
+      lastPage: this.lastPage
     }
 
     console.log(online);
 
     //Required fields
     if(!this.validateService.validateOnline(online)) {
-      this.validateMessage = "Please fill in all fields";
+      this.validateMessage = "Please fill in Date, Volume and Issue";
       setTimeout(() => {
         this.validateMessage = "";
         return false;
       }, 2000);
     }
     else {
-      //Register User
       this.authService.addOnline(online).subscribe(data => {
         if(data.success){
           setTimeout(() => {
-            this.date = "";
-            this.volume = "";
-            this.issue = "";
+            this.clearFields();
             this.onGetOnline();
             this.router.navigate(['/online-issue-config']); 
           }, 1000);
@@ -96,9 +105,7 @@ export class OnlineIssueConfigComponent implements OnInit {
         else {
           this.errorMessage = data.msg;
           setTimeout(() => {
-            this.date = "";
-            this.volume = "";
-            this.issue = "";
+          this.clearFields();
             this.router.navigate(['/online-issue-config']); 
           }, 2000);
         }
@@ -109,6 +116,7 @@ export class OnlineIssueConfigComponent implements OnInit {
       });
     }
   }
+  */
 
 
 }

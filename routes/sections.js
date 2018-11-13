@@ -9,14 +9,17 @@ const Section = require('../models/sections');
 router.post('/addSection', (req, res, next) => {
 
   let newSection = new Section({
-  section: req.body.section
+    section: req.body.section,
+    department: req.body.department,
+    onlinePosition: req.body.onlinePosition,
+    printPosition: req.body.printPosition
   });
 
   Section.getSectionByName(newSection.section, (err, section) => {
-    if(err) throw err;
-    if(section) {
-      return res.json({success: false, msg: 'Section already added'});
-    }
+    //if(err) throw err;
+    //if(section) {
+    //  return res.json({success: false, msg: 'Section already added'});
+    //}
 
     Section.addSection(newSection, (err, section) => {
       if(err) {

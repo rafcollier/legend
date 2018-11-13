@@ -15,7 +15,8 @@ const config = require('../../../../../config/docs');
 export class PicksectionComponent implements OnInit {
 
   docSection: String;
-  sections: [String]; 
+  sectionsObj: Object[] = []; 
+  sections: String[] = []; 
   username: String;
 
   constructor(
@@ -26,7 +27,8 @@ export class PicksectionComponent implements OnInit {
   ngOnInit() {
 
   	this.username = this.authService.loadUsername();
-  	this.sections = this.authService.localGetSections(); 
+    this.sections = this.authService.localGetUniqueSections();
+
   }
 
   onSectionSubmit() {

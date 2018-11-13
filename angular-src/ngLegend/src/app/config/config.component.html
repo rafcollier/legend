@@ -1,0 +1,14 @@
+<div class ="align-form">
+  <section class = "mat-typography">
+
+    <h4>Welcome {{username}}</h4> 
+
+    <form (submit)="updateConfig()" class="example-form">  
+      <mat-form-field class="example-full-width">  
+        <input type="number" matInput placeholder="First News DOI" [(ngModel)]="firstNewsDOI" name="firstNewsDOI">  
+      </mat-form-field>  
+      <button mat-raised-button type="submit">Submit Edits</button>
+    </form>  
+
+  </section>
+</div>

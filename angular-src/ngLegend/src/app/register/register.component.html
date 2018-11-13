@@ -12,14 +12,17 @@
         <input type="password" matInput placeholder="Password" [(ngModel)]="password" name="password">  
       </mat-form-field>  
 
+      <!--
       <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
         <input matInput placeholder="" style="display: none">
         <mat-checkbox [(ngModel)]="newsAddDelete" name="newsAddDelete">User can add and delete News articles</mat-checkbox>
       </mat-form-field>
+      -->
 
       <button mat-raised-button type="submit">Submit</button>
 
     </form>  
+
     <div *ngIf="errorMessage">
       <h4 class="red-font">{{errorMessage}}</h4>
     </div>
@@ -34,12 +37,17 @@
       <h3><b>
          {{ d.username }}
       </b></h3>
+
+      <!--
       <p *ngIf= "d.newsAddDelete">
         Can add and delete News articles
       </p>
+      -->
+
       <a href="" onClick="return false;">
         <span (click)="onUserDelete(d, i)"> Delete</span>
       </a>
+
       <hr class="hr-style">
     </div>
 

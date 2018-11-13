@@ -26,11 +26,11 @@
       </a>
 
       <a *ngIf="authService.adminLoggedIn()" mat-tab-link 
-        [routerLink] = "['/online-issue-config']" 
+        [routerLink] = "['/config']" 
         routerLinkActive #rlj="routerLinkActive"
         [active]="rlj.isActive"
       >
-        Online 
+        Config 
       </a>
 
       <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 

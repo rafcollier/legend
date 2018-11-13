@@ -7,6 +7,7 @@
       <p *ngIf="oneDoc.docDepartment"><b>Department:</b> {{ docDepartment }}</p>
       <p *ngIf="oneDoc.docAuthor"><b>Author:</b> {{ docAuthor }}</p> 
       <p *ngIf="oneDoc.docDOI"><b>DOI:</b> {{ docDOI }}</p>
+      <p *ngIf="oneDoc.docStatus"><b>Status:</b> {{ docStatus }}</p>
 
       <div>
         <mat-accordion>
@@ -22,8 +23,11 @@
               <br> 
               <p *ngIf="oneDoc.docAcceptDate"><b>Accept Date:</b> {{ docAcceptDateFormatted }}</p>
               <p *ngIf="oneDoc.docPaymentDate"><b>Payment Date:</b> {{ docPaymentDateFormatted }}</p>
+              <p *ngIf="oneDoc.docNewsReady"><b>Ready Date:</b> {{ docNewsReadyFormatted }}</p>
               <p *ngIf="oneDoc.docPublishDateCMAJnews"><b>Posted on CMAJNEWS.COM Date:</b> {{ docPublishDateCMAJnewsFormatted }}</p>
-              <p *ngIf="oneDoc.docETOCDate"><b>ETOC Date:</b> {{ docETOCDateFormatted }}</p>
+              <div *ngIf="showNews">
+                <p *ngIf="oneDoc.docETOCDate"><b>ETOC Date:</b> {{ docETOCDateFormatted }}</p>
+              </div>
               <p *ngIf="oneDoc.docOnlineIssue"><b>Online Issue Date:</b> {{ docOnlineIssueFormatted }}</p>
               <p *ngIf="oneDoc.docPrintIssue"><b>Print Issue Date:</b> {{ docPrintIssueFormatted }}</p>
 
@@ -159,10 +163,10 @@
                 <p *ngIf="oneDoc.docReturnSEDate"><b>Return SE Date:</b> {{ docReturnSEDateFormatted }}</p>
                 <p *ngIf="oneDoc.docSendAuthorDate"><b>Send Author Date:</b> {{ docSendAuthorDateFormatted }}</p>
                 <p *ngIf="oneDoc.docReturnAuthorDate"><b>Return Author Date:</b> {{ docReturnAuthorDateFormatted }}</p>
-                <p *ngIf="oneDoc.docSendFineTuneDate"><b>Send Fine Tune Date:</b> {{ docSendFineTuneDateFormatted }}</p>
-                <p *ngIf="oneDoc.docReturnFineTuneDate"><b>Return Fine Tune Date:</b> {{ docReturnFineTuneDateFormatted }}</p>
-                <p *ngIf="oneDoc.docSendProofReadDate"><b>Send Proofread Date:</b> {{ docSendProofReadDateFormatted }}</p>
-                <p *ngIf="oneDoc.docReturnProofReadDate"><b>Return Proofread Date:</b> {{ docReturnProofReadDateFormatted }}</p>
+                <p *ngIf="oneDoc.docSendFineTune"><b>Send Fine Tune Date:</b> {{ docSendFineTuneDateFormatted }}</p>
+                <p *ngIf="oneDoc.docReturnFineTune"><b>Return Fine Tune Date:</b> {{ docReturnFineTuneDateFormatted }}</p>
+                <p *ngIf="oneDoc.docSendProofRead"><b>Send Proofread Date:</b> {{ docSendProofReadDateFormatted }}</p>
+                <p *ngIf="oneDoc.docReturnProofRead"><b>Return Proofread Date:</b> {{ docReturnProofReadDateFormatted }}</p>
                 <p *ngIf="oneDoc.docFinalizeDate"><b>Finalize Date:</b> {{ docFinalizeDateFormatted }}</p>
               </div>
 
@@ -259,8 +263,9 @@
 
       <!-- Automatically Generate DOI for News articles-->
       <div *ngIf="showNews">
-         DOI: {{docDOI}}
-        <br><br>
+        <mat-form-field class="example-full-width">  
+          <input type="number" matInput placeholder="DOI" [(ngModel)]="docDOI" name="docDOI">
+        </mat-form-field>  
       </div>
 
       <!--Input for all manuscripts-->
@@ -323,6 +328,13 @@
             </div>
   
             <div *ngIf="showNews">
+
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="docNewsReadyDatePicker" placeholder="Ready Date" [(ngModel)]="docNewsReady" name="docNewsReady">
+                <mat-datepicker-toggle matSuffix [for]="docNewsReadyDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #docNewsReadyDatePicker></mat-datepicker>
+              </mat-form-field>
+
               <mat-form-field class="example-full-width">
                 <input matInput [matDatepicker]="docPublishDateCMAJnewsDatePicker" placeholder="Date Posted on cmajnews.com" [(ngModel)]="docPublishDateCMAJnews" name="docPublishDateCMAJnews">
                 <mat-datepicker-toggle matSuffix [for]="docPublishDateCMAJnewsDatePicker"></mat-datepicker-toggle>
@@ -330,11 +342,13 @@
               </mat-form-field>
             </div>
 
-             <mat-form-field class="example-full-width">
-               <input matInput [matDatepicker]="docETOCDatePicker" placeholder="eTOC Date" [(ngModel)]="docETOCDate" name="docETOCDate">
-               <mat-datepicker-toggle matSuffix [for]="docETOCDatePicker"></mat-datepicker-toggle>
-               <mat-datepicker #docETOCDatePicker></mat-datepicker>
-             </mat-form-field>
+             <div *ngIf="showNews">
+               <mat-form-field class="example-full-width">
+                 <input matInput [matDatepicker]="docETOCDatePicker" placeholder="eTOC Date" [(ngModel)]="docETOCDate" name="docETOCDate">
+                 <mat-datepicker-toggle matSuffix [for]="docETOCDatePicker"></mat-datepicker-toggle>
+                 <mat-datepicker #docETOCDatePicker></mat-datepicker>
+               </mat-form-field>
+              </div>
 
              <mat-form-field class="example-full-width">
                <input matInput [matDatepicker]="docOnlineIssueDatePicker" placeholder="Online Issue Date" [(ngModel)]="docOnlineIssue" name="docOnlineIssue">
@@ -619,25 +633,25 @@
               </mat-form-field>
   
               <mat-form-field class="example-full-width">
-                <input matInput [matDatepicker]="docSendFineTuneDatePicker" placeholder="Send Fine Tune Date" [(ngModel)]="docSendFineTuneDate" name="docSendFineTuneDate">
+                <input matInput [matDatepicker]="docSendFineTuneDatePicker" placeholder="Send Fine Tune Date" [(ngModel)]="docSendFineTune" name="docSendFineTune">
                 <mat-datepicker-toggle matSuffix [for]="docSendFineTuneDatePicker"></mat-datepicker-toggle>
                 <mat-datepicker #docSendFineTuneDatePicker></mat-datepicker>
               </mat-form-field>
     
               <mat-form-field class="example-full-width">
-                <input matInput [matDatepicker]="docReturnFineTuneDatePicker" placeholder="Return Fine Tune Date" [(ngModel)]="docReturnFineTuneDate" name="docReturnFineTuneDate">
+                <input matInput [matDatepicker]="docReturnFineTuneDatePicker" placeholder="Return Fine Tune Date" [(ngModel)]="docReturnFineTune" name="docReturnFineTune">
                 <mat-datepicker-toggle matSuffix [for]="docReturnFineTuneDatePicker"></mat-datepicker-toggle>
                 <mat-datepicker #docReturnFineTuneDatePicker></mat-datepicker>
               </mat-form-field>
   
               <mat-form-field class="example-full-width">
-                <input matInput [matDatepicker]="docSendProofReadDatePicker" placeholder="Send Proofread Date" [(ngModel)]="docSendProofReadDate" name="docSendProofReadDate">
+                <input matInput [matDatepicker]="docSendProofReadDatePicker" placeholder="Send Proofread Date" [(ngModel)]="docSendProofRead" name="docSendProofRead">
                 <mat-datepicker-toggle matSuffix [for]="docSendProofReadDatePicker"></mat-datepicker-toggle>
                 <mat-datepicker #docSendProofReadDatePicker></mat-datepicker>
               </mat-form-field>
     
               <mat-form-field class="example-full-width">
-                <input matInput [matDatepicker]="docReturnProofReadDatePicker" placeholder="Return Proofread Date" [(ngModel)]="docReturnProofReadDate" name="docReturnProofReadDate">
+                <input matInput [matDatepicker]="docReturnProofReadDatePicker" placeholder="Return Proofread Date" [(ngModel)]="docReturnProofRead" name="docReturnProofRead">
                 <mat-datepicker-toggle matSuffix [for]="docReturnProofReadDatePicker"></mat-datepicker-toggle>
                 <mat-datepicker #docReturnProofReadDatePicker></mat-datepicker>
               </mat-form-field>

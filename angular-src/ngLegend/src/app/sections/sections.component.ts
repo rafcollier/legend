@@ -11,6 +11,10 @@ import {ValidateService} from '../services/validate.service';
 export class SectionsComponent implements OnInit {
   username: String;
   section: String;
+  department: String;
+  onlinePosition: number;
+  printPosition: number;
+  docIndex: number = null;
   errorMessage: String = "";
   successMessage: String = "";
   validateMessage: String = "";
@@ -43,7 +47,6 @@ export class SectionsComponent implements OnInit {
     });
   }
 
-
   onSectionDelete(section, index) {
     const sectionID = section["_id"]; 
     this.authService.deleteSection(sectionID).subscribe(section => {
@@ -60,12 +63,15 @@ export class SectionsComponent implements OnInit {
 
   onSectionSubmit(){
     const section = {
-      section: this.section
+      section: this.section,
+      department: this.department,
+      onlinePosition: this.onlinePosition,
+      printPosition: this.printPosition
     }
 
     //Required fields
     if(!this.validateService.validateSection(section)) {
-      this.validateMessage = "Please fill section field";
+      this.validateMessage = "Please enter Section name";
       setTimeout(() => {
         this.validateMessage = "";
         return false;
@@ -75,6 +81,9 @@ export class SectionsComponent implements OnInit {
       this.authService.addSection(section).subscribe(data => {
         if(data.success){
           this.section = "";
+          this.department = "";
+          this.onlinePosition = null;
+          this.printPosition = null;
           setTimeout(() => {
             this.onGetSections();
             this.router.navigate(['/sections']); 
@@ -82,6 +91,9 @@ export class SectionsComponent implements OnInit {
         } 
         else {
           this.section = "";
+          this.department = "";
+          this.onlinePosition = null;
+          this.printPosition = null;
           this.errorMessage = data.msg;
           setTimeout(() => {
             this.errorMessage = "";
@@ -91,6 +103,16 @@ export class SectionsComponent implements OnInit {
       });
     }
   }
+
+  onSectionEdit(){
+
+
+    
+  }
+
+
+
+
 
 }
 

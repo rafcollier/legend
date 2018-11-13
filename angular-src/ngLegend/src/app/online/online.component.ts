@@ -3,6 +3,8 @@ import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
 
+import * as moment from 'moment';
+
 const config = require('../../../../../config/docs');
 
 declare var require: any;
@@ -16,10 +18,15 @@ let Json2csvParser = require('json2csv').Parser;
 })
 export class OnlineComponent implements OnInit {
   showResults: Boolean;
+  noResults: Boolean = false;
   onlineIssues: [Object]; 
   onlineIssuesDates: Array<any>; 
   onlineIssuesVolume: String;
   onlineIssuesIssue: String; 
+  firstOnlineIssue: Object;
+  firstPageFirstIssue: number;
+  lastPageFirstIssue: number;
+  dateFirstIssue: String;
   displayDocs: [Object];
   onlineOrder: [Object];
   username: String;
@@ -40,8 +47,15 @@ export class OnlineComponent implements OnInit {
   docCollectionCode5: String;
   docCollectionCode6: String;
 
-  lastPagePrevIssue: Number;
+  lastPagePrevIssue: number;
+  firstPageCurrentIssue: number;
+  lastPageCurrentIssue: number;
   sorted: Boolean;
+
+  sections: Object[] = []; 
+  configFile: Object;
+  onlineIssueSelect: Date;
+  onlineIssueDateFormatted: String;
 
 constructor(
   	private authService: AuthService,
@@ -50,24 +64,51 @@ constructor(
 
   ngOnInit() {
     this.username = this.authService.loadUsername(); 
-    this.onlineIssues = this.authService.localGetOnline(); 
-    console.log(this.onlineIssues);
-    this.onlineIssuesDates = this.onlineIssues.map(a => a['date']);
-    this.onlineOrder = config.onlineorder;
+    this.configFile = this.authService.localGetConfigFile();
+    this.sections = this.authService.localGetSections(); 
+    console.log(this.sections);
+
+    //this.onlineIssues = this.authService.localGetOnline(); 
+    //this.firstOnlineIssue = this.onlineIssues[this.onlineIssues.length - 1];
+    //this.firstPageFirstIssue = this.firstOnlineIssue["firstPage"];
+    //this.lastPageFirstIssue = this.firstOnlineIssue["lastPage"];
+    //this.dateFirstIssue = this.firstOnlineIssue["date"];
+    //this.onlineIssuesDates = this.onlineIssues.map(a => a['date']);
+    //this.onlineOrder = config.onlineorder;
+
     this.showResults = false;
-    this.sorted = true;
+    this.noResults = false;
+   // this.sorted = true;
   }
 
   onSearchSubmit() {
-    console.log(this.docOnlineIssue);
-    this.authService.getOnlineSearchResults(this.docOnlineIssue).subscribe(entries => {
+    console.log(this.onlineIssueSelect);
     
-      this.displayDocs = entries;
+    this.authService.getOnlineSearchResults(this.onlineIssueSelect).subscribe(entries => {
+      console.log(entries);
+      if(entries.length == 0) {
+        this.noResults = true;
+      } else {
+        this.displayDocs = entries;
+        this.onlineIssueDateFormatted = moment(this.onlineIssueSelect).format('MMMM DD, YYYY');
+        this.checkPreviousOnlineIssue();
+        this.showResults = true;
+      }
 
-      console.log(this.displayDocs);
+  //    this.getVolumeIssue(); 
+  //    this.checkSorted();
+    }, 
+    err => {
+        console.log(err);
+        return false;
+    });
+  }
 
-      this.getVolumeIssue(); 
-      this.checkSorted();
+  checkPreviousOnlineIssue() {
+    this.authService.getCheckPreviousOnlineIssue(this.onlineIssueSelect).subscribe(entries => {
+      console.log(entries);
+  //    this.getVolumeIssue(); 
+  //    this.checkSorted();
     }, 
     err => {
         console.log(err);
@@ -76,23 +117,27 @@ constructor(
   }
 
   getVolumeIssue() {
+    console.log(this.onlineIssues);
     for(let i = 0; i <this.onlineIssues.length; i++) {
       if(this.onlineIssues[i]['date'] == this.docOnlineIssue) {
         this.onlineIssuesVolume = this.onlineIssues[i]['volume'];
         this.onlineIssuesIssue = this.onlineIssues[i]['issue'];
-        if(this.onlineIssues[i]['date'] != 'May 7, 2018') {
-          this.getLastPagePreviousIssue(this.onlineIssues[i + 1]['date']);
+        if(this.onlineIssues[i]['date'] == this.dateFirstIssue) { //If first issue in config file, set first and last pages
+          this.firstPageCurrentIssue = this.firstPageFirstIssue;
+          this.lastPageCurrentIssue = this.lastPageFirstIssue;
+        }
+        else {
+          this.getLastPagePreviousIssue(this.onlineIssues[i + 1]['date'], this.onlineIssues[i]['date']);
         }
         break;
       }
     }
   }
 
-  getLastPagePreviousIssue(onlineIssue) {
-    console.log("calling auth services" + onlineIssue);
-    this.authService.getOnlineLastPage(onlineIssue).subscribe(entries => {
-      console.log(entries);
+  getLastPagePreviousIssue(prevOnlineIssue, currentOnlineIssue) {
+    this.authService.getOnlineLastPage(prevOnlineIssue).subscribe(entries => {
       this.lastPagePrevIssue = entries[0]['docLastPageOnline'];
+      this.getFirstLastPagesCurrentIssue(currentOnlineIssue);
     }, 
     err => {
         console.log(err);
@@ -100,57 +145,65 @@ constructor(
     });
   }
 
-  checkSorted() {
-    for (let i = 0; i < this.displayDocs.length; i++) {
-      if (!(this.displayDocs[i]['docOnlinePosition'])) {
-        this.sorted = false;
-        break;
-      }
-      else {
-        this.sorted = true;
-        this.showResults = true;
-      }
-    }
-    if (!(this.sorted)) {
-      this.getTypes();
-    }
+  getFirstLastPagesCurrentIssue(onlineIssue) {
+    this.firstPageCurrentIssue = this.lastPagePrevIssue + 1;
+    this.authService.getOnlineLastPage(onlineIssue).subscribe(entries => {
+      this.lastPageCurrentIssue = entries[0]['docLastPageOnline'];
+    }, 
+    err => {
+        console.log(err);
+        return false;
+    });
   }
 
-  getTypes() {
-    console.log(this.displayDocs);
-    let types = [];
-    for (let i = 0; i < this.displayDocs.length; i++) {
-      if (this.displayDocs[i]['docSection'].toLowerCase() == 'practice' || this.displayDocs[i]['docSection'].toLowerCase() == 'humanities') {
-        if (this.displayDocs[i]['docDepartment']) {
-          types[i] = this.displayDocs[i]['docDepartment'].toLowerCase(); 
-        }
-        else {
-          types[i] = this.displayDocs[i]['docSection'].toLowerCase(); 
-        }
-      }
-      else {
-        types[i] = this.displayDocs[i]['docSection'].toLowerCase();
-      }
-    }
-    console.log(types);
-    this.getOnlinePosition(types, 0);
-  }
+  //checkSorted() {
+  //  for (let i = 0; i < this.displayDocs.length; i++) {
+  //    if (!(this.displayDocs[i]['docOnlinePosition'])) {
+  //      this.sorted = false;
+  //      break;
+  //    }
+  //    else {
+  //      this.sorted = true;
+  //      this.showResults = true;
+  //    }
+  //  }
+  //  if (!(this.sorted)) {
+  //    this.getTypes();
+  //  }
+  //}
+
+  //getTypes() {
+  //  console.log(this.displayDocs);
+  //  let types = [];
+  //  for (let i = 0; i < this.displayDocs.length; i++) {
+  //    if (this.displayDocs[i]['docSection'].toLowerCase() == 'practice' || this.displayDocs[i]['docSection'].toLowerCase() == 'humanities') {
+  //      if (this.displayDocs[i]['docDepartment']) {
+  //        types[i] = this.displayDocs[i]['docDepartment'].toLowerCase(); 
+  //      }
+  //      else {
+  //        types[i] = this.displayDocs[i]['docSection'].toLowerCase(); 
+  //      }
+  //    }
+  //    else {
+  //      types[i] = this.displayDocs[i]['docSection'].toLowerCase();
+  //    }
+  //  }
+  //  this.getOnlinePosition(types, 0);
+  //}
 
   
-  getOnlinePosition(types, index) {
-
-    console.log(this.onlineOrder);
-
-    if (!(this.displayDocs[index]['docOnlinePosition'])) {
-      for(let i=0; i<this.onlineOrder.length; i++) {
-        if(this.onlineOrder[i]['type'].toLowerCase() == types[index].toLowerCase())  {
-          console.log(this.onlineOrder[i]['type'].toLowerCase());
-          console.log(this.onlineOrder[i]['position']);
-          this.updateOnlinePosition(this.displayDocs[index], this.onlineOrder[i]['position']);
-        }
-      }
-    }
-  } 
+  //getOnlinePosition(types, index) {
+  //
+    //  if (!(this.displayDocs[index]['docOnlinePosition'])) {
+    //    for(let i=0; i<this.onlineOrder.length; i++) {
+    //      if(this.onlineOrder[i]['type'].toLowerCase() == types[index].toLowerCase())  {
+    //        console.log(this.onlineOrder[i]['type'].toLowerCase());
+    //        console.log(this.onlineOrder[i]['position']);
+    //        this.updateOnlinePosition(this.displayDocs[index], this.onlineOrder[i]['position']);
+    //      }
+    //    }
+    //  }
+    //} 
 
   updateOnlinePosition(doc, position) {
     const docOrderUpdate = {
@@ -158,8 +211,6 @@ constructor(
       docOnlinePosition: position 
     }
     this.authService.putUpdateDoc(docOrderUpdate).subscribe(doc => {
-      //this.onSearchSubmit();
-     // this.showResults = true;
       this.onSearchSubmit();
     },
     err => {
@@ -181,7 +232,6 @@ constructor(
   }
 
   onOnlineOrderSubmit() {
-    console.log("submit online order edits");
     const onlineOrderDoc = {
       docID: this.docID, //to identify this doc in database
       docOnlinePosition: this.docOnlinePosition,
@@ -192,7 +242,6 @@ constructor(
       docNumTables: this.docNumTables,
       docNumAppendices: this.docNumAppendices
     }
-    console.log(onlineOrderDoc);
     this.authService.putUpdateDoc(onlineOrderDoc).subscribe(doc => {
       this.onSearchSubmit();
       this.docIndex = null;
@@ -203,8 +252,13 @@ constructor(
     });
   }
 
+  onOnlineOrderCancel() {
+    this.onSearchSubmit();
+    this.docIndex = null;
+  }
+
   onNewSearch() {
-  	this.docOnlineIssue = "";
+  	this.onlineIssueSelect = null;
   	this.ngOnInit();
   }
 

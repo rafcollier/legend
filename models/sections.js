@@ -8,9 +8,19 @@ const SectionSchema = mongoose.Schema({
     type: Date, default: Date.now
   },
   section: {
-	type: String,
-	required: true
-	}
+	  type: String,
+	  required: true
+	},
+  department: {
+    type: String
+  },
+  onlinePosition: {
+    type: Number
+  },
+  printPosition: {
+    type: Number
+  },
+
 });
 
 const Section = module.exports = mongoose.model('Section', SectionSchema)

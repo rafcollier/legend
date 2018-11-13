@@ -1,4 +1,4 @@
-<div *ngIf="!showResults" class = "align-form">
+<div *ngIf="!showResults && !noResults" class = "align-form">
 
   <section class = "mat-typography">
 
@@ -6,10 +6,11 @@
     <form (submit)="onSearchSubmit()" class="example-form">  
 
       <mat-form-field class="example-full-width">
-        <mat-select [(ngModel)]="docOnlineIssue" name="docOnlineIssue" placeholder="Online Issue">
-          <mat-option *ngFor="let o of onlineIssuesDates" [value]="o"> {{o}} </mat-option>
-        </mat-select>
+        <input matInput [matDatepicker]="onlineIssueSelectDatePicker" placeholder="Online Issue Date" [(ngModel)]="onlineIssueSelect" name="onlineIssueSelect">
+        <mat-datepicker-toggle matSuffix [for]="onlineIssueSelectDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #onlineIssueSelectDatePicker></mat-datepicker>
       </mat-form-field>
+
       <button mat-raised-button type="submit">Search</button>
 
     </form>  
@@ -17,70 +18,112 @@
   </section>
 </div>
 
-<div *ngIf="showResults" class = "align-page">
+<div *ngIf="noResults" class = "align-page" >
+  <h2>
+     Sorry, your query found no results.
+  </h2>
+  <div class = "align-form">
+    <section class = "mat-typography">
+      <div class="flex-center">
+        <hr class="hr-style">
+        <span (click)="onNewSearch()">
+          <button mat-raised-button>New Search</button>
+        </span>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div *ngIf="showResults" class = "align-page"  >
 
   <section class="mat-typography">
 
     <h1>
-        <b>Online Issue:</b> {{ docOnlineIssue }}; Volume {{ onlineIssuesVolume }}; Issue {{ onlineIssuesIssue }}
+        <b>Online Issue:</b> {{ onlineIssueDateFormatted }} &nbsp; Volume {{ onlineIssuesVolume }} &nbsp; Issue {{ onlineIssuesIssue }}
     </h1>
-    <h3><b>Last Page Previous Online Issue:</b> {{ lastPagePrevIssue }} </h3>
-   
-    <br>
-    <div *ngFor="let d of displayDocs; let i = index">
-      <h2>
-         {{ d.docTitle }}
-      </h2>
-      <p>
-        <b>Section:</b> {{ d.docSection }}
-      </p>
-      <p *ngIf="d.docDepartment">
-        <b>Department:</b> {{ d.docDepartment }}
-      </p>
-      <p>
-        <b>Author:</b> {{ d.docAuthor }} 
-      </p>
-      <p>
-        <b>DOI:</b> {{ d.docDOI }}
-      </p>
-      <p *ngIf="d.docCollectionCode1"><b>Collection Code 1:</b> {{ d.docCollectionCode1 }}</p>
-      <p *ngIf="d.docCollectionCode2"><b>Collection Code 2:</b> {{ d.docCollectionCode2 }}</p>
-      <p *ngIf="d.docCollectionCode3"><b>Collection Code 3:</b> {{ d.docCollectionCode3 }}</p>
-      <p *ngIf="d.docCollectionCode4"><b>Collection Code 4:</b> {{ d.docCollectionCode4 }}</p>
-      <p *ngIf="d.docCollectionCode5"><b>Collection Code 5:</b> {{ d.docCollectionCode5 }}</p>
-      <p *ngIf="d.docCollectionCode6"><b>Collection Code 6:</b> {{ d.docCollectionCode6 }}</p>
+    <h4> <span style="color:#4D6FAC">First Page:&nbsp;</span> <span *ngIf="firstPageCurrentIssue">{{ firstPageCurrentIssue }} </span>&nbsp; <span style="color:#4D6FAC">Last Page:&nbsp;</span> <span *ngIf="lastPageCurrentIssue">{{ lastPageCurrentIssue }} </span></h4>
 
+    <div class="border-div">
 
-      <div *ngIf="i != docIndex">
-        <p>
-          <b>Number of Figures:</b> {{ d.docNumFigures }}
-        </p>
-        <p>
-          <b>Number of Tables:</b> {{ d.docNumTables }}
-        </p>
-        <p>
-          <b>Number of Appendencies:</b> {{ d.docNumAppendices }}
-        </p>
-        <p>
-          <b>Position:</b> {{ d.docOnlinePosition }}
-        </p>
-        <p>
-          <b>First Page:</b> {{ d.docFirstPageOnline }}
-        </p>
-        <p>
-          <b>Last Page:</b> {{ d.docLastPageOnline }}
-        </p>
-        <p>
-          <b>Online Issue Notes:</b> {{ d.docOnlineNotes }}
-        </p>
+      <h3 style="color:red">SUMMARY</h3>
 
-        <a href="" onClick="return false;">
-         <span (click)="onOnlineOrderClick(d, i)"> Edit </span>
-        </a>
-        <br><br>
-        <a href="" onClick="return false;">
+      <div *ngFor="let d of displayDocs; let i = index">
+        <p>
+          <span style="color:#4D6FAC"> {{i+1}}. {{d.docSection}} </span>: {{d.docTitle}}
+        <p>
+      </div>
+
+    </div>
+
+    <div *ngFor="let d of displayDocs; let i = index" class="padded-div">
+      <div>
+        <h1 style="display: inline">
+          {{i+1}}. {{ d.docTitle }}
+        </h1>
+
+        <a href="" onClick="return false;" style="display: inline" class="red-link">
           <span (click)="onDocClick(d, i)"> See full entry </span>
         </a>
+      </div>
+      <br>
+
+      <p>
+        <span style="color:#4D6FAC">Section:</span> {{ d.docSection }}
+      </p>
+      <p *ngIf="d.docDepartment">
+        <span style="color:#4D6FAC">Department:</span> {{ d.docDepartment }}
+      </p>
+      <p>
+        <span style="color:#4D6FAC">Author:</span> {{ d.docAuthor }} 
+      </p>
+      <p>
+        <span style="color:#4D6FAC">DOI:</span> {{ d.docDOI }}
+      </p>
+      <p *ngIf="d.docCollectionCode1"><span style="color:#4D6FAC">Collection Code 1:</span> {{ d.docCollectionCode1 }}</p>
+      <p *ngIf="d.docCollectionCode2"><span style="color:#4D6FAC">Collection Code 2:</span> {{ d.docCollectionCode2 }}</p>
+      <p *ngIf="d.docCollectionCode3"><span style="color:#4D6FAC">Collection Code 3:</span> {{ d.docCollectionCode3 }}</p>
+      <p *ngIf="d.docCollectionCode4"><span style="color:#4D6FAC">Collection Code 4:</span> {{ d.docCollectionCode4 }}</p>
+      <p *ngIf="d.docCollectionCode5"><span style="color:#4D6FAC">Collection Code 5:</span> {{ d.docCollectionCode5 }}</p>
+      <p *ngIf="d.docCollectionCode6"><span style="color:#4D6FAC">Collection Code 6:</span> {{ d.docCollectionCode6 }}</p>
+
+      <p *ngIf="d.docFocusArea"><span style="color:#4D6FAC">Area of Focus:</span> {{d.docFocusArea}} </p>
+
+      <p *ngIf="d.docOpenAccess"><span style="color:#4D6FAC">Open Access:</span> yes</p>
+      <p *ngIf="d.docProfessionalDev"><span style="color:#4D6FAC">Continuing Professional Development:</span> yes </p>
+
+      <p>
+        <span style="color:#4D6FAC">Copy Editor:</span> {{ d.docEditor }}
+      </p>
+
+   
+
+      <div *ngIf="i != docIndex" class = "edit-div">
+        <p>
+          <span style="color:#4D6FAC">Number of Figures:</span> {{ d.docNumFigures }}
+        </p>
+        <p>
+          <span style="color:#4D6FAC">Number of Tables:</span> {{ d.docNumTables }}
+        </p>
+        <p>
+          <span style="color:#4D6FAC">Number of Appendencies:</span> {{ d.docNumAppendices }}
+        </p>
+        <p>
+          <span style="color:#4D6FAC">Position:</span> {{ d.docOnlinePosition }}
+        </p>
+        <p>
+          <span style="color:#4D6FAC">First Page:</span> {{ d.docFirstPageOnline }}
+        </p>
+        <p>
+          <span style="color:#4D6FAC">Last Page:</span> {{ d.docLastPageOnline }}
+        </p>
+        <p>
+          <span style="color:#4D6FAC">Online Issue Notes:</span> {{ d.docOnlineNotes }}
+        </p>
+
+        <a href="" onClick="return false;" class="red-link">
+         <span (click)="onOnlineOrderClick(d, i)"> Edit </span>
+        </a>
+       
       </div>
 
       <div *ngIf="i == docIndex">
@@ -119,23 +162,29 @@
               </mat-form-field> 
 
             <button mat-raised-button type="submit">Submit</button>
+            <button mat-raised-button type="button" (click)="onOnlineOrderCancel()">Cancel</button>
             </form>  
           </section>
 
         </div>
       </div>
-
-      <hr class="hr-style">
     </div>
-
-    <div class="flex-center">
-      <span (click)="onNewSearch()">
-        <button mat-raised-button>New Search</button>
-      </span>
-      <span (click)="onDownload()">
-        <button mat-raised-button>Download CSV</button>
-      </span>
-    </div>
-
   </section>
+  <div class = "align-form">
+    <section class = "mat-typography">
+      <div class="flex-center">
+        <hr class="hr-style">
+        <span (click)="onNewSearch()">
+          <button mat-raised-button>New Search</button>
+        </span>
+        <span (click)="onDownload()">
+          <button mat-raised-button>Download CSV</button>
+        </span>
+      </div>
+    </section>
+  </div>
 </div>
+
+
+
+

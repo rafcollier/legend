@@ -16,9 +16,7 @@ const config = require('../../../../../config/docs');
 export class EnterdocComponent implements OnInit {
  
   //GENERAL FIELDS
-
   docDOI: Number;
-  //docDOI: String;
   docSection: String;
   docDepartment: String;
   docAuthor: String;
@@ -27,17 +25,14 @@ export class EnterdocComponent implements OnInit {
 
 
   //DOCUMENT DETAILS
-
   docOpenAccess: Boolean;
   docTranslation: Boolean;
   docPressRelease: Boolean;
   docProfessionalDev: Boolean;
-  //docNumPages: Number;
-  docNumPages: String;
-  docNumFigures: String;
-  docNumTables: String;
-  //docNumAppendices: Number;
-  docNumAppendices: String;
+  docNumPages: Number;
+  docNumFigures: Number;
+  docNumTables: Number;
+  docNumAppendices: Number;
   docRelatedMaterial: String;
   docOutStandingMaterial: String;
   docInvoiceNum: String;
@@ -45,7 +40,6 @@ export class EnterdocComponent implements OnInit {
   docWebBlurb: String;
 
   //MULTIMEDIA
-
   docMultiMedia1: String;
   docMultiMedia2: String;
   docMultiMedia3: String;
@@ -55,14 +49,12 @@ export class EnterdocComponent implements OnInit {
   docVideoEmbedCode: String;
   docVideoLink: String;
 
-    //SOCIAL MEDIA
-
+  //SOCIAL MEDIA
   docURL: String;
   docHashTags: String;
   docSocialSummary: String;
     
   // COLLECTION CODES
-
   docCollectionCode1: String;
   docCollectionCode2: String;
   docCollectionCode3: String;
@@ -71,7 +63,6 @@ export class EnterdocComponent implements OnInit {
   docCollectionCode6: String;
 
   //DOCUMENT TIMELINE
-
   docAcceptDate: Date;
   docPaymentDate: Date;
   docETOCDate: Date;
@@ -79,7 +70,6 @@ export class EnterdocComponent implements OnInit {
   docPrintIssue: Date;
 
   //EDITING TIMELINE
-
   docEditor: String;
   docCoordinator: String;
   docProofReader: String;
@@ -97,6 +87,7 @@ export class EnterdocComponent implements OnInit {
   docSendProofRead: Date;
   docReturnProofRead: Date;
   docFinalizeDate: Date;
+  docStatus: String;
 
   //NOTES
   docNotes: String;
@@ -104,19 +95,18 @@ export class EnterdocComponent implements OnInit {
   docPrintNotes: String;
 
   //ONLINE ISSUE
-
   docFirstPageOnline: Number;
   docLastPageOnline: Number;
-  docOnlinePosition: Number;
+  docOnlinePosition:Number;
 
   //PRINT ISSUE
-
   docAdConflicts: String;
   docFirstPagePrint: Number;
   docLastPagePrint: Number;
+  docPrintPosition: Number; 
   
   //NEWS ONLY
-
+  docNewsReady: Date;
   docPublishDateCMAJnews: Date;
   docNewsCommissionDate: Date;
   docNewsInvoiceDate: Date;
@@ -125,9 +115,11 @@ export class EnterdocComponent implements OnInit {
   //Generated from login user
   username: String;
 
-  //loaded from config file
-  sections: [String]; 
-  departments: [String]; 
+  //loaded from config data 
+  sections: Object[] = []; 
+  departments: String[] = []; 
+  configFile: Object;
+
   onlineIssues: [String]; 
   printIssues: [String]; 
   collectionCodes: [String]; 
@@ -150,12 +142,15 @@ export class EnterdocComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
     this.showNews = false;
     this.showLetter = false;
-  	//this.sections = config.sections;
-    this.sections = this.authService.localGetSections(); 
+
     this.username = this.authService.loadUsername(); 
-    this.departments = config.departments;
+    this.configFile = this.authService.localGetConfigFile();
+    this.sections = this.authService.localGetSections(); 
+    this.departments = this.authService.localGetDepartments(); 
+
     this.onlineIssues = config.onlineIssues;
     this.printIssues = config.printIssues;
     this.collectionCodes = config.collectionCodes;
@@ -167,7 +162,7 @@ export class EnterdocComponent implements OnInit {
     this.focusareas = config.focusareas;
     this.onlineOrder = config.onlineorder;
 
-
+    //Get name of section from previous screen.
     this.route.params.subscribe(params => {
       this.docSection = params['section'];
       if (this.docSection.toLowerCase() == "news") { 
@@ -181,10 +176,16 @@ export class EnterdocComponent implements OnInit {
     });
   }
 
+  //Get highest value DOI from database for news article and increment by 1 for current DOI. 
   getNewsDOI() {
+    console.log(this.configFile);
     this.authService.getNewsDOI().subscribe(doi => {
-      console.log(doi);
+      if(doi.length == 0) {
+        this.docDOI = this.configFile['firstNewsDOI'] + 1;
+      }
+      else {
       this.docDOI = doi[0].docDOI + 1;
+      }
     },
     err => {
       console.log(err);
@@ -192,40 +193,92 @@ export class EnterdocComponent implements OnInit {
     });
   }
 
-  getOnlinePosition(department, section) {
+  getOnlinePositions() {
 
-    console.log(this.onlineOrder);
+    let tempArr = [];
 
-    if(department) {
-      for (let i = 0; i < this.onlineOrder.length; i++) {
-        console.log("checking department");
-        console.log(this.onlineOrder['type'].toLowerCase());
-        console.log(department.toLowerCase());
-        if (this.onlineOrder['type'].toLowerCase() == department.toLowerCase())
-          return this.onlineOrder['position'];
+    //Use print and online position of sections with departments. 
+    if(this.docDepartment) {
+      for (let i = 0; i < this.sections.length; i++) {
+        if (this.sections[i]['department'].toLowerCase() == this.docDepartment.toLowerCase()) {
+          tempArr.push(this.sections[i]['onlinePosition']);
+          tempArr.push(this.sections[i]['printPosition']);
+          return tempArr;
+        }
       }
     }
-    else if(section) {
-      for (let j = 0; j < this.onlineOrder.length; j++) {
-        console.log("checking section");
-        console.log(this.onlineOrder[j]['type']);
-        console.log(section);
-        if (this.onlineOrder[j]['type'].toLowerCase() == section.toLowerCase())
-          return this.onlineOrder[j]['position'];
+
+    //If no department, use print and online positions of sections.
+    else if(this.docSection) {
+      for (let j = 0; j < this.sections.length; j++) {
+        if (!(this.sections[j]['department']) && (this.sections[j]['section'].toLowerCase() == this.docSection.toLowerCase())) {
+          tempArr.push(this.sections[j]['onlinePosition']);
+          tempArr.push(this.sections[j]['printPosition']);
+          return tempArr;
+        }
       }
+    }
+
+  }
+
+  getStatus() {
+
+    if(this.docFinalizeDate) {
+      return "8 - Final";  
+    }
+    else if (this.docSendProofRead) {
+      return "7 - Proof Reading";
+    } 
+    else if (this.docSendFineTune) {
+      return "6 - Fine Tuning";
+    } 
+    else if (this.docSendAuthorDate) {
+      return "5 - Author Review";
+    } 
+    else if (this.docSendSEDate) {
+      return "4 - SE Review";
+    } 
+    else if (this.docCopyEditBeginDate) {
+      return "3 - Copy Edit";
+    } 
+    else if (this.docEnteredDate) {
+      return "2 - InCopy";
+    }
+    else if (this.docAcceptDate) {
+      return "1 - Accepted";
+    }
+    else {
+      return "0 - No Status";
+    }
+
+  }
+
+  getNewsStatus() {
+    if(this.docPublishDateCMAJnews) {
+      return "C - News Posted";
+    }
+    else if(this.docNewsReady) {
+      return "B - News Ready";
+    }
+    else {
+      return "A - News In Edit";
     }
   }
 
   onDocSubmit(){
 
+ 
+    let positions = this.getOnlinePositions(); 
+    this.docOnlinePosition = positions[0];
+    this.docPrintPosition = positions[1];
+
     if (this.docSection != "News") {
       this.docETOCDate = this.docOnlineIssue;
+      this.docStatus = this.getStatus();
+    } else {
+      this.docStatus = this.getNewsStatus();
     }
 
-    console.log(this.docDepartment);
-    console.log(this.docSection);
-    this.docOnlinePosition = this.getOnlinePosition(this.docDepartment, this.docSection);
-    console.log(this.docOnlinePosition);
 
     let doc = {
 
@@ -309,6 +362,7 @@ export class EnterdocComponent implements OnInit {
       docSendProofRead: this.docSendProofRead,
       docReturnProofRead: this.docReturnProofRead,
       docFinalizeDate: this.docFinalizeDate,
+      docStatus: this.docStatus,
    
       //NOTES 
       docNotes: this.docNotes,
@@ -326,16 +380,17 @@ export class EnterdocComponent implements OnInit {
       docAdConflicts: this.docAdConflicts,
       docFirstPagePrint: this.docFirstPagePrint,
       docLastPagePrint: this.docLastPagePrint,
+      docPrintPosition: this.docPrintPosition,
       
       //NEWS ONLY
     
+      docNewsReady: this.docNewsReady,
       docPublishDateCMAJnews: this.docPublishDateCMAJnews,
       docNewsCommissionDate: this.docNewsCommissionDate,
       docNewsInvoiceDate: this.docNewsInvoiceDate,
       docNewsInvoiceAmount: this.docNewsInvoiceAmount
     
     }
-
 
     this.authService.submitDoc(doc).subscribe(data => {
       if(data.success){

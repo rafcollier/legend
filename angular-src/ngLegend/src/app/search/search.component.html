@@ -1,7 +1,7 @@
 
 
 
-<div *ngIf="!showResults" class = "align-form">
+<div *ngIf="!showResults && !noResults" class = "align-form">
 
   <section class = "mat-typography">
     <h4>Welcome {{username}}</h4> 
@@ -48,10 +48,38 @@
         <input type="number" matInput placeholder="DOI" [(ngModel)]="docDOI" name="docDOI">
       </mat-form-field>  
 
+      <mat-form-field class="example-full-width">
+        <mat-select [(ngModel)]="editor" name="editor" placeholder="Editor">
+          <mat-option *ngFor="let e of editors" [value]="e"> {{e}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select [(ngModel)]="status" name="status" placeholder="Status">
+          <mat-option *ngFor="let s of statusConfig" [value]="s"> {{s}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <button mat-raised-button type="submit">Search</button>
 
     </form>  
   </section>
+</div>
+
+<div *ngIf="noResults" class = "align-page">
+  <h2>
+    Sorry, your query found no results.
+  </h2>
+    <div class = "align-form">
+    <section class = "mat-typography">
+      <div class="flex-center">
+        <hr class="hr-style">
+        <span (click)="onNewSearch()">
+          <button mat-raised-button>New Search</button>
+        </span>
+      </div>
+    </section>
+  </div>
 </div>
 
 <div *ngIf="showResults" class = "align-page">
@@ -74,51 +102,28 @@
       <p>
         DOI: {{ d.docDOI }}
       </p>
-      <div *ngIf="i != docIndex">
-        <div *ngIf="showOnlineOrder">
-          <p>
-            Online Issue Position: {{ d.docOnlinePosition }}
-          </p>
-          <a href="" onClick="return false;">
-            <span (click)="onOnlineOrderClick(d, i)"> Edit online position </span>
-          </a>
-          <br><br>
-        </div>
-        <a href="" onClick="return false;">
-          <span (click)="onDocClick(d, i)"> See full entry </span>
-        </a>
-      </div>
+      <p>
+        Status: {{ d.docStatus }}
+      </p>
 
-      <div *ngIf="i == docIndex">
-        <div class = "align-form">
-          <section class = "mat-typography">
-           <h4>Enter Online Position</h4>
-            <form (submit)="onOnlineOrderSubmit()" class="example-form">  
-              <mat-form-field class="example-full-width">
-                <input type="number" matInput [(ngModel)]="docOnlinePosition" name="docOnlinePosition" placeholder="Position">
-              </mat-form-field>
-            <button mat-raised-button type="submit">Submit</button>
-            </form>  
-          </section>
-        </div>
-      </div>
-
-      <hr class="hr-style">
+      <a href="" onClick="return false;" style="display: inline" class="red-link">
+        <span (click)="onDocClick(d, i)"> See full entry </span>
+      </a>
     </div>
-
-    <div class="flex-center">
-      <span (click)="onModifySearch()">
-         <button mat-raised-button>Modify Search</button>
-      </span>
-      <span (click)="onNewSearch()">
-        <button mat-raised-button>New Search</button>
-      </span>
-      <span (click)="onDownload()">
-        <button mat-raised-button>Download CSV</button>
-      </span>
-    </div>
-
   </section>
+  <div class = "align-form">
+    <section class = "mat-typography">
+      <div class="flex-center">
+        <hr class="hr-style">
+        <span (click)="onNewSearch()">
+          <button mat-raised-button>New Search</button>
+        </span>
+        <span (click)="onModifySearch()">
+          <button mat-raised-button>Modify Search</button>
+        </span>
+      </div>
+    </section>
+  </div>
 </div>
 
 

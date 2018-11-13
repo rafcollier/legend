@@ -49,18 +49,16 @@ let DocSchema = new Schema({
 	  type: Boolean
 	},
 	docNumPages: {
-	  //type: Number
-	  type: String
+	  type: Number
 	},
 	docNumAppendices: {
-	  //type: Number
-	  type: String
+	  type: Number
 	},
 	docNumFigures: {
-	  type: String
+	  type: Number
 	},
 	docNumTables: {
-	  type: String
+	  type: Number
 	},
     docRelatedMaterial: {
 	  type: String
@@ -212,6 +210,9 @@ let DocSchema = new Schema({
 	docFinalizeDate: {
 	  type: Date
 	},
+	docStatus: {
+	  type: String
+	},
 
 	//NOTES
 
@@ -250,9 +251,15 @@ let DocSchema = new Schema({
 	docLastPagePrint: {
 	  type: Number
 	},
+	docPrintPosition: {
+	  type: Number
+	},
 	
     //NEWS ONLY
 
+    docNewsReady: { 
+	  type: Date
+	},
 	docPublishDateCMAJnews: { 
 	  type: Date
 	},

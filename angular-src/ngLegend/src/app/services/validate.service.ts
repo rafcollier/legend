@@ -6,9 +6,26 @@ export class ValidateService {
   constructor() { }
 
   validateRegister(user){
-    if(user.username == ("" || undefined) || user.password == ("" || undefined)) {
+    if((user.username == ("" || undefined || null)) || (user.password == ("" || undefined || null))) {
       return false;
-    } else {
+    }  
+    else if((user.username.length <= 0) || (user.password.length <= 0)) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
+  validateSection(section){
+    console.log(section);
+    if( (section.section == ("" || undefined || null)) ) {
+      return false;
+    } 
+    else if ( (section.section.length <= 0) ) {
+      return false;
+    }
+    else {
       return true;
     }
   }
@@ -22,13 +39,6 @@ export class ValidateService {
     }
   }
 
-  validateSection(section){
-    if(section.section == "" || undefined) {
-      return false;
-    } else {
-      return true;
-    }
-  }
 
   validatePrintIssue(printIssue){
     if(printIssue.printIssue == "" || undefined) {

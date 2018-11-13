@@ -1,4 +1,4 @@
-<div class = "align-form">
+<!--<div class = "align-form">
 
   <section class = "mat-typography">
 
@@ -17,6 +17,14 @@
 
       <mat-form-field class="example-full-width">  
         <input type="text" matInput placeholder="Issue" [(ngModel)]="issue" name="issue">  
+      </mat-form-field>  
+
+      <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="First Page" [(ngModel)]="firstPage" name="firstPage">  
+      </mat-form-field>  
+
+      <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="Last Page" [(ngModel)]="lastPage" name="lastPage">  
       </mat-form-field>  
 
       <button mat-raised-button type="submit">Submit</button>
@@ -44,6 +52,12 @@
       <p>
          Issue: {{ o.issue }}
       </p>
+      <p>
+         First Page: {{ o.firstPage }}
+      </p>
+      <p>
+         Last Page: {{ o.lastPage }}
+      </p>
       <a href="" onClick="return false;">
         <span (click)="onOnlineDelete(o, i)"> Delete</span>
       </a>
@@ -53,3 +67,5 @@
 
   </section>
 </div>
+
+-->

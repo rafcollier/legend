@@ -26,15 +26,17 @@ export class PrintissuesComponent implements OnInit {
 
   ngOnInit() {
 
-    this.authService.getProfile().subscribe(profile => {
-      this.username = profile.user.username;
-    },
-    err => {
-      console.log(err);
-      return false;
-    });
-    this.onGetPrintIssues();
+    //this.authService.getProfile().subscribe(profile => {
+    //  this.username = profile.user.username;
+    //},
+    //err => {
+    //  console.log(err);
+    //  return false;
+    //});
+    //this.onGetPrintIssues();
   }
+
+  /*
 
   onGetPrintIssues() {
     this.authService.getPrintIssues().subscribe(entries => {
@@ -95,5 +97,7 @@ export class PrintissuesComponent implements OnInit {
       });
     }
   }
+
+  */
 
 }

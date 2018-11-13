@@ -4,15 +4,15 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
 const mongoose = require('mongoose');
-const config = require('./config/database');
+const configDatabase = require('./config/database');
 const moment = require('moment');
 
 
 //Connect to database
-mongoose.connect(config.database);
+mongoose.connect(configDatabase.database);
 
 mongoose.connection.on('connected', () => {
-	console.log('Connected to database ' + config.database);
+	console.log('Connected to database ' + configDatabase.database);
 })
 
 mongoose.connection.on('error', () => {
@@ -23,12 +23,7 @@ const app = express();
 const users = require('./routes/users');
 const docs = require('./routes/docs');
 const sections = require('./routes/sections');
-//const ads = require('./routes/ads');
-//const codes = require('./routes/codes');
-//const editors = require('./routes/editors');
-//const se = require('./routes/se');
-const online = require('./routes/online');
-const print = require('./routes/print');
+const config = require('./routes/config');
 
 //const port = 3000; //This is port for local development
 const port = process.env.PORT || 8080; //This is for deployment to Heroku
@@ -46,14 +41,10 @@ require('./config/passport')(passport);
 app.use('/users', users)
 app.use('/docs', docs)
 app.use('/sections', sections)
-//app.use('/ads', ads)
-//app.use('/codes', codes)
-//app.use('/editors', editors)
-//app.use('/se', se)
-app.use('/online', online)
-app.use('/print', print)
-//
+app.use('/config', config)
+
 //Index Route
+
 app.get('/', (req, res) => {
 	res.send('Invalid Endpoint');
 });

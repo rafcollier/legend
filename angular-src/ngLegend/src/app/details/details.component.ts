@@ -24,6 +24,9 @@ export class DetailsComponent implements OnInit {
   docID: String; //unique ID for database entry
 
   //from config
+  configFile: Object;
+  onlineOrder: [Object];
+
   sections: [String]; 
   departments: [String]; 
   onlineIssues: [String]; 
@@ -40,9 +43,7 @@ export class DetailsComponent implements OnInit {
   //Same as in Enter Document Component
 
   //GENERAL FIELDS
-
   docDOI: Number;
-  //docDOI: String;
   docSection: String;
   docDepartment: String;
   docAuthor: String;
@@ -50,17 +51,14 @@ export class DetailsComponent implements OnInit {
   docFocusArea: String;
 
   //DOCUMENT DETAILS
-
   docOpenAccess: Boolean;
   docTranslation: Boolean;
   docPressRelease: Boolean;
   docProfessionalDev: Boolean;
-  //docNumPages: Number;
-  docNumPages: String;
-  docNumTables: String;
-  docNumFigures: String;
-  //docNumAppendices: Number;
-  docNumAppendices: String;
+  docNumPages: Number;
+  docNumFigures: Number;
+  docNumTables: Number;
+  docNumAppendices: Number;
   docRelatedMaterial: String;
   docOutStandingMaterial: String;
   docInvoiceNum: String;
@@ -68,7 +66,6 @@ export class DetailsComponent implements OnInit {
   docWebBlurb: String;
 
   //MULTIMEDIA
-
   docMultiMedia1: String;
   docMultiMedia2: String;
   docMultiMedia3: String;
@@ -79,13 +76,11 @@ export class DetailsComponent implements OnInit {
   docVideoLink: String;
 
   //SOCIAL MEDIA
-
   docURL: String;
   docHashTags: String;
   docSocialSummary: String;
     
   // COLLECTION CODES
-
   docCollectionCode1: String;
   docCollectionCode2: String;
   docCollectionCode3: String;
@@ -94,7 +89,6 @@ export class DetailsComponent implements OnInit {
   docCollectionCode6: String;
 
   //DOCUMENT TIMELINE
-
   docAcceptDate: Date;
   docPaymentDate: Date;
   docETOCDate: Date;
@@ -102,7 +96,6 @@ export class DetailsComponent implements OnInit {
   docPrintIssue: Date;
 
   //EDITING TIMELINE
-
   docEditor: String;
   docCoordinator: String;
   docProofReader: String;
@@ -120,26 +113,26 @@ export class DetailsComponent implements OnInit {
   docSendProofRead: Date;
   docReturnProofRead: Date;
   docFinalizeDate: Date;
+  docStatus: String;
 
-  //NOTES 
+  //NOTES
   docNotes: String;
   docOnlineNotes: String;
   docPrintNotes: String;
 
   //ONLINE ISSUE
-
   docFirstPageOnline: Number;
   docLastPageOnline: Number;
-  docOnlinePosition: Number;
+  docOnlinePosition:Number;
 
   //PRINT ISSUE
-
   docAdConflicts: String;
   docFirstPagePrint: Number;
   docLastPagePrint: Number;
+  docPrintPosition: Number; 
   
   //NEWS ONLY
-
+  docNewsReady: Date;
   docPublishDateCMAJnews: Date;
   docNewsCommissionDate: Date;
   docNewsInvoiceDate: Date;
@@ -166,6 +159,7 @@ export class DetailsComponent implements OnInit {
   docReturnProofReadDateFormatted: String;
   docFinalizeDateFormatted: String;
 
+  docNewsReadyFormatted: String;
   docPublishDateCMAJnewsFormatted: String; 
   docNewsCommissionDateFormatted: String;
   docNewsInvoiceDateFormatted: String;
@@ -181,8 +175,12 @@ export class DetailsComponent implements OnInit {
     this.editDoc = false;
     this.showNews = false;
     this.showLetter = false;
+
+    this.username = this.authService.loadUsername(); 
+    this.configFile = this.authService.localGetConfigFile();
     this.sections = this.authService.localGetSections(); 
-    this.departments = config.departments;
+    this.departments = this.authService.localGetDepartments(); 
+
     this.onlineIssues = config.onlineIssues;
     this.printIssues = config.printIssues;
     this.collectionCodes = config.collectionCodes;
@@ -192,9 +190,7 @@ export class DetailsComponent implements OnInit {
     this.se1s = config.se1s;
     this.multimedia = config.multimedia;
     this.focusareas = config.focusareas;
-    this.authortypes = config.authortypes;
-
-    this.username = this.authService.loadUsername();
+    this.onlineOrder = config.onlineorder;
 
     this.route.params.subscribe(params => {
       this.detailsID = params['doc'];
@@ -206,11 +202,9 @@ export class DetailsComponent implements OnInit {
       this.docID = doc._id;
 
       if(doc.docSection == "News") {
-        console.log("news");
         this.showNews = true;
       }
       else if (doc.docSection == "Letter") {
-        console.log("letter");
         this.showLetter = true;
       }
 
@@ -292,6 +286,7 @@ export class DetailsComponent implements OnInit {
       this.docSendProofRead = doc.docSendProofRead;
       this.docReturnProofRead = doc.docReturnProofRead;
       this.docFinalizeDate = doc.docFinalizeDate;
+      this.docStatus = doc.docStatus;
 
       //NOTES
       this.docNotes = doc.docNotes;
@@ -302,15 +297,18 @@ export class DetailsComponent implements OnInit {
     
       this.docFirstPageOnline = doc.docFirstPageOnline;
       this.docLastPageOnline = doc.docLastPageOnline;
+      this.docOnlinePosition = doc.docOnlinePosition;
     
       //PRINT ISSUE
     
       this.docAdConflicts = doc.docAdConflicts;
       this.docFirstPagePrint = doc.docFirstPagePrint;
       this.docLastPagePrint = doc.docLastPagePrint;
+      this.docPrintPosition = doc.docPrintPosition;
       
       //NEWS ONLY
     
+      this.docNewsReady = doc.docNewsReady;
       this.docPublishDateCMAJnews = doc.docPublishDateCMAJnews;
       this.docNewsCommissionDate = doc.docNewsCommissionDate;
       this.docNewsInvoiceDate = doc.docNewsInvoiceDate;
@@ -329,13 +327,14 @@ export class DetailsComponent implements OnInit {
       this.docSendSEDateFormatted = moment(doc.docSendSEDate).format('MMMM DD, YYYY');
       this.docReturnSEDateFormatted = moment(doc.docReturnSEDate).format('MMMM DD, YYYY');
       this.docSendAuthorDateFormatted = moment(doc.docSendAuthorDate).format('MMMM DD, YYYY');
-      this.docReturnAuthorDateFormatted = moment(doc.docReturnAuthorDateF).format('MMMM DD, YYYY');
-      this.docSendFineTuneDateFormatted = moment(doc.docSendFineTuneDate).format('MMMM DD, YYYY');
-      this.docReturnFineTuneDateFormatted = moment(doc.docReturnFineTuneDate).format('MMMM DD, YYYY');
-      this.docSendProofReadDateFormatted = moment(doc.docSendProofReadDate).format('MMMM DD, YYYY');
-      this.docReturnProofReadDateFormatted = moment(doc.docReturnProofReadDate).format('MMMM DD, YYYY');
+      this.docReturnAuthorDateFormatted = moment(doc.docReturnAuthorDate).format('MMMM DD, YYYY');
+      this.docSendFineTuneDateFormatted = moment(doc.docSendFineTune).format('MMMM DD, YYYY');
+      this.docReturnFineTuneDateFormatted = moment(doc.docReturnFineTune).format('MMMM DD, YYYY');
+      this.docSendProofReadDateFormatted = moment(doc.docSendProofRead).format('MMMM DD, YYYY');
+      this.docReturnProofReadDateFormatted = moment(doc.docReturnProofRead).format('MMMM DD, YYYY');
       this.docFinalizeDateFormatted = moment(doc.docFinalizeDate).format('MMMM DD, YYYY');
 
+      this.docNewsReadyFormatted = moment(doc.docNewsReady).format('MMMM DD, YYYY');
       this.docPublishDateCMAJnewsFormatted = moment(doc.docPublishDateCMAJnews).format('MMMM DD, YYYY');
       this.docNewsCommissionDateFormatted = moment(doc.docNewsCommissionDate).format('MMMM DD, YYYY');
       this.docNewsInvoiceDateFormatted = moment(doc.docNewsInvoiceDate).format('MMMM DD, YYYY');
@@ -349,20 +348,107 @@ export class DetailsComponent implements OnInit {
   }
 
   onDeleteDocSubmit() {
-    this.authService.deleteOneDoc(this.docID).subscribe(doc => {
-    },
-    err => {
-      console.log(err);
-      return false;
-    });
-    this.router.navigate(['/search']);
+    if(confirm("Are you sure you want to delete this document?")) {
+      this.authService.deleteOneDoc(this.docID).subscribe(doc => {
+      },
+      err => {
+        console.log(err);
+        return false;
+      });
+      this.router.navigate(['/search']);
+    }
   }
 
   onEditDocSubmit() {
     this.editDoc = true;
   }
 
+  getOnlinePositions() {
+
+    let tempArr = [];
+
+    //Use print and online position of sections with departments. 
+    if(this.docDepartment) {
+      for (let i = 0; i < this.sections.length; i++) {
+        if (this.sections[i]['department'].toLowerCase() == this.docDepartment.toLowerCase()) {
+          tempArr.push(this.sections[i]['onlinePosition']);
+          tempArr.push(this.sections[i]['printPosition']);
+          return tempArr;
+        }
+      }
+    }
+
+    //If no department, use print and online positions of sections.
+    else if(this.docSection) {
+      for (let j = 0; j < this.sections.length; j++) {
+        if (!(this.sections[j]['department']) && (this.sections[j]['section'].toLowerCase() == this.docSection.toLowerCase())) {
+          tempArr.push(this.sections[j]['onlinePosition']);
+          tempArr.push(this.sections[j]['printPosition']);
+          return tempArr;
+        }
+      }
+    }
+
+  }
+
+  getStatus() {
+
+    if(this.docFinalizeDate) {
+      return "8 - Final";  
+    }
+    else if (this.docSendProofRead) {
+      return "7 - Proof Reading";
+    } 
+    else if (this.docSendFineTune) {
+      return "6 - Fine Tuning";
+    } 
+    else if (this.docSendAuthorDate) {
+      return "5 - Author Review";
+    } 
+    else if (this.docSendSEDate) {
+      return "4 - SE Review";
+    } 
+    else if (this.docCopyEditBeginDate) {
+      return "3 - Copy Edit";
+    } 
+    else if (this.docEnteredDate) {
+      return "2 - InCopy";
+    }
+    else if (this.docAcceptDate) {
+      return "1 - Accepted";
+    }
+    else {
+      return "0 - No Status";
+    }
+
+  }
+
+  getNewsStatus() {
+    if(this.docPublishDateCMAJnews) {
+      return "C - News Posted";
+    }
+    else if(this.docNewsReady) {
+      return "B - News Ready";
+    }
+    else {
+      return "A - News In Edit";
+    }
+  }
+
+
   onEditedDocSubmit() {
+
+    let positions = this.getOnlinePositions(); 
+    this.docOnlinePosition = positions[0];
+    this.docPrintPosition = positions[1];
+
+    if (this.docSection != "News") {
+      this.docETOCDate = this.docOnlineIssue;
+      this.docStatus = this.getStatus();
+    } else {
+      this.docStatus = this.getNewsStatus();
+    }
+
     let editedDoc = {
  
       docID: this.docID, //to identify this doc in database
@@ -445,6 +531,7 @@ export class DetailsComponent implements OnInit {
       docSendProofRead: this.docSendProofRead,
       docReturnProofRead: this.docReturnProofRead,
       docFinalizeDate: this.docFinalizeDate,
+      docStatus: this.docStatus,
 
       //NOTES
       docNotes: this.docNotes,
@@ -464,12 +551,15 @@ export class DetailsComponent implements OnInit {
       
       //NEWS ONLY
     
+      docNewsReady: this.docNewsReady,
       docPublishDateCMAJnews: this.docPublishDateCMAJnews,
       docNewsCommissionDate: this.docNewsCommissionDate,
       docNewsInvoiceDate: this.docNewsInvoiceDate,
       docNewsInvoiceAmount: this.docNewsInvoiceAmount
 
     }
+
+    console.log(editedDoc);
 
     this.authService.putUpdateDoc(editedDoc).subscribe(doc => {
     },

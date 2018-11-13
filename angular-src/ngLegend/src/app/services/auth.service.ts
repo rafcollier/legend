@@ -107,81 +107,128 @@ export class AuthService {
   }
 
   /////////////////////////////////////////
-  //ONLINE ISSUE CONFIG COLLECTION
+  //CONFIG COLLECTION
   /////////////////////////////////////////
 
-  addOnline(online) {
-    console.log("auth services add online issue");
+  addConfig(config) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    //return this.http.post('http://localhost:3000/online/addOnline', online, {headers: headers}) 
-    return this.http.post('online/addOnline', online, {headers: headers}) 
+    //return this.http.post('http://localhost:3000/config/addConfig', config, {headers: headers}) 
+    return this.http.post('config/addConfig', config, {headers: headers}) 
       .pipe(map(res => res.json()));
   }
 
-  getOnline() {
+  getConfig() {
     this.loadToken();
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    //return this.http.get('http://localhost:3000/online/getOnline', {headers: headers}) 
-    return this.http.get('online/getOnline', {headers: headers}) 
+    //return this.http.get('http://localhost:3000/config/getConfig', {headers: headers}) 
+    return this.http.get('config/getConfig', {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
-  deleteOnline(onlineID) {
+  putUpdateConfig(editedConfig) {
     this.loadToken();
     let headers = new Headers();
-    let params = new URLSearchParams();
-    let options = new RequestOptions();
-    headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.authToken);
-    params.set('onlineID', onlineID);
-    options.headers = headers;
-    options.search = params;
-    //return this.http.delete('http://localhost:3000/online/deleteOnline', options)
-    return this.http.delete('online/deleteOnline', options)
+    headers.append('Content-Type', 'application/json');
+    //return this.http.put('http://localhost:3000/config/updateConfig', editedConfig, {headers: headers}) 
+    return this.http.put('config/updateConfig', editedConfig, {headers: headers}) 
       .pipe(map(res => res.json()));
-  }
+  } 
+
+  //deleteSection(docID) {
+  //  this.loadToken();
+  //  let headers = new Headers();
+  //  let params = new URLSearchParams();
+  //  let options = new RequestOptions();
+  //  headers.append('Content-Type', 'application/json');
+  //  headers.append('Authorization', this.authToken);
+  //  params.set('docID', docID);
+  //  options.headers = headers;
+  //  options.search = params;
+  //  return this.http.delete('http://localhost:3000/sections/deleteSection', options)
+  //  //return this.http.delete('sections/deleteSection', options)
+  //    .pipe(map(res => res.json()));
+  //}
+
+  /////////////////////////////////////////
+  //ONLINE ISSUE CONFIG COLLECTION
+  /////////////////////////////////////////
+
+  //addOnline(online) {
+  //  console.log("auth services add online issue");
+  //  let headers = new Headers();
+  //  headers.append('Content-Type', 'application/json');
+  //  return this.http.post('http://localhost:3000/online/addOnline', online, {headers: headers}) 
+  //  //return this.http.post('online/addOnline', online, {headers: headers}) 
+  //    .pipe(map(res => res.json()));
+  //}
+
+  //getOnline() {
+  //  this.loadToken();
+  //  let headers = new Headers();
+  //  headers.append('Authorization', this.authToken);
+  //  headers.append('Content-Type', 'application/json');
+  //  return this.http.get('http://localhost:3000/online/getOnline', {headers: headers}) 
+  //  //return this.http.get('online/getOnline', {headers: headers}) 
+  //    .pipe(map(res => res.json()));
+  //} 
+
+  //deleteOnline(onlineID) {
+  //  this.loadToken();
+  //  let headers = new Headers();
+  //  let params = new URLSearchParams();
+  //  let options = new RequestOptions();
+  //  headers.append('Content-Type', 'application/json');
+  //  headers.append('Authorization', this.authToken);
+  //  params.set('onlineID', onlineID);
+  //  options.headers = headers;
+  //  options.search = params;
+  //  return this.http.delete('http://localhost:3000/online/deleteOnline', options)
+  //  //return this.http.delete('online/deleteOnline', options)
+  //    .pipe(map(res => res.json()));
+  //}
 
 
   /////////////////////////////////////////
   //PRINT ISSUE COLLECTION
   /////////////////////////////////////////
   
-  addPrintIssue(printIssue) {
-    console.log("in auth services " + printIssue)
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    //return this.http.post('http://localhost:3000/print/addPrintIssue', printIssue, {headers: headers}) 
-    return this.http.post('print/addPrintIssue', printIssue, {headers: headers}) 
-      .pipe(map(res => res.json()));
-  }
+  //addPrintIssue(printIssue) {
+  //  console.log("in auth services " + printIssue)
+  //  let headers = new Headers();
+  //  headers.append('Content-Type', 'application/json');
+  //  return this.http.post('http://localhost:3000/print/addPrintIssue', printIssue, {headers: headers}) 
+  //  //return this.http.post('print/addPrintIssue', printIssue, {headers: headers}) 
+  //    .pipe(map(res => res.json()));
+  //}
 
-  getPrintIssues() {
-    this.loadToken();
-    let headers = new Headers();
-    headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json');
-    //return this.http.get('http://localhost:3000/print/getPrintIssues', {headers: headers}) 
-    return this.http.get('print/getPrintIssues', {headers: headers}) 
-      .pipe(map(res => res.json()));
-  } 
-
-  deletePrintIssue(docID) {
-    this.loadToken();
-    let headers = new Headers();
-    let params = new URLSearchParams();
-    let options = new RequestOptions();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Authorization', this.authToken);
-    params.set('docID', docID);
-    options.headers = headers;
-    options.search = params;
-    //return this.http.delete('http://localhost:3000/print/deletePrintIssue', options)
-    return this.http.delete('print/deletePrintIssue', options)
-      .pipe(map(res => res.json()));
-  }
+  //getPrintIssues() {
+  //  this.loadToken();
+  //  let headers = new Headers();
+  //  headers.append('Authorization', this.authToken);
+  //  headers.append('Content-Type', 'application/json');
+  //  return this.http.get('http://localhost:3000/print/getPrintIssues', {headers: headers}) 
+  //  //return this.http.get('print/getPrintIssues', {headers: headers}) 
+  //    .pipe(map(res => res.json()));
+  //} 
+//
+//  deletePrintIssue(docID) {
+//    this.loadToken();
+//    let headers = new Headers();
+//    let params = new URLSearchParams();
+//    let options = new RequestOptions();
+//    headers.append('Content-Type', 'application/json');
+//    headers.append('Authorization', this.authToken);
+//    params.set('docID', docID);
+//    options.headers = headers;
+//    options.search = params;
+//    return this.http.delete('http://localhost:3000/print/deletePrintIssue', options)
+//    //return this.http.delete('print/deletePrintIssue', options)
+//      .pipe(map(res => res.json()));
+//  }
 
 
 
@@ -257,7 +304,7 @@ export class AuthService {
       .pipe(map(res => res.json()));
   }
 
-  getSearchResults(section, author, DOI, title, notusedonline, notusedprint, afterAcceptDate, beforeAcceptDate) {
+  getSearchResults(section, author, DOI, title, notusedonline, notusedprint, afterAcceptDate, beforeAcceptDate, editor, status) {
     let headers = new Headers();
     let params = new URLSearchParams();
     let options = new RequestOptions();
@@ -270,6 +317,8 @@ export class AuthService {
     params.set('docNotUsedPrint', notusedprint);
     params.set('afterAcceptDate', afterAcceptDate);
     params.set('beforeAcceptDate', beforeAcceptDate);
+    params.set('editor', editor);
+    params.set('status', status);
     options.headers = headers;
     options.search = params;
     console.log(options);
@@ -338,6 +387,20 @@ export class AuthService {
       .pipe(map(res => res.json()));
   } 
 
+  getCheckPreviousOnlineIssue(onlineIssue) {
+    console.log("in authservices with" + onlineIssue)
+    let headers = new Headers();
+    let params = new URLSearchParams();
+    let options = new RequestOptions();
+    headers.append('Content-Type', 'application/json');
+    params.set('docOnlineIssue', onlineIssue);
+    options.headers = headers;
+    options.search = params;
+    //return this.http.get('http://localhost:3000/docs/getCheckPreviousOnlineIssue', options) 
+    return this.http.get('docs/getOnlineSearchResults', options) 
+      .pipe(map(res => res.json()));
+  } 
+
   getOnlineLastPage(onlineIssue) {
     let headers = new Headers();
     let params = new URLSearchParams();
@@ -363,6 +426,10 @@ export class AuthService {
       .pipe(map(res => res.json()));
   } 
 
+  /////////////////////////////////////////
+  // LOCAL STORAGE
+  /////////////////////////////////////////
+
   storeUserData(token, user) {
     localStorage.setItem('id_token', token);
     localStorage.setItem('user', JSON.stringify(user)); //local storage can only store strings, not objects
@@ -379,6 +446,33 @@ export class AuthService {
     return sectionsArr;
   }
 
+  localStoreUniqueSections(sectionArr) {
+    localStorage.setItem('uniqueSections', JSON.stringify(sectionArr));
+  }
+
+  localGetUniqueSections() {
+    let uniqueSectionsArr = JSON.parse(localStorage.getItem('uniqueSections'));
+    return uniqueSectionsArr;
+  }
+
+  localStoreDepartments(departmentArr) {
+    localStorage.setItem('departments', JSON.stringify(departmentArr));
+  }
+
+  localGetDepartments() {
+    let departmentsArr = JSON.parse(localStorage.getItem('departments'));
+    return departmentsArr;
+  }
+
+  localStoreConfigFile(configFile) {
+    localStorage.setItem('configFile', JSON.stringify(configFile));
+  }
+
+  localGetConfigFile() {
+    let configFile = JSON.parse(localStorage.getItem('configFile'));
+    return configFile;
+  }
+
   localStoreOnline(onlineArr) {
     console.log("in local store online");
     localStorage.setItem('online', JSON.stringify(onlineArr));
@@ -389,8 +483,6 @@ export class AuthService {
     let onlineArr = JSON.parse(localStorage.getItem('online'));
     return onlineArr;
   }
-
-
 
   loadToken(){
     const token = localStorage.getItem('id_token');
