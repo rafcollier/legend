@@ -17,12 +17,12 @@ let Json2csvParser = require('json2csv').Parser;
   styleUrls: ['./online.component.css']
 })
 export class OnlineComponent implements OnInit {
-  showResults: Boolean;
+  showResults: Boolean = false;
   noResults: Boolean = false;
   onlineIssues: [Object]; 
   onlineIssuesDates: Array<any>; 
-  onlineIssuesVolume: String;
-  onlineIssuesIssue: String; 
+  onlineIssueVolume: number;
+  onlineIssueIssue: number; 
   firstOnlineIssue: Object;
   firstPageFirstIssue: number;
   lastPageFirstIssue: number;
@@ -50,6 +50,7 @@ export class OnlineComponent implements OnInit {
   lastPagePrevIssue: number;
   firstPageCurrentIssue: number;
   lastPageCurrentIssue: number;
+  prevOnlineIssue: object;
   sorted: Boolean;
 
   sections: Object[] = []; 
@@ -66,37 +67,26 @@ constructor(
     this.username = this.authService.loadUsername(); 
     this.configFile = this.authService.localGetConfigFile();
     this.sections = this.authService.localGetSections(); 
-    console.log(this.sections);
-
-    //this.onlineIssues = this.authService.localGetOnline(); 
-    //this.firstOnlineIssue = this.onlineIssues[this.onlineIssues.length - 1];
-    //this.firstPageFirstIssue = this.firstOnlineIssue["firstPage"];
-    //this.lastPageFirstIssue = this.firstOnlineIssue["lastPage"];
-    //this.dateFirstIssue = this.firstOnlineIssue["date"];
-    //this.onlineIssuesDates = this.onlineIssues.map(a => a['date']);
-    //this.onlineOrder = config.onlineorder;
-
     this.showResults = false;
     this.noResults = false;
-   // this.sorted = true;
+    console.log("Configuration File")
+    console.log(this.configFile);
   }
 
   onSearchSubmit() {
-    console.log(this.onlineIssueSelect);
-    
     this.authService.getOnlineSearchResults(this.onlineIssueSelect).subscribe(entries => {
       console.log(entries);
       if(entries.length == 0) {
         this.noResults = true;
-      } else {
+      } 
+      else {
         this.displayDocs = entries;
+        this.onlineIssueVolume = entries[0]["docOnlineVolume"];
+        this.onlineIssueIssue = entries[0]["docOnlineIssueNumber"];
         this.onlineIssueDateFormatted = moment(this.onlineIssueSelect).format('MMMM DD, YYYY');
-        this.checkPreviousOnlineIssue();
-        this.showResults = true;
+        console.log("Calling Load Previous Issue");
+        this.loadPrevOnlineIssue();
       }
-
-  //    this.getVolumeIssue(); 
-  //    this.checkSorted();
     }, 
     err => {
         console.log(err);
@@ -104,120 +94,55 @@ constructor(
     });
   }
 
-  checkPreviousOnlineIssue() {
+  loadPrevOnlineIssue() {
     this.authService.getCheckPreviousOnlineIssue(this.onlineIssueSelect).subscribe(entries => {
-      console.log(entries);
-  //    this.getVolumeIssue(); 
-  //    this.checkSorted();
-    }, 
-    err => {
-        console.log(err);
-        return false;
-    });
-  }
-
-  getVolumeIssue() {
-    console.log(this.onlineIssues);
-    for(let i = 0; i <this.onlineIssues.length; i++) {
-      if(this.onlineIssues[i]['date'] == this.docOnlineIssue) {
-        this.onlineIssuesVolume = this.onlineIssues[i]['volume'];
-        this.onlineIssuesIssue = this.onlineIssues[i]['issue'];
-        if(this.onlineIssues[i]['date'] == this.dateFirstIssue) { //If first issue in config file, set first and last pages
-          this.firstPageCurrentIssue = this.firstPageFirstIssue;
-          this.lastPageCurrentIssue = this.lastPageFirstIssue;
-        }
-        else {
-          this.getLastPagePreviousIssue(this.onlineIssues[i + 1]['date'], this.onlineIssues[i]['date']);
-        }
-        break;
+      if(entries.length > 0) {
+        this.prevOnlineIssue = entries[0];
+        console.log("Previous issue: ");
+        console.log(this.prevOnlineIssue);
+        console.log("Calling get last page of previous issue");
+        this.getLastPagePreviousIssue()
       }
-    }
-  }
+      else {
+        this.firstPageCurrentIssue = this.configFile["firstOnlinePage"];
+        console.log("Calling get last page of current issue");
+        this.getLastPageCurrentIssue();
+      }
 
-  getLastPagePreviousIssue(prevOnlineIssue, currentOnlineIssue) {
-    this.authService.getOnlineLastPage(prevOnlineIssue).subscribe(entries => {
-      this.lastPagePrevIssue = entries[0]['docLastPageOnline'];
-      this.getFirstLastPagesCurrentIssue(currentOnlineIssue);
     }, 
-    err => {
-        console.log(err);
-        return false;
-    });
-  }
-
-  getFirstLastPagesCurrentIssue(onlineIssue) {
-    this.firstPageCurrentIssue = this.lastPagePrevIssue + 1;
-    this.authService.getOnlineLastPage(onlineIssue).subscribe(entries => {
-      this.lastPageCurrentIssue = entries[0]['docLastPageOnline'];
-    }, 
-    err => {
-        console.log(err);
-        return false;
-    });
-  }
-
-  //checkSorted() {
-  //  for (let i = 0; i < this.displayDocs.length; i++) {
-  //    if (!(this.displayDocs[i]['docOnlinePosition'])) {
-  //      this.sorted = false;
-  //      break;
-  //    }
-  //    else {
-  //      this.sorted = true;
-  //      this.showResults = true;
-  //    }
-  //  }
-  //  if (!(this.sorted)) {
-  //    this.getTypes();
-  //  }
-  //}
-
-  //getTypes() {
-  //  console.log(this.displayDocs);
-  //  let types = [];
-  //  for (let i = 0; i < this.displayDocs.length; i++) {
-  //    if (this.displayDocs[i]['docSection'].toLowerCase() == 'practice' || this.displayDocs[i]['docSection'].toLowerCase() == 'humanities') {
-  //      if (this.displayDocs[i]['docDepartment']) {
-  //        types[i] = this.displayDocs[i]['docDepartment'].toLowerCase(); 
-  //      }
-  //      else {
-  //        types[i] = this.displayDocs[i]['docSection'].toLowerCase(); 
-  //      }
-  //    }
-  //    else {
-  //      types[i] = this.displayDocs[i]['docSection'].toLowerCase();
-  //    }
-  //  }
-  //  this.getOnlinePosition(types, 0);
-  //}
-
-  
-  //getOnlinePosition(types, index) {
-  //
-    //  if (!(this.displayDocs[index]['docOnlinePosition'])) {
-    //    for(let i=0; i<this.onlineOrder.length; i++) {
-    //      if(this.onlineOrder[i]['type'].toLowerCase() == types[index].toLowerCase())  {
-    //        console.log(this.onlineOrder[i]['type'].toLowerCase());
-    //        console.log(this.onlineOrder[i]['position']);
-    //        this.updateOnlinePosition(this.displayDocs[index], this.onlineOrder[i]['position']);
-    //      }
-    //    }
-    //  }
-    //} 
-
-  updateOnlinePosition(doc, position) {
-    const docOrderUpdate = {
-      docID: doc['_id'],
-      docOnlinePosition: position 
-    }
-    this.authService.putUpdateDoc(docOrderUpdate).subscribe(doc => {
-      this.onSearchSubmit();
-    },
     err => {
       console.log(err);
       return false;
     });
   }
+
+  getLastPagePreviousIssue() {
+    this.authService.getOnlineLastPage(this.prevOnlineIssue["docOnlineIssue"]).subscribe(entries => {
+      console.log(entries);
+      this.firstPageCurrentIssue = entries[0]['docLastPageOnline'] + 1;
+      this.getLastPageCurrentIssue();
+    }, 
+    err => {
+        console.log(err);
+        return false;
+    });
+  }
+
+  getLastPageCurrentIssue() {
+    this.authService.getOnlineLastPage(this.onlineIssueSelect).subscribe(entries => {
+      console.log(entries);
+      this.lastPageCurrentIssue = entries[0]['docLastPageOnline'];
+      this.showResults = true;
+    }, 
+    err => {
+        console.log(err);
+        return false;
+    });
+  }
+
+
+
+  
 
   onOnlineOrderClick(doc, index) {
     this.docID = doc["_id"]; 
@@ -259,10 +184,6 @@ constructor(
 
   onNewSearch() {
   	this.onlineIssueSelect = null;
-  	this.ngOnInit();
-  }
-
-  onModifySearch() {
   	this.ngOnInit();
   }
 
@@ -469,3 +390,25 @@ constructor(
 
 
 }
+
+/*
+getVolumeIssue() {
+    console.log(this.onlineIssues);
+    for(let i = 0; i <this.onlineIssues.length; i++) {
+      if(this.onlineIssues[i]['date'] == this.docOnlineIssue) {
+        this.onlineIssuesVolume = this.onlineIssues[i]['volume'];
+        this.onlineIssuesIssue = this.onlineIssues[i]['issue'];
+        if(this.onlineIssues[i]['date'] == this.dateFirstIssue) { //If first issue in config file, set first and last pages
+          this.firstPageCurrentIssue = this.firstPageFirstIssue;
+          this.lastPageCurrentIssue = this.lastPageFirstIssue;
+        }
+        else {
+          this.getLastPagePreviousIssue(this.onlineIssues[i + 1]['date'], this.onlineIssues[i]['date']);
+        }
+        break;
+      }
+    }
+  }
+
+  */
+

@@ -19,6 +19,7 @@ let Json2csvParser = require('json2csv').Parser;
 export class SearchComponent implements OnInit {
   showResults: Boolean = false;
   noResults: Boolean = false;
+  printAd: string = "Print Ad";
   docSection: String;
   docNotUsedOnline: Boolean;
   docNotUsedPrint: Boolean;

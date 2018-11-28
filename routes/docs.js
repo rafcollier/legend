@@ -10,6 +10,386 @@ let Converter = require("csvtojson").Converter;
 let converter = new Converter({});
 let jsonData =  {}; 
 
+
+router.post('/submitdoc', (req, res, next) => {
+  let newDoc = new Doc({
+
+    //GENERAL FIELDS 
+    
+    docUsername: req.body.docUsername,
+    docDOI: req.body.docDOI,
+    docSection: req.body.docSection,
+    docDepartment: req.body.docDepartment,
+    docAuthor: req.body.docAuthor,
+    docTitle: req.body.docTitle,
+    docFocusArea: req.body.docFocusArea,
+
+    //DOCUMENT DETAILS
+
+    docOpenAccess: req.body.docOpenAccess,
+    docTranslation: req.body.docTranslation,
+    docPressRelease: req.body.docPressRelease,
+    docProfessionalDev: req.body.docProfessionalDev,
+    docNumPages: req.body.docNumPages,
+    docNumFigures: req.body.docNumFigures,
+    docNumBoxes: req.body.docNumBoxes,
+    docNumTables: req.body.docNumTables,
+    docNumAppendices: req.body.docNumAppendices,
+    docRelatedMaterial: req.body.docRelatedMaterial,
+    docOutStandingMaterial: req.body.docOutStandingMaterial,
+    docInvoiceNum: req.body.docInvoiceNum,
+    docShortTitle: req.body.docShortTitle,
+    docWebBlurb: req.body.docWebBlurb,
+    docWebImageURL: req.body.docWebImageURL,
+    docWebImageCredit: req.body.docWebImageCredit,
+
+    //MULTIMEDIA
+
+    docMultiMedia1: req.body.docMultiMedia1,
+    docMultiMedia2: req.body.docMultiMedia2,
+    docMultiMedia3: req.body.docMultiMedia3,
+    docPodcastEmbargoLink: req.body.docPodcastEmbargoLink,
+    docPodcastPermLink: req.body.docPodcastPermLink,
+    docPodcastEmbedCode: req.body.docPodcastEmbedCode,
+    docVideoEmbedCode: req.body.docVideoEmbedCode,
+    docVideoLink: req.body.docVideoLink,
+
+    //SOCIAL MEDIA
+    
+    docURL: req.body.docURL,
+    docHashTags: req.body.docHashTags,
+    docSocialSummary: req.body.docSocialSummary,
+
+    //COLLECTION CODES
+
+    docCollectionCode1: req.body.docCollectionCode1,
+    docCollectionCode2: req.body.docCollectionCode2,
+    docCollectionCode3: req.body.docCollectionCode3,
+    docCollectionCode4: req.body.docCollectionCode4,    
+    docCollectionCode5: req.body.docCollectionCode5,    
+    docCollectionCode6: req.body.docCollectionCode6,    
+
+    //DOCUMENT TIMELINE
+
+    docAcceptDate: req.body.docAcceptDate,
+    docPaymentDate: req.body.docPaymentDate, 
+    docETOCDate: req.body.docETOCDate,
+    docOnlineIssue: req.body.docOnlineIssue,
+    docPrintIssue: req.body.docPrintIssue,
+
+    //EDITING TIMELINE
+
+    docEditor: req.body.docEditor,
+    docCoordinator: req.body.docCoordinator,
+    docProofReader: req.body.docProofReader,
+    docSE1: req.body.docSE1,
+    docSE2: req.body.docSE2,  
+    docEnteredDate: req.body.docEnteredDate,
+    docCopyEditBeginDate: req.body.docCopyEditBeginDate,
+    docCopyEditCompleteDate: req.body.docCopyEditCompleteDate,
+    docSendSEDate: req.body.docSendSEDate,
+    docReturnSEDate: req.body.docReturnSEDate, 
+    docSendAuthorDate: req.body.docSendAuthorDate,
+    docReturnAuthorDate: req.body.docReturnAuthorDate,
+    docSendFineTune: req.body.docSendFineTune,
+    docReturnFineTune: req.body.docReturnFineTune,
+    docSendProofRead: req.body.docSendProofRead,
+    docReturnProofRead: req.body.docReturnProofRead,
+    docFinalizeDate: req.body.docFinalizeDate, 
+    docStatus: req.body.docStatus,
+
+    //NOTES
+    docOnlineNotes: req.body.docOnlineNotes,
+    docPrintNotes: req.body.docPrintNotes,
+    docNotes: req.body.docNotes,
+
+    //ONLINE ISSUE
+
+    docFirstPageOnline: req.body.docFirstPageOnline,
+    docLastPageOnline: req.body.docLastPageOnline,
+    docOnlinePosition: req.body.docOnlinePosition,
+    docOnlineVolume: req.body.docOnlineVolume,
+    docOnlineIssueNumber: req.body.docOnlineIssueNumber,
+
+    //PRINT ISSUE
+
+    docAdConflicts: req.body.docAdConflicts,
+    docFirstPagePrint: req.body.docFirstPagePrint,
+    docLastPagePrint: req.body.docLastPagePrint,
+    docPrintPosition: req.body.docPrintPosition,
+
+  //PRINT ADS
+    docAdClient: req.body.docAdClient, 
+    docAdDescription: req.body.docAdDescription, 
+    docAdSize: req.body.docAdSize, 
+    docAdFirstPagePrint: req.body.docAdFirstPagePrint, 
+    docAdLastPagePrint: req.body.docAdLastPagePrint, 
+
+    //NEWS ONLY
+
+    docNewsReady: req.body.docNewsReady,
+    docPublishDateCMAJnews: req.body.docPublishDateCMAJnews,
+    docNewsCommissionDate: req.body.docNewsCommissionDate,
+    docNewsInvoiceDate: req.body.docNewsInvoiceDate,
+    docNewsInvoiceAmount: req.body.docNewsInvoiceAmount,
+
+  });
+
+  newDoc.save((err) => {
+    if(err) {
+      console.log(err);
+      throw err;
+    }
+    res.json({success: true, msg: 'Doc added'});
+  });
+});
+
+router.get('/getRecentAdded', (req, res, next) => {
+  const limit = req.query.limit;
+  //Doc.find({'docUsername' : req.query.docUsername}, null, {limit: Number(limit), sort: {dateEntered: -1}}, (err, docs) => {
+  Doc.find({}, null, {limit: Number(limit), sort: {dateEntered: -1}}, (err, docs) => {
+    if (err) throw err;
+    res.json(docs);
+  });
+});
+
+router.get('/getOneDoc', (req, res, next) => {
+  Doc.findById(req.query.docID, (err, doc) => { 
+    if (err) throw err;
+    res.json(doc);
+  });
+});
+
+router.get('/getNewsDOI', (req, res, next) => {
+  console.log("in roure");
+  //Doc.find({'docUsername' : req.query.docUsername}, null, {limit: Number(limit), sort: {dateEntered: -1}}, (err, docs) => {
+  Doc.find({docSection: 'News'}, {docDOI: 1}, {limit: 1, sort: {docDOI: -1}}, (err, docs) => {
+    if (err) throw err;
+    res.json(docs);
+  });
+});
+
+router.delete('/deleteOneDoc', (req, res, next) => {
+  Doc.findByIdAndRemove(req.query.docID, (err, doc) => { 
+    if (err) throw err;
+  });
+});
+
+router.put('/updateDoc', (req, res, next) => {
+  const query = {_id:req.body.docID};
+  const updatedDoc = req.body;
+  console.log(updatedDoc);
+  Doc.update({'_id' : req.body.docID}, req.body, (err) => {
+    if(err) throw err;
+    res.json({success: true, msg: 'Document updated'});
+  });
+});
+
+router.get('/getSearchResults', (req, res, next) => {
+
+  let query1 = {};
+  let query2 = {};
+  let query2A = {};
+  let query2B = {};
+  let query2C = {};
+  let query2D = {};
+  let query2E = {};
+  let query3 = {};
+  let query4 = {};
+  let query5 = {};
+  let query6 = {};
+  let query7 = {};
+  let query8 = {};
+  let query9 = {};
+  let query10 = {};
+
+  if(req.query.status)
+    query1 = {'docStatus' : req.query.status};
+
+  console.log(query1);
+
+  if(req.query.editor) { 
+    query2A = {'docEditor' : req.query.editor};
+    query2B = {'docCoordinator' : req.query.editor};
+    query2C = {'docProofReader' : req.query.editor};
+    query2D = {'docSE1' : req.query.editor};
+    query2E = {'docSE2' : req.query.editor};
+    query2 = {$or: [query2A, query2B, query2C, query2D, query2E]};
+  }
+
+  if(req.query.docSection) 
+    query3 = {'docSection' : req.query.docSection};
+
+  if(req.query.docAuthor) 
+    query4 = {'docAuthor' : {$regex: req.query.docAuthor, $options: 'i'}};
+
+  if(req.query.docDOI) 
+    query5 = {'docDOI' : req.query.docDOI};
+
+  if(req.query.docTitle) 
+    query6 = {'docTitle' : {$regex: req.query.docTitle, $options: 'i'}};
+
+  if(req.query.docNotUsedOnline) {  
+    query7A = {'docOnlineIssue' : {$exists : false}};
+    query7B = {'docOnlineIssue' : null};
+    query7 = {$or: [query7A, query7B]};
+  }
+
+  if(req.query.docNotUsedPrint)  
+    query8 = {'docPrintIssue' : {$exists : false}};
+
+  if(req.query.afterAcceptDate)
+    query9 = {docAcceptDate: {$gte: new Date(req.query.afterAcceptDate)}};
+
+  if(req.query.beforeAcceptDate)
+    query10 = {docAcceptDate: {$lte: new Date(req.query.beforeAcceptDate)}};
+
+
+  Doc.find({$and: [query1, query2, query3, query4, query5, query6, query7, query8, query9, query10]}, 
+           null, 
+           {sort: {docStatus: 1}
+           }, 
+    (err, docs) => {
+      if (err) throw err;
+      else {
+        res.json(docs);
+      }
+    });
+  });
+
+router.get('/getNumDocs', (req, res, next) => {
+  console.log("in get Num Docs");
+  let query1 = {};
+  let query2 = {};
+  if(req.query.docSection) 
+    query1 = {docSection : req.query.docSection};
+  if(req.query.docFirstDateNumDocs && req.query.docSecondDateNumDocs) { 
+    query2 = {docPublishDate: {$gte: new Date(req.query.docFirstDateNumDocs),
+                               $lte: new Date(req.query.docSecondDateNumDocs)
+                              }
+              }
+  }
+  console.log(query1, query2);
+  
+  Doc.find({$and: [query1, query2]}, 
+           null, 
+           {sort: {docSection: 1}}, 
+           (err, docs) => {
+    if (err) throw err;
+    res.json(docs);
+  });
+});
+
+router.get('/getTimeDiff', (req, res, next) => {
+  console.log("in get Time Diff");
+  let query1 = {};
+  let query2 = {};
+  if(req.query.docSection) 
+    query1 = {docSection : req.query.docSection};
+  if(req.query.docFirstDateTimeDifference && req.query.docSecondDateTimeDifference) { 
+    query2 = {docPublishDate: {$gte: new Date(req.query.docFirstDateTimeDifference),
+                               $lte: new Date(req.query.docSecondDateTimeDifference)
+                              }
+              }
+  }
+  console.log(query1, query2);
+
+  Doc.find({$and: [query1, query2]}, 
+           {docTitle: 1, docAuthor: 1, docSection: 1, docDOI: 1, docAcceptDate: 1, docPublishDate: 1, docPaymentDate: 1}, 
+           (err, docs) => {
+    if (err) throw err;
+    res.json(docs);
+  });
+});
+
+router.get('/getLayoutSearchResults', (req, res, next) => {
+  let query1 = {};
+  if(req.query.docPrintIssue) 
+    query1 = {'docPrintIssue' : req.query.docPrintIssue};
+  
+  Doc.find(query1,
+           null, 
+           {sort: {docPrintPosition: 1}}, 
+           (err, docs) => {
+    if (err) throw err;
+    res.json(docs);
+  });
+});
+
+router.get('/getOnlineSearchResults', (req, res, next) => {
+
+  let query1 = {'docOnlineIssue': req.query.docOnlineIssue}; 
+
+  Doc.find(query1, 
+           null,
+           {sort: {docOnlinePosition: 1}}, 
+           (err, docs) => {
+    if (err) throw err;
+    else {
+      res.json(docs);
+    }
+  });
+});
+
+router.get('/getCheckPreviousOnlineIssue', (req, res, next) => {
+
+  let query1 = {docOnlineIssue: {$lt: new Date(req.query.docOnlineIssue)}};
+
+  Doc.find(query1, 
+           null,
+           {limit: 1, sort: {docOnlineIssue: -1}}, 
+           (err, docs) => {
+    if (err) throw err;
+    else {
+      res.json(docs);
+    }
+  });
+});
+
+router.get('/getOnlineLastPage', (req, res, next) => {
+
+  let query1 = {'docOnlineIssue': req.query.docOnlineIssue};
+
+  Doc.find(query1, 
+           null,
+           {docLastPageOnline:1, limit: 1, sort: {docLastPageOnline: -1}}, 
+           (err, docs) => {
+    if (err) throw err;
+    else {
+      res.json(docs);
+    }
+  });
+});
+
+/*
+router.get('/getOnlineLastPage', (req, res, next) => {
+  
+  const onlineDate = new Date(req.query.docOnlineIssue);
+  const month = onlineDate.getMonth() + 1;
+  const year = onlineDate.getFullYear();
+  const dayBefore = onlineDate.getDate() - 1;
+  const dayAfter = onlineDate.getDate() + 1;
+  const date1 = year + '-' + month + '-' + dayBefore;
+  const date2 = year + '-' + month + '-' + dayAfter;
+  const query1 = {docOnlineIssue: {$gt: new Date(date1)}};
+  const query2 = {docOnlineIssue: {$lt: new Date(date2)}};
+
+  Doc.find({$and: [query1, query2]},
+          {docLastPageOnline: 1}, 
+          {limit: 1, sort: {docLastPageOnline: -1}}, 
+          (err, docs) => {
+    if (err) throw err;
+    else {
+      console.log(docs);
+      res.json(docs);
+    }
+  });
+});
+
+*/
+
+module.exports = router;
+
 /*
 converter.fromFile('./data/data2017news4.csv', (err, result) => {
   if(err) 
@@ -157,358 +537,3 @@ converter.fromFile('./data/data2017news4.csv', (err, result) => {
 });
 
 */
-router.post('/submitdoc', (req, res, next) => {
-  let newDoc = new Doc({
-
-    //GENERAL FIELDS 
-    
-    docUsername: req.body.docUsername,
-    docDOI: req.body.docDOI,
-    docSection: req.body.docSection,
-    docDepartment: req.body.docDepartment,
-    docAuthor: req.body.docAuthor,
-    docTitle: req.body.docTitle,
-    docFocusArea: req.body.docFocusArea,
-
-    //DOCUMENT DETAILS
-
-    docOpenAccess: req.body.docOpenAccess,
-    docTranslation: req.body.docTranslation,
-    docPressRelease: req.body.docPressRelease,
-    docProfessionalDev: req.body.docProfessionalDev,
-    docNumPages: req.body.docNumPages,
-    docNumFigures: req.body.docNumFigures,
-    docNumTables: req.body.docNumTables,
-    docNumAppendices: req.body.docNumAppendices,
-    docRelatedMaterial: req.body.docRelatedMaterial,
-    docOutStandingMaterial: req.body.docOutStandingMaterial,
-    docInvoiceNum: req.body.docInvoiceNum,
-    docShortTitle: req.body.docShortTitle,
-    docWebBlurb: req.body.docWebBlurb,
-
-    //MULTIMEDIA
-
-    docMultiMedia1: req.body.docMultiMedia1,
-    docMultiMedia2: req.body.docMultiMedia2,
-    docMultiMedia3: req.body.docMultiMedia3,
-    docPodcastEmbargoLink: req.body.docPodcastEmbargoLink,
-    docPodcastPermLink: req.body.docPodcastPermLink,
-    docPodcastEmbedCode: req.body.docPodcastEmbedCode,
-    docVideoEmbedCode: req.body.docVideoEmbedCode,
-    docVideoLink: req.body.docVideoLink,
-
-    //SOCIAL MEDIA
-    
-    docURL: req.body.docURL,
-    docHashTags: req.body.docHashTags,
-    docSocialSummary: req.body.docSocialSummary,
-
-    //COLLECTION CODES
-
-    docCollectionCode1: req.body.docCollectionCode1,
-    docCollectionCode2: req.body.docCollectionCode2,
-    docCollectionCode3: req.body.docCollectionCode3,
-    docCollectionCode4: req.body.docCollectionCode4,    
-    docCollectionCode5: req.body.docCollectionCode5,    
-    docCollectionCode6: req.body.docCollectionCode6,    
-
-    //DOCUMENT TIMELINE
-
-    docAcceptDate: req.body.docAcceptDate,
-    docPaymentDate: req.body.docPaymentDate, 
-    docETOCDate: req.body.docETOCDate,
-    docOnlineIssue: req.body.docOnlineIssue,
-    docPrintIssue: req.body.docPrintIssue,
-
-    //EDITING TIMELINE
-
-    docEditor: req.body.docEditor,
-    docCoordinator: req.body.docCoordinator,
-    docProofReader: req.body.docProofReader,
-    docSE1: req.body.docSE1,
-    docSE2: req.body.docSE2,  
-    docEnteredDate: req.body.docEnteredDate,
-    docCopyEditBeginDate: req.body.docCopyEditBeginDate,
-    docCopyEditCompleteDate: req.body.docCopyEditCompleteDate,
-    docSendSEDate: req.body.docSendSEDate,
-    docReturnSEDate: req.body.docReturnSEDate, 
-    docSendAuthorDate: req.body.docSendAuthorDate,
-    docReturnAuthorDate: req.body.docReturnAuthorDate,
-    docSendFineTune: req.body.docSendFineTune,
-    docReturnFineTune: req.body.docReturnFineTune,
-    docSendProofRead: req.body.docSendProofRead,
-    docReturnProofRead: req.body.docReturnProofRead,
-    docFinalizeDate: req.body.docFinalizeDate, 
-    docStatus: req.body.docStatus,
-
-    //NOTES
-    docOnlineNotes: req.body.docOnlineNotes,
-    docPrintNotes: req.body.docPrintNotes,
-    docNotes: req.body.docNotes,
-
-    //ONLINE ISSUE
-
-    docFirstPageOnline: req.body.docFirstPageOnline,
-    docLastPageOnline: req.body.docLastPageOnline,
-    docOnlinePosition: req.body.docOnlinePosition,
-
-    //PRINT ISSUE
-
-    docAdConflicts: req.body.docAdConflicts,
-    docFirstPagePrint: req.body.docFirstPagePrint,
-    docLastPagePrint: req.body.docLastPagePrint,
-    docPrintPosition: req.body.docPrintPosition,
-
-    //NEWS ONLY
-
-    docNewsReady: req.body.docNewsReady,
-    docPublishDateCMAJnews: req.body.docPublishDateCMAJnews,
-    docNewsCommissionDate: req.body.docNewsCommissionDate,
-    docNewsInvoiceDate: req.body.docNewsInvoiceDate,
-    docNewsInvoiceAmount: req.body.docNewsInvoiceAmount,
-
-  });
-
-  newDoc.save((err) => {
-    if(err) {
-      console.log(err);
-      throw err;
-    }
-    res.json({success: true, msg: 'Doc added'});
-  });
-});
-
-router.get('/getRecentAdded', (req, res, next) => {
-  const limit = req.query.limit;
-  //Doc.find({'docUsername' : req.query.docUsername}, null, {limit: Number(limit), sort: {dateEntered: -1}}, (err, docs) => {
-  Doc.find({}, null, {limit: Number(limit), sort: {dateEntered: -1}}, (err, docs) => {
-    if (err) throw err;
-    res.json(docs);
-  });
-});
-
-router.get('/getOneDoc', (req, res, next) => {
-  Doc.findById(req.query.docID, (err, doc) => { 
-    if (err) throw err;
-    res.json(doc);
-  });
-});
-
-router.get('/getNewsDOI', (req, res, next) => {
-  console.log("in roure");
-  //Doc.find({'docUsername' : req.query.docUsername}, null, {limit: Number(limit), sort: {dateEntered: -1}}, (err, docs) => {
-  Doc.find({docSection: 'News'}, {docDOI: 1}, {limit: 1, sort: {docDOI: -1}}, (err, docs) => {
-    if (err) throw err;
-    res.json(docs);
-  });
-});
-
-router.delete('/deleteOneDoc', (req, res, next) => {
-  Doc.findByIdAndRemove(req.query.docID, (err, doc) => { 
-    if (err) throw err;
-  });
-});
-
-router.put('/updateDoc', (req, res, next) => {
-  const query = {_id:req.body.docID};
-  const updatedDoc = req.body;
-  Doc.update({'_id' : req.body.docID}, req.body, (err) => {
-    if(err) throw err;
-    res.json({success: true, msg: 'Document updated'});
-  });
-});
-
-router.get('/getSearchResults', (req, res, next) => {
-
-  let query1 = {};
-  let query2 = {};
-  let query2A = {};
-  let query2B = {};
-  let query2C = {};
-  let query2D = {};
-  let query2E = {};
-  let query3 = {};
-  let query4 = {};
-  let query5 = {};
-  let query6 = {};
-  let query7 = {};
-  let query8 = {};
-  let query9 = {};
-  let query10 = {};
-
-  if(req.query.status)
-    query1 = {'docStatus' : req.query.status};
-
-  console.log(query1);
-
-  if(req.query.editor) { 
-    query2A = {'docEditor' : req.query.editor};
-    query2B = {'docCoordinator' : req.query.editor};
-    query2C = {'docProofReader' : req.query.editor};
-    query2D = {'docSE1' : req.query.editor};
-    query2E = {'docSE2' : req.query.editor};
-    query2 = {$or: [query2A, query2B, query2C, query2D, query2E]};
-  }
-
-  if(req.query.docSection) 
-    query3 = {'docSection' : req.query.docSection};
-
-  if(req.query.docAuthor) 
-    query4 = {'docAuthor' : {$regex: req.query.docAuthor, $options: 'i'}};
-
-  if(req.query.docDOI) 
-    query5 = {'docDOI' : req.query.docDOI};
-
-  if(req.query.docTitle) 
-    query6 = {'docTitle' : {$regex: req.query.docTitle, $options: 'i'}};
-
-  if(req.query.docNotUsedOnline) {  
-    query7A = {'docOnlineIssue' : {$exists : false}};
-    query7B = {'docOnlineIssue' : null};
-    query7 = {$or: [query7A, query7B]};
-  }
-
-  if(req.query.docNotUsedPrint)  
-    query8 = {'docPrintIssue' : {$exists : false}};
-
-  if(req.query.afterAcceptDate)
-    query9 = {docAcceptDate: {$gte: new Date(req.query.afterAcceptDate)}};
-
-  if(req.query.beforeAcceptDate)
-    query10 = {docAcceptDate: {$lte: new Date(req.query.beforeAcceptDate)}};
-
-
-  Doc.find({$and: [query1, query2, query3, query4, query5, query6, query7, query8, query9, query10]}, 
-           null, 
-           {sort: {docStatus: 1}
-           }, 
-    (err, docs) => {
-      if (err) throw err;
-      else {
-        res.json(docs);
-      }
-    });
-  });
-
-router.get('/getNumDocs', (req, res, next) => {
-  console.log("in get Num Docs");
-  let query1 = {};
-  let query2 = {};
-  if(req.query.docSection) 
-    query1 = {docSection : req.query.docSection};
-  if(req.query.docFirstDateNumDocs && req.query.docSecondDateNumDocs) { 
-    query2 = {docPublishDate: {$gte: new Date(req.query.docFirstDateNumDocs),
-                               $lte: new Date(req.query.docSecondDateNumDocs)
-                              }
-              }
-  }
-  console.log(query1, query2);
-  
-  Doc.find({$and: [query1, query2]}, 
-           null, 
-           {sort: {docSection: 1}}, 
-           (err, docs) => {
-    if (err) throw err;
-    res.json(docs);
-  });
-});
-
-router.get('/getTimeDiff', (req, res, next) => {
-  console.log("in get Time Diff");
-  let query1 = {};
-  let query2 = {};
-  if(req.query.docSection) 
-    query1 = {docSection : req.query.docSection};
-  if(req.query.docFirstDateTimeDifference && req.query.docSecondDateTimeDifference) { 
-    query2 = {docPublishDate: {$gte: new Date(req.query.docFirstDateTimeDifference),
-                               $lte: new Date(req.query.docSecondDateTimeDifference)
-                              }
-              }
-  }
-  console.log(query1, query2);
-
-  Doc.find({$and: [query1, query2]}, 
-           {docTitle: 1, docAuthor: 1, docSection: 1, docDOI: 1, docAcceptDate: 1, docPublishDate: 1, docPaymentDate: 1}, 
-           (err, docs) => {
-    if (err) throw err;
-    res.json(docs);
-  });
-});
-
-
-router.get('/getLayoutSearchResults', (req, res, next) => {
-  let query1 = {};
-  if(req.query.docPrintIssue) 
-    query1 = {'docPrintIssue' : req.query.docPrintIssue};
-  
-  Doc.find(query1,
-           null, 
-           {sort: {docFirstPagePrint: 1}}, 
-           (err, docs) => {
-    if (err) throw err;
-    res.json(docs);
-  });
-});
-
-router.get('/getOnlineSearchResults', (req, res, next) => {
-
-  let query1 = {'docOnlineIssue': req.query.docOnlineIssue}; 
-
-  Doc.find(query1, 
-           null,
-           {sort: {docOnlinePosition: 1}}, 
-           (err, docs) => {
-    if (err) throw err;
-    else {
-      console.log(docs);
-      res.json(docs);
-    }
-  });
-
-});
-
-router.get('/getCheckPreviousOnlineIssue', (req, res, next) => {
-
-  let query1 = {docOnlineIssue: {$lt: new Date(req.query.docOnlineIssue)}};
-
-  Doc.find(query1, 
-           //{docOnlineIssue: 1},
-           null,
-           {limit: 1, sort: {docOnlineIssue: 1}}, 
-           (err, docs) => {
-    if (err) throw err;
-    else {
-      console.log(docs);
-      res.json(docs);
-    }
-  });
-
-});
-
-
-
-router.get('/getOnlineLastPage', (req, res, next) => {
-  
-  const onlineDate = new Date(req.query.docOnlineIssue);
-  const month = onlineDate.getMonth() + 1;
-  const year = onlineDate.getFullYear();
-  const dayBefore = onlineDate.getDate() - 1;
-  const dayAfter = onlineDate.getDate() + 1;
-  const date1 = year + '-' + month + '-' + dayBefore;
-  const date2 = year + '-' + month + '-' + dayAfter;
-  const query1 = {docOnlineIssue: {$gt: new Date(date1)}};
-  const query2 = {docOnlineIssue: {$lt: new Date(date2)}};
-
-  Doc.find({$and: [query1, query2]},
-          {docLastPageOnline: 1}, 
-          {limit: 1, sort: {docLastPageOnline: -1}}, 
-          (err, docs) => {
-    if (err) throw err;
-    else {
-      console.log(docs);
-      res.json(docs);
-    }
-  });
-});
-
-module.exports = router;

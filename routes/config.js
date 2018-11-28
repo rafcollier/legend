@@ -10,7 +10,11 @@ router.post('/addConfig', (req, res, next) => {
 
   console.log("In routes");
   let newConfig = new Config({
-    firstNewsDOI: req.body.firstNewsDOI
+    firstNewsDOI: req.body.firstNewsDOI,
+    firstOnlineVolume: req.body.firstOnlineVolume,
+    firstOnlineIssue: req.body.firstOnlineIssue,
+    firstOnlinePage: req.body.firstOnlinePage,
+    firstOnlineDate: req.body.firstOnlineDate
   });
 
   console.log("in route with" + newConfig);

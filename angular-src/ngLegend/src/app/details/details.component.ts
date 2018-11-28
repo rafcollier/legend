@@ -20,6 +20,9 @@ export class DetailsComponent implements OnInit {
   editDoc: Boolean = false;
   showNews: Boolean = false;
   showLetter: Boolean = false;
+  showAd: Boolean = false;
+  showFrench: Boolean = false;
+  showOther: Boolean = false;
   docUsername: String; //user who entered document originally
   docID: String; //unique ID for database entry
 
@@ -28,6 +31,7 @@ export class DetailsComponent implements OnInit {
   onlineOrder: [Object];
 
   sections: [String]; 
+  sectionsUnique: [String]; 
   departments: [String]; 
   onlineIssues: [String]; 
   printIssues: [String]; 
@@ -39,6 +43,8 @@ export class DetailsComponent implements OnInit {
   se1s: [String]; 
   multimedia: [String]; 
   focusareas: [String]; 
+
+  prevOnlineIssue: Object;
 
   //Same as in Enter Document Component
 
@@ -57,6 +63,7 @@ export class DetailsComponent implements OnInit {
   docProfessionalDev: Boolean;
   docNumPages: Number;
   docNumFigures: Number;
+  docNumBoxes: Number;
   docNumTables: Number;
   docNumAppendices: Number;
   docRelatedMaterial: String;
@@ -64,6 +71,8 @@ export class DetailsComponent implements OnInit {
   docInvoiceNum: String;
   docShortTitle: String;
   docWebBlurb: String;
+  docWebImageURL: String;
+  docWebImageCredit: String;
 
   //MULTIMEDIA
   docMultiMedia1: String;
@@ -124,12 +133,22 @@ export class DetailsComponent implements OnInit {
   docFirstPageOnline: Number;
   docLastPageOnline: Number;
   docOnlinePosition:Number;
+  docOnlineVolume:Number;
+  docOnlineIssueNumber:Number;
 
   //PRINT ISSUE
   docAdConflicts: String;
   docFirstPagePrint: Number;
   docLastPagePrint: Number;
   docPrintPosition: Number; 
+
+
+  //PRINT ADS
+  docAdClient: String;
+  docAdDescription: String; 
+  docAdSize: Number; 
+  docAdFirstPagePrint: Number;
+  docAdLastPagePrint: Number; 
   
   //NEWS ONLY
   docNewsReady: Date;
@@ -146,23 +165,23 @@ export class DetailsComponent implements OnInit {
   docOnlineIssueFormatted: String;
   docPrintIssueFormatted: String;
 
-  docEnteredDateFormatted: String;
-  docCopyEditBeginDateFormatted: String;
-  docCopyEditCompleteDateFormatted: String;
-  docSendSEDateFormatted: String;
-  docReturnSEDateFormatted: String;
-  docSendAuthorDateFormatted: String;
-  docReturnAuthorDateFormatted: String;
-  docSendFineTuneDateFormatted: String;
-  docReturnFineTuneDateFormatted: String;
-  docSendProofReadDateFormatted: String;
-  docReturnProofReadDateFormatted: String;
-  docFinalizeDateFormatted: String;
+  docEnteredDateFormatted: String = "";
+  docCopyEditBeginDateFormatted: String = "";
+  docCopyEditCompleteDateFormatted: String = "";
+  docSendSEDateFormatted: String = "";
+  docReturnSEDateFormatted: String = "";
+  docSendAuthorDateFormatted: String = "";
+  docReturnAuthorDateFormatted: String = "";
+  docSendFineTuneDateFormatted: String = "";
+  docReturnFineTuneDateFormatted: String = "";
+  docSendProofReadDateFormatted: String = "";
+  docReturnProofReadDateFormatted: String = "";
+  docFinalizeDateFormatted: String = "";
 
-  docNewsReadyFormatted: String;
-  docPublishDateCMAJnewsFormatted: String; 
-  docNewsCommissionDateFormatted: String;
-  docNewsInvoiceDateFormatted: String;
+  docNewsReadyFormatted: String = "";
+  docPublishDateCMAJnewsFormatted: String = ""; 
+  docNewsCommissionDateFormatted: String = "";
+  docNewsInvoiceDateFormatted: String = "";
 
   constructor(
   	private route: ActivatedRoute,
@@ -175,14 +194,20 @@ export class DetailsComponent implements OnInit {
     this.editDoc = false;
     this.showNews = false;
     this.showLetter = false;
+    this.showAd = false;
+    this.showFrench = false;
+    this.showOther = false;
 
     this.username = this.authService.loadUsername(); 
     this.configFile = this.authService.localGetConfigFile();
     this.sections = this.authService.localGetSections(); 
+    this.sectionsUnique = this.authService.localGetUniqueSections();
+    console.log(this.sections);
     this.departments = this.authService.localGetDepartments(); 
 
-    this.onlineIssues = config.onlineIssues;
-    this.printIssues = config.printIssues;
+
+    //this.onlineIssues = config.onlineIssues;
+    //this.printIssues = config.printIssues;
     this.collectionCodes = config.collectionCodes;
     this.editors = config.editors;
     this.coordinators = config.coordinators;
@@ -190,7 +215,7 @@ export class DetailsComponent implements OnInit {
     this.se1s = config.se1s;
     this.multimedia = config.multimedia;
     this.focusareas = config.focusareas;
-    this.onlineOrder = config.onlineorder;
+    //this.onlineOrder = config.onlineorder;
 
     this.route.params.subscribe(params => {
       this.detailsID = params['doc'];
@@ -199,14 +224,27 @@ export class DetailsComponent implements OnInit {
 
     this.authService.getOneDoc(this.detailsID).subscribe(doc => {
       this.oneDoc = doc; 
+      console.log(doc);
       this.docID = doc._id;
 
-      if(doc.docSection == "News") {
+      if (doc.docSection.toLowerCase() == "news") { 
         this.showNews = true;
       }
-      else if (doc.docSection == "Letter") {
+      else if (doc.docSection.toLowerCase() == "letter") {
         this.showLetter = true;
       }
+      else if (doc.docSection.toLowerCase() == "print ad") {
+        this.showAd = true;
+        this.docTitle = this.docSection;
+      }
+      else if (doc.docSection.toLowerCase() == "dans le cmaj") {
+        this.showFrench = true;
+        this.docTitle = this.docSection;
+      }
+      else {
+        this.showOther = true;
+      }
+
 
       //GENERAL FIELDS
 
@@ -225,6 +263,7 @@ export class DetailsComponent implements OnInit {
       this.docProfessionalDev = doc.docProfessionalDev;
       this.docNumPages = doc.docNumPages;
       this.docNumFigures = doc.docNumFigures;
+      this.docNumBoxes = doc.docNumBoxes;
       this.docNumTables = doc.docNumTables;
       this.docNumAppendices = doc.docNumAppendices;
       this.docRelatedMaterial = doc.docRelatedMaterial;
@@ -232,6 +271,8 @@ export class DetailsComponent implements OnInit {
       this.docInvoiceNum = doc.docInvoiceNum;
       this.docShortTitle = doc.docShortTitle;
       this.docWebBlurb = doc.docWebBlurb;
+      this.docWebImageURL = doc.docWebImageURL;
+      this.docWebImageCredit = doc.docWebImageCredit;
     
       //MULTIMEDIA
     
@@ -298,6 +339,8 @@ export class DetailsComponent implements OnInit {
       this.docFirstPageOnline = doc.docFirstPageOnline;
       this.docLastPageOnline = doc.docLastPageOnline;
       this.docOnlinePosition = doc.docOnlinePosition;
+      this.docOnlineVolume = doc.docOnlineVolume;
+      this.docOnlineIssueNumber = doc.docOnlineIssueNumber; 
     
       //PRINT ISSUE
     
@@ -305,6 +348,14 @@ export class DetailsComponent implements OnInit {
       this.docFirstPagePrint = doc.docFirstPagePrint;
       this.docLastPagePrint = doc.docLastPagePrint;
       this.docPrintPosition = doc.docPrintPosition;
+
+
+      //PRINT ADS
+      this.docAdClient = doc.docAdClient; 
+      this.docAdDescription = doc.docAdDescription; 
+      this.docAdSize = doc.docAdSize; 
+      this.docAdFirstPagePrint = doc.docAdFirstPagePrint; 
+      this.docAdLastPagePrint = doc.docAdLastPagePrint;
       
       //NEWS ONLY
     
@@ -315,38 +366,82 @@ export class DetailsComponent implements OnInit {
       this.docNewsInvoiceAmount = doc.docNewsInvoiceAmount; 
 
       //FORMATTED DATE FIELDS
-      this.docAcceptDateFormatted = moment(doc.docAcceptDate).format('MMMM DD, YYYY');
-      this.docPaymentDateFormatted = moment(doc.docPaymentDate).format('MMMM DD, YYYY');
-      this.docETOCDateFormatted = moment(doc.docETOCDate).format('MMMM DD, YYYY');
-      this.docOnlineIssueFormatted = moment(doc.docOnlineIssue).format('MMMM DD, YYYY');
-      this.docPrintIssueFormatted = moment(doc.docPrintIssue).format('MMMM YYYY');
-
-      this.docEnteredDateFormatted = moment(doc.docEnteredDate).format('MMMM DD, YYYY');
-      this.docCopyEditBeginDateFormatted = moment(doc.docCopyEditBeginDate).format('MMMM DD, YYYY');
-      this.docCopyEditCompleteDateFormatted = moment(doc.docCopyEditCompleteDate).format('MMMM DD, YYYY');
-      this.docSendSEDateFormatted = moment(doc.docSendSEDate).format('MMMM DD, YYYY');
-      this.docReturnSEDateFormatted = moment(doc.docReturnSEDate).format('MMMM DD, YYYY');
-      this.docSendAuthorDateFormatted = moment(doc.docSendAuthorDate).format('MMMM DD, YYYY');
-      this.docReturnAuthorDateFormatted = moment(doc.docReturnAuthorDate).format('MMMM DD, YYYY');
-      this.docSendFineTuneDateFormatted = moment(doc.docSendFineTune).format('MMMM DD, YYYY');
-      this.docReturnFineTuneDateFormatted = moment(doc.docReturnFineTune).format('MMMM DD, YYYY');
-      this.docSendProofReadDateFormatted = moment(doc.docSendProofRead).format('MMMM DD, YYYY');
-      this.docReturnProofReadDateFormatted = moment(doc.docReturnProofRead).format('MMMM DD, YYYY');
-      this.docFinalizeDateFormatted = moment(doc.docFinalizeDate).format('MMMM DD, YYYY');
-
-      this.docNewsReadyFormatted = moment(doc.docNewsReady).format('MMMM DD, YYYY');
-      this.docPublishDateCMAJnewsFormatted = moment(doc.docPublishDateCMAJnews).format('MMMM DD, YYYY');
-      this.docNewsCommissionDateFormatted = moment(doc.docNewsCommissionDate).format('MMMM DD, YYYY');
-      this.docNewsInvoiceDateFormatted = moment(doc.docNewsInvoiceDate).format('MMMM DD, YYYY');
-
+      if(doc.docAcceptDate) {
+        this.docAcceptDateFormatted = moment(doc.docAcceptDate).format('MMMM DD, YYYY');
+      }
+      if(doc.docPaymentDate) {
+        this.docPaymentDateFormatted = moment(doc.docPaymentDate).format('MMMM DD, YYYY');
+      }
+      if(doc.docETOCDate) {
+        this.docETOCDateFormatted = moment(doc.docETOCDate).format('MMMM DD, YYYY');
+      }
+      if(doc.docOnlineIssue) {
+        this.docOnlineIssueFormatted = moment(doc.docOnlineIssue).format('MMMM DD, YYYY');
+      }
+      if(doc.docPrintIssue) {
+        this.docPrintIssueFormatted = moment(doc.docPrintIssue).format('MMMM YYYY');
+      }
+      if(doc.docEnteredDate) {
+        this.docEnteredDateFormatted = moment(doc.docEnteredDate).format('MMMM DD, YYYY');
+      }
+      if(doc.docCopyEditBeginDate) {
+        this.docCopyEditBeginDateFormatted = moment(doc.docCopyEditBeginDate).format('MMMM DD, YYYY');
+      }
+      if(doc.docCopyEditCompleteDate) {
+        this.docCopyEditCompleteDateFormatted = moment(doc.docCopyEditCompleteDate).format('MMMM DD, YYYY');
+      }
+      if(doc.docSendSEDate) {
+        this.docSendSEDateFormatted = moment(doc.docSendSEDate).format('MMMM DD, YYYY');
+      }
+      if(doc.docReturnSEDate) {
+        this.docReturnSEDateFormatted = moment(doc.docReturnSEDate).format('MMMM DD, YYYY');
+      }
+      if(doc.docSendAuthorDate) {
+        this.docSendAuthorDateFormatted = moment(doc.docSendAuthorDate).format('MMMM DD, YYYY');
+      }
+      if(doc.docReturnAuthorDate) {
+        this.docReturnAuthorDateFormatted = moment(doc.docReturnAuthorDate).format('MMMM DD, YYYY');
+      }
+      if(doc.docSendFineTune) {
+        this.docSendFineTuneDateFormatted = moment(doc.docSendFineTune).format('MMMM DD, YYYY');
+      }
+      if(doc.docReturnFineTune) {
+        this.docReturnFineTuneDateFormatted = moment(doc.docReturnFineTune).format('MMMM DD, YYYY');
+      }
+      if(doc.docSendProofRead) {
+        this.docSendProofReadDateFormatted = moment(doc.docSendProofRead).format('MMMM DD, YYYY');
+      }
+      if(doc.docReturnProofRead) {
+        this.docReturnProofReadDateFormatted = moment(doc.docReturnProofRead).format('MMMM DD, YYYY');
+      }
+      if(doc.docFinalizeDate) {
+        this.docFinalizeDateFormatted = moment(doc.docFinalizeDate).format('MMMM DD, YYYY');
+      }
+      if(doc.docNewsReady) {
+        this.docNewsReadyFormatted = moment(doc.docNewsReady).format('MMMM DD, YYYY');
+      }
+      if(doc.docPublishDateCMAJnews) {
+        this.docPublishDateCMAJnewsFormatted = moment(doc.docPublishDateCMAJnews).format('MMMM DD, YYYY');
+      }
+      if(doc.docNewsCommissionDate) {
+        this.docNewsCommissionDateFormatted = moment(doc.docNewsCommissionDate).format('MMMM DD, YYYY');
+      }
+      if(doc.docNewsInvoiceDate) {
+        this.docNewsInvoiceDateFormatted = moment(doc.docNewsInvoiceDate).format('MMMM DD, YYYY');
+      }
     },
     err => {
       console.log(err);
       return false;
     });
-
   }
-
+  
+  //The button to edit the document was pushed so make fields ready for edit
+  onEditDocSubmit() {
+    this.editDoc = true;
+  }
+  
+  //The button to delete the document was pushed
   onDeleteDocSubmit() {
     if(confirm("Are you sure you want to delete this document?")) {
       this.authService.deleteOneDoc(this.docID).subscribe(doc => {
@@ -359,95 +454,169 @@ export class DetailsComponent implements OnInit {
     }
   }
 
-  onEditDocSubmit() {
-    this.editDoc = true;
+  //The button to submit the edited document was pushed
+  onEditedDocSubmit() {
+    if(this.docOnlineIssue) {
+      console.log("Calling load previous issue.");
+      this.loadPrevOnlineIssue();
+    }
+    else {
+      this.getPositions();
+    }
   }
 
-  getOnlinePositions() {
+  loadPrevOnlineIssue() {
+    this.authService.getCheckPreviousOnlineIssue(this.docOnlineIssue).subscribe(entries => {
+      if(entries.length > 0) {
+        this.prevOnlineIssue = entries[0];
+        console.log("Previous issue: ");
+        console.log(this.prevOnlineIssue);
+      }
+      console.log("Calling get online issue volume.");
+      this.getOnlineVolume();
+    }, 
+    err => {
+      console.log(err);
+      return false;
+    });
+  }
 
-    let tempArr = [];
+  getOnlineVolume() {
+    let date1 = moment(this.docOnlineIssue);
+    let date2 = moment(this.configFile["firstOnlineDate"]);
+    //The date matches first date in configuration file 
+    let match = date1.isSame(date2);
+    let year1 = date1.year();
+    let year2 = date2.year();
+    let yearDiff = year1 - year2;
+    
+    //Add year difference from configuration volume to get current volume
+    //Check if year of current issue differs from previous issue to roll over issue number for new year
+    if(match) {
+      this.docOnlineVolume = this.configFile["firstOnlineVolume"];
+      this.docOnlineIssueNumber = this.configFile["firstOnlineIssue"];
+      this.getPositions();
+    }
+    else {
+      this.docOnlineVolume = this.configFile["firstOnlineVolume"] + yearDiff;
+      let date3 = moment(this.prevOnlineIssue["docOnlineIssue"]);
+      let year3 = date3.year();
+      let yearDiffIssue = year1 - year3;
+      this.getOnlineIssue(yearDiffIssue);
+    }
+  }
 
+  getOnlineIssue(yearDiffIssue) {
+    if(yearDiffIssue == 0) {
+      console.log("Issue in same year as previous.");
+      this.docOnlineIssueNumber =  this.prevOnlineIssue["docOnlineIssueNumber"] + 1;
+    }
+    else {
+      console.log("Issue in new year compared to previous issue.");
+      this.docOnlineIssueNumber = 1;
+    }
+    console.log("Online Issue Number:")
+    console.log(this.docOnlineIssueNumber);
+    console.log("Calling Get Positions");
+    this.getPositions();
+  }
+
+  getPositions() {
     //Use print and online position of sections with departments. 
     if(this.docDepartment) {
+      console.log(this.docDepartment);
       for (let i = 0; i < this.sections.length; i++) {
+      console.log(i);
+      console.log(this.sections[i]['section']);
+      console.log(this.sections[i]['department']);
         if (this.sections[i]['department'].toLowerCase() == this.docDepartment.toLowerCase()) {
-          tempArr.push(this.sections[i]['onlinePosition']);
-          tempArr.push(this.sections[i]['printPosition']);
-          return tempArr;
+          this.docOnlinePosition = this.sections[i]['onlinePosition'] || null;
+          this.docPrintPosition = this.sections[i]['printPosition'] || null;
+          break;
         }
       }
     }
-
     //If no department, use print and online positions of sections.
     else if(this.docSection) {
+      console.log(this.docSection);
       for (let j = 0; j < this.sections.length; j++) {
+        console.log(this.sections[j]['section']);
         if (!(this.sections[j]['department']) && (this.sections[j]['section'].toLowerCase() == this.docSection.toLowerCase())) {
-          tempArr.push(this.sections[j]['onlinePosition']);
-          tempArr.push(this.sections[j]['printPosition']);
-          return tempArr;
+          this.docOnlinePosition = this.sections[j]['onlinePosition'] || null;
+          this.docPrintPosition = this.sections[j]['printPosition'] || null;
+          break;
         }
       }
     }
+    
+    console.log("Online position for sorting in issue:")
+    console.log(this.docOnlinePosition);
+    console.log("Print position for sorting in issue:")
+    console.log(this.docPrintPosition);
 
+    if (this.docSection != "News") {
+      this.docETOCDate = this.docOnlineIssue;
+      console.log("Calling get regular status.");
+      this.getStatus();
+    } 
+    else {
+      console.log("Calling get News status");
+      this.getNewsStatus();
+    }
   }
 
   getStatus() {
 
     if(this.docFinalizeDate) {
-      return "8 - Final";  
+      this.docStatus = "8 - Final";  
     }
     else if (this.docSendProofRead) {
-      return "7 - Proof Reading";
+      this.docStatus = "7 - Proof Reading";
     } 
     else if (this.docSendFineTune) {
-      return "6 - Fine Tuning";
+      this.docStatus = "6 - Fine Tuning";
     } 
     else if (this.docSendAuthorDate) {
-      return "5 - Author Review";
+      this.docStatus = "5 - Author Review";
     } 
     else if (this.docSendSEDate) {
-      return "4 - SE Review";
+      this.docStatus = "4 - SE Review";
     } 
     else if (this.docCopyEditBeginDate) {
-      return "3 - Copy Edit";
+      this.docStatus = "3 - Copy Edit";
     } 
     else if (this.docEnteredDate) {
-      return "2 - InCopy";
+      this.docStatus = "2 - InCopy";
     }
     else if (this.docAcceptDate) {
-      return "1 - Accepted";
+      this.docStatus = "1 - Accepted";
     }
     else {
-      return "0 - No Status";
+      this.docStatus = "0 - No Status";
     }
-
+    
+    console.log("Status for this document:");
+    console.log(this.docStatus);
+    this.submitEditedDoc();
   }
 
   getNewsStatus() {
     if(this.docPublishDateCMAJnews) {
-      return "C - News Posted";
+      this.docStatus = "C - News Posted";
     }
     else if(this.docNewsReady) {
-      return "B - News Ready";
+      this.docStatus = "B - News Ready";
     }
     else {
-      return "A - News In Edit";
+      this.docStatus = "A - News In Edit";
     }
+    console.log("Status for this document:");
+    console.log(this.docStatus);
+    this.submitEditedDoc();
   }
 
-
-  onEditedDocSubmit() {
-
-    let positions = this.getOnlinePositions(); 
-    this.docOnlinePosition = positions[0];
-    this.docPrintPosition = positions[1];
-
-    if (this.docSection != "News") {
-      this.docETOCDate = this.docOnlineIssue;
-      this.docStatus = this.getStatus();
-    } else {
-      this.docStatus = this.getNewsStatus();
-    }
+  submitEditedDoc() { 
+    console.log("Ready to submit edited document.");
 
     let editedDoc = {
  
@@ -470,6 +639,7 @@ export class DetailsComponent implements OnInit {
       docProfessionalDev: this.docProfessionalDev,
       docNumPages: this.docNumPages,
       docNumFigures: this.docNumFigures,
+      docNumBoxes: this.docNumBoxes,
       docNumTables: this.docNumTables,
       docNumAppendices: this.docNumAppendices,
       docRelatedMaterial: this.docRelatedMaterial,
@@ -477,6 +647,8 @@ export class DetailsComponent implements OnInit {
       docInvoiceNum: this.docInvoiceNum,
       docShortTitle: this.docShortTitle,
       docWebBlurb: this.docWebBlurb,
+      docWebImageURL: this.docWebImageURL,
+      docWebImageCredit: this.docWebImageCredit,
     
       //MULTIMEDIA
     
@@ -542,12 +714,23 @@ export class DetailsComponent implements OnInit {
     
       docFirstPageOnline: this.docFirstPageOnline,
       docLastPageOnline: this.docLastPageOnline,
+      docOnlinePosition: this.docOnlinePosition,
+      docOnlineVolume: this.docOnlineVolume,
+      docOnlineIssueNumber: this.docOnlineIssueNumber,
     
       //PRINT ISSUE
     
       docAdConflicts: this.docAdConflicts,
       docFirstPagePrint: this.docFirstPagePrint,
       docLastPagePrint: this.docLastPagePrint,
+      docPrintPosition: this.docPrintPosition,
+
+      //PRINT ADS
+      docAdClient: this.docAdClient, 
+      docAdDescription: this.docAdDescription, 
+      docAdSize: this.docAdSize, 
+      docAdFirstPagePrint: this.docAdFirstPagePrint, 
+      docAdLastPagePrint: this.docAdLastPagePrint, 
       
       //NEWS ONLY
     

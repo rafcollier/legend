@@ -21,8 +21,8 @@ export class EnterdocComponent implements OnInit {
   docDepartment: String;
   docAuthor: String;
   docTitle: String;
-  docFocusArea: String;
-
+  docFocusArea: String;  
+  prevOnlineIssue: Object;
 
   //DOCUMENT DETAILS
   docOpenAccess: Boolean;
@@ -31,6 +31,7 @@ export class EnterdocComponent implements OnInit {
   docProfessionalDev: Boolean;
   docNumPages: Number;
   docNumFigures: Number;
+  docNumBoxes: Number;
   docNumTables: Number;
   docNumAppendices: Number;
   docRelatedMaterial: String;
@@ -38,6 +39,8 @@ export class EnterdocComponent implements OnInit {
   docInvoiceNum: String;
   docShortTitle: String;
   docWebBlurb: String;
+  docWebImageURL: String;
+  docWebImageCredit: String;
 
   //MULTIMEDIA
   docMultiMedia1: String;
@@ -98,12 +101,21 @@ export class EnterdocComponent implements OnInit {
   docFirstPageOnline: Number;
   docLastPageOnline: Number;
   docOnlinePosition:Number;
+  docOnlineVolume:Number;
+  docOnlineIssueNumber:Number;
 
   //PRINT ISSUE
   docAdConflicts: String;
   docFirstPagePrint: Number;
   docLastPagePrint: Number;
   docPrintPosition: Number; 
+
+  //PRINT ADS
+  docAdClient: String;
+  docAdDescription: String; 
+  docAdSize: Number; 
+  docAdFirstPagePrint: Number;
+  docAdLastPagePrint: Number; 
   
   //NEWS ONLY
   docNewsReady: Date;
@@ -132,6 +144,9 @@ export class EnterdocComponent implements OnInit {
 
   showNews: Boolean = false;
   showLetter: Boolean = false;
+  showAd: Boolean = false;
+  showFrench: Boolean = false;
+  showOther: Boolean = false;
 
   onlineOrder: [Object];
 
@@ -145,14 +160,17 @@ export class EnterdocComponent implements OnInit {
 
     this.showNews = false;
     this.showLetter = false;
+    this.showAd = false;
+    this.showFrench = false;
+    this.showOther = false;
 
     this.username = this.authService.loadUsername(); 
     this.configFile = this.authService.localGetConfigFile();
     this.sections = this.authService.localGetSections(); 
     this.departments = this.authService.localGetDepartments(); 
 
-    this.onlineIssues = config.onlineIssues;
-    this.printIssues = config.printIssues;
+    //this.onlineIssues = config.onlineIssues;
+    //this.printIssues = config.printIssues;
     this.collectionCodes = config.collectionCodes;
     this.editors = config.editors;
     this.coordinators = config.coordinators;
@@ -160,7 +178,7 @@ export class EnterdocComponent implements OnInit {
     this.se1s = config.se1s;
     this.multimedia = config.multimedia;
     this.focusareas = config.focusareas;
-    this.onlineOrder = config.onlineorder;
+    //this.onlineOrder = config.onlineorder;
 
     //Get name of section from previous screen.
     this.route.params.subscribe(params => {
@@ -172,19 +190,28 @@ export class EnterdocComponent implements OnInit {
       else if (this.docSection.toLowerCase() == "letter") {
         this.showLetter = true;
       }
-
+      else if (this.docSection.toLowerCase() == "print ad") {
+        this.showAd = true;
+        this.docTitle = this.docSection;
+      }
+      else if (this.docSection.toLowerCase() == "dans le cmaj") {
+        this.showFrench = true;
+        this.docTitle = this.docSection;
+      }
+      else {
+        this.showOther = true;
+      }
     });
   }
 
   //Get highest value DOI from database for news article and increment by 1 for current DOI. 
   getNewsDOI() {
-    console.log(this.configFile);
     this.authService.getNewsDOI().subscribe(doi => {
       if(doi.length == 0) {
         this.docDOI = this.configFile['firstNewsDOI'] + 1;
       }
       else {
-      this.docDOI = doi[0].docDOI + 1;
+        this.docDOI = doi[0].docDOI + 1;
       }
     },
     err => {
@@ -193,92 +220,163 @@ export class EnterdocComponent implements OnInit {
     });
   }
 
-  getOnlinePositions() {
+  onDocSubmit(){
+    if(this.docOnlineIssue) {
+      console.log("Calling load previous issue.");
+      this.loadPrevOnlineIssue();
+    }
+    else {
+      this.getPositions();
+    }
+  }
 
+  loadPrevOnlineIssue() {
+    this.authService.getCheckPreviousOnlineIssue(this.docOnlineIssue).subscribe(entries => {
+      if(entries.length > 0) {
+        this.prevOnlineIssue = entries[0];
+        console.log("Previous issue: ");
+        console.log(this.prevOnlineIssue);
+      }
+      console.log("Calling get online issue volume.");
+      this.getOnlineVolume();
+    }, 
+    err => {
+      console.log(err);
+      return false;
+    });
+  }
+
+
+  getOnlineVolume() {
+    let date1 = moment(this.docOnlineIssue);
+    let date2 = moment(this.configFile["firstOnlineDate"]);
+    //The date matches first date in configuration file 
+    let match = date1.isSame(date2);
+    let year1 = date1.year();
+    let year2 = date2.year();
+    let yearDiff = year1 - year2;
+    
+    //Add year difference from configuration volume to get current volume
+    //Check if year of current issue differs from previous issue to roll over issue number for new year
+    if(match) {
+      this.docOnlineVolume = this.configFile["firstOnlineVolume"];
+      this.docOnlineIssueNumber = this.configFile["firstOnlineIssue"];
+      this.getPositions();
+    } 
+    else {
+      this.docOnlineVolume = this.configFile["firstOnlineVolume"] + yearDiff;
+      let date3 = moment(this.prevOnlineIssue["docOnlineIssue"]);
+      let year3 = date3.year();
+      let yearDiffIssue = year1 - year3;
+      this.getOnlineIssue(yearDiffIssue);
+    }
+  }
+
+  getOnlineIssue(yearDiffIssue) {
+    if(yearDiffIssue == 0) {
+      console.log("Issue in same year as previous.");
+      this.docOnlineIssueNumber =  this.prevOnlineIssue["docOnlineIssueNumber"] + 1;
+    }
+    else {
+      console.log("Issue in new year compared to previous issue.");
+      this.docOnlineIssueNumber = 1;
+    }
+    console.log("Online Issue Number:")
+    console.log(this.docOnlineIssueNumber);
+    console.log("Calling Get Positions");
+    this.getPositions();
+  }
+
+  getPositions() {
     let tempArr = [];
-
     //Use print and online position of sections with departments. 
     if(this.docDepartment) {
       for (let i = 0; i < this.sections.length; i++) {
         if (this.sections[i]['department'].toLowerCase() == this.docDepartment.toLowerCase()) {
           tempArr.push(this.sections[i]['onlinePosition']);
           tempArr.push(this.sections[i]['printPosition']);
-          return tempArr;
         }
       }
     }
-
     //If no department, use print and online positions of sections.
     else if(this.docSection) {
       for (let j = 0; j < this.sections.length; j++) {
         if (!(this.sections[j]['department']) && (this.sections[j]['section'].toLowerCase() == this.docSection.toLowerCase())) {
           tempArr.push(this.sections[j]['onlinePosition']);
           tempArr.push(this.sections[j]['printPosition']);
-          return tempArr;
         }
       }
     }
+    this.docOnlinePosition = tempArr[0];
+    this.docPrintPosition = tempArr[1];
+    
+    console.log("Online position for sorting in issue:")
+    console.log(this.docOnlinePosition);
+    console.log("Print position for sorting in issue:")
+    console.log(this.docPrintPosition);
 
+    if (this.docSection != "News") {
+      this.docETOCDate = this.docOnlineIssue;
+      console.log("Calling get regular status.");
+      this.getStatus();
+    } 
+    else {
+      console.log("Calling get News status");
+      this.getNewsStatus();
+    }
   }
 
   getStatus() {
 
     if(this.docFinalizeDate) {
-      return "8 - Final";  
+      this.docStatus = "8 - Final";  
     }
     else if (this.docSendProofRead) {
-      return "7 - Proof Reading";
+      this.docStatus = "7 - Proof Reading";
     } 
     else if (this.docSendFineTune) {
-      return "6 - Fine Tuning";
+      this.docStatus = "6 - Fine Tuning";
     } 
     else if (this.docSendAuthorDate) {
-      return "5 - Author Review";
+      this.docStatus = "5 - Author Review";
     } 
     else if (this.docSendSEDate) {
-      return "4 - SE Review";
+      this.docStatus = "4 - SE Review";
     } 
     else if (this.docCopyEditBeginDate) {
-      return "3 - Copy Edit";
+      this.docStatus = "3 - Copy Edit";
     } 
     else if (this.docEnteredDate) {
-      return "2 - InCopy";
+      this.docStatus = "2 - InCopy";
     }
     else if (this.docAcceptDate) {
-      return "1 - Accepted";
+      this.docStatus = "1 - Accepted";
     }
     else {
-      return "0 - No Status";
+      this.docStatus = "0 - No Status";
     }
-
+    
+    console.log("Status for this document:");
+    console.log(this.docStatus);
+    this.submitNewDoc();
   }
 
   getNewsStatus() {
     if(this.docPublishDateCMAJnews) {
-      return "C - News Posted";
+      this.docStatus = "C - News Posted";
     }
     else if(this.docNewsReady) {
-      return "B - News Ready";
+      this.docStatus = "B - News Ready";
     }
     else {
-      return "A - News In Edit";
+      this.docStatus = "A - News In Edit";
     }
+    console.log("Status for this document:");
+    console.log(this.docStatus);
+    this.submitNewDoc();
   }
 
-  onDocSubmit(){
-
- 
-    let positions = this.getOnlinePositions(); 
-    this.docOnlinePosition = positions[0];
-    this.docPrintPosition = positions[1];
-
-    if (this.docSection != "News") {
-      this.docETOCDate = this.docOnlineIssue;
-      this.docStatus = this.getStatus();
-    } else {
-      this.docStatus = this.getNewsStatus();
-    }
-
+  submitNewDoc(){
 
     let doc = {
 
@@ -301,6 +399,7 @@ export class EnterdocComponent implements OnInit {
       docProfessionalDev: this.docProfessionalDev,
       docNumPages: this.docNumPages,
       docNumFigures: this.docNumFigures,
+      docNumBoxes: this.docNumBoxes,
       docNumTables: this.docNumTables,
       docNumAppendices: this.docNumAppendices,
       docRelatedMaterial: this.docRelatedMaterial,
@@ -308,6 +407,8 @@ export class EnterdocComponent implements OnInit {
       docInvoiceNum: this.docInvoiceNum,
       docShortTitle: this.docShortTitle,
       docWebBlurb: this.docWebBlurb,
+      docWebImageURL: this.docWebImageURL,
+      docWebImageCredit: this.docWebImageCredit,
     
       //MULTIMEDIA
     
@@ -374,6 +475,8 @@ export class EnterdocComponent implements OnInit {
       docFirstPageOnline: this.docFirstPageOnline,
       docLastPageOnline: this.docLastPageOnline,
       docOnlinePosition: this.docOnlinePosition,
+      docOnlineVolume: this.docOnlineVolume,
+      docOnlineIssueNumber: this.docOnlineIssueNumber,
     
       //PRINT ISSUE
     
@@ -381,6 +484,13 @@ export class EnterdocComponent implements OnInit {
       docFirstPagePrint: this.docFirstPagePrint,
       docLastPagePrint: this.docLastPagePrint,
       docPrintPosition: this.docPrintPosition,
+
+      //PRINT ADS
+      docAdClient: this.docAdClient, 
+      docAdDescription: this.docAdDescription, 
+      docAdSize: this.docAdSize, 
+      docAdFirstPagePrint: this.docAdFirstPagePrint, 
+      docAdLastPagePrint: this.docAdLastPagePrint, 
       
       //NEWS ONLY
     
@@ -391,6 +501,8 @@ export class EnterdocComponent implements OnInit {
       docNewsInvoiceAmount: this.docNewsInvoiceAmount
     
     }
+
+    console.log(doc);
 
     this.authService.submitDoc(doc).subscribe(data => {
       if(data.success){

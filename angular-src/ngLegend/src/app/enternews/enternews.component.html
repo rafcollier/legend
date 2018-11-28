@@ -1,0 +1,211 @@
+
+<!--
+
+
+<div class = "align-form">
+
+  <section class = "mat-typography">
+
+    <h4>Welcome {{username}}</h4> 
+
+    <h2>Enter Document</h2>
+
+    <form (submit)="onDocSubmit()" class="example-form">  
+      Section: {{docSection}}
+      <br><br>
+      DOI: {{docDOI}}
+      <br>
+
+      <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="Title" [(ngModel)]="docTitle" name="docTitle">  
+      </mat-form-field>  
+
+      <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="Author" [(ngModel)]="docAuthor" name="docAuthor">
+      </mat-form-field>  
+
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Timeline
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-form-field class="example-full-width">
+            <input matInput [matDatepicker]="docNewsCommissionDatePicker" placeholder="Commission Date" [(ngModel)]="docNewsCommissionDate" name="docNewsCommissionDate">
+            <mat-datepicker-toggle matSuffix [for]="docNewsCommissionDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #docNewsCommissionDatePicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <input matInput [matDatepicker]="docAcceptDatePicker" placeholder="Accept Date" [(ngModel)]="docAcceptDate" name="docAcceptDate">
+            <mat-datepicker-toggle matSuffix [for]="docAcceptDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #docAcceptDatePicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <input matInput [matDatepicker]="docNewsReadyDatePicker" placeholder="Ready Date" [(ngModel)]="docNewsReady" name="docNewsReady">
+            <mat-datepicker-toggle matSuffix [for]="docNewsReadyDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #docNewsReadyDatePicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <input matInput [matDatepicker]="docPublishDateCMAJnewsDatePicker" placeholder="Date Posted on cmajnews.com" [(ngModel)]="docPublishDateCMAJnews" name="docPublishDateCMAJnews">
+            <mat-datepicker-toggle matSuffix [for]="docPublishDateCMAJnewsDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #docPublishDateCMAJnewsDatePicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <input matInput [matDatepicker]="docETOCDatePicker" placeholder="eTOC Date" [(ngModel)]="docETOCDate" name="docETOCDate">
+            <mat-datepicker-toggle matSuffix [for]="docETOCDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #docETOCDatePicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+              <input matInput [matDatepicker]="docOnlineIssueDatePicker" placeholder="Online Issue Date" [(ngModel)]="docOnlineIssue" name="docOnlineIssue">
+              <mat-datepicker-toggle matSuffix [for]="docOnlineIssueDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #docOnlineIssueDatePicker></mat-datepicker>
+            </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+             <input matInput [matDatepicker]="docPrintIssueDatePicker" placeholder="Print Issue Date" [(ngModel)]="docPrintIssue" name="docPrintIssue">
+             <mat-datepicker-toggle matSuffix [for]="docPrintIssueDatePicker"></mat-datepicker-toggle>
+             <mat-datepicker #docPrintIssueDatePicker></mat-datepicker>
+          </mat-form-field>
+
+         </mat-expansion-panel> 
+      </mat-accordion> 
+      <br>
+
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Document Details
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-form-field class="example-full-width">
+            <mat-select [(ngModel)]="docFocusArea" name="docFocusArea" placeholder="Area of Focus">
+              <mat-option *ngFor="let f of focusareas" [value]="f"> {{f}} </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">  
+            <input type="text" matInput placeholder="Advertising Conflicts" [(ngModel)]="docAdConflicts" name="docAdConflicts">  
+          </mat-form-field> 
+
+          <mat-form-field class="example-full-width">  
+            <input type="text" matInput placeholder="Web Blurb" [(ngModel)]="docWebBlurb" name="docWebBlurb">  
+          </mat-form-field>  
+
+          <mat-form-field class="example-full-width">  
+            <input type="text" matInput placeholder="Web Image URL" [(ngModel)]="docWebImageURL" name="docWebImageURL">  
+          </mat-form-field> 
+
+          <mat-form-field class="example-full-width">  
+            <input type="text" matInput placeholder="Web Image Credit" [(ngModel)]="docWebImageCredit" name="docWebImageCredit">  
+          </mat-form-field> 
+
+          <mat-form-field class="example-full-width">  
+            <input type="text" matInput placeholder="URL" [(ngModel)]="docURL" name="docURL">  
+          </mat-form-field>  
+
+          <mat-form-field class="example-full-width">  
+            <input type="text" matInput placeholder="Hashtags" [(ngModel)]="docHashTags" name="docHashTags">  
+          </mat-form-field>  
+
+        </mat-expansion-panel> 
+      </mat-accordion> 
+      <br>
+
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Collection Codes 
+            </mat-panel-title>
+            <mat-panel-description>
+              
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-form-field class="example-full-width">
+            <mat-select [(ngModel)]="docCollectionCode1" name="docCollectionCode1" placeholder="Collection Code 1">
+              <mat-option *ngFor="let c of collectionCodes" [value]="c"> {{c}} </mat-option>
+            </mat-select>
+          </mat-form-field>
+ 
+          <mat-form-field class="example-full-width">
+            <mat-select [(ngModel)]="docCollectionCode2" name="docCollectionCode2" placeholder="Collection Code 2">
+              <mat-option *ngFor="let c of collectionCodes" [value]="c"> {{c}} </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <mat-select [(ngModel)]="docCollectionCode3" name="docCollectionCode3" placeholder="Collection Code 3">
+              <mat-option *ngFor="let c of collectionCodes" [value]="c"> {{c}} </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <mat-select [(ngModel)]="docCollectionCode4" name="docCollectionCode4" placeholder="Collection Code 4">
+              <mat-option *ngFor="let c of collectionCodes" [value]="c"> {{c}} </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <mat-select [(ngModel)]="docCollectionCode5" name="docCollectionCode5" placeholder="Collection Code 5">
+              <mat-option *ngFor="let c of collectionCodes" [value]="c"> {{c}} </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <mat-select [(ngModel)]="docCollectionCode6" name="docCollectionCode6" placeholder="Collection Code 6">
+              <mat-option *ngFor="let c of collectionCodes" [value]="c"> {{c}} </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </mat-expansion-panel> 
+      </mat-accordion>
+      <br>
+
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+            Notes     
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+
+          <mat-form-field class="example-full-width">  
+            <input type="text" matInput placeholder="Online Issue Notes " [(ngModel)]="docOnlineNotes" name="docOnlineNotes">  
+          </mat-form-field> 
+
+          <mat-form-field class="example-full-width">  
+            <input type="text" matInput placeholder="Print Issue Notes " [(ngModel)]="docPrintNotes" name="docPrintNotes">  
+          </mat-form-field> 
+
+          <mat-form-field class="example-full-width">  
+            <input type="text" matInput placeholder="General Notes" [(ngModel)]="docNotes" name="docNotes">
+          </mat-form-field> 
+
+
+        </mat-expansion-panel> 
+      </mat-accordion>
+      <br>
+
+      <button mat-raised-button type="submit">Submit</button>
+    </form>  
+  </section>
+</div>
+
+-->
+

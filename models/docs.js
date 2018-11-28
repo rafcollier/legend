@@ -57,6 +57,9 @@ let DocSchema = new Schema({
 	docNumFigures: {
 	  type: Number
 	},
+	docNumBoxes: {
+	  type: Number
+	},
 	docNumTables: {
 	  type: Number
 	},
@@ -73,6 +76,12 @@ let DocSchema = new Schema({
 	  type: String
 	},
 	docWebBlurb: {
+	  type: String
+	},
+	docWebImageURL: {
+	  type: String
+	},
+	docWebImageCredit: {
 	  type: String
 	},
 
@@ -238,6 +247,12 @@ let DocSchema = new Schema({
 	docOnlinePosition: {
 	  type: Number
 	},
+	docOnlineVolume: {
+	  type: Number
+	},
+	docOnlineIssueNumber: {
+	  type: Number
+	},
 
     //PRINT ISSUE
 
@@ -252,6 +267,24 @@ let DocSchema = new Schema({
 	  type: Number
 	},
 	docPrintPosition: {
+	  type: Number
+	},
+
+	//PRINT ADS
+
+    docAdClient: {
+      type: String	
+	},
+    docAdDescription: {
+      type: String	
+	},
+	docAdSize: {
+	  type: Number
+	},
+	docAdFirstPagePrint: {
+	  type: Number
+	},
+	docAdLastPagePrint: {
 	  type: Number
 	},
 	

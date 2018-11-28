@@ -9,7 +9,20 @@ const ConfigSchema = mongoose.Schema({
   },
   firstNewsDOI: {
     type: Number, default: 0
+  },
+    firstOnlineVolume: {
+    type: Number, default: 0
+  },
+    firstOnlineIssue: {
+    type: Number, default: 0
+  },
+    firstOnlinePage: {
+    type: Number, default: 0
+  },
+    firstOnlineDate: {
+    type: Date, default: Date.now
   }
+
 
 });
 

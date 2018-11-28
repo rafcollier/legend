@@ -12,6 +12,10 @@ export class ConfigComponent implements OnInit {
 
   username: String;
   firstNewsDOI: Number;
+  firstOnlineVolume: Number;
+  firstOnlineIssue: Number;
+  firstOnlinePage: Number;
+  firstOnlineDate: Date;
   configID: String;
   errorMessage: String = "";
 
@@ -40,6 +44,10 @@ export class ConfigComponent implements OnInit {
       else {
         this.configID = entries[0]["_id"];
         this.firstNewsDOI = entries[0]["firstNewsDOI"]; 
+        this.firstOnlineVolume = entries[0]["firstOnlineVolume"];
+        this.firstOnlineIssue = entries[0]["firstOnlineIssue"];
+        this.firstOnlinePage = entries[0]["firstOnlinePage"];
+        this.firstOnlineDate = entries[0]["firstOnlineDate"];
       }
     }, 
     err => {
@@ -48,10 +56,11 @@ export class ConfigComponent implements OnInit {
     });
   }
 
+  //Write once to config in datatbase to set default values
   initializeConfig(){
 
     const config = {
-      firstNewsDOI: 0 
+      firstNewsDOI: 0
     }
 
     this.authService.addConfig(config).subscribe(data => {
@@ -76,7 +85,11 @@ export class ConfigComponent implements OnInit {
     
     let editedConfig = {
       configID: this.configID,
-      firstNewsDOI: this.firstNewsDOI
+      firstNewsDOI: this.firstNewsDOI,
+      firstOnlineVolume: this.firstOnlineVolume,
+      firstOnlineIssue: this.firstOnlineIssue,
+      firstOnlinePage: this.firstOnlinePage,
+      firstOnlineDate: this.firstOnlineDate
     }
 
     this.authService.putUpdateConfig(editedConfig).subscribe(doc => {

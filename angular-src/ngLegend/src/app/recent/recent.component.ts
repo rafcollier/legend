@@ -11,6 +11,10 @@ export class RecentComponent implements OnInit {
   username: string;
   numDocs: number = 20;
   displayDocs: [Object];
+  printAd: string = "Print Ad";
+  showAd: Boolean = false;
+  showFrench: Boolean = false;
+  showOther: Boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -20,6 +24,9 @@ export class RecentComponent implements OnInit {
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {
       this.username = profile.user.username;
+      this.showAd = false;
+      this.showFrench = false;
+      this.showOther = false;
       this.getRecentDocs();
     }, 
     err => {
@@ -31,6 +38,7 @@ export class RecentComponent implements OnInit {
   getRecentDocs() {
     this.authService.getRecentAdded(this.username, this.numDocs).subscribe(docs => {
       this.displayDocs = docs;
+      console.log(docs);
     }, 
     err => {
       console.log(err);

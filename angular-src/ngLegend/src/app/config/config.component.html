@@ -7,6 +7,20 @@
       <mat-form-field class="example-full-width">  
         <input type="number" matInput placeholder="First News DOI" [(ngModel)]="firstNewsDOI" name="firstNewsDOI">  
       </mat-form-field>  
+      <mat-form-field class="example-full-width">  
+        <input type="number" matInput placeholder="First Online Volume Number" [(ngModel)]="firstOnlineVolume" name="firstOnlineVolume">  
+      </mat-form-field>  
+      <mat-form-field class="example-full-width">  
+        <input type="number" matInput placeholder="First Online Issue Number" [(ngModel)]="firstOnlineIssue" name="firstOnlineIssue">  
+      </mat-form-field>
+      <mat-form-field class="example-full-width">  
+        <input type="number" matInput placeholder="First Online Issue Page" [(ngModel)]="firstOnlinePage" name="firstOnlinePage">  
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="firstOnlineDatePicker" placeholder="First Online Date" [(ngModel)]="firstOnlineDate" name="firstOnlineDate">
+           <mat-datepicker-toggle matSuffix [for]="firstOnlineDatePicker"></mat-datepicker-toggle>
+           <mat-datepicker #firstOnlineDatePicker></mat-datepicker>
+       </mat-form-field>
       <button mat-raised-button type="submit">Submit Edits</button>
     </form>  
 

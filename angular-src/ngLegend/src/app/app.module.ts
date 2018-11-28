@@ -36,7 +36,10 @@ import { PicksectionComponent } from './picksection/picksection.component';
 import { PrintComponent } from './print/print.component';  
 import { OnlineComponent } from './online/online.component';
 import { OnlineIssueConfigComponent } from './online-issue-config/online-issue-config.component';
-import { ConfigComponent } from './config/config.component';  
+import { ConfigComponent } from './config/config.component';
+import { EnternewsComponent } from './enternews/enternews.component';
+import { EnterletterComponent } from './enterletter/enterletter.component';
+import { EnteradvertComponent } from './enteradvert/enteradvert.component';  
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -46,6 +49,7 @@ const appRoutes: Routes = [
   {path: 'refresh', component: RefreshComponent},
   {path: 'picksection', component: PicksectionComponent, canActivate:[AuthGuard]},
   {path: 'enterdoc', component: EnterdocComponent, canActivate:[AuthGuard]},
+  {path: 'enternews', component: EnternewsComponent, canActivate:[AuthGuard]},
   {path: 'loadfile', component: LoadfileComponent, canActivate:[AuthGuard]},
   {path: 'recent', component: RecentComponent, canActivate:[AuthGuard]},
   {path: 'search', component: SearchComponent, canActivate:[AuthGuard]},
@@ -86,7 +90,10 @@ const appRoutes: Routes = [
     PrintComponent,
     OnlineComponent,
     OnlineIssueConfigComponent,
-    ConfigComponent
+    ConfigComponent,
+    EnternewsComponent,
+    EnterletterComponent,
+    EnteradvertComponent
   ],
   imports: [
     BrowserModule,

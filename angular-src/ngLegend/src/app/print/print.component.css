@@ -13,3 +13,33 @@
   margin-left: 50px;
   margin-top: 50px;
 }
+
+.border-div {
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    border-style: solid;
+    border-color: #A9A9A9;
+    border-width: 2px;
+}
+
+.edit-div {
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 50px;
+  background-color: #F5F5F5;    
+}
+
+.padded-div {
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    background-color: #FFFFFF; 
+}
+
+.red-link {
+  color: red;
+}

@@ -1,24 +1,192 @@
-<div *ngIf="!showResults" class = "align-form">
+<div *ngIf="!showResults && !noResults" class = "align-form">
 
   <section class = "mat-typography">
+
     <h2>Select Print Issue</h2>
-    <form (submit)="onLayoutSearchSubmit()" class="example-form">  
+    <form (submit)="onSearchSubmit()" class="example-form">  
 
       <mat-form-field class="example-full-width">
-        <mat-select [(ngModel)]="docPrintIssue" name="docPrintIssue" placeholder="Print Issue">
-          <mat-option *ngFor="let p of printIssues" [value]="p"> {{p}} </mat-option>
-        </mat-select>
+        <input matInput [matDatepicker]="printIssueSelectDatePicker" placeholder="Print Issue Date" [(ngModel)]="printIssueSelect" name="printIssueSelect">
+        <mat-datepicker-toggle matSuffix [for]="printIssueSelectDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #printIssueSelectDatePicker></mat-datepicker>
       </mat-form-field>
 
       <button mat-raised-button type="submit">Search</button>
 
     </form>  
+
   </section>
+</div>
+
+<div *ngIf="noResults" class = "align-page" >
+  <h2>
+     Sorry, your query found no results.
+  </h2>
+  <div class = "align-form">
+    <section class = "mat-typography">
+      <div class="flex-center">
+        <hr class="hr-style">
+        <span (click)="onNewSearch()">
+          <button mat-raised-button>New Search</button>
+        </span>
+      </div>
+    </section>
+  </div>
 </div>
 
 <div *ngIf="showResults" class = "align-page">
 
   <section class="mat-typography">
+
+    <h1>
+        <b>Print Issue:</b> {{ printIssueDateFormatted }} &nbsp; 
+    </h1>
+
+    <div class="border-div">
+
+      <h3 style="color:red">SUMMARY</h3>
+
+      <div *ngFor="let d of displayDocs; let i = index">
+        <p>
+          <span style="color:#4D6FAC"> {{i+1}}. {{d.docSection}} </span>: {{d.docTitle}}
+        <p>
+      </div>
+
+    </div>
+    <br>
+
+<div *ngFor="let d of displayDocs; let i = index" class="padded-div">
+      <div>
+        <h1 style="display: inline">
+          {{i+1}}. {{ d.docTitle }}
+        </h1>
+
+        <a href="" onClick="return false;" style="display: inline" class="red-link">
+          <span (click)="onDocClick(d, i)"> See full entry </span>
+        </a>
+      </div>
+      <br>
+
+      <p>
+        <span style="color:#4D6FAC">Section:</span> {{ d.docSection }}
+      </p>
+      <p *ngIf="d.docDepartment">
+        <span style="color:#4D6FAC">Department:</span> {{ d.docDepartment }}
+      </p>
+      <p>
+        <span style="color:#4D6FAC">Author:</span> {{ d.docAuthor }} 
+      </p>
+      <p>
+        <span style="color:#4D6FAC">DOI:</span> {{ d.docDOI }}
+      </p>
+      <p>
+        <span style="color:#4D6FAC">Ad Conflicts:</span> {{ d.docAdConflicts }}
+      </p>
+      <p *ngIf="d.docCollectionCode1"><span style="color:#4D6FAC">Collection Code 1:</span> {{ d.docCollectionCode1 }}</p>
+      <p *ngIf="d.docCollectionCode2"><span style="color:#4D6FAC">Collection Code 2:</span> {{ d.docCollectionCode2 }}</p>
+      <p *ngIf="d.docCollectionCode3"><span style="color:#4D6FAC">Collection Code 3:</span> {{ d.docCollectionCode3 }}</p>
+      <p *ngIf="d.docCollectionCode4"><span style="color:#4D6FAC">Collection Code 4:</span> {{ d.docCollectionCode4 }}</p>
+      <p *ngIf="d.docCollectionCode5"><span style="color:#4D6FAC">Collection Code 5:</span> {{ d.docCollectionCode5 }}</p>
+      <p *ngIf="d.docCollectionCode6"><span style="color:#4D6FAC">Collection Code 6:</span> {{ d.docCollectionCode6 }}</p>
+
+      <p *ngIf="d.docFocusArea"><span style="color:#4D6FAC">Area of Focus:</span> {{d.docFocusArea}} </p>
+      <p *ngIf="d.docOpenAccess"><span style="color:#4D6FAC">Open Access:</span> yes</p>
+      <p *ngIf="d.docProfessionalDev"><span style="color:#4D6FAC">Continuing Professional Development:</span> yes </p>
+      <p>
+        <span style="color:#4D6FAC">Copy Editor:</span> {{ d.docEditor }}
+      </p>
+
+
+      <div *ngIf="i != docIndex" class = "edit-div">
+        <p>
+          <span style="color:#4D6FAC">Number of Figures:</span> {{ d.docNumFigures }}
+        </p>
+        <p>
+          <span style="color:#4D6FAC">Number of Tables:</span> {{ d.docNumTables }}
+        </p>
+        <p>
+          <span style="color:#4D6FAC">Number of Appendencies:</span> {{ d.docNumAppendices }}
+        </p>
+        <p>
+          <span style="color:#4D6FAC">Position:</span> {{ d.docPrintPosition }}
+        </p>
+        <p>
+          <span style="color:#4D6FAC">First Page:</span> {{ d.docFirstPagePrint }}
+        </p>
+        <p>
+          <span style="color:#4D6FAC">Last Page:</span> {{ d.docLastPagePrint }}
+        </p>
+        <p>
+          <span style="color:#4D6FAC">Print Issue Notes:</span> {{ d.docPrintNotes }}
+        </p>
+
+        <a href="" onClick="return false;" class="red-link">
+         <span (click)="onPrintOrderClick(d, i)"> Edit </span>
+        </a>
+       
+      </div>
+
+      <div *ngIf="i == docIndex">
+        <div class = "align-form">
+
+          <section class = "mat-typography">
+           <h4>Edit Print Issue </h4>
+            <form (submit)="onPrintOrderSubmit()" class="example-form">  
+
+              <mat-form-field class="example-full-width">  
+                <input type="number" matInput placeholder="Number of Figures" [(ngModel)]="docNumFigures" name="docNumFigures">
+              </mat-form-field>  
+
+              <mat-form-field class="example-full-width">  
+                <input type="number" matInput placeholder="Number of Tables" [(ngModel)]="docNumTables" name="docNumTables">
+              </mat-form-field>  
+
+              <mat-form-field class="example-full-width">  
+                <input type="number" matInput placeholder="Number of Appendices" [(ngModel)]="docNumAppendices" name="docNumAppendices">
+              </mat-form-field>  
+
+              <mat-form-field class="example-full-width">
+                <input type="number" matInput [(ngModel)]="docPrintPosition" name="docPrintPosition" placeholder="Position">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width">
+                <input type="number" matInput [(ngModel)]="docFirstPagePrint" name="docFirstPagePrint" placeholder="First Page">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width">
+                <input type="number" matInput [(ngModel)]="docLastPagePrint" name="docLastPagePrint" placeholder="Last Page">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width">  
+                <input type="text" matInput placeholder="Print Issue Notes " [(ngModel)]="docPrintNotes" name="docPrintNotes">  
+              </mat-form-field> 
+
+            <button mat-raised-button type="submit">Submit</button>
+            <button mat-raised-button type="button" (click)="onPrintOrderCancel()">Cancel</button>
+            </form>  
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class = "align-form">
+    <section class = "mat-typography">
+      <div class="flex-center">
+        <hr class="hr-style">
+        <span (click)="onNewSearch()">
+          <button mat-raised-button>New Search</button>
+        </span>
+        <span (click)="onDownload()">
+          <button mat-raised-button>Download CSV</button>
+        </span>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!--
+
 
     <div *ngFor="let d of displayDocs; let i = index">
       <h2>
@@ -69,3 +237,5 @@
     </div>
   </section>
 </div>
+
+-->

@@ -124,7 +124,7 @@ export class AuthService {
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
     //return this.http.get('http://localhost:3000/config/getConfig', {headers: headers}) 
-    return this.http.get('config/getConfig', {headers: headers}) 
+   return this.http.get('config/getConfig', {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -133,7 +133,7 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    //return this.http.put('http://localhost:3000/config/updateConfig', editedConfig, {headers: headers}) 
+   // return this.http.put('http://localhost:3000/config/updateConfig', editedConfig, {headers: headers}) 
     return this.http.put('config/updateConfig', editedConfig, {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
@@ -153,83 +153,7 @@ export class AuthService {
   //    .pipe(map(res => res.json()));
   //}
 
-  /////////////////////////////////////////
-  //ONLINE ISSUE CONFIG COLLECTION
-  /////////////////////////////////////////
-
-  //addOnline(online) {
-  //  console.log("auth services add online issue");
-  //  let headers = new Headers();
-  //  headers.append('Content-Type', 'application/json');
-  //  return this.http.post('http://localhost:3000/online/addOnline', online, {headers: headers}) 
-  //  //return this.http.post('online/addOnline', online, {headers: headers}) 
-  //    .pipe(map(res => res.json()));
-  //}
-
-  //getOnline() {
-  //  this.loadToken();
-  //  let headers = new Headers();
-  //  headers.append('Authorization', this.authToken);
-  //  headers.append('Content-Type', 'application/json');
-  //  return this.http.get('http://localhost:3000/online/getOnline', {headers: headers}) 
-  //  //return this.http.get('online/getOnline', {headers: headers}) 
-  //    .pipe(map(res => res.json()));
-  //} 
-
-  //deleteOnline(onlineID) {
-  //  this.loadToken();
-  //  let headers = new Headers();
-  //  let params = new URLSearchParams();
-  //  let options = new RequestOptions();
-  //  headers.append('Content-Type', 'application/json');
-  //  headers.append('Authorization', this.authToken);
-  //  params.set('onlineID', onlineID);
-  //  options.headers = headers;
-  //  options.search = params;
-  //  return this.http.delete('http://localhost:3000/online/deleteOnline', options)
-  //  //return this.http.delete('online/deleteOnline', options)
-  //    .pipe(map(res => res.json()));
-  //}
-
-
-  /////////////////////////////////////////
-  //PRINT ISSUE COLLECTION
-  /////////////////////////////////////////
   
-  //addPrintIssue(printIssue) {
-  //  console.log("in auth services " + printIssue)
-  //  let headers = new Headers();
-  //  headers.append('Content-Type', 'application/json');
-  //  return this.http.post('http://localhost:3000/print/addPrintIssue', printIssue, {headers: headers}) 
-  //  //return this.http.post('print/addPrintIssue', printIssue, {headers: headers}) 
-  //    .pipe(map(res => res.json()));
-  //}
-
-  //getPrintIssues() {
-  //  this.loadToken();
-  //  let headers = new Headers();
-  //  headers.append('Authorization', this.authToken);
-  //  headers.append('Content-Type', 'application/json');
-  //  return this.http.get('http://localhost:3000/print/getPrintIssues', {headers: headers}) 
-  //  //return this.http.get('print/getPrintIssues', {headers: headers}) 
-  //    .pipe(map(res => res.json()));
-  //} 
-//
-//  deletePrintIssue(docID) {
-//    this.loadToken();
-//    let headers = new Headers();
-//    let params = new URLSearchParams();
-//    let options = new RequestOptions();
-//    headers.append('Content-Type', 'application/json');
-//    headers.append('Authorization', this.authToken);
-//    params.set('docID', docID);
-//    options.headers = headers;
-//    options.search = params;
-//    return this.http.delete('http://localhost:3000/print/deletePrintIssue', options)
-//    //return this.http.delete('print/deletePrintIssue', options)
-//      .pipe(map(res => res.json()));
-//  }
-
 
 
   /////////////////////////////////////////
@@ -337,7 +261,7 @@ export class AuthService {
     params.set('docSecondDateNumDocs', secondDateNumDocs);
     options.headers = headers;
     options.search = params;
-    //return this.http.get('http://localhost:3000/docs/getNumDocs', options) 
+   // return this.http.get('http://localhost:3000/docs/getNumDocs', options) 
     return this.http.get('docs/getNumDocs', options) 
       .pipe(map(res => res.json()));
   } 
@@ -374,7 +298,6 @@ export class AuthService {
   } 
 
   getOnlineSearchResults(onlineIssue) {
-    console.log("in authservices with" + onlineIssue)
     let headers = new Headers();
     let params = new URLSearchParams();
     let options = new RequestOptions();
@@ -388,7 +311,6 @@ export class AuthService {
   } 
 
   getCheckPreviousOnlineIssue(onlineIssue) {
-    console.log("in authservices with" + onlineIssue)
     let headers = new Headers();
     let params = new URLSearchParams();
     let options = new RequestOptions();
@@ -521,3 +443,82 @@ export class AuthService {
 }
 
 }
+
+/////////////////////////////////////////
+  //ONLINE ISSUE CONFIG COLLECTION
+  /////////////////////////////////////////
+
+  //addOnline(online) {
+  //  console.log("auth services add online issue");
+  //  let headers = new Headers();
+  //  headers.append('Content-Type', 'application/json');
+  //  return this.http.post('http://localhost:3000/online/addOnline', online, {headers: headers}) 
+  //  //return this.http.post('online/addOnline', online, {headers: headers}) 
+  //    .pipe(map(res => res.json()));
+  //}
+
+  //getOnline() {
+  //  this.loadToken();
+  //  let headers = new Headers();
+  //  headers.append('Authorization', this.authToken);
+  //  headers.append('Content-Type', 'application/json');
+  //  return this.http.get('http://localhost:3000/online/getOnline', {headers: headers}) 
+  //  //return this.http.get('online/getOnline', {headers: headers}) 
+  //    .pipe(map(res => res.json()));
+  //} 
+
+  //deleteOnline(onlineID) {
+  //  this.loadToken();
+  //  let headers = new Headers();
+  //  let params = new URLSearchParams();
+  //  let options = new RequestOptions();
+  //  headers.append('Content-Type', 'application/json');
+  //  headers.append('Authorization', this.authToken);
+  //  params.set('onlineID', onlineID);
+  //  options.headers = headers;
+  //  options.search = params;
+  //  return this.http.delete('http://localhost:3000/online/deleteOnline', options)
+  //  //return this.http.delete('online/deleteOnline', options)
+  //    .pipe(map(res => res.json()));
+  //}
+
+
+  /////////////////////////////////////////
+  //PRINT ISSUE COLLECTION
+  /////////////////////////////////////////
+  
+  //addPrintIssue(printIssue) {
+  //  console.log("in auth services " + printIssue)
+  //  let headers = new Headers();
+  //  headers.append('Content-Type', 'application/json');
+  //  return this.http.post('http://localhost:3000/print/addPrintIssue', printIssue, {headers: headers}) 
+  //  //return this.http.post('print/addPrintIssue', printIssue, {headers: headers}) 
+  //    .pipe(map(res => res.json()));
+  //}
+
+  //getPrintIssues() {
+  //  this.loadToken();
+  //  let headers = new Headers();
+  //  headers.append('Authorization', this.authToken);
+  //  headers.append('Content-Type', 'application/json');
+  //  return this.http.get('http://localhost:3000/print/getPrintIssues', {headers: headers}) 
+  //  //return this.http.get('print/getPrintIssues', {headers: headers}) 
+  //    .pipe(map(res => res.json()));
+  //} 
+//
+//  deletePrintIssue(docID) {
+//    this.loadToken();
+//    let headers = new Headers();
+//    let params = new URLSearchParams();
+//    let options = new RequestOptions();
+//    headers.append('Content-Type', 'application/json');
+//    headers.append('Authorization', this.authToken);
+//    params.set('docID', docID);
+//    options.headers = headers;
+//    options.search = params;
+//    return this.http.delete('http://localhost:3000/print/deletePrintIssue', options)
+//    //return this.http.delete('print/deletePrintIssue', options)
+//      .pipe(map(res => res.json()));
+//  }
+
+
