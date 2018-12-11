@@ -1,0 +1,148 @@
+<div class = "align-form">
+  <section class = "mat-typography">
+
+    <h4>Welcome {{currentUser}}</h4> 
+    <h2>Add Editor</h2>
+
+    <form (submit)="onEditorSubmit()" class="example-form">  
+
+      <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="Name" [(ngModel)]="name" name="name">  
+      </mat-form-field>  
+
+      <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+        <input matInput placeholder="" style="display: none">
+           <mat-checkbox [(ngModel)]="docEditor" name="docEditor">Manuscript Editor</mat-checkbox>
+      </mat-form-field>
+
+      <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+        <input matInput placeholder="" style="display: none">
+           <mat-checkbox [(ngModel)]="docCoordinator" name="docCoordinator">Manuscript Coordinator</mat-checkbox>
+      </mat-form-field>
+
+      <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+        <input matInput placeholder="" style="display: none">
+           <mat-checkbox [(ngModel)]="docProofReader" name="docProofReader">Manuscript Proofreader</mat-checkbox>
+      </mat-form-field>
+
+      <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+        <input matInput placeholder="" style="display: none">
+           <mat-checkbox [(ngModel)]="docSE" name="docSE">Senior Editor</mat-checkbox>
+      </mat-form-field>
+
+      <button mat-raised-button type="submit">Submit</button>
+
+    </form>  
+    <br>
+    <hr class="hr-style">
+
+    <div *ngIf="errorMessage">
+      <h4 class="red-font">{{errorMessage}}</h4>
+    </div>
+    <div *ngIf="validateMessage">
+      <h4 class="red-font">{{validateMessage}}</h4>
+    </div>
+    <div *ngIf="successMessage">
+      <h4 class="blue-font">{{successMessage}}</h4>
+    </div>
+    <div *ngIf="deleteMessageEdit">
+      <h4 class="blue-font">{{deleteMessageEdit}}</h4>
+    </div>
+
+  </section>
+</div>
+
+<div class = "align-form">
+  <section class = "mat-typography">
+    <br>
+    <h2>Current Editors</h2>
+    <hr class="hr-style">
+
+    <div *ngFor="let e of editors; let i = index">
+
+      <div *ngIf="i != editorIndex">
+
+        <h3 class = "red-font">
+           {{ e.name }}
+        </h3>
+        <p *ngIf="e.docEditor">
+           &bull; Manuscript Editor
+        </p>
+        <p *ngIf="e.docCoordinator">
+           &bull; Manuscript Coordinator
+        </p>
+        <p *ngIf="e.docProofReader">
+           &bull; Manuscript Proofreader
+        </p>
+        <p *ngIf="e.docSE">
+           &bull; Senior Editor
+        </p>
+  
+        <a href="" onClick="return false;">
+          <span (click)="onEditorEdit(e, i)">Edit</span>
+        </a>
+        &nbsp; 
+        <a href="" onClick="return false;">
+          <span (click)="onEditorDelete(e, i)"> Delete</span>
+        </a>
+        <hr class="hr-style">
+
+
+      </div>
+
+      <div *ngIf="i==editorIndex">  
+
+        <h2>Edit Editor</h2>
+
+        <form (submit)="onEditSubmit()" class="example-form">  
+      
+          <mat-form-field class="example-full-width">  
+            <input type="text" matInput placeholder="Name" [(ngModel)]="nameEdit" name="nameEdit">  
+          </mat-form-field>  
+
+          <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+            <input matInput placeholder="" style="display: none">
+               <mat-checkbox [(ngModel)]="docEditorEdit" name="docEditorEdit">Manuscript Editor</mat-checkbox>
+          </mat-form-field>
+
+          <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+            <input matInput placeholder="" style="display: none">
+               <mat-checkbox [(ngModel)]="docCoordinatorEdit" name="docCoordinatorEdit">Manuscript Coordinator</mat-checkbox>
+          </mat-form-field>
+
+          <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+            <input matInput placeholder="" style="display: none">
+               <mat-checkbox [(ngModel)]="docProofReaderEdit" name="docProofReaderEdit">Manuscript Proofreader</mat-checkbox>
+          </mat-form-field>
+
+          <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+            <input matInput placeholder="" style="display: none">
+               <mat-checkbox [(ngModel)]="docSEEdit" name="docSEEdit">Senior Editor</mat-checkbox>
+          </mat-form-field>
+
+          <button mat-raised-button type="submit">Submit</button>
+          <button mat-raised-button type="button" (click)="editCancel()">Cancel</button>
+
+        </form>  
+        
+        <br>
+        <div *ngIf="errorMessageEdit">
+          <h4 class="red-font">{{errorMessageEdit}}</h4>
+        </div>
+        <div *ngIf="validateMessageEdit">
+          <h4 class="red-font">{{validateMessageEdit}}</h4>
+        </div>
+        <div *ngIf="successMessageEdit">
+          <h4 class="blue-font">{{successMessageEdit}}</h4>
+        </div>
+        <br>
+        <hr class="hr-style">
+
+      </div>
+
+    </div>
+
+  </section>
+</div>
+
+

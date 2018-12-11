@@ -2,22 +2,16 @@
   <section class = "mat-typography">
 
     <h4>Welcome {{currentUser}}</h4> 
-    <h2>Add Online issue</h2>
+    <h2>Add HighWire Code</h2>
 
-    <form (submit)="onOnlineSubmit()" class="example-form">  
-
-      <mat-form-field class="example-full-width">
-        <input matInput [matDatepicker]="onlineIssueDatePicker" placeholder="Online Issue Date" [(ngModel)]="date" name="date">
-          <mat-datepicker-toggle matSuffix [for]="onlineIssueDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #onlineIssueDatePicker></mat-datepicker>
-      </mat-form-field>
+    <form (submit)="onCodeSubmit()" class="example-form">  
 
       <mat-form-field class="example-full-width">  
-        <input type="number" matInput placeholder="Volume" [(ngModel)]="volume" name="volume">  
+        <input type="text" matInput placeholder="Description" [(ngModel)]="description" name="description">  
       </mat-form-field>  
 
       <mat-form-field class="example-full-width">  
-        <input type="number" matInput placeholder="Issue" [(ngModel)]="issue" name="issue">  
+        <input type="number" matInput placeholder="Code" [(ngModel)]="code" name="code">  
       </mat-form-field>  
 
       <button mat-raised-button type="submit">Submit</button>
@@ -33,7 +27,7 @@
       <h4 class="red-font">{{validateMessage}}</h4>
     </div>
     <div *ngIf="successMessage">
-      <h4 class="green-font">{{successMessage}}</h4>
+      <h4 class="blue-font">{{successMessage}}</h4>
     </div>
     <div *ngIf="deleteMessageEdit">
       <h4 class="blue-font">{{deleteMessageEdit}}</h4>
@@ -45,53 +39,44 @@
 <div class = "align-form">
   <section class = "mat-typography">
     <br>
-    <h2>Current Online Issues</h2>
+    <h2>Current HighWire Codes</h2>
     <hr class="hr-style">
 
-    <div *ngFor="let o of onlineIssues; let i = index">
+    <div *ngFor="let c of codes; let i = index">
 
-      <div *ngIf="i != onlineIndex">
+      <div *ngIf="i != codeIndex">
 
-        <h3 class="red-font">
-           {{ o.dateFormatted }}
+        <h3 class = "red-font">
+           {{ c.description }}
         </h3>
         <p>
-           Volume: {{ o.volume }}
-        </p>
-        <p>
-           Issue: {{ o.issue }}
+           Code: {{ c.code }}
         </p>
   
         <a href="" onClick="return false;">
-          <span (click)="onOnlineEdit(o, i)">Edit</span>
+          <span (click)="onCodeEdit(c, i)">Edit</span>
         </a>
         &nbsp; 
         <a href="" onClick="return false;">
-          <span (click)="onOnlineDelete(o, i)"> Delete</span>
+          <span (click)="onCodeDelete(c, i)"> Delete</span>
         </a>
         <hr class="hr-style">
 
 
       </div>
 
-      <div *ngIf="i==onlineIndex">  
+      <div *ngIf="i==codeIndex">  
 
-        <h2>Edit Online Issue</h2>
+        <h2>Edit Code</h2>
 
         <form (submit)="onEditSubmit()" class="example-form">  
-
-          <mat-form-field class="example-full-width">
-            <input matInput [matDatepicker]="onlineIssueDatePickerEdit" placeholder="Online Issue Date" [(ngModel)]="dateEdit" name="dateEdit">
-            <mat-datepicker-toggle matSuffix [for]="onlineIssueDatePickerEdit"></mat-datepicker-toggle>
-            <mat-datepicker #onlineIssueDatePickerEdit></mat-datepicker>
-          </mat-form-field>
-
+      
           <mat-form-field class="example-full-width">  
-            <input type="number" matInput placeholder="Volume" [(ngModel)]="volumeEdit" name="volumeEdit">  
+            <input type="text" matInput placeholder="Description" [(ngModel)]="descriptionEdit" name="descriptionEdit">  
           </mat-form-field>  
 
           <mat-form-field class="example-full-width">  
-            <input type="number" matInput placeholder="Issue" [(ngModel)]="issueEdit" name="issueEdit">  
+            <input type="number" matInput placeholder="Code" [(ngModel)]="codeEdit" name="codeEdit">  
           </mat-form-field>  
 
           <button mat-raised-button type="submit">Submit</button>
@@ -118,4 +103,5 @@
 
   </section>
 </div>
+
 

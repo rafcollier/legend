@@ -3,18 +3,12 @@ import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {ValidateService} from '../services/validate.service';
 
-import * as moment from 'moment';
-
 @Component({
-  selector: 'app-online-issue-config',
-  templateUrl: './online-issue-config.component.html',
-  styleUrls: ['./online-issue-config.component.css']
+  selector: 'app-editors',
+  templateUrl: './editors.component.html',
+  styleUrls: ['./editors.component.css']
 })
-export class OnlineIssueConfigComponent implements OnInit {
-  date: Date;
-  dateFormatted: string;
-  volume: number;
-  issue: number;
+export class EditorsComponent implements OnInit {
   currentUser: String;
   errorMessage: String = "";
   errorMessageEdit: String = "";
@@ -24,14 +18,21 @@ export class OnlineIssueConfigComponent implements OnInit {
   deleteMessageEdit : String = "";
   successMessage : String = "";
   successMessageEdit : String = "";
-  onlineIssues : object[];
-  onlineIDEdit: String;
-  dateEdit: Date;  
-  volumeEdit: number;
-  issueEdit: number;
-  onlineIndex: number = null;
+  name: String;
+  docEditor: Boolean;
+  docCoordinator: Boolean;
+  docProofReader: Boolean;
+  docSE: Boolean;
+  nameEdit: String;
+  docEditorEdit: Boolean;
+  docCoordinatorEdit: Boolean;
+  docProofReaderEdit: Boolean;
+  docSEEdit: Boolean;
+  editorIDEdit: String;
+  editorIndex: number;
+  editors: object[];
 
-  constructor(
+   constructor(
     private authService: AuthService,
     private validateService: ValidateService, 
     private router: Router
@@ -48,17 +49,13 @@ export class OnlineIssueConfigComponent implements OnInit {
       console.log(err);
       return false;
     });
-    this.onGetOnline();
+    this.onGetEditors();
   }
 
-  onGetOnline() {
-    this.authService.getOnline().subscribe(entries => {
-      this.onlineIssues = entries; 
-      console.log(this.onlineIssues);
-      this.onlineIssues.map( obj => {
-        obj['dateFormatted'] = moment(obj['date']).format('MMMM DD, YYYY');
-        return obj;
-      }) 
+  onGetEditors() {
+    this.authService.getEditors().subscribe(entries => {
+      this.editors = entries; 
+      console.log(this.editors);
     }, 
     err => {
         console.log(err);
@@ -66,23 +63,25 @@ export class OnlineIssueConfigComponent implements OnInit {
     });
   }
 
-  onOnlineSubmit(){
-    const online = {
-      date: this.date,
-      volume: this.volume,
-      issue: this.issue
+  onEditorSubmit(){
+    const editor = {
+      name: this.name,
+      docEditor: this.docEditor,
+      docCoordinator: this.docCoordinator,
+      docProofReader: this.docProofReader,
+      docSE: this.docSE
     }
 
     //Required fields
-    if(!this.validateService.validateOnline(online)) {
-      this.validateMessage = "Please fill in Date, Volume and Issue";
+    if(!this.validateService.validateEditor(editor)) {
+      this.validateMessage = "Please fill in editor name.";
       setTimeout(() => {
         this.validateMessage = "";
         return false;
       }, 2000);
     }
     else {
-      this.authService.addOnline(online).subscribe(data => {
+      this.authService.addEditor(editor).subscribe(data => {
         console.log(data);
         if(data.success){
           this.successMessage = data.msg;
@@ -104,31 +103,35 @@ export class OnlineIssueConfigComponent implements OnInit {
     }
   }
 
-  onOnlineEdit(issue, index){
-    this.onlineIDEdit = issue["_id"]; 
-    this.dateEdit = issue['date']; 
-    this.volumeEdit = issue['volume']; 
-    this.issueEdit = issue['issue']; 
-    this.onlineIndex = index;
+  onEditorEdit(editor, index){
+    this.editorIDEdit = editor["_id"]; 
+    this.nameEdit = editor['name']; 
+    this.docEditorEdit = editor['docEditor']; 
+    this.docCoordinatorEdit = editor['docCoordinator']; 
+    this.docProofReaderEdit = editor['docProofReader']; 
+    this.docSEEdit = editor['docSE']; 
+    this.editorIndex = index;
   }
 
   onEditSubmit() {
-    const onlineEdit = {
-      onlineID: this.onlineIDEdit, //to identify this doc in database
-      date: this.dateEdit, 
-      volume: this.volumeEdit, 
-      issue: this.issueEdit 
+    const editorEdit = {
+      editorID: this.editorIDEdit, //to identify this doc in database
+      name: this.nameEdit,
+      docEditor: this.docEditorEdit,
+      docCoordinator: this.docCoordinatorEdit,
+      docProofReader: this.docProofReaderEdit,
+      docSE:this.docSEEdit 
     }
 
-    if(!this.validateService.validateOnline(onlineEdit)) {
-      this.validateMessageEdit = "Please fill in Date, Volume and Issue";
+    if(!this.validateService.validateEditor(editorEdit)) {
+      this.validateMessageEdit = "Please fill in editor name.";
       setTimeout(() => {
         this.validateMessageEdit = "";
         return false;
       }, 2000);
     }
     else {
-      this.authService.updateOnline(onlineEdit).subscribe(doc => {
+      this.authService.updateEditor(editorEdit).subscribe(doc => {
         console.log(doc);
         if(doc.success){
           this.successMessageEdit = doc.msg;
@@ -150,19 +153,19 @@ export class OnlineIssueConfigComponent implements OnInit {
     }
   }
 
-  onOnlineDelete(online, index) {
-    const onlineID = online["_id"]; 
-    this.authService.deleteOnline(onlineID).subscribe(online => {
-      console.log(online);
-      if(online.success){
-        this.deleteMessageEdit = online.msg;
+  onEditorDelete(editor, index) {
+    const editorID = editor["_id"]; 
+    this.authService.deleteEditor(editorID).subscribe(editor => {
+      console.log(editor);
+      if(editor.success){
+        this.deleteMessageEdit = editor.msg;
         console.log(this.deleteMessageEdit);
         setTimeout(() => {
           this.ngOnInit();
         }, 2000);
       }
       else {
-        this.errorMessageEdit = online.msg;
+        this.errorMessageEdit = editor.msg;
         setTimeout(() => {
           this.ngOnInit();
         }, 2000);
@@ -180,10 +183,12 @@ export class OnlineIssueConfigComponent implements OnInit {
   }
 
   clearFields() {
-    this.date = null;
-    this.volume = null;
-    this.issue = null;
-    this.onlineIndex = null;
+    this.name = "";
+    this.docEditor = null;
+    this.docCoordinator = null;
+    this.docProofReader = null;
+    this.docSE = null;
+    this.editorIndex = null;
     this.errorMessage = "";
     this.errorMessageEdit = "";
     this.validateMessage = "";

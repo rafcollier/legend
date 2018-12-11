@@ -3,6 +3,8 @@ import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 import * as moment from 'moment';
 
@@ -128,14 +130,17 @@ export class EnterdocComponent implements OnInit {
   username: String;
 
   //loaded from config data 
-  sections: Object[] = []; 
-  departments: String[] = []; 
-  configFile: Object;
+  sections: object[]; 
+  sectionsUnique: object[]; 
+  sectionsUniqueMenu: string[]; 
+  departments: object[]; 
+  departmentsMenu: string[]; 
+  configFile: object;
 
   onlineIssues: [String]; 
   printIssues: [String]; 
   collectionCodes: [String]; 
-  editors: [String]; 
+  editors: string[]; 
   coordinators: [String]; 
   proofers: [String]; 
   se1s: [String]; 
@@ -150,6 +155,9 @@ export class EnterdocComponent implements OnInit {
 
   onlineOrder: [Object];
 
+  myControlDepartment = new FormControl();
+  filteredDepartments: Observable<string[]>;
+
   constructor(
   	private authService: AuthService,
     private route: ActivatedRoute,
@@ -157,6 +165,12 @@ export class EnterdocComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.filteredDepartments = this.myControlDepartment.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterDepartment(value))
+    );
 
     this.showNews = false;
     this.showLetter = false;
@@ -167,7 +181,10 @@ export class EnterdocComponent implements OnInit {
     this.username = this.authService.loadUsername(); 
     this.configFile = this.authService.localGetConfigFile();
     this.sections = this.authService.localGetSections(); 
-    this.departments = this.authService.localGetDepartments(); 
+    this.sectionsUnique = this.authService.localGetUniqueSections(); 
+    this.sectionsUniqueMenu = this.authService.localGetUniqueSections().map(x => x.section); 
+    this.departments = this.authService.localGetDepartments();
+    this.departmentsMenu = this.authService.localGetDepartments().map(x => x.department); 
 
     //this.onlineIssues = config.onlineIssues;
     //this.printIssues = config.printIssues;
@@ -202,6 +219,12 @@ export class EnterdocComponent implements OnInit {
         this.showOther = true;
       }
     });
+  }
+
+  private _filterDepartment(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.departmentsMenu.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   //Get highest value DOI from database for news article and increment by 1 for current DOI. 
@@ -246,7 +269,6 @@ export class EnterdocComponent implements OnInit {
     });
   }
 
-
   getOnlineVolume() {
     let date1 = moment(this.docOnlineIssue);
     let date2 = moment(this.configFile["firstOnlineDate"]);
@@ -288,27 +310,26 @@ export class EnterdocComponent implements OnInit {
   }
 
   getPositions() {
-    let tempArr = [];
     //Use print and online position of sections with departments. 
     if(this.docDepartment) {
-      for (let i = 0; i < this.sections.length; i++) {
-        if (this.sections[i]['department'].toLowerCase() == this.docDepartment.toLowerCase()) {
-          tempArr.push(this.sections[i]['onlinePosition']);
-          tempArr.push(this.sections[i]['printPosition']);
+      for (let i = 0; i < this.departments.length; i++) {
+        if (this.departments[i]['department'].toLowerCase() == this.docDepartment.toLowerCase()) {
+          this.docOnlinePosition = this.departments[i]['onlinePosition'];
+          this.docPrintPosition = this.departments[i]['printPosition'];
+          break;
         }
       }
     }
     //If no department, use print and online positions of sections.
     else if(this.docSection) {
-      for (let j = 0; j < this.sections.length; j++) {
-        if (!(this.sections[j]['department']) && (this.sections[j]['section'].toLowerCase() == this.docSection.toLowerCase())) {
-          tempArr.push(this.sections[j]['onlinePosition']);
-          tempArr.push(this.sections[j]['printPosition']);
+      for (let j = 0; j < this.sectionsUnique.length; j++) {
+        if (this.sectionsUnique[j]['section'].toLowerCase() == this.docSection.toLowerCase()) {
+          this.docOnlinePosition = this.sectionsUnique[j]['onlinePosition'];
+          this.docPrintPosition = this.sectionsUnique[j]['printPosition'];
+          break;
         }
       }
     }
-    this.docOnlinePosition = tempArr[0];
-    this.docPrintPosition = tempArr[1];
     
     console.log("Online position for sorting in issue:")
     console.log(this.docOnlinePosition);

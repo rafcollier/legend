@@ -18,11 +18,35 @@
       </a>
 
       <a *ngIf="authService.adminLoggedIn()" mat-tab-link 
+        [routerLink] = "['/editors']" 
+        routerLinkActive #rll="routerLinkActive"
+        [active]="rll.isActive"
+      >
+        Editors 
+      </a>
+
+      <a *ngIf="authService.adminLoggedIn()" mat-tab-link 
         [routerLink] = "['/sections']" 
         routerLinkActive #rlc="routerLinkActive"
         [active]="rlc.isActive"
       >
         Sections 
+      </a>
+
+      <a *ngIf="authService.adminLoggedIn()" mat-tab-link 
+        [routerLink] = "['/online-issue-config']" 
+        routerLinkActive #rlk="routerLinkActive"
+        [active]="rlk.isActive"
+      >
+        Online 
+      </a>
+
+      <a *ngIf="authService.adminLoggedIn()" mat-tab-link 
+        [routerLink] = "['/codes']" 
+        routerLinkActive #rlm="routerLinkActive"
+        [active]="rlm.isActive"
+      >
+        Codes 
       </a>
 
       <a *ngIf="authService.adminLoggedIn()" mat-tab-link 

@@ -85,7 +85,12 @@ module.exports = {
             'Wendy Caroll', 
             'Erin Driscoll', 
             'Lea Libiseja', 
-            'Olivier Nguyen-Huu'
+            'Olivier Nguyen-Huu',
+            'Roger Collier',
+            'Diane Kelsall',
+            'Kirsten Patrick',
+            'Matthew Stanbrook',
+            'Ken Flegel'
            ], 
   coordinators: ['Kate Brown', 
                  'Vicky Bell', 

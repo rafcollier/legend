@@ -16,17 +16,17 @@ router.post('/addSection', (req, res, next) => {
   });
 
   Section.getSectionByName(newSection.section, (err, section) => {
-    //if(err) throw err;
-    //if(section) {
-    //  return res.json({success: false, msg: 'Section already added'});
-    //}
+    if(err) throw err;
+    if(section) {
+      return res.json({success: false, msg: 'This section already exists.'});
+  }
 
     Section.addSection(newSection, (err, section) => {
       if(err) {
-        res.json({success: false, msg: 'Failed to add section'});
+        res.json({success: false, msg: 'Failed to add section.'});
       } 
       else {
-      res.json({success: true, msg: 'Section added'});
+      res.json({success: true, msg: 'Section added.'});
       }
     });
   });
@@ -43,7 +43,27 @@ router.get('/getSections', (req, res, next) => {
 
 router.delete('/deleteSection', (req, res, next) => {
   Section.findByIdAndRemove(req.query.docID, (err, doc) => { 
-    if (err) throw err;
+    if (err) {
+      res.json({success: false, msg: 'Failed to delete section.'});
+      throw err;
+    }
+    else {
+     res.json({success: true, msg: 'Section deleted.'}); 
+    }
+  });
+});
+
+router.put('/updateSection', (req, res, next) => {
+  Section.getSectionByName(req.body.section, (err, section) => {
+    if(err) throw err;
+    if(section) {
+      return res.json({success: false, msg: 'This section already exists.'});
+  }
+
+    Section.update({'_id' : req.body.sectionID}, req.body, (err) => {
+      if(err) throw err;
+      res.json({success: true, msg: 'Section updated.'});
+    });
   });
 });
 

@@ -58,6 +58,9 @@ export class OnlineComponent implements OnInit {
   onlineIssueSelect: Date;
   onlineIssueDateFormatted: String;
 
+  today: any;
+  todayFirst: any;
+
 constructor(
   	private authService: AuthService,
     private router: Router,
@@ -69,8 +72,24 @@ constructor(
     this.sections = this.authService.localGetSections(); 
     this.showResults = false;
     this.noResults = false;
+    this.today = moment();
+    console.log("today");
+    console.log(this.today);
+    this.todayFirst = moment(this.configFile['firstOnlineDate']).format('MMMM DD, YYYY');
+    console.log(this.todayFirst);
     console.log("Configuration File")
     console.log(this.configFile);
+  }
+
+  myFilter = (d: Date): boolean => {
+    //const day = d.getDay();
+    // Prevent Saturday and Sunday from being selected.
+    //return day !== 0 && day !== 6;
+
+    const date = moment(d).format('MMMM DD, YYYY');
+
+
+    return date == this.todayFirst; 
   }
 
   onSearchSubmit() {
@@ -139,10 +158,6 @@ constructor(
         return false;
     });
   }
-
-
-
-  
 
   onOnlineOrderClick(doc, index) {
     this.docID = doc["_id"]; 

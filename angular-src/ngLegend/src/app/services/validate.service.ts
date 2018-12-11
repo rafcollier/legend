@@ -30,9 +30,32 @@ export class ValidateService {
     }
   }
 
+  validateCode(code){
+    console.log(code);
+    if( (code.description == ("" || undefined || null)) || (code.description.length <= 0) || (code.code == ("" || undefined || null)) ) {
+      return false;
+    } 
+    else {
+      return true;
+    }
+  }
+
+    validateEditor(editor){
+    if( (editor.name == ("" || undefined || null)) ) {
+      return false;
+    } 
+    else if ( (editor.name.length <= 0) ) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
+
   validateOnline(online){
     console.log(online);
-    if(online.date == ("" || undefined) || online.volume == ("" || undefined) || online.issue == ("" || undefined)) {
+    if((online.date == ("" || undefined || null)) || (online.volume == ("" || undefined || null)) || (online.issue == ("" || undefined || null)) ) {
       return false;
     } else {
       return true;
@@ -41,7 +64,7 @@ export class ValidateService {
 
 
   validatePrintIssue(printIssue){
-    if(printIssue.printIssue == "" || undefined) {
+    if(printIssue.printIssue == "" || undefined || null) {
       return false;
     } else {
       return true;

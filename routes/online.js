@@ -13,30 +13,28 @@ router.post('/addOnline', (req, res, next) => {
   let newOnline = new Online({
     date: req.body.date,
     volume: req.body.volume,
-    issue: req.body.issue,
-    firstPage: req.body.firstPage,
-    lastPage: req.body.lastPage
+    issue: req.body.issue
   });
 
   Online.getOnlineByName(newOnline.date, (err, online) => {
     if(err) throw err;
     if(online) {
-      return res.json({success: false, msg: 'Online issue already added'});
+      return res.json({success: false, msg: 'Online issue already exists for this date.'});
     }
 
     Online.addOnline(newOnline, (err, online) => {
       if(err) {
-        res.json({success: false, msg: 'Failed to add online issue'});
+        res.json({success: false, msg: 'Failed to add online issue.'});
       } 
       else {
-      res.json({success: true, msg: 'Online issue added'});
+      res.json({success: true, msg: 'Online issue added.'});
       }
     });
   });
 });
 
 router.get('/getOnline', (req, res, next) => {
-  Online.find({}, null, {sort: {volume: -1, issue: -1}}, (err, online) => {
+  Online.find({}, null, {sort: {date: -1, volume: -1, issue: -1}}, (err, online) => {
     if (err) throw err;
     else {
       res.json(online);
@@ -46,7 +44,25 @@ router.get('/getOnline', (req, res, next) => {
 
 router.delete('/deleteOnline', (req, res, next) => {
   Online.findByIdAndRemove(req.query.onlineID, (err, doc) => { 
-    if (err) throw err;
+    if(err) {
+      res.json({success: false, msg: 'Failed to delete online issue.'});
+      throw err;
+    }
+    else {
+      res.json({success: true, msg: 'Online issue deleted.'});
+    }
+  });
+});
+
+router.put('/updateOnline', (req, res, next) => {
+  Online.update({'_id' : req.body.onlineID}, req.body, (err) => {
+    if(err) {
+      res.json({success: false, msg: 'Failed to update online issue.'});
+      throw err;
+    }
+    else {
+      res.json({success: true, msg: 'Online issue updated.'});
+    }
   });
 });
 

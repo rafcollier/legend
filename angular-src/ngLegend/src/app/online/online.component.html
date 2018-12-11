@@ -6,7 +6,7 @@
     <form (submit)="onSearchSubmit()" class="example-form">  
 
       <mat-form-field class="example-full-width">
-        <input matInput [matDatepicker]="onlineIssueSelectDatePicker" placeholder="Online Issue Date" [(ngModel)]="onlineIssueSelect" name="onlineIssueSelect">
+        <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="onlineIssueSelectDatePicker" placeholder="Online Issue Date" [(ngModel)]="onlineIssueSelect" name="onlineIssueSelect">
         <mat-datepicker-toggle matSuffix [for]="onlineIssueSelectDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #onlineIssueSelectDatePicker></mat-datepicker>
       </mat-form-field>

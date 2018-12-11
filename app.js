@@ -23,10 +23,13 @@ const app = express();
 const users = require('./routes/users');
 const docs = require('./routes/docs');
 const sections = require('./routes/sections');
+const editors = require('./routes/editors');
+const codes = require('./routes/codes');
+const online = require('./routes/online');
 const config = require('./routes/config');
 
-//const port = 3000; //This is port for local development
-const port = process.env.PORT || 8080; //This is for deployment to Heroku
+const port = 3000; //This is port for local development
+//const port = process.env.PORT || 8080; //This is for deployment to Heroku
 
 //Middleware
 app.use(cors());
@@ -38,10 +41,13 @@ app.use(passport.session());
 require('./config/passport')(passport);
 
 //Routes
-app.use('/users', users)
-app.use('/docs', docs)
-app.use('/sections', sections)
-app.use('/config', config)
+app.use('/users', users);
+app.use('/docs', docs);
+app.use('/sections', sections);
+app.use('/editors', editors);
+app.use('/codes', codes);
+app.use('/config', config);
+app.use('/online', online);
 
 //Index Route
 

@@ -1,5 +1,7 @@
+
 <div class = "align-form">
   <section class = "mat-typography">
+
     <h4>Welcome {{username}}</h4> 
     <h2>Add Section</h2>
     <form (submit)="onSectionSubmit()" class="example-form">  
@@ -24,33 +26,80 @@
       <h4 class="red-font">{{validateMessage}}</h4>
     </div>
     <div *ngIf="successMessage">
-      <h4 class="red-font">{{successMessage}}</h4>
+      <h4 class="blue-font">{{successMessage}}</h4>
     </div>
     <br>
     <hr class="hr-style">
+  </section>
+</div>
 
-    <br><br>
+<div class = "align-form">
+  <section class = "mat-typography">
+
+    <br>
     <h2>Current Sections</h2>
+    <hr class="hr-style">
 
     <div *ngFor="let d of displaySections; let i = index">
-      <h3>
-         <b>Section:</b> {{ d.section }}
-      </h3>
-      <h3>
-         <b>Department:</b> {{ d.department }}
-      </h3>
-      <h3>
-         <b>Online Position:</b> {{ d.onlinePosition }}
-      </h3>
-      <h3>
-         <b>Print Position:</b> {{ d.printPosition }}
-      </h3>
 
-      <a href="" onClick="return false;">
-        <span (click)="onSectionDelete(d, i)"> Delete</span>
-      </a>
+      <div *ngIf="i != sectionIndex">
+        <h3 class="red-font">
+          {{ d.section }}
+        </h3>
+        <p>
+           Department: {{ d.department }}
+        </p>
+        <p>
+           Online Position: {{ d.onlinePosition }}
+        </p>
+        <p>
+           Print Position: {{ d.printPosition }}
+        </p>
 
-      <hr class="hr-style">
+        <a href="" onClick="return false;">
+          <span (click)="onSectionEdit(d, i)">Edit</span>
+        </a>
+        &nbsp; 
+        <a href="" onClick="return false;">
+          <span (click)="onSectionDelete(d, i)">Delete</span>
+        </a>
+        <hr class="hr-style">
+      </div>
+
+      <div *ngIf="i == sectionIndex">
+        <h2>Edit Section</h2>
+        <form (submit)="onEditSubmit()" class="example-form">  
+          <mat-form-field class="example-full-width">  
+            <input type="text" matInput placeholder="Section" [(ngModel)]="sectionEdit" name="sectionEdit">  
+          </mat-form-field>  
+          <mat-form-field class="example-full-width">  
+            <input type="text" matInput placeholder="Department" [(ngModel)]="departmentEdit" name="departmentEdit">  
+          </mat-form-field>  
+          <mat-form-field class="example-full-width">  
+            <input type="number" matInput placeholder="Online issue position" [(ngModel)]="onlinePositionEdit" name="onlinePositionEdit">
+          </mat-form-field>  
+          <mat-form-field class="example-full-width">  
+            <input type="number" matInput placeholder="Print issue position" [(ngModel)]="printPositionEdit" name="printPositionEdit">
+          </mat-form-field>  
+          <button mat-raised-button type="submit">Submit</button>
+          <button mat-raised-button type="button" (click)="editCancel()">Cancel</button>
+        </form>  
+
+        <br>  
+        <div *ngIf="errorMessageEdit">
+          <h4 class="red-font">{{errorMessageEdit}}</h4>
+        </div>
+        <div *ngIf="validateMessageEdit">
+          <h4 class="red-font">{{validateMessageEdit}}</h4>
+        </div>
+        <div *ngIf="successMessageEdit">
+          <h4 class="blue-font">{{successMessageEdit}}</h4>
+        </div>
+        <br>
+        <hr class="hr-style">
+
+      </div>
+      
     </div>
 
   </section>

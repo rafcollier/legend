@@ -12,6 +12,14 @@
 	color: red;
 }
 
+.green-font {
+  color: green;
+}
+
+.blue-font {
+  color: #0198E1;
+}
+
 .align-page {
   flex: 1 1 auto;
   margin-left: 50px;

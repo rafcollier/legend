@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 import * as moment from 'moment';
 
@@ -16,8 +19,11 @@ export class PicksectionComponent implements OnInit {
 
   docSection: String;
   sectionsObj: Object[] = []; 
-  sections: String[] = []; 
+  sections: string[]; 
   username: String;
+
+  myControl = new FormControl();
+  filteredSections: Observable<string[]>;
 
   constructor(
   	private authService: AuthService,
@@ -27,8 +33,19 @@ export class PicksectionComponent implements OnInit {
   ngOnInit() {
 
   	this.username = this.authService.loadUsername();
-    this.sections = this.authService.localGetUniqueSections();
+    this.sections = this.authService.localGetUniqueSections().map(x => x.section);
 
+    this.filteredSections = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+    );
+
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.sections.filter(section => section.toLowerCase().includes(filterValue));
   }
 
   onSectionSubmit() {

@@ -7,7 +7,7 @@ const OnlineSchema = mongoose.Schema({
     type: Date, default: Date.now
   },
   date: {
-	  type: String,
+	  type: Date,
 	  required: true
 	},
   volume: {
@@ -17,16 +17,7 @@ const OnlineSchema = mongoose.Schema({
   issue: {
     type: String,
     required: true
-  },
-  firstPage: {
-    type: Number,
-    required: true
-  },
-  lastPage: {
-    type: Number,
-    required: true
   }
-
 });
 
 const Online = module.exports = mongoose.model('Online', OnlineSchema)

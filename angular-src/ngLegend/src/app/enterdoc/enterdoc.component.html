@@ -31,13 +31,23 @@ MAIN DOCUMENT INPUT SECTION
           <input type="text" matInput placeholder="Author" [(ngModel)]="docAuthor" name="docAuthor">
         </mat-form-field>  
 
+        <mat-form-field class="example-full-width">
+          <input type="text" placeholder="Choose Department" [(ngModel)]="docDepartment" name="docDepartment" aria-label="Number" matInput [formControl]="myControlDepartment" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let f of filteredDepartments | async" [value]="f">
+              {{f}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
 
+      <!--
 
         <mat-form-field class="example-full-width">
           <mat-select [(ngModel)]="docDepartment" name="docDepartment" placeholder="Department">
-            <mat-option *ngFor="let d of departments" [value]="d"> {{d}} </mat-option>
+            <mat-option *ngFor="let d of departmentsMenu" [value]="d"> {{d}} </mat-option>
           </mat-select>
         </mat-form-field>
+      -->
 
         <mat-form-field class="example-full-width">
           <input matInput [matDatepicker]="docAcceptDatePicker" placeholder="Accept Date" [(ngModel)]="docAcceptDate" name="docAcceptDate">
@@ -256,12 +266,13 @@ MAIN DOCUMENT INPUT SECTION
               <mat-panel-description>
               </mat-panel-description>
             </mat-expansion-panel-header>
-  
+  <!--
             <mat-form-field class="example-full-width">
               <mat-select [(ngModel)]="docEditor" name="docEditor" placeholder="Manuscript Editor">
                 <mat-option *ngFor="let e of editors" [value]="e"> {{e}} </mat-option>
               </mat-select>
             </mat-form-field>
+  -->
   
             <mat-form-field class="example-full-width">
               <mat-select [(ngModel)]="docCoordinator" name="docCoordinator" placeholder="Manuscript Coordinator">

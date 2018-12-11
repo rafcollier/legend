@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -39,7 +40,9 @@ import { OnlineIssueConfigComponent } from './online-issue-config/online-issue-c
 import { ConfigComponent } from './config/config.component';
 import { EnternewsComponent } from './enternews/enternews.component';
 import { EnterletterComponent } from './enterletter/enterletter.component';
-import { EnteradvertComponent } from './enteradvert/enteradvert.component';  
+import { EnteradvertComponent } from './enteradvert/enteradvert.component';
+import { EditorsComponent } from './editors/editors.component';
+import { CodesComponent } from './codes/codes.component';  
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -58,6 +61,8 @@ const appRoutes: Routes = [
   {path: 'admin', component: AdminComponent, canActivate:[AuthGuard]},
   {path: 'metrics', component: MetricsComponent, canActivate:[AuthGuard]},
   {path: 'sections', component: SectionsComponent, canActivate:[AuthGuard]},
+  {path: 'editors', component: EditorsComponent, canActivate:[AuthGuard]},
+  {path: 'codes', component: CodesComponent, canActivate:[AuthGuard]},
   {path: 'config', component: ConfigComponent, canActivate:[AuthGuard]},
   {path: 'users', component: UsersComponent, canActivate:[AuthGuard]},
   {path: 'printissues', component: PrintissuesComponent, canActivate:[AuthGuard]},
@@ -93,13 +98,16 @@ const appRoutes: Routes = [
     ConfigComponent,
     EnternewsComponent,
     EnterletterComponent,
-    EnteradvertComponent
+    EnteradvertComponent,
+    EditorsComponent,
+    CodesComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes)   

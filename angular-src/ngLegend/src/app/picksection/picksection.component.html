@@ -9,9 +9,12 @@
     <form (submit)="onSectionSubmit()" class="example-form">  
 
       <mat-form-field class="example-full-width">
-        <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
-           <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
-         </mat-select>
+        <input type="text" placeholder="Choose Section" [(ngModel)]="docSection" name="docSection" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let section of filteredSections | async" [value]="section">
+            {{section}}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
       
       <button mat-raised-button type="submit">Next</button>
@@ -19,6 +22,15 @@
     </form>  
   </section>
 </div>
+
+<!--
+      <mat-form-field class="example-full-width">
+        <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
+           <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
+         </mat-select>
+      </mat-form-field>
+
+-->
 
      
 

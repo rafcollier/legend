@@ -3,18 +3,12 @@ import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {ValidateService} from '../services/validate.service';
 
-import * as moment from 'moment';
-
 @Component({
-  selector: 'app-online-issue-config',
-  templateUrl: './online-issue-config.component.html',
-  styleUrls: ['./online-issue-config.component.css']
+  selector: 'app-codes',
+  templateUrl: './codes.component.html',
+  styleUrls: ['./codes.component.css']
 })
-export class OnlineIssueConfigComponent implements OnInit {
-  date: Date;
-  dateFormatted: string;
-  volume: number;
-  issue: number;
+export class CodesComponent implements OnInit {
   currentUser: String;
   errorMessage: String = "";
   errorMessageEdit: String = "";
@@ -24,14 +18,15 @@ export class OnlineIssueConfigComponent implements OnInit {
   deleteMessageEdit : String = "";
   successMessage : String = "";
   successMessageEdit : String = "";
-  onlineIssues : object[];
-  onlineIDEdit: String;
-  dateEdit: Date;  
-  volumeEdit: number;
-  issueEdit: number;
-  onlineIndex: number = null;
+  description: String;
+  code: number;
+  descriptionEdit: String;
+  codeEdit: number;
+  codeIDEdit: String;
+  codeIndex: number;
+  codes: object[];
 
-  constructor(
+   constructor(
     private authService: AuthService,
     private validateService: ValidateService, 
     private router: Router
@@ -48,17 +43,13 @@ export class OnlineIssueConfigComponent implements OnInit {
       console.log(err);
       return false;
     });
-    this.onGetOnline();
+    this.onGetCodes();
   }
 
-  onGetOnline() {
-    this.authService.getOnline().subscribe(entries => {
-      this.onlineIssues = entries; 
-      console.log(this.onlineIssues);
-      this.onlineIssues.map( obj => {
-        obj['dateFormatted'] = moment(obj['date']).format('MMMM DD, YYYY');
-        return obj;
-      }) 
+  onGetCodes() {
+    this.authService.getCodes().subscribe(entries => {
+      this.codes = entries; 
+      console.log(this.codes);
     }, 
     err => {
         console.log(err);
@@ -66,23 +57,22 @@ export class OnlineIssueConfigComponent implements OnInit {
     });
   }
 
-  onOnlineSubmit(){
-    const online = {
-      date: this.date,
-      volume: this.volume,
-      issue: this.issue
+  onCodeSubmit(){
+    const code = {
+      description: this.description,
+      code: this.code
     }
 
     //Required fields
-    if(!this.validateService.validateOnline(online)) {
-      this.validateMessage = "Please fill in Date, Volume and Issue";
+    if(!this.validateService.validateCode(code)) {
+      this.validateMessage = "Please fill in code description and number.";
       setTimeout(() => {
         this.validateMessage = "";
         return false;
       }, 2000);
     }
     else {
-      this.authService.addOnline(online).subscribe(data => {
+      this.authService.addCode(code).subscribe(data => {
         console.log(data);
         if(data.success){
           this.successMessage = data.msg;
@@ -104,31 +94,29 @@ export class OnlineIssueConfigComponent implements OnInit {
     }
   }
 
-  onOnlineEdit(issue, index){
-    this.onlineIDEdit = issue["_id"]; 
-    this.dateEdit = issue['date']; 
-    this.volumeEdit = issue['volume']; 
-    this.issueEdit = issue['issue']; 
-    this.onlineIndex = index;
+  onCodeEdit(code, index){
+    this.codeIDEdit = code["_id"]; 
+    this.descriptionEdit = code['description']; 
+    this.codeEdit = code['code']; 
+    this.codeIndex = index;
   }
 
   onEditSubmit() {
-    const onlineEdit = {
-      onlineID: this.onlineIDEdit, //to identify this doc in database
-      date: this.dateEdit, 
-      volume: this.volumeEdit, 
-      issue: this.issueEdit 
+    const codeEdit = {
+      codeID: this.codeIDEdit, //to identify this doc in database
+      description: this.descriptionEdit,
+      code: this.codeEdit
     }
 
-    if(!this.validateService.validateOnline(onlineEdit)) {
-      this.validateMessageEdit = "Please fill in Date, Volume and Issue";
+    if(!this.validateService.validateCode(codeEdit)) {
+      this.validateMessageEdit = "Please fill in code description and number.";
       setTimeout(() => {
         this.validateMessageEdit = "";
         return false;
       }, 2000);
     }
     else {
-      this.authService.updateOnline(onlineEdit).subscribe(doc => {
+      this.authService.updateCode(codeEdit).subscribe(doc => {
         console.log(doc);
         if(doc.success){
           this.successMessageEdit = doc.msg;
@@ -150,19 +138,19 @@ export class OnlineIssueConfigComponent implements OnInit {
     }
   }
 
-  onOnlineDelete(online, index) {
-    const onlineID = online["_id"]; 
-    this.authService.deleteOnline(onlineID).subscribe(online => {
-      console.log(online);
-      if(online.success){
-        this.deleteMessageEdit = online.msg;
+  onCodeDelete(code, index) {
+    const codeID = code["_id"]; 
+    this.authService.deleteCode(codeID).subscribe(code => {
+      console.log(code);
+      if(code.success){
+        this.deleteMessageEdit = code.msg;
         console.log(this.deleteMessageEdit);
         setTimeout(() => {
           this.ngOnInit();
         }, 2000);
       }
       else {
-        this.errorMessageEdit = online.msg;
+        this.errorMessageEdit = code.msg;
         setTimeout(() => {
           this.ngOnInit();
         }, 2000);
@@ -180,10 +168,9 @@ export class OnlineIssueConfigComponent implements OnInit {
   }
 
   clearFields() {
-    this.date = null;
-    this.volume = null;
-    this.issue = null;
-    this.onlineIndex = null;
+    this.description = "";
+    this.code = null;
+    this.codeIndex = null;
     this.errorMessage = "";
     this.errorMessageEdit = "";
     this.validateMessage = "";
