@@ -25,8 +25,18 @@ const SectionSchema = mongoose.Schema({
 
 const Section = module.exports = mongoose.model('Section', SectionSchema)
 
+module.exports.getSectionByNameUpdate = function(section, id, callback) {
+  const query = {
+    _id: { $ne: id},
+    section: section
+  }
+  Section.findOne(query, callback);
+}
+
 module.exports.getSectionByName = function(section, callback) {
-  const query = {section: section}
+  const query = {
+    section: section
+  }
   Section.findOne(query, callback);
 }
 

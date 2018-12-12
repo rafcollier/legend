@@ -60,7 +60,7 @@ router.delete('/deleteEditor', (req, res, next) => {
 
 router.put('/updateEditor', (req, res, next) => {
 
-  Editor.getEditorByName(req.body.name, (err, name) => {
+  Editor.getEditorByNameUpdate(req.body.name, req.body.editorID, (err, name) => {
     if(err) throw err;
     if(name) {
       return res.json({success: false, msg: 'This editor already exists.'});

@@ -16,6 +16,8 @@ router.post('/addOnline', (req, res, next) => {
     issue: req.body.issue
   });
 
+  console.log(newOnline);
+
   Online.getOnlineByName(newOnline.date, (err, online) => {
     if(err) throw err;
     if(online) {
@@ -34,7 +36,7 @@ router.post('/addOnline', (req, res, next) => {
 });
 
 router.get('/getOnline', (req, res, next) => {
-  Online.find({}, null, {sort: {date: -1, volume: -1, issue: -1}}, (err, online) => {
+  Online.find({}, null, {sort: {date: -1}}, (err, online) => {
     if (err) throw err;
     else {
       res.json(online);
@@ -55,14 +57,23 @@ router.delete('/deleteOnline', (req, res, next) => {
 });
 
 router.put('/updateOnline', (req, res, next) => {
-  Online.update({'_id' : req.body.onlineID}, req.body, (err) => {
-    if(err) {
-      res.json({success: false, msg: 'Failed to update online issue.'});
-      throw err;
+
+  Online.getOnlineByNameUpdate(req.body.date, req.body.onlineID, (err, online) => {
+    if(err) throw err;
+    if(online) {
+      return res.json({success: false, msg: 'Online issue already exists for this date.'});
     }
-    else {
-      res.json({success: true, msg: 'Online issue updated.'});
-    }
+
+    Online.update({'_id' : req.body.onlineID}, req.body, (err) => {
+      if(err) {
+        res.json({success: false, msg: 'Failed to update online issue.'});
+        throw err;
+      }
+      else {
+        res.json({success: true, msg: 'Online issue updated.'});
+      }
+
+    });
   });
 });
 

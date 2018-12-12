@@ -22,8 +22,18 @@ const OnlineSchema = mongoose.Schema({
 
 const Online = module.exports = mongoose.model('Online', OnlineSchema)
 
-module.exports.getOnlineByName = function(online, callback) {
-  const query = {online: online}
+module.exports.getOnlineByNameUpdate = function(date, id, callback) {
+  const query = {
+    _id: { $ne: id },
+    date: date
+  }
+  Online.findOne(query, callback);
+}
+
+module.exports.getOnlineByName = function(date, callback) {
+  const query = {
+    date: date
+  }
   Online.findOne(query, callback);
 }
 

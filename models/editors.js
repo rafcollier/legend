@@ -26,10 +26,21 @@ const EditorSchema = mongoose.Schema({
 
 const Editor = module.exports = mongoose.model('Editor', EditorSchema)
 
-module.exports.getEditorByName = function(name, callback) {
-  const query = {name: name}
+module.exports.getEditorByNameUpdate = function(name, id, callback) {
+  const query = {
+    _id: { $ne: id},
+    name: name
+  }
   Editor.findOne(query, callback);
 }
+
+module.exports.getEditorByName = function(name, callback) {
+  const query = {
+    name: name
+  }
+  Editor.findOne(query, callback);
+}
+
 
 module.exports.addEditor = function(newEditor, callback) {
   newEditor.save(callback);

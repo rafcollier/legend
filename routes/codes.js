@@ -22,7 +22,7 @@ router.post('/addCode', (req, res, next) => {
     if(err) throw err;
     if(code) {
       return res.json({success: false, msg: 'This code already exists.'});
-    }
+  }
 
     Code.addCode(newCode, (err, code) => {
       if(err) {
@@ -58,7 +58,7 @@ router.delete('/deleteCode', (req, res, next) => {
 
 router.put('/updateCode', (req, res, next) => {
 
-  Code.getCodeByName(req.body.code, (err, code) => {
+  Code.getCodeByNameUpdate(req.body.code, req.body.codeID, (err, code) => {
     if(err) throw err;
     if(code) {
       return res.json({success: false, msg: 'This code already exists.'});

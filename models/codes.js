@@ -16,8 +16,19 @@ const CodeSchema = mongoose.Schema({
 
 const Code = module.exports = mongoose.model('Code', CodeSchema)
 
+module.exports.getCodeByNameUpdate = function(code, id, callback) {
+  const query = {
+    _id: { $ne: id },
+    code: code
+  }
+  console.log(query);
+  Code.findOne(query, callback);
+}
+
 module.exports.getCodeByName = function(code, callback) {
-  const query = {code: code}
+  const query = {
+    code: code
+  }
   console.log(query);
   Code.findOne(query, callback);
 }

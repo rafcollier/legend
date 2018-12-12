@@ -54,7 +54,7 @@ router.delete('/deleteSection', (req, res, next) => {
 });
 
 router.put('/updateSection', (req, res, next) => {
-  Section.getSectionByName(req.body.section, (err, section) => {
+  Section.getSectionByNameUpdate(req.body.section, req.body.sectionID, (err, section) => {
     if(err) throw err;
     if(section) {
       return res.json({success: false, msg: 'This section already exists.'});
