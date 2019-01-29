@@ -13,7 +13,8 @@ router.post('/addCode', (req, res, next) => {
 
   let newCode = new Code({
     description: req.body.description,
-    code: req.body.code
+    code: req.body.code,
+    focus: req.body.focus
   });
 
   console.log(newCode);

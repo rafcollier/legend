@@ -49,17 +49,12 @@ constructor(
 
   ngOnInit() {
     this.username = this.authService.loadUsername(); 
-    this.configFile = this.authService.localGetConfigFile();
-    this.sections = this.authService.localGetSections(); 
     this.showResults = false;
     this.noResults = false;
-    console.log("Configuration File")
-    console.log(this.configFile);
   }
 
   onSearchSubmit() {
     this.authService.getLayoutSearchResults(this.printIssueSelect).subscribe(entries => {
-      console.log(entries);
       if(entries.length == 0) {
         this.noResults = true;
       } 
@@ -75,7 +70,12 @@ constructor(
     });
   }
 
- onPrintOrderClick(doc, index) {
+  myFilterPrint = (d: Date): boolean => {
+    const calendarDay = moment(d).format('D');
+    return calendarDay == '1'; 
+  }
+
+  onPrintOrderClick(doc, index) {
     this.docID = doc["_id"]; 
     this.docPrintPosition = doc['docPrintPosition']; 
     this.docFirstPagePrint = doc['docFirstPagePrint']; 

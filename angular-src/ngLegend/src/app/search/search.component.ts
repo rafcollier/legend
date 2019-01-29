@@ -31,12 +31,13 @@ export class SearchComponent implements OnInit {
   editor: String;
   status: String;
   sections: Object[] = []; 
-  departments: String[] = []; 
   configFile: Object;
   editors: [String];
   statusConfig: [String];
   displayDocs: [Object];
   username: String;
+  editorsMenu: string []; 
+  docFlagPrint: Boolean;
 
 constructor(
   	private authService: AuthService,
@@ -47,13 +48,9 @@ constructor(
 
     this.username = this.authService.loadUsername(); 
     this.configFile = this.authService.localGetConfigFile();
-    this.sections = this.authService.localGetUniqueSections();
-    this.departments = this.authService.localGetDepartments(); 
-
-
-    this.editors = config.alleditors;
+    this.sections = this.authService.localGetUniqueSections().map(x => x.section);
+    this.editorsMenu = this.authService.localGetEditors().filter(x => x.docEditor).map(x => x.name);
     this.statusConfig = config.status;
-
     this.showResults = false;
     this.noResults = false;
 
@@ -68,6 +65,7 @@ constructor(
     	this.docTitle,
       this.docNotUsedOnline,
       this.docNotUsedPrint,
+      this.docFlagPrint,
       this.afterAcceptDate,
       this.beforeAcceptDate,
       this.editor,
@@ -96,6 +94,7 @@ constructor(
     this.status = null;
     this.docNotUsedOnline = null;
     this.docNotUsedPrint = null;
+    this.docFlagPrint = null;
     this.afterAcceptDate = null;
     this.beforeAcceptDate = null;
   	this.ngOnInit();

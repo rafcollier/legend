@@ -6,15 +6,14 @@
     <form (submit)="onSearchSubmit()" class="example-form">  
 
       <mat-form-field class="example-full-width">
-        <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="onlineIssueSelectDatePicker" placeholder="Online Issue Date" [(ngModel)]="onlineIssueSelect" name="onlineIssueSelect">
-        <mat-datepicker-toggle matSuffix [for]="onlineIssueSelectDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #onlineIssueSelectDatePicker></mat-datepicker>
+        <input matInput  [matDatepickerFilter]="myFilter" [matDatepicker]="docOnlineIssueDatePicker" placeholder="Online Issue Date" [(ngModel)]="docOnlineIssue" name="docOnlineIssue">
+        <mat-datepicker-toggle matSuffix [for]="docOnlineIssueDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #docOnlineIssueDatePicker></mat-datepicker>
       </mat-form-field>
 
-      <button mat-raised-button type="submit">Search</button>
+       <button mat-raised-button type="submit">Search</button>
 
     </form>  
-
   </section>
 </div>
 
@@ -67,18 +66,26 @@
       </div>
       <br>
 
-      <p>
-        <span style="color:#4D6FAC">Section:</span> {{ d.docSection }}
-      </p>
-      <p *ngIf="d.docDepartment">
-        <span style="color:#4D6FAC">Department:</span> {{ d.docDepartment }}
-      </p>
-      <p>
-        <span style="color:#4D6FAC">Author:</span> {{ d.docAuthor }} 
-      </p>
-      <p>
-        <span style="color:#4D6FAC">DOI:</span> {{ d.docDOI }}
-      </p>
+      <p><span style="color:#4D6FAC">Section:</span> {{ d.docSection }} </p>
+      <p *ngIf="d.docDepartment"> <span style="color:#4D6FAC">Department:</span> {{ d.docDepartment }} </p>
+      <p><span style="color:#4D6FAC">Author:</span> {{ d.docAuthor }} </p>
+      <p><span style="color:#4D6FAC">DOI:</span> {{ d.docDOI }} </p>
+      <p *ngIf="d.docEditor "><span style="color:#4D6FAC">Copy Editor:</span> {{ d.docEditor }} </p>
+      <p *ngIf="d.docFocusArea"><span style="color:#4D6FAC">Area of Focus:</span> {{d.docFocusArea}} </p>
+      <p *ngIf="d.docRelatedMaterial"><span style="color:#4D6FAC">Related Material:</span> {{ d.docRelatedMaterial }}</p>
+      <p *ngIf="d.docMultiMedia1"><span style="color:#4D6FAC">Multimedia 1:</span> {{ d.docMultiMedia1 }}</p>
+      <p *ngIf="d.docMultiMedia2"><span style="color:#4D6FAC">Multimedia 2:</span> {{ d.docMultiMedia2 }}</p>
+      <p *ngIf="d.docMultiMedia3"><span style="color:#4D6FAC">Multimedia 3:</span> {{ d.docMultiMedia3 }}</p>
+      <p *ngIf="d.docPodcastEmbargoLink"><span style="color:#4D6FAC">Podcast Embargo Link:</span> {{ d.docPodcastEmbargoLink }}</p>
+      <p *ngIf="d.docPodcastPermLink"><span style="color:#4D6FAC">Podcast Permanent Link:</span> {{ d.docPodcastPermLink }}</p>
+      <p *ngIf="d.docPodcastEmbedCode"><span style="color:#4D6FAC">Podcast Embed Code:</span> {{ d.docPodcastEmbedCode }}</p>
+      <p *ngIf="d.docVideoEmbedCode"><span style="color:#4D6FAC">Video Embed Code:</span> {{ d.docVideoEmbedCode }}</p>
+      <p *ngIf="d.docVideoLink"><span style="color:#4D6FAC">Video Link:</span> {{ d.docVideoLink }}</p>
+      <p *ngIf="d.docURL"><span style="color:#4D6FAC">URL:</span> {{ d.docURL }}</p>
+      <p *ngIf="d.docHashTags"><span style="color:#4D6FAC">Hash Tags:</span> {{ d.docHashTags }}</p>
+      <p *ngIf="d.docSocialSummary"><span style="color:#4D6FAC">Social Summary:</span> {{ d.docSocialSummary }}</p>
+      <p *ngIf="d.docOpenAccess"><span style="color:#4D6FAC">Open Access:</span> yes</p>
+      <p *ngIf="d.docProfessionalDev"><span style="color:#4D6FAC">Continuing Professional Development:</span> yes </p>
       <p *ngIf="d.docCollectionCode1"><span style="color:#4D6FAC">Collection Code 1:</span> {{ d.docCollectionCode1 }}</p>
       <p *ngIf="d.docCollectionCode2"><span style="color:#4D6FAC">Collection Code 2:</span> {{ d.docCollectionCode2 }}</p>
       <p *ngIf="d.docCollectionCode3"><span style="color:#4D6FAC">Collection Code 3:</span> {{ d.docCollectionCode3 }}</p>
@@ -86,39 +93,14 @@
       <p *ngIf="d.docCollectionCode5"><span style="color:#4D6FAC">Collection Code 5:</span> {{ d.docCollectionCode5 }}</p>
       <p *ngIf="d.docCollectionCode6"><span style="color:#4D6FAC">Collection Code 6:</span> {{ d.docCollectionCode6 }}</p>
 
-      <p *ngIf="d.docFocusArea"><span style="color:#4D6FAC">Area of Focus:</span> {{d.docFocusArea}} </p>
-
-      <p *ngIf="d.docOpenAccess"><span style="color:#4D6FAC">Open Access:</span> yes</p>
-      <p *ngIf="d.docProfessionalDev"><span style="color:#4D6FAC">Continuing Professional Development:</span> yes </p>
-
-      <p>
-        <span style="color:#4D6FAC">Copy Editor:</span> {{ d.docEditor }}
-      </p>
-
-   
-
       <div *ngIf="i != docIndex" class = "edit-div">
-        <p>
-          <span style="color:#4D6FAC">Number of Figures:</span> {{ d.docNumFigures }}
-        </p>
-        <p>
-          <span style="color:#4D6FAC">Number of Tables:</span> {{ d.docNumTables }}
-        </p>
-        <p>
-          <span style="color:#4D6FAC">Number of Appendencies:</span> {{ d.docNumAppendices }}
-        </p>
-        <p>
-          <span style="color:#4D6FAC">Position:</span> {{ d.docOnlinePosition }}
-        </p>
-        <p>
-          <span style="color:#4D6FAC">First Page:</span> {{ d.docFirstPageOnline }}
-        </p>
-        <p>
-          <span style="color:#4D6FAC">Last Page:</span> {{ d.docLastPageOnline }}
-        </p>
-        <p>
-          <span style="color:#4D6FAC">Online Issue Notes:</span> {{ d.docOnlineNotes }}
-        </p>
+        <p *ngIf="d.docNumFigures"><span style="color:#4D6FAC">Number of Figures:</span> {{ d.docNumFigures }} </p>
+        <p *ngIf="d.docNumTables"><span style="color:#4D6FAC">Number of Tables:</span> {{ d.docNumTables }} </p>
+        <p *ngIf="d.docNumAppendices"><span style="color:#4D6FAC">Number of Appendencies:</span> {{ d.docNumAppendices }} </p>
+        <p *ngIf="d.docOnlinePosition"><span style="color:#4D6FAC">Position:</span> {{ d.docOnlinePosition }} </p>
+        <p *ngIf="d.docFirstPageOnline"> <span style="color:#4D6FAC">First Page:</span> {{ d.docFirstPageOnline }} </p>
+        <p *ngIf="d.docLastPageOnline"> <span style="color:#4D6FAC">Last Page:</span> {{ d.docLastPageOnline }} </p>
+        <p *ngIf="d.docOnlineNotes"> <span style="color:#4D6FAC">Online Issue Notes:</span> {{ d.docOnlineNotes }} </p>
 
         <a href="" onClick="return false;" class="red-link">
          <span (click)="onOnlineOrderClick(d, i)"> Edit </span>

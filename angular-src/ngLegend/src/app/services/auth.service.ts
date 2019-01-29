@@ -20,16 +20,16 @@ export class AuthService {
   registerUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/users/register', user, {headers: headers}) 
-    //return this.http.post('users/register', user, {headers: headers})
+    //return this.http.post('http://localhost:3000/users/register', user, {headers: headers}) 
+    return this.http.post('users/register', user, {headers: headers})
       .pipe(map(res => res.json()));
   }
 
   authenticateUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    //return this.http.post('users/authenticate', user, {headers: headers}) 
-    return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers}) 
+    return this.http.post('users/authenticate', user, {headers: headers}) 
+    //return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers}) 
       .pipe(map(res => res.json()));
   }
 
@@ -38,8 +38,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/users/getUsers', {headers: headers}) 
-    //return this.http.get('users/getUsers', {headers: headers}) 
+    //return this.http.get('http://localhost:3000/users/getUsers', {headers: headers}) 
+    return this.http.get('users/getUsers', {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -54,8 +54,8 @@ export class AuthService {
     params.set('docID', docID);
     options.headers = headers;
     options.search = params;
-    return this.http.delete('http://localhost:3000/users/deleteUser', options)
-    //return this.http.delete('users/deleteUser', options)
+    //return this.http.delete('http://localhost:3000/users/deleteUser', options)
+    return this.http.delete('users/deleteUser', options)
       .pipe(map(res => res.json()));
   }
 
@@ -64,8 +64,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    //return this.http.get('users/profile', {headers: headers}) 
-    return this.http.get('http://localhost:3000/users/profile', {headers: headers}) 
+    return this.http.get('users/profile', {headers: headers}) 
+    //return this.http.get('http://localhost:3000/users/profile', {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -76,8 +76,8 @@ export class AuthService {
   addSection(section) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/sections/addSection', section, {headers: headers}) 
-    //return this.http.post('sections/addSection', section, {headers: headers}) 
+    //return this.http.post('http://localhost:3000/sections/addSection', section, {headers: headers}) 
+    return this.http.post('sections/addSection', section, {headers: headers}) 
       .pipe(map(res => res.json()));
   }
 
@@ -86,8 +86,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.put('http://localhost:3000/sections/updateSection', editedSection, {headers: headers}) 
-   // return this.http.put('sections/updateSection', editedSection, {headers: headers}) 
+    //return this.http.put('http://localhost:3000/sections/updateSection', editedSection, {headers: headers}) 
+    return this.http.put('sections/updateSection', editedSection, {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -96,8 +96,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/sections/getSections', {headers: headers}) 
-    //return this.http.get('sections/getSections', {headers: headers}) 
+    //return this.http.get('http://localhost:3000/sections/getSections', {headers: headers}) 
+    return this.http.get('sections/getSections', {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -111,8 +111,8 @@ export class AuthService {
     params.set('docID', docID);
     options.headers = headers;
     options.search = params;
-    return this.http.delete('http://localhost:3000/sections/deleteSection', options)
-    //return this.http.delete('sections/deleteSection', options)
+    //return this.http.delete('http://localhost:3000/sections/deleteSection', options)
+    return this.http.delete('sections/deleteSection', options)
       .pipe(map(res => res.json()));
   }
 
@@ -124,8 +124,8 @@ export class AuthService {
     console.log("auth services add online issue");
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/online/addOnline', online, {headers: headers}) 
-    //return this.http.post('online/addOnline', online, {headers: headers}) 
+    //return this.http.post('http://localhost:3000/online/addOnline', online, {headers: headers}) 
+    return this.http.post('online/addOnline', online, {headers: headers}) 
       .pipe(map(res => res.json()));
   }
 
@@ -135,8 +135,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.put('http://localhost:3000/online/updateOnline', editedOnline, {headers: headers}) 
-   // return this.http.put('online/updateOnline', editedOnline, {headers: headers}) 
+    //return this.http.put('http://localhost:3000/online/updateOnline', editedOnline, {headers: headers}) 
+    return this.http.put('online/updateOnline', editedOnline, {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -145,8 +145,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/online/getOnline', {headers: headers}) 
-    //return this.http.get('online/getOnline', {headers: headers}) 
+    //return this.http.get('http://localhost:3000/online/getOnline', {headers: headers}) 
+    return this.http.get('online/getOnline', {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -160,8 +160,55 @@ export class AuthService {
     params.set('onlineID', onlineID);
     options.headers = headers;
     options.search = params;
-    return this.http.delete('http://localhost:3000/online/deleteOnline', options)
-    //return this.http.delete('online/deleteOnline', options)
+    //return this.http.delete('http://localhost:3000/online/deleteOnline', options)
+    return this.http.delete('online/deleteOnline', options)
+      .pipe(map(res => res.json()));
+  }
+
+  /////////////////////////////////////////
+  //PRINT ISSUE CONFIG COLLECTION
+  /////////////////////////////////////////
+
+  addPrint(print) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    //return this.http.post('http://localhost:3000/print/addPrint', print, {headers: headers}) 
+    return this.http.post('print/addPrint', print, {headers: headers}) 
+      .pipe(map(res => res.json()));
+  }
+
+  updatePrint(editedPrint) {
+    this.loadToken();
+    let headers = new Headers();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    //return this.http.put('http://localhost:3000/print/updatePrint', editedPrint, {headers: headers}) 
+    return this.http.put('print/updatePrint', editedPrint, {headers: headers}) 
+      .pipe(map(res => res.json()));
+  } 
+
+  getPrint() {
+    this.loadToken();
+    let headers = new Headers();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    //return this.http.get('http://localhost:3000/print/getPrint', {headers: headers}) 
+    return this.http.get('print/getPrint', {headers: headers}) 
+      .pipe(map(res => res.json()));
+  } 
+
+  deletePrint(printID) {
+    this.loadToken();
+    let headers = new Headers();
+    let params = new URLSearchParams();
+    let options = new RequestOptions();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.authToken);
+    params.set('printID', printID);
+    options.headers = headers;
+    options.search = params;
+    //return this.http.delete('http://localhost:3000/print/deletePrint', options)
+    return this.http.delete('print/deletePrint', options)
       .pipe(map(res => res.json()));
   }
 
@@ -173,8 +220,8 @@ export class AuthService {
     console.log("auth services add editor");
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/editors/addEditor', editor, {headers: headers}) 
-    //return this.http.post('editors/addEditor', editor, {headers: headers}) 
+    //return this.http.post('http://localhost:3000/editors/addEditor', editor, {headers: headers}) 
+    return this.http.post('editors/addEditor', editor, {headers: headers}) 
       .pipe(map(res => res.json()));
   }
 
@@ -184,8 +231,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.put('http://localhost:3000/editors/updateEditor', editedEditor, {headers: headers}) 
-    //return this.http.put('editors/updateEditor', editedEditor, {headers: headers}) 
+    //return this.http.put('http://localhost:3000/editors/updateEditor', editedEditor, {headers: headers}) 
+    return this.http.put('editors/updateEditor', editedEditor, {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -194,8 +241,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/editors/getEditors', {headers: headers}) 
-    //return this.http.get('editors/getEditors', {headers: headers}) 
+    //return this.http.get('http://localhost:3000/editors/getEditors', {headers: headers}) 
+    return this.http.get('editors/getEditors', {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -209,8 +256,8 @@ export class AuthService {
     params.set('editorID', editorID);
     options.headers = headers;
     options.search = params;
-    return this.http.delete('http://localhost:3000/editors/deleteEditor', options)
-    //return this.http.delete('editors/deleteEditor', options)
+    //return this.http.delete('http://localhost:3000/editors/deleteEditor', options)
+    return this.http.delete('editors/deleteEditor', options)
       .pipe(map(res => res.json()));
   }
 
@@ -222,8 +269,8 @@ export class AuthService {
     console.log("auth services add code");
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/codes/addCode', code, {headers: headers}) 
-    //return this.http.post('codes/addCode', code, {headers: headers}) 
+    //return this.http.post('http://localhost:3000/codes/addCode', code, {headers: headers}) 
+    return this.http.post('codes/addCode', code, {headers: headers}) 
       .pipe(map(res => res.json()));
   }
 
@@ -233,8 +280,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.put('http://localhost:3000/codes/updateCode', editedCode, {headers: headers}) 
-    //return this.http.put('codes/updateCodes', editedCode, {headers: headers}) 
+    //return this.http.put('http://localhost:3000/codes/updateCode', editedCode, {headers: headers}) 
+    return this.http.put('codes/updateCodes', editedCode, {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -243,8 +290,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/codes/getCodes', {headers: headers}) 
-    //return this.http.get('editors/getEditors', {headers: headers}) 
+    //return this.http.get('http://localhost:3000/codes/getCodes', {headers: headers}) 
+    return this.http.get('editors/getEditors', {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -258,8 +305,8 @@ export class AuthService {
     params.set('codeID', codeID);
     options.headers = headers;
     options.search = params;
-    return this.http.delete('http://localhost:3000/codes/deleteCode', options)
-    //return this.http.delete('codes/deleteCode', options)
+    //return this.http.delete('http://localhost:3000/codes/deleteCode', options)
+    return this.http.delete('codes/deleteCode', options)
       .pipe(map(res => res.json()));
   }
 
@@ -271,8 +318,8 @@ export class AuthService {
   addConfig(config) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/config/addConfig', config, {headers: headers}) 
-    //return this.http.post('config/addConfig', config, {headers: headers}) 
+    //return this.http.post('http://localhost:3000/config/addConfig', config, {headers: headers}) 
+    return this.http.post('config/addConfig', config, {headers: headers}) 
       .pipe(map(res => res.json()));
   }
 
@@ -281,8 +328,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/config/getConfig', {headers: headers}) 
-    //return this.http.get('config/getConfig', {headers: headers}) 
+    //return this.http.get('http://localhost:3000/config/getConfig', {headers: headers}) 
+    return this.http.get('config/getConfig', {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -291,8 +338,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.put('http://localhost:3000/config/updateConfig', editedConfig, {headers: headers}) 
-   // return this.http.put('config/updateConfig', editedConfig, {headers: headers}) 
+    //return this.http.put('http://localhost:3000/config/updateConfig', editedConfig, {headers: headers}) 
+    return this.http.put('config/updateConfig', editedConfig, {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -324,9 +371,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    console.log("auth....doc" + doc);
-    return this.http.post('http://localhost:3000/docs/submitdoc', doc, {headers: headers}) 
-    //return this.http.post('docs/submitdoc', doc, {headers: headers}) 
+    //return this.http.post('http://localhost:3000/docs/submitdoc', doc, {headers: headers}) 
+    return this.http.post('docs/submitdoc', doc, {headers: headers}) 
       .pipe(map(res => res.json()));
   }
 
@@ -341,8 +387,8 @@ export class AuthService {
     params.set('limit', limit);
     options.headers = headers;
     options.search = params;
-    return this.http.get('http://localhost:3000/docs/getRecentAdded', options) 
-    //return this.http.get('docs/getRecentAdded', options) 
+    //return this.http.get('http://localhost:3000/docs/getRecentAdded', options) 
+    return this.http.get('docs/getRecentAdded', options) 
       .pipe(map(res => res.json()));
   } 
 
@@ -356,8 +402,8 @@ export class AuthService {
     params.set('docID', docID);
     options.headers = headers;
     options.search = params;
-    return this.http.get('http://localhost:3000/docs/getOneDoc', options)
-    //return this.http.get('docs/getOneDoc', options)
+    //return this.http.get('http://localhost:3000/docs/getOneDoc', options)
+    return this.http.get('docs/getOneDoc', options)
       .pipe(map(res => res.json()));
   }
 
@@ -366,8 +412,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.put('http://localhost:3000/docs/updateDoc', editedDoc, {headers: headers}) 
-    //return this.http.put('docs/updateDoc', editedDoc, {headers: headers}) 
+    //return this.http.put('http://localhost:3000/docs/updateDoc', editedDoc, {headers: headers}) 
+    return this.http.put('docs/updateDoc', editedDoc, {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -381,12 +427,12 @@ export class AuthService {
     params.set('docID', docID);
     options.headers = headers;
     options.search = params;
-    return this.http.delete('http://localhost:3000/docs/deleteOneDoc', options)
-    //return this.http.delete('docs/deleteOneDoc', options)
+    //return this.http.delete('http://localhost:3000/docs/deleteOneDoc', options)
+    return this.http.delete('docs/deleteOneDoc', options)
       .pipe(map(res => res.json()));
   }
 
-  getSearchResults(section, author, DOI, title, notusedonline, notusedprint, afterAcceptDate, beforeAcceptDate, editor, status) {
+  getSearchResults(section, author, DOI, title, notusedonline, notusedprint, flagprint, afterAcceptDate, beforeAcceptDate, editor, status) {
     let headers = new Headers();
     let params = new URLSearchParams();
     let options = new RequestOptions();
@@ -397,6 +443,7 @@ export class AuthService {
     params.set('docTitle', title);
     params.set('docNotUsedOnline', notusedonline);
     params.set('docNotUsedPrint', notusedprint);
+    params.set('docFlagPrint', flagprint);
     params.set('afterAcceptDate', afterAcceptDate);
     params.set('beforeAcceptDate', beforeAcceptDate);
     params.set('editor', editor);
@@ -404,8 +451,8 @@ export class AuthService {
     options.headers = headers;
     options.search = params;
     console.log(options);
-    return this.http.get('http://localhost:3000/docs/getSearchResults', options) 
-    //return this.http.get('docs/getSearchResults', options) 
+    //return this.http.get('http://localhost:3000/docs/getSearchResults', options) 
+    return this.http.get('docs/getSearchResults', options) 
       .pipe(map(res => res.json()));
   } 
 
@@ -419,8 +466,8 @@ export class AuthService {
     params.set('docSecondDateNumDocs', secondDateNumDocs);
     options.headers = headers;
     options.search = params;
-    return this.http.get('http://localhost:3000/docs/getNumDocs', options) 
-   // return this.http.get('docs/getNumDocs', options) 
+    //return this.http.get('http://localhost:3000/docs/getNumDocs', options) 
+    return this.http.get('docs/getNumDocs', options) 
       .pipe(map(res => res.json()));
   } 
 
@@ -434,8 +481,8 @@ export class AuthService {
     params.set('docSecondDateTimeDifference', secondDateTimeDiff);
     options.headers = headers;
     options.search = params;
-    return this.http.get('http://localhost:3000/docs/getTimeDiff', options) 
-    //return this.http.get('docs/getTimeDiff', options) 
+    //return this.http.get('http://localhost:3000/docs/getTimeDiff', options) 
+    return this.http.get('docs/getTimeDiff', options) 
       .pipe(map(res => res.json()));
   } 
 
@@ -450,8 +497,8 @@ export class AuthService {
     //params.set('searchParameter', searchParameter);
     options.headers = headers;
     options.search = params;
-    return this.http.get('http://localhost:3000/docs/getLayoutSearchResults', options) 
-    //return this.http.get('docs/getLayoutSearchResults', options) 
+    //return this.http.get('http://localhost:3000/docs/getLayoutSearchResults', options) 
+    return this.http.get('docs/getLayoutSearchResults', options) 
       .pipe(map(res => res.json()));
   } 
 
@@ -463,8 +510,8 @@ export class AuthService {
     params.set('docOnlineIssue', onlineIssue);
     options.headers = headers;
     options.search = params;
-    return this.http.get('http://localhost:3000/docs/getOnlineSearchResults', options) 
-    //return this.http.get('docs/getOnlineSearchResults', options) 
+    //return this.http.get('http://localhost:3000/docs/getOnlineSearchResults', options) 
+    return this.http.get('docs/getOnlineSearchResults', options) 
       .pipe(map(res => res.json()));
   } 
 
@@ -476,8 +523,8 @@ export class AuthService {
     params.set('docOnlineIssue', onlineIssue);
     options.headers = headers;
     options.search = params;
-    return this.http.get('http://localhost:3000/docs/getCheckPreviousOnlineIssue', options) 
-    //return this.http.get('docs/getOnlineSearchResults', options) 
+    //return this.http.get('http://localhost:3000/docs/getCheckPreviousOnlineIssue', options) 
+    return this.http.get('docs/getOnlineSearchResults', options) 
       .pipe(map(res => res.json()));
   } 
 
@@ -490,8 +537,8 @@ export class AuthService {
     options.headers = headers;
     options.search = params;
     console.log(options);
-    return this.http.get('http://localhost:3000/docs/getOnlineLastPage', options) 
-    //return this.http.get('docs/getOnlineLastPage', options) 
+    //return this.http.get('http://localhost:3000/docs/getOnlineLastPage', options) 
+    return this.http.get('docs/getOnlineLastPage', options) 
       .pipe(map(res => res.json()));
   } 
 
@@ -501,8 +548,8 @@ export class AuthService {
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
     console.log(headers);
-    return this.http.get('http://localhost:3000/docs/getNewsDOI', {headers: headers}) 
-    //return this.http.get('docs/getNewsDOI', {headers: headers}) 
+    //return this.http.get('http://localhost:3000/docs/getNewsDOI', {headers: headers}) 
+    return this.http.get('docs/getNewsDOI', {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -524,6 +571,24 @@ export class AuthService {
   localGetSections() {
     let sectionsArr = JSON.parse(localStorage.getItem('sections'));
     return sectionsArr;
+  }
+
+  localStoreEditors(editorsArr) {
+    localStorage.setItem('editors', JSON.stringify(editorsArr));
+  }
+
+  localGetEditors() {
+    let editorsArr = JSON.parse(localStorage.getItem('editors'));
+    return editorsArr;
+  }
+
+  localStoreCodes(codesArr) {
+    localStorage.setItem('codes', JSON.stringify(codesArr));
+  }
+
+  localGetCodes() {
+    let codesArr = JSON.parse(localStorage.getItem('codes'));
+    return codesArr;
   }
 
   localStoreUniqueSections(sectionArr) {
@@ -554,12 +619,10 @@ export class AuthService {
   }
 
   localStoreOnline(onlineArr) {
-    console.log("in local store online");
     localStorage.setItem('online', JSON.stringify(onlineArr));
   }
 
   localGetOnline() {
-    console.log("in local get online");
     let onlineArr = JSON.parse(localStorage.getItem('online'));
     return onlineArr;
   }

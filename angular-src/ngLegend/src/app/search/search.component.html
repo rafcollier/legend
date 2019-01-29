@@ -18,6 +18,12 @@
           <mat-checkbox [(ngModel)]="docNotUsedPrint" name="docNotUsedPrint">Available for Print Issue</mat-checkbox>
       </mat-form-field>
 
+      <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+        <input matInput placeholder="" style="display: none">
+          <mat-checkbox [(ngModel)]="docFlagPrint" name="docFlagPrint">Flagged for Print Issue</mat-checkbox>
+
+      </mat-form-field>
+
       <mat-form-field class="example-full-width">
         <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
           <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
@@ -50,7 +56,7 @@
 
       <mat-form-field class="example-full-width">
         <mat-select [(ngModel)]="editor" name="editor" placeholder="Editor">
-          <mat-option *ngFor="let e of editors" [value]="e"> {{e}} </mat-option>
+          <mat-option *ngFor="let e of editorsMenu" [value]="e"> {{e}} </mat-option>
         </mat-select>
       </mat-form-field>
 

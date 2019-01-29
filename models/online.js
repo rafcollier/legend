@@ -11,11 +11,11 @@ const OnlineSchema = mongoose.Schema({
 	  required: true
 	},
   volume: {
-    type: String,
+    type: Number,
     required: true
   },
   issue: {
-    type: String,
+    type: Number,
     required: true
   }
 });

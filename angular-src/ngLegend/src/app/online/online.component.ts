@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ElementRef, Renderer2 } from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 import * as moment from 'moment';
-
-const config = require('../../../../../config/docs');
 
 declare var require: any;
 declare var fs: any;
@@ -19,18 +20,16 @@ let Json2csvParser = require('json2csv').Parser;
 export class OnlineComponent implements OnInit {
   showResults: Boolean = false;
   noResults: Boolean = false;
-  onlineIssues: [Object]; 
-  onlineIssuesDates: Array<any>; 
+  online: object [];
+  onlineIssues: object [];
+  onlineIssueDates: string [];
+  docOnlineIssue: Date;
+  selectedIssue: Date;
   onlineIssueVolume: number;
   onlineIssueIssue: number; 
-  firstOnlineIssue: Object;
-  firstPageFirstIssue: number;
-  lastPageFirstIssue: number;
-  dateFirstIssue: String;
+
   displayDocs: [Object];
-  onlineOrder: [Object];
   username: String;
-  docOnlineIssue: String;
   docID: String;
   docOnlinePosition: Number;
   docIndex: Number;
@@ -46,20 +45,23 @@ export class OnlineComponent implements OnInit {
   docCollectionCode4: String;
   docCollectionCode5: String;
   docCollectionCode6: String;
+  docRelatedMaterial: String;
+  docMultiMedia1: String;
+  docMultiMedia2: String;
+  docMultiMedia3: String;
+  docPodcastEmbargoLink: String;
+  docPodcastPermLink: String;
+  docPodcastEmbedCode: String;
+  docVideoEmbedCode: String;
+  docVideoLink: String;
+  docURL: String;
+  docHashTags: String;
+  docSocialSummary: String;
 
   lastPagePrevIssue: number;
   firstPageCurrentIssue: number;
   lastPageCurrentIssue: number;
-  prevOnlineIssue: object;
-  sorted: Boolean;
-
-  sections: Object[] = []; 
-  configFile: Object;
-  onlineIssueSelect: Date;
-  onlineIssueDateFormatted: String;
-
-  today: any;
-  todayFirst: any;
+  onlineIssueDateFormatted: string;
 
 constructor(
   	private authService: AuthService,
@@ -68,33 +70,22 @@ constructor(
 
   ngOnInit() {
     this.username = this.authService.loadUsername(); 
-    this.configFile = this.authService.localGetConfigFile();
-    this.sections = this.authService.localGetSections(); 
+    this.online = this.authService.localGetOnline(); 
+
+    this.onlineIssues = this.online.map( x => x['date']);
+    this.onlineIssueDates = this.online.map( x => moment(x['date']).format('MMMM DD, YYYY'));
+
     this.showResults = false;
     this.noResults = false;
-    this.today = moment();
-    console.log("today");
-    console.log(this.today);
-    this.todayFirst = moment(this.configFile['firstOnlineDate']).format('MMMM DD, YYYY');
-    console.log(this.todayFirst);
-    console.log("Configuration File")
-    console.log(this.configFile);
   }
 
   myFilter = (d: Date): boolean => {
-    //const day = d.getDay();
-    // Prevent Saturday and Sunday from being selected.
-    //return day !== 0 && day !== 6;
-
-    const date = moment(d).format('MMMM DD, YYYY');
-
-
-    return date == this.todayFirst; 
+    const calendarDay = moment(d).format('MMMM DD, YYYY');
+    return this.onlineIssueDates.includes(calendarDay); 
   }
 
   onSearchSubmit() {
-    this.authService.getOnlineSearchResults(this.onlineIssueSelect).subscribe(entries => {
-      console.log(entries);
+    this.authService.getOnlineSearchResults(this.docOnlineIssue).subscribe(entries => {
       if(entries.length == 0) {
         this.noResults = true;
       } 
@@ -102,9 +93,10 @@ constructor(
         this.displayDocs = entries;
         this.onlineIssueVolume = entries[0]["docOnlineVolume"];
         this.onlineIssueIssue = entries[0]["docOnlineIssueNumber"];
-        this.onlineIssueDateFormatted = moment(this.onlineIssueSelect).format('MMMM DD, YYYY');
-        console.log("Calling Load Previous Issue");
-        this.loadPrevOnlineIssue();
+        this.onlineIssueDateFormatted = moment(this.docOnlineIssue).format('MMMM DD, YYYY');
+        const posDate: number = this.onlineIssueDates.indexOf(this.onlineIssueDateFormatted);
+        const prevIssue = this.onlineIssues[posDate + 1];
+        this.getLastPagePreviousIssue(prevIssue);
       }
     }, 
     err => {
@@ -113,31 +105,8 @@ constructor(
     });
   }
 
-  loadPrevOnlineIssue() {
-    this.authService.getCheckPreviousOnlineIssue(this.onlineIssueSelect).subscribe(entries => {
-      if(entries.length > 0) {
-        this.prevOnlineIssue = entries[0];
-        console.log("Previous issue: ");
-        console.log(this.prevOnlineIssue);
-        console.log("Calling get last page of previous issue");
-        this.getLastPagePreviousIssue()
-      }
-      else {
-        this.firstPageCurrentIssue = this.configFile["firstOnlinePage"];
-        console.log("Calling get last page of current issue");
-        this.getLastPageCurrentIssue();
-      }
-
-    }, 
-    err => {
-      console.log(err);
-      return false;
-    });
-  }
-
-  getLastPagePreviousIssue() {
-    this.authService.getOnlineLastPage(this.prevOnlineIssue["docOnlineIssue"]).subscribe(entries => {
-      console.log(entries);
+  getLastPagePreviousIssue(prevIssue) {
+    this.authService.getOnlineLastPage(prevIssue).subscribe(entries => {
       this.firstPageCurrentIssue = entries[0]['docLastPageOnline'] + 1;
       this.getLastPageCurrentIssue();
     }, 
@@ -148,8 +117,7 @@ constructor(
   }
 
   getLastPageCurrentIssue() {
-    this.authService.getOnlineLastPage(this.onlineIssueSelect).subscribe(entries => {
-      console.log(entries);
+    this.authService.getOnlineLastPage(this.docOnlineIssue).subscribe(entries => {
       this.lastPageCurrentIssue = entries[0]['docLastPageOnline'];
       this.showResults = true;
     }, 
@@ -198,7 +166,7 @@ constructor(
   }
 
   onNewSearch() {
-  	this.onlineIssueSelect = null;
+  	this.docOnlineIssue = null;
   	this.ngOnInit();
   }
 

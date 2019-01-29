@@ -1,7 +1,12 @@
 <section class = "mat-typography">
+  <!--
 <span class = "nav-center-tabs">
-  <nav mat-tab-nav-bar [disableRipple]="true">
+i-->
 
+  <nav mat-tab-nav-bar [disableRipple]="true">
+    <ul class="container">
+
+      <li>
       <a mat-tab-link 
         [routerLink] = "['/home']" 
         routerLinkActive #rla="routerLinkActive"
@@ -9,105 +14,136 @@
       >
         <span class="logo"> CMAJ LEGEND </span>
       </a>
-      <a *ngIf="authService.adminLoggedIn()" mat-tab-link 
+      </li>
+    </ul>
+  </nav>
+
+  <nav mat-tab-nav-bar [disableRipple]="true">
+    <ul class="container">
+      
+      <li *ngIf="authService.adminLoggedIn()">
+      <a  mat-tab-link 
         [routerLink] = "['/register']" 
         routerLinkActive #rlb="routerLinkActive"
         [active]="rlb.isActive"
       >
         Users 
       </a>
-
-      <a *ngIf="authService.adminLoggedIn()" mat-tab-link 
+      </li>
+      <li *ngIf="authService.adminLoggedIn()">
+      <a  mat-tab-link 
         [routerLink] = "['/editors']" 
-        routerLinkActive #rll="routerLinkActive"
-        [active]="rll.isActive"
-      >
-        Editors 
-      </a>
-
-      <a *ngIf="authService.adminLoggedIn()" mat-tab-link 
-        [routerLink] = "['/sections']" 
         routerLinkActive #rlc="routerLinkActive"
         [active]="rlc.isActive"
       >
-        Sections 
+        Editors 
       </a>
-
-      <a *ngIf="authService.adminLoggedIn()" mat-tab-link 
-        [routerLink] = "['/online-issue-config']" 
-        routerLinkActive #rlk="routerLinkActive"
-        [active]="rlk.isActive"
-      >
-        Online 
-      </a>
-
-      <a *ngIf="authService.adminLoggedIn()" mat-tab-link 
-        [routerLink] = "['/codes']" 
-        routerLinkActive #rlm="routerLinkActive"
-        [active]="rlm.isActive"
-      >
-        Codes 
-      </a>
-
-      <a *ngIf="authService.adminLoggedIn()" mat-tab-link 
-        [routerLink] = "['/config']" 
-        routerLinkActive #rlj="routerLinkActive"
-        [active]="rlj.isActive"
-      >
-        Config 
-      </a>
-
-      <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
-        [routerLink] = "['/picksection']" 
+      </li>
+      <li *ngIf="authService.adminLoggedIn()">
+      <a  mat-tab-link 
+        [routerLink] = "['/sections']" 
         routerLinkActive #rld="routerLinkActive"
         [active]="rld.isActive"
       >
-        Add Doc 
+        Sections 
       </a>
-      <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
-        [routerLink] = "['/recent']" 
+      </li>
+      <li *ngIf="authService.adminLoggedIn()">
+      <a  mat-tab-link 
+        [routerLink] = "['/online-issue-config']" 
         routerLinkActive #rle="routerLinkActive"
         [active]="rle.isActive"
       >
-        Recent 
+        Online 
       </a>
-      <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
-        [routerLink] = "['/search']" 
+      </li>
+      <!--
+      <li *ngIf="authService.adminLoggedIn()">
+      <a  mat-tab-link 
+        [routerLink] = "['/print-config']" 
         routerLinkActive #rlf="routerLinkActive"
         [active]="rlf.isActive"
       >
-        Search 
+        Print 
       </a>
-      <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
-        [routerLink] = "['/online']" 
+      </li>
+    -->
+      <li *ngIf="authService.adminLoggedIn()">
+      <a  mat-tab-link 
+        [routerLink] = "['/codes']" 
         routerLinkActive #rlg="routerLinkActive"
         [active]="rlg.isActive"
       >
-        Online 
+        Codes 
       </a>
-      <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
-        [routerLink] = "['/print']" 
+      </li>
+      <li *ngIf="authService.adminLoggedIn()">
+      <a  mat-tab-link 
+        [routerLink] = "['/config']" 
         routerLinkActive #rlh="routerLinkActive"
         [active]="rlh.isActive"
       >
-        Print 
+        Config 
       </a>
-      <!--
-      <a *ngIf="authService.loggedIn() && !authService.adminLoggedIn()" mat-tab-link 
-        [routerLink] = "['/metrics']" 
+      <li *ngIf="authService.loggedIn() && !authService.adminLoggedIn()">
+      <a mat-tab-link 
+        [routerLink] = "['/picksection']" 
         routerLinkActive #rli="routerLinkActive"
         [active]="rli.isActive"
       >
-        Metrics 
+        Add Doc 
       </a>
-      -->
-      <a *ngIf="authService.loggedIn()" mat-tab-link 
+      </li>
+      <li *ngIf="authService.loggedIn() && !authService.adminLoggedIn()">
+      <a mat-tab-link 
+        [routerLink] = "['/recent']" 
+        routerLinkActive #rlj="routerLinkActive"
+        [active]="rlj.isActive"
+      >
+        Recent 
+      </a>
+      </li>
+      <li *ngIf="authService.loggedIn() && !authService.adminLoggedIn()">
+      <a  mat-tab-link 
+        [routerLink] = "['/search']" 
+        routerLinkActive #rlk="routerLinkActive"
+        [active]="rlk.isActive"
+      >
+        Search 
+      </a>
+      </li>
+      <li *ngIf="authService.loggedIn() && !authService.adminLoggedIn()">
+      <a  mat-tab-link 
+        [routerLink] = "['/online']" 
+        routerLinkActive #rll="routerLinkActive"
+        [active]="rll.isActive"
+      >
+        Online 
+      </a>
+      </li>
+      <li *ngIf="authService.loggedIn() && !authService.adminLoggedIn()">
+      <a  mat-tab-link 
+        [routerLink] = "['/print']" 
+        routerLinkActive #rlm="routerLinkActive"
+        [active]="rlm.isActive"
+      >
+        Print 
+      </a>
+      </li>
+      <li *ngIf="authService.loggedIn()">
+      <a  mat-tab-link 
         (click)="onLogoutClick()" href=""
       >
         Logout 
       </a>
-      
-    </nav>
+      </li>
 
+
+      </ul> 
+    </nav>
+<!--
 </span>
+-->
+
+
 </section>

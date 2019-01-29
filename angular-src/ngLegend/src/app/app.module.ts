@@ -42,7 +42,8 @@ import { EnternewsComponent } from './enternews/enternews.component';
 import { EnterletterComponent } from './enterletter/enterletter.component';
 import { EnteradvertComponent } from './enteradvert/enteradvert.component';
 import { EditorsComponent } from './editors/editors.component';
-import { CodesComponent } from './codes/codes.component';  
+import { CodesComponent } from './codes/codes.component';
+import { PrintConfigComponent } from './print-config/print-config.component';  
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -67,6 +68,7 @@ const appRoutes: Routes = [
   {path: 'users', component: UsersComponent, canActivate:[AuthGuard]},
   {path: 'printissues', component: PrintissuesComponent, canActivate:[AuthGuard]},
   {path: 'online-issue-config', component: OnlineIssueConfigComponent, canActivate:[AuthGuard]},
+  {path: 'print-config', component: PrintConfigComponent, canActivate:[AuthGuard]},
   {path: 'enterdoc/:section', component: EnterdocComponent, canActivate:[AuthGuard]},
   {path: 'details/:doc', component: DetailsComponent, canActivate:[AuthGuard]}
 ]
@@ -100,7 +102,8 @@ const appRoutes: Routes = [
     EnterletterComponent,
     EnteradvertComponent,
     EditorsComponent,
-    CodesComponent
+    CodesComponent,
+    PrintConfigComponent
   ],
   imports: [
     BrowserModule,

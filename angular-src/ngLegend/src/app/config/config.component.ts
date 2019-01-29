@@ -12,10 +12,12 @@ export class ConfigComponent implements OnInit {
 
   username: String;
   firstNewsDOI: Number;
-  firstOnlineVolume: Number;
-  firstOnlineIssue: Number;
-  firstOnlinePage: Number;
-  firstOnlineDate: Date;
+  multiMedia1: String;
+  multiMedia2: String;
+  multiMedia3: String;
+  multiMedia4: String;
+  multiMedia5: String;
+  multiMedia6: String;
   configID: String;
   errorMessage: String = "";
 
@@ -38,17 +40,17 @@ export class ConfigComponent implements OnInit {
   getConfig() {
     this.authService.getConfig().subscribe(entries => {
       console.log(entries);
-      if(entries.length == 0) {
-        this.initializeConfig();
-      }
-      else {
+      if(entries.length > 0) {
         this.configID = entries[0]["_id"];
         this.firstNewsDOI = entries[0]["firstNewsDOI"]; 
-        this.firstOnlineVolume = entries[0]["firstOnlineVolume"];
-        this.firstOnlineIssue = entries[0]["firstOnlineIssue"];
-        this.firstOnlinePage = entries[0]["firstOnlinePage"];
-        this.firstOnlineDate = entries[0]["firstOnlineDate"];
+        this.multiMedia1 = entries[0]["multiMedia1"];
+        this.multiMedia2 = entries[0]["multiMedia2"];
+        this.multiMedia3 = entries[0]["multiMedia3"];
+        this.multiMedia4 = entries[0]["multiMedia4"];
+        this.multiMedia5 = entries[0]["multiMedia5"];
+        this.multiMedia6 = entries[0]["multiMedia6"];
       }
+      else this.initializeConfig();
     }, 
     err => {
         console.log(err);
@@ -60,7 +62,13 @@ export class ConfigComponent implements OnInit {
   initializeConfig(){
 
     const config = {
-      firstNewsDOI: 0
+      firstNewsDOI: 0,
+      multiMedia1: "",
+      multiMedia2: "",
+      multiMedia3: "",
+      multiMedia4: "",
+      multiMedia5: "",
+      multiMedia6: ""
     }
 
     this.authService.addConfig(config).subscribe(data => {
@@ -86,10 +94,12 @@ export class ConfigComponent implements OnInit {
     let editedConfig = {
       configID: this.configID,
       firstNewsDOI: this.firstNewsDOI,
-      firstOnlineVolume: this.firstOnlineVolume,
-      firstOnlineIssue: this.firstOnlineIssue,
-      firstOnlinePage: this.firstOnlinePage,
-      firstOnlineDate: this.firstOnlineDate
+      multiMedia1: this.multiMedia1,
+      multiMedia2: this.multiMedia2,
+      multiMedia3: this.multiMedia3,
+      multiMedia4: this.multiMedia4,
+      multiMedia5: this.multiMedia5,
+      multiMedia6: this.multiMedia6
     }
 
     this.authService.putUpdateConfig(editedConfig).subscribe(doc => {

@@ -10,19 +10,24 @@ const ConfigSchema = mongoose.Schema({
   firstNewsDOI: {
     type: Number, default: 0
   },
-    firstOnlineVolume: {
-    type: Number, default: 0
+  multiMedia1: {
+    type: String
   },
-    firstOnlineIssue: {
-    type: Number, default: 0
+  multiMedia2: {
+    type: String
   },
-    firstOnlinePage: {
-    type: Number, default: 0
+  multiMedia3: {
+    type: String
   },
-    firstOnlineDate: {
-    type: Date, default: Date.now
+  multiMedia4: {
+    type: String
+  },
+  multiMedia5: {
+    type: String
+  },
+  multiMedia6: {
+    type: String
   }
-
 
 });
 

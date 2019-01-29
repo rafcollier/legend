@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
+import {FormControl} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 import * as moment from 'moment';
 
@@ -27,24 +30,42 @@ export class DetailsComponent implements OnInit {
   docID: String; //unique ID for database entry
 
   //from config
-  configFile: Object;
   onlineOrder: [Object];
 
-  sections: [String]; 
-  sectionsUnique: [String]; 
-  departments: [String]; 
-  onlineIssues: [String]; 
-  printIssues: [String]; 
-  collectionCodes: [String]; 
-  authortypes: [String]; 
-  editors: [String]; 
-  coordinators: [String]; 
-  proofers: [String]; 
-  se1s: [String]; 
-  multimedia: [String]; 
-  focusareas: [String]; 
+  //loaded from config data 
+  sections: object[]; 
+  sectionsUnique: object[]; 
+  sectionsMenu: string[]; 
+  departments: object[]; 
+  departmentsMenu: string[]; 
+  configFile: object;
+  online: object [];
+  codes: object [];
+  editors: object []; 
+  editorsMenu: string []; 
+  coordinatorsMenu: string []; 
+  proofersMenu: string []; 
+  seMenu: string []; 
+  codesMenu: string []; 
+  multimedia: string []; 
+  focusareas: string []; 
 
   prevOnlineIssue: Object;
+
+  myControlDepartment = new FormControl();
+  filteredDepartments: Observable<string[]>;
+  myControlCodes1 = new FormControl();
+  filteredCodes1: Observable<string[]>;
+  myControlCodes2 = new FormControl();
+  filteredCodes2: Observable<string[]>;
+  myControlCodes3 = new FormControl();
+  filteredCodes3: Observable<string[]>;
+  myControlCodes4 = new FormControl();
+  filteredCodes4: Observable<string[]>;
+  myControlCodes5 = new FormControl();
+  filteredCodes5: Observable<string[]>;
+  myControlCodes6 = new FormControl();
+  filteredCodes6: Observable<string[]>;
 
   //Same as in Enter Document Component
 
@@ -57,6 +78,7 @@ export class DetailsComponent implements OnInit {
   docFocusArea: String;
 
   //DOCUMENT DETAILS
+  docFlagPrint: Boolean;
   docOpenAccess: Boolean;
   docTranslation: Boolean;
   docPressRelease: Boolean;
@@ -96,6 +118,12 @@ export class DetailsComponent implements OnInit {
   docCollectionCode4: String;
   docCollectionCode5: String;
   docCollectionCode6: String;
+  code1Code: Number;
+  code2Code: Number;
+  code3Code: Number;
+  code4Code: Number;
+  code5Code: Number;
+  code6Code: Number;
 
   //DOCUMENT TIMELINE
   docAcceptDate: Date;
@@ -191,31 +219,74 @@ export class DetailsComponent implements OnInit {
 
     ngOnInit() {
 
-    this.editDoc = false;
+    this.filteredCodes1 = this.myControlCodes1.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterCode(value))
+    );
+
+    this.filteredCodes2 = this.myControlCodes2.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterCode(value))
+    );
+
+    this.filteredCodes3 = this.myControlCodes3.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterCode(value))
+    );
+
+    this.filteredCodes4 = this.myControlCodes4.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterCode(value))
+    );
+
+    this.filteredCodes5 = this.myControlCodes5.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterCode(value))
+    );
+
+    this.filteredCodes6 = this.myControlCodes6.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterCode(value))
+    );
+
     this.showNews = false;
     this.showLetter = false;
     this.showAd = false;
     this.showFrench = false;
     this.showOther = false;
-
     this.username = this.authService.loadUsername(); 
     this.configFile = this.authService.localGetConfigFile();
     this.sections = this.authService.localGetSections(); 
-    this.sectionsUnique = this.authService.localGetUniqueSections();
-    console.log(this.sections);
-    this.departments = this.authService.localGetDepartments(); 
+    this.editors = this.authService.localGetEditors(); 
+    this.codes = this.authService.localGetCodes();
+    this.online = this.authService.localGetOnline(); 
+    this.departments = this.authService.localGetDepartments();
+    this.sectionsUnique = this.authService.localGetUniqueSections(); 
+    this.sectionsMenu = this.authService.localGetUniqueSections().map(x => x.section); 
+    this.departmentsMenu = this.authService.localGetDepartments().map(x => x.department); 
+    this.editorsMenu = this.authService.localGetEditors().filter(x => x.docEditor).map(x => x.name);
+    this.coordinatorsMenu = this.authService.localGetEditors().filter(x => x.docCoordinator).map(x => x.name);
+    this.proofersMenu = this.authService.localGetEditors().filter(x => x.docProofReader).map(x => x.name);
+    this.seMenu = this.authService.localGetEditors().filter(x => x.docSE).map(x => x.name);
+    this.codesMenu = this.authService.localGetCodes().map(x => x.description);
+    this.focusareas = this.authService.localGetCodes().filter(x => x.focus).map(x => x.description);
+      
+    const mediaArray: string [] = [
+                         this.configFile['multiMedia1'], 
+                         this.configFile['multiMedia2'],
+                         this.configFile['multiMedia3'],
+                         this.configFile['multiMedia4'],
+                         this.configFile['multiMedia5'],
+                         this.configFile['multiMedia6']
+                       ];
 
-
-    //this.onlineIssues = config.onlineIssues;
-    //this.printIssues = config.printIssues;
-    this.collectionCodes = config.collectionCodes;
-    this.editors = config.editors;
-    this.coordinators = config.coordinators;
-    this.proofers = config.proofers;
-    this.se1s = config.se1s;
-    this.multimedia = config.multimedia;
-    this.focusareas = config.focusareas;
-    //this.onlineOrder = config.onlineorder;
+    this.multimedia = mediaArray.filter(x => x.length > 0);
 
     this.route.params.subscribe(params => {
       this.detailsID = params['doc'];
@@ -224,7 +295,6 @@ export class DetailsComponent implements OnInit {
 
     this.authService.getOneDoc(this.detailsID).subscribe(doc => {
       this.oneDoc = doc; 
-      console.log(doc);
       this.docID = doc._id;
 
       if (doc.docSection.toLowerCase() == "news") { 
@@ -257,6 +327,7 @@ export class DetailsComponent implements OnInit {
     
       //DOCUMENT DETAILS
     
+      this.docFlagPrint = doc.docFlagPrint;
       this.docOpenAccess = doc.docOpenAccess;
       this.docTranslation = doc.docTranslation;
       this.docPressRelease = doc.docPressRelease;
@@ -299,6 +370,12 @@ export class DetailsComponent implements OnInit {
       this.docCollectionCode4 = doc.docCollectionCode4;
       this.docCollectionCode5 = doc.docCollectionCode5;
       this.docCollectionCode6 = doc.docCollectionCode6;
+      this.code1Code = doc.code1Code;
+      this.code2Code = doc.code2Code;
+      this.code3Code = doc.code3Code;
+      this.code4Code = doc.code4Code;
+      this.code5Code = doc.code5Code;
+      this.code6Code = doc.code6Code;
     
       //DOCUMENT TIMELINE
     
@@ -435,6 +512,22 @@ export class DetailsComponent implements OnInit {
       return false;
     });
   }
+
+  myFilter = (d: Date): boolean => {
+    const onlineIssueDates = this.online.map( x => moment(x['date']).format('MMMM DD, YYYY'));
+    const calendarDay = moment(d).format('MMMM DD, YYYY');
+    return onlineIssueDates.includes(calendarDay); 
+  }
+
+  myFilterPrint = (d: Date): boolean => {
+    const calendarDay = moment(d).format('D');
+    return calendarDay == '1'; 
+  }
+
+  private _filterCode(value: string): string[] {
+    const filterValueCode = value.toLowerCase();
+    return this.codesMenu.filter(option => option.toLowerCase().includes(filterValueCode));
+  }
   
   //The button to edit the document was pushed so make fields ready for edit
   onEditDocSubmit() {
@@ -456,167 +549,43 @@ export class DetailsComponent implements OnInit {
 
   //The button to submit the edited document was pushed
   onEditedDocSubmit() {
-    if(this.docOnlineIssue) {
-      console.log("Calling load previous issue.");
-      this.loadPrevOnlineIssue();
-    }
-    else {
-      this.getPositions();
-    }
-  }
-
-  loadPrevOnlineIssue() {
-    this.authService.getCheckPreviousOnlineIssue(this.docOnlineIssue).subscribe(entries => {
-      if(entries.length > 0) {
-        this.prevOnlineIssue = entries[0];
-        console.log("Previous issue: ");
-        console.log(this.prevOnlineIssue);
-      }
-      console.log("Calling get online issue volume.");
-      this.getOnlineVolume();
-    }, 
-    err => {
-      console.log(err);
-      return false;
-    });
-  }
-
-  getOnlineVolume() {
-    let date1 = moment(this.docOnlineIssue);
-    let date2 = moment(this.configFile["firstOnlineDate"]);
-    //The date matches first date in configuration file 
-    let match = date1.isSame(date2);
-    let year1 = date1.year();
-    let year2 = date2.year();
-    let yearDiff = year1 - year2;
-    
-    //Add year difference from configuration volume to get current volume
-    //Check if year of current issue differs from previous issue to roll over issue number for new year
-    if(match) {
-      this.docOnlineVolume = this.configFile["firstOnlineVolume"];
-      this.docOnlineIssueNumber = this.configFile["firstOnlineIssue"];
-      this.getPositions();
-    }
-    else {
-      this.docOnlineVolume = this.configFile["firstOnlineVolume"] + yearDiff;
-      let date3 = moment(this.prevOnlineIssue["docOnlineIssue"]);
-      let year3 = date3.year();
-      let yearDiffIssue = year1 - year3;
-      this.getOnlineIssue(yearDiffIssue);
-    }
-  }
-
-  getOnlineIssue(yearDiffIssue) {
-    if(yearDiffIssue == 0) {
-      console.log("Issue in same year as previous.");
-      this.docOnlineIssueNumber =  this.prevOnlineIssue["docOnlineIssueNumber"] + 1;
-    }
-    else {
-      console.log("Issue in new year compared to previous issue.");
-      this.docOnlineIssueNumber = 1;
-    }
-    console.log("Online Issue Number:")
-    console.log(this.docOnlineIssueNumber);
-    console.log("Calling Get Positions");
-    this.getPositions();
-  }
-
-  getPositions() {
-    //Use print and online position of sections with departments. 
-    if(this.docDepartment) {
-      console.log(this.docDepartment);
-      for (let i = 0; i < this.sections.length; i++) {
-      console.log(i);
-      console.log(this.sections[i]['section']);
-      console.log(this.sections[i]['department']);
-        if (this.sections[i]['department'].toLowerCase() == this.docDepartment.toLowerCase()) {
-          this.docOnlinePosition = this.sections[i]['onlinePosition'] || null;
-          this.docPrintPosition = this.sections[i]['printPosition'] || null;
-          break;
-        }
-      }
-    }
-    //If no department, use print and online positions of sections.
-    else if(this.docSection) {
-      console.log(this.docSection);
-      for (let j = 0; j < this.sections.length; j++) {
-        console.log(this.sections[j]['section']);
-        if (!(this.sections[j]['department']) && (this.sections[j]['section'].toLowerCase() == this.docSection.toLowerCase())) {
-          this.docOnlinePosition = this.sections[j]['onlinePosition'] || null;
-          this.docPrintPosition = this.sections[j]['printPosition'] || null;
-          break;
-        }
-      }
-    }
-    
-    console.log("Online position for sorting in issue:")
-    console.log(this.docOnlinePosition);
-    console.log("Print position for sorting in issue:")
-    console.log(this.docPrintPosition);
-
     if (this.docSection != "News") {
-      this.docETOCDate = this.docOnlineIssue;
-      console.log("Calling get regular status.");
       this.getStatus();
     } 
     else {
-      console.log("Calling get News status");
       this.getNewsStatus();
     }
   }
 
   getStatus() {
-
-    if(this.docFinalizeDate) {
-      this.docStatus = "8 - Final";  
-    }
-    else if (this.docSendProofRead) {
-      this.docStatus = "7 - Proof Reading";
-    } 
-    else if (this.docSendFineTune) {
-      this.docStatus = "6 - Fine Tuning";
-    } 
-    else if (this.docSendAuthorDate) {
-      this.docStatus = "5 - Author Review";
-    } 
-    else if (this.docSendSEDate) {
-      this.docStatus = "4 - SE Review";
-    } 
-    else if (this.docCopyEditBeginDate) {
-      this.docStatus = "3 - Copy Edit";
-    } 
-    else if (this.docEnteredDate) {
-      this.docStatus = "2 - InCopy";
-    }
-    else if (this.docAcceptDate) {
-      this.docStatus = "1 - Accepted";
-    }
-    else {
-      this.docStatus = "0 - No Status";
-    }
-    
-    console.log("Status for this document:");
-    console.log(this.docStatus);
+    if(this.docFinalizeDate) this.docStatus = "8 - Final"; 
+    else if (this.docSendProofRead) this.docStatus = "7 - Proof Reading";
+    else if (this.docSendFineTune) this.docStatus = "6 - Fine Tuning";
+    else if (this.docSendAuthorDate) this.docStatus = "5 - Author Review";
+    else if (this.docSendSEDate) this.docStatus = "4 - SE Review";
+    else if (this.docCopyEditBeginDate) this.docStatus = "3 - Copy Edit";
+    else if (this.docEnteredDate) this.docStatus = "2 - InCopy";
+    else if (this.docAcceptDate) this.docStatus = "1 - Accepted";
+    else this.docStatus = "0 - No Status";
     this.submitEditedDoc();
   }
-
+    
   getNewsStatus() {
-    if(this.docPublishDateCMAJnews) {
-      this.docStatus = "C - News Posted";
-    }
-    else if(this.docNewsReady) {
-      this.docStatus = "B - News Ready";
-    }
-    else {
-      this.docStatus = "A - News In Edit";
-    }
-    console.log("Status for this document:");
-    console.log(this.docStatus);
+    if(this.docPublishDateCMAJnews) this.docStatus = "C - News Posted";
+    else if(this.docNewsReady) this.docStatus = "B - News Ready";
+    else this.docStatus = "A - News In Edit";
     this.submitEditedDoc();
   }
 
   submitEditedDoc() { 
-    console.log("Ready to submit edited document.");
+
+    const code1 = this.codes.filter(x => x['description'] == this.docCollectionCode1).map(x => x['code'])[0];
+    const code2 = this.codes.filter(x => x['description'] == this.docCollectionCode2).map(x => x['code'])[0];
+    const code3 = this.codes.filter(x => x['description'] == this.docCollectionCode3).map(x => x['code'])[0];
+    const code4 = this.codes.filter(x => x['description'] == this.docCollectionCode4).map(x => x['code'])[0];
+    const code5 = this.codes.filter(x => x['description'] == this.docCollectionCode5).map(x => x['code'])[0];
+    const code6 = this.codes.filter(x => x['description'] == this.docCollectionCode6).map(x => x['code'])[0];
+
 
     let editedDoc = {
  
@@ -633,6 +602,7 @@ export class DetailsComponent implements OnInit {
     
       //DOCUMENT DETAILS
     
+      docFlagPrint: this.docFlagPrint,
       docOpenAccess: this.docOpenAccess,
       docTranslation: this.docTranslation,
       docPressRelease: this.docPressRelease,
@@ -675,6 +645,12 @@ export class DetailsComponent implements OnInit {
       docCollectionCode4: this.docCollectionCode4,
       docCollectionCode5: this.docCollectionCode5,
       docCollectionCode6: this.docCollectionCode6,
+      code1Code: code1,
+      code2Code: code2,
+      code3Code: code3,
+      code4Code: code4,
+      code5Code: code5,
+      code6Code: code6,
     
       //DOCUMENT TIMELINE
     
@@ -742,15 +718,13 @@ export class DetailsComponent implements OnInit {
 
     }
 
-    console.log(editedDoc);
-
     this.authService.putUpdateDoc(editedDoc).subscribe(doc => {
     },
     err => {
       console.log(err);
       return false;
     });
-    this.router.navigate(['/search']);
+    this.router.navigate(['/recent']);
   }
 
 }

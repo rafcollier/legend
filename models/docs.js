@@ -36,6 +36,9 @@ let DocSchema = new Schema({
 
 	//DOCUMENT DETAILS
 
+	docFlagPrint: {
+	  type: Boolean
+	},
 	docOpenAccess: {
 	  type: Boolean
 	},
@@ -132,20 +135,38 @@ let DocSchema = new Schema({
 	docCollectionCode1: {
 	  type: String
 	},
+	code1Code: {
+	  type: Number
+	},
 	docCollectionCode2: {
 	  type: String
+	},
+	code2Code: {
+	  type: Number
 	},
 	docCollectionCode3: {
 	  type: String
 	},
+	code3Code: {
+	  type: Number
+	},
 	docCollectionCode4: {
 	  type: String
+	},
+	code4Code: {
+	  type: Number
 	},
 	docCollectionCode5: {
 	  type: String
 	},
+	code5Code: {
+	  type: Number
+	},
 	docCollectionCode6: {
 	  type: String
+	},
+	code6Code: {
+	  type: Number
 	},
 
     //DOCUMENT TIMELINE

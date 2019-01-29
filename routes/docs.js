@@ -12,6 +12,9 @@ let jsonData =  {};
 
 
 router.post('/submitdoc', (req, res, next) => {
+
+  console.log(req.body);
+
   let newDoc = new Doc({
 
     //GENERAL FIELDS 
@@ -26,6 +29,7 @@ router.post('/submitdoc', (req, res, next) => {
 
     //DOCUMENT DETAILS
 
+    docFlagPrint: req.body.docFlagPrint,
     docOpenAccess: req.body.docOpenAccess,
     docTranslation: req.body.docTranslation,
     docPressRelease: req.body.docPressRelease,
@@ -68,6 +72,12 @@ router.post('/submitdoc', (req, res, next) => {
     docCollectionCode4: req.body.docCollectionCode4,    
     docCollectionCode5: req.body.docCollectionCode5,    
     docCollectionCode6: req.body.docCollectionCode6,    
+    code1Code: req.body.code1Code,
+    code2Code: req.body.code2Code,
+    code3Code: req.body.code3Code,
+    code4Code: req.body.code4Code,
+    code5Code: req.body.code5Code,
+    code6Code: req.body.code6Code,
 
     //DOCUMENT TIMELINE
 
@@ -135,6 +145,8 @@ router.post('/submitdoc', (req, res, next) => {
 
   });
 
+  console.log(newDoc);
+
   newDoc.save((err) => {
     if(err) {
       console.log(err);
@@ -198,10 +210,15 @@ router.get('/getSearchResults', (req, res, next) => {
   let query4 = {};
   let query5 = {};
   let query6 = {};
+  let query7A = {};
+  let query7B = {};
   let query7 = {};
   let query8 = {};
+  let query8A = {};
+  let query8B = {};
   let query9 = {};
   let query10 = {};
+  let query11 = {};
 
   if(req.query.status)
     query1 = {'docStatus' : req.query.status};
@@ -235,8 +252,11 @@ router.get('/getSearchResults', (req, res, next) => {
     query7 = {$or: [query7A, query7B]};
   }
 
-  if(req.query.docNotUsedPrint)  
-    query8 = {'docPrintIssue' : {$exists : false}};
+  if(req.query.docNotUsedPrint) { 
+    query8A = {'docPrintIssue' : {$exists : false}};
+    query8B = {'docPrintIssue' : null};
+    query8 = {$or: [query8A, query8B]};
+  }
 
   if(req.query.afterAcceptDate)
     query9 = {docAcceptDate: {$gte: new Date(req.query.afterAcceptDate)}};
@@ -244,8 +264,12 @@ router.get('/getSearchResults', (req, res, next) => {
   if(req.query.beforeAcceptDate)
     query10 = {docAcceptDate: {$lte: new Date(req.query.beforeAcceptDate)}};
 
+  if(req.query.docFlagPrint) { 
+    query11 = {'docFlagPrint' : true};
+  }
 
-  Doc.find({$and: [query1, query2, query3, query4, query5, query6, query7, query8, query9, query10]}, 
+
+  Doc.find({$and: [query1, query2, query3, query4, query5, query6, query7, query8, query9, query10, query11]}, 
            null, 
            {sort: {docStatus: 1}
            }, 

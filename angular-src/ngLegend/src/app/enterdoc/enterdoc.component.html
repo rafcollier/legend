@@ -32,22 +32,10 @@ MAIN DOCUMENT INPUT SECTION
         </mat-form-field>  
 
         <mat-form-field class="example-full-width">
-          <input type="text" placeholder="Choose Department" [(ngModel)]="docDepartment" name="docDepartment" aria-label="Number" matInput [formControl]="myControlDepartment" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let f of filteredDepartments | async" [value]="f">
-              {{f}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-
-      <!--
-
-        <mat-form-field class="example-full-width">
           <mat-select [(ngModel)]="docDepartment" name="docDepartment" placeholder="Department">
             <mat-option *ngFor="let d of departmentsMenu" [value]="d"> {{d}} </mat-option>
           </mat-select>
         </mat-form-field>
-      -->
 
         <mat-form-field class="example-full-width">
           <input matInput [matDatepicker]="docAcceptDatePicker" placeholder="Accept Date" [(ngModel)]="docAcceptDate" name="docAcceptDate">
@@ -72,13 +60,13 @@ MAIN DOCUMENT INPUT SECTION
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input matInput [matDatepicker]="docOnlineIssueDatePicker" placeholder="Online Issue Date" [(ngModel)]="docOnlineIssue" name="docOnlineIssue">
+              <input matInput  [matDatepickerFilter]="myFilter" [matDatepicker]="docOnlineIssueDatePicker" placeholder="Online Issue Date" [(ngModel)]="docOnlineIssue" name="docOnlineIssue">
               <mat-datepicker-toggle matSuffix [for]="docOnlineIssueDatePicker"></mat-datepicker-toggle>
               <mat-datepicker #docOnlineIssueDatePicker></mat-datepicker>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input matInput [matDatepicker]="docPrintIssueDatePicker" placeholder="Print Issue Date" [(ngModel)]="docPrintIssue" name="docPrintIssue">
+              <input matInput [matDatepickerFilter]="myFilterPrint" [matDatepicker]="docPrintIssueDatePicker" placeholder="Print Issue Date" [(ngModel)]="docPrintIssue" name="docPrintIssue">
               <mat-datepicker-toggle matSuffix [for]="docPrintIssueDatePicker"></mat-datepicker-toggle>
               <mat-datepicker #docPrintIssueDatePicker></mat-datepicker>
             </mat-form-field>
@@ -266,35 +254,34 @@ MAIN DOCUMENT INPUT SECTION
               <mat-panel-description>
               </mat-panel-description>
             </mat-expansion-panel-header>
-  <!--
+
             <mat-form-field class="example-full-width">
               <mat-select [(ngModel)]="docEditor" name="docEditor" placeholder="Manuscript Editor">
-                <mat-option *ngFor="let e of editors" [value]="e"> {{e}} </mat-option>
+                <mat-option *ngFor="let e of editorsMenu" [value]="e"> {{e}} </mat-option>
               </mat-select>
             </mat-form-field>
-  -->
   
             <mat-form-field class="example-full-width">
               <mat-select [(ngModel)]="docCoordinator" name="docCoordinator" placeholder="Manuscript Coordinator">
-              <mat-option *ngFor="let c of coordinators" [value]="c"> {{c}} </mat-option>
+              <mat-option *ngFor="let c of coordinatorsMenu" [value]="c"> {{c}} </mat-option>
               </mat-select>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
               <mat-select [(ngModel)]="docProofReader" name="docProofReader" placeholder="Manuscript Proofreader">
-              <mat-option *ngFor="let p of proofers" [value]="p"> {{p}} </mat-option>
+              <mat-option *ngFor="let p of proofersMenu" [value]="p"> {{p}} </mat-option>
               </mat-select>
             </mat-form-field>
    
             <mat-form-field class="example-full-width">
               <mat-select [(ngModel)]="docSE1" name="docSE1" placeholder="SE1">
-              <mat-option *ngFor="let s of se1s" [value]="s"> {{s}} </mat-option>
+              <mat-option *ngFor="let s of seMenu" [value]="s"> {{s}} </mat-option>
               </mat-select>
             </mat-form-field>
   
             <mat-form-field class="example-full-width">
               <mat-select [(ngModel)]="docSE2" name="docSE2" placeholder="SE2">
-              <mat-option *ngFor="let s of se1s" [value]="s"> {{s}} </mat-option>
+              <mat-option *ngFor="let s of seMenu" [value]="s"> {{s}} </mat-option>
               </mat-select>
             </mat-form-field>
     
@@ -383,40 +370,59 @@ MAIN DOCUMENT INPUT SECTION
               <mat-panel-description>
               </mat-panel-description>
             </mat-expansion-panel-header>
+
             <mat-form-field class="example-full-width">
-              <mat-select [(ngModel)]="docCollectionCode1" name="docCollectionCode1" placeholder="Collection Code 1">
-                <mat-option *ngFor="let c of collectionCodes" [value]="c"> {{c}} </mat-option>
-              </mat-select>
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode1" name="docCollectionCode1" aria-label="Number" matInput [formControl]="myControlCodes1" [matAutocomplete]="auto2">
+              <mat-autocomplete #auto2="matAutocomplete">
+                <mat-option *ngFor="let f of filteredCodes1 | async" [value]="f">
+                  {{f}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
-   
+
             <mat-form-field class="example-full-width">
-              <mat-select [(ngModel)]="docCollectionCode2" name="docCollectionCode2" placeholder="Collection Code 2">
-                <mat-option *ngFor="let c of collectionCodes" [value]="c"> {{c}} </mat-option>
-              </mat-select>
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode2" name="docCollectionCode2" aria-label="Number" matInput [formControl]="myControlCodes2" [matAutocomplete]="auto3">
+              <mat-autocomplete #auto3="matAutocomplete">
+                <mat-option *ngFor="let f of filteredCodes2 | async" [value]="f">
+                  {{f}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
-  
+
             <mat-form-field class="example-full-width">
-              <mat-select [(ngModel)]="docCollectionCode3" name="docCollectionCode3" placeholder="Collection Code 3">
-                <mat-option *ngFor="let c of collectionCodes" [value]="c"> {{c}} </mat-option>
-              </mat-select>
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode3" name="docCollectionCode3" aria-label="Number" matInput [formControl]="myControlCodes3" [matAutocomplete]="auto4">
+              <mat-autocomplete #auto4="matAutocomplete">
+                <mat-option *ngFor="let f of filteredCodes3 | async" [value]="f">
+                  {{f}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
-  
+
             <mat-form-field class="example-full-width">
-              <mat-select [(ngModel)]="docCollectionCode4" name="docCollectionCode4" placeholder="Collection Code 4">
-                <mat-option *ngFor="let c of collectionCodes" [value]="c"> {{c}} </mat-option>
-              </mat-select>
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode4" name="docCollectionCode4" aria-label="Number" matInput [formControl]="myControlCodes4" [matAutocomplete]="auto5">
+              <mat-autocomplete #auto5="matAutocomplete">
+                <mat-option *ngFor="let f of filteredCodes4 | async" [value]="f">
+                  {{f}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
-  
+
             <mat-form-field class="example-full-width">
-              <mat-select [(ngModel)]="docCollectionCode5" name="docCollectionCode5" placeholder="Collection Code 5">
-                <mat-option *ngFor="let c of collectionCodes" [value]="c"> {{c}} </mat-option>
-              </mat-select>
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode5" name="docCollectionCode5" aria-label="Number" matInput [formControl]="myControlCodes5" [matAutocomplete]="auto6">
+              <mat-autocomplete #auto6="matAutocomplete">
+                <mat-option *ngFor="let f of filteredCodes5 | async" [value]="f">
+                  {{f}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
-  
+
             <mat-form-field class="example-full-width">
-              <mat-select [(ngModel)]="docCollectionCode6" name="docCollectionCode6" placeholder="Collection Code 6">
-                <mat-option *ngFor="let c of collectionCodes" [value]="c"> {{c}} </mat-option>
-            </mat-select>
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode6" name="docCollectionCode6" aria-label="Number" matInput [formControl]="myControlCodes6" [matAutocomplete]="auto7">
+              <mat-autocomplete #auto7="matAutocomplete">
+                <mat-option *ngFor="let f of filteredCodes6 | async" [value]="f">
+                  {{f}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
 
           </mat-expansion-panel> 
@@ -530,13 +536,13 @@ NEWS INPUT SECTION
             </mat-form-field>
   
             <mat-form-field class="example-full-width">
-                <input matInput [matDatepicker]="docOnlineIssueDatePicker" placeholder="Online Issue Date" [(ngModel)]="docOnlineIssue" name="docOnlineIssue">
+                <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="docOnlineIssueDatePicker" placeholder="Online Issue Date" [(ngModel)]="docOnlineIssue" name="docOnlineIssue">
                 <mat-datepicker-toggle matSuffix [for]="docOnlineIssueDatePicker"></mat-datepicker-toggle>
                 <mat-datepicker #docOnlineIssueDatePicker></mat-datepicker>
               </mat-form-field>
   
             <mat-form-field class="example-full-width">
-               <input matInput [matDatepicker]="docPrintIssueDatePicker" placeholder="Print Issue Date" [(ngModel)]="docPrintIssue" name="docPrintIssue">
+               <input matInput [matDatepickerFilter]="myFilterPrint" [matDatepicker]="docPrintIssueDatePicker" placeholder="Print Issue Date" [(ngModel)]="docPrintIssue" name="docPrintIssue">
                <mat-datepicker-toggle matSuffix [for]="docPrintIssueDatePicker"></mat-datepicker-toggle>
                <mat-datepicker #docPrintIssueDatePicker></mat-datepicker>
             </mat-form-field>
@@ -724,15 +730,20 @@ LETTER INPUT SECTION
         </mat-form-field> 
 
         <mat-form-field class="example-full-width">
-          <input matInput [matDatepicker]="docOnlineIssueDatePicker" placeholder="Online Issue Date" [(ngModel)]="docOnlineIssue" name="docOnlineIssue">
+          <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="docOnlineIssueDatePicker" placeholder="Online Issue Date" [(ngModel)]="docOnlineIssue" name="docOnlineIssue">
           <mat-datepicker-toggle matSuffix [for]="docOnlineIssueDatePicker"></mat-datepicker-toggle>
           <mat-datepicker #docOnlineIssueDatePicker></mat-datepicker>
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
-          <input matInput [matDatepicker]="docPrintIssueDatePicker" placeholder="Print Issue Date" [(ngModel)]="docPrintIssue" name="docPrintIssue">
+          <input matInput [matDatepickerFilter]="myFilterPrint" [matDatepicker]="docPrintIssueDatePicker" placeholder="Print Issue Date" [(ngModel)]="docPrintIssue" name="docPrintIssue">
           <mat-datepicker-toggle matSuffix [for]="docPrintIssueDatePicker"></mat-datepicker-toggle>
           <mat-datepicker #docPrintIssueDatePicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+          <input matInput placeholder="" style="display: none">
+            <mat-checkbox [(ngModel)]="docFlagPrint" name="docFlagPrint">Flag for Print</mat-checkbox>
         </mat-form-field>
 
         <br>
@@ -749,25 +760,31 @@ LETTER INPUT SECTION
   
             <mat-form-field class="example-full-width">
               <mat-select [(ngModel)]="docEditor" name="docEditor" placeholder="Manuscript Editor">
-                <mat-option *ngFor="let e of editors" [value]="e"> {{e}} </mat-option>
+                <mat-option *ngFor="let e of editorsMenu" [value]="e"> {{e}} </mat-option>
               </mat-select>
             </mat-form-field>
   
             <mat-form-field class="example-full-width">
               <mat-select [(ngModel)]="docCoordinator" name="docCoordinator" placeholder="Manuscript Coordinator">
-              <mat-option *ngFor="let c of coordinators" [value]="c"> {{c}} </mat-option>
+              <mat-option *ngFor="let c of coordinatorsMenu" [value]="c"> {{c}} </mat-option>
               </mat-select>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
               <mat-select [(ngModel)]="docProofReader" name="docProofReader" placeholder="Manuscript Proofreader">
-              <mat-option *ngFor="let p of proofers" [value]="p"> {{p}} </mat-option>
+              <mat-option *ngFor="let p of proofersMenu" [value]="p"> {{p}} </mat-option>
               </mat-select>
             </mat-form-field>
    
             <mat-form-field class="example-full-width">
               <mat-select [(ngModel)]="docSE1" name="docSE1" placeholder="SE1">
-              <mat-option *ngFor="let s of se1s" [value]="s"> {{s}} </mat-option>
+              <mat-option *ngFor="let s of seMenu" [value]="s"> {{s}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+  
+            <mat-form-field class="example-full-width">
+              <mat-select [(ngModel)]="docSE2" name="docSE2" placeholder="SE2">
+              <mat-option *ngFor="let s of seMenu" [value]="s"> {{s}} </mat-option>
               </mat-select>
             </mat-form-field>
   
@@ -895,7 +912,7 @@ PRINT AD INPUT SECTION
         </mat-form-field>  
 
         <mat-form-field class="example-full-width">
-          <input matInput [matDatepicker]="docPrintIssueDatePicker" placeholder="Print Issue Date" [(ngModel)]="docPrintIssue" name="docPrintIssue">
+          <input matInput [matDatepickerFilter]="myFilterPrint" [matDatepicker]="docPrintIssueDatePicker" placeholder="Print Issue Date" [(ngModel)]="docPrintIssue" name="docPrintIssue">
           <mat-datepicker-toggle matSuffix [for]="docPrintIssueDatePicker"></mat-datepicker-toggle>
           <mat-datepicker #docPrintIssueDatePicker></mat-datepicker>
         </mat-form-field>
@@ -935,7 +952,7 @@ DANS LE CMAJ INPUT SECTION
         </mat-form-field>  
 
         <mat-form-field class="example-full-width">
-          <input matInput [matDatepicker]="docPrintIssueDatePicker" placeholder="Print Issue Date" [(ngModel)]="docPrintIssue" name="docPrintIssue">
+          <input matInput [matDatepickerFilter]="myFilterPrint" [matDatepicker]="docPrintIssueDatePicker" placeholder="Print Issue Date" [(ngModel)]="docPrintIssue" name="docPrintIssue">
           <mat-datepicker-toggle matSuffix [for]="docPrintIssueDatePicker"></mat-datepicker-toggle>
           <mat-datepicker #docPrintIssueDatePicker></mat-datepicker>
         </mat-form-field>

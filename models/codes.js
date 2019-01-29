@@ -11,6 +11,9 @@ const CodeSchema = mongoose.Schema({
 	},
   code: {
     type: Number
+  },
+  focus: {
+    type: Boolean
   }
 });
 

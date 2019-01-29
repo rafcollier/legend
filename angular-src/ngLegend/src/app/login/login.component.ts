@@ -43,6 +43,11 @@ export class LoginComponent implements OnInit {
         if (data.success) {
           this.authService.storeUserData(data.token, data.user);
           this.onConfigSections();
+          this.onConfigEditors();
+          this.onConfigOnline();
+          this.onConfigCodes();
+          this.onLoadConfigFile();
+          this.onGoRecentPage();
         } 
         else {
           this.errorMessage = data.msg;
@@ -66,9 +71,40 @@ export class LoginComponent implements OnInit {
       let departmentArr = entries.filter(entry => (entry.department) && (entry.department != "" || null || undefined)); 
       this.authService.localStoreSections(sectionArr);
       this.authService.localStoreUniqueSections(sectionArrUnique);
-      console.log(sectionArrUnique);
       this.authService.localStoreDepartments(departmentArr);
-      this.onLoadConfigFile();
+    }, 
+    err => {
+      console.log(err);
+      return false;
+    }); 
+  }
+
+  onConfigEditors() {
+    this.authService.getEditors().subscribe(entries => {
+      let editorsArr = entries;
+      this.authService.localStoreEditors(editorsArr);
+    }, 
+    err => {
+      console.log(err);
+      return false;
+    }); 
+  }
+
+  onConfigOnline() {
+    this.authService.getOnline().subscribe(entries => {
+      let onlineArr = entries;
+      this.authService.localStoreOnline(onlineArr);
+    }, 
+    err => {
+      console.log(err);
+      return false;
+    }); 
+  }
+
+  onConfigCodes() {
+    this.authService.getCodes().subscribe(entries => {
+      let codeArr = entries;
+      this.authService.localStoreCodes(codeArr);
     }, 
     err => {
       console.log(err);
@@ -81,7 +117,7 @@ export class LoginComponent implements OnInit {
     this.authService.getConfig().subscribe(entries => {
       configFile = entries[0];
       this.authService.localStoreConfigFile(configFile);
-      this.onGoSearchPage();
+     
     }, 
     err => {
         console.log(err);
@@ -89,12 +125,13 @@ export class LoginComponent implements OnInit {
     });
   }
 
+
   //Will go to admin page if username is admin, or will go to search page for all other users.
-  onGoSearchPage() {
+  onGoRecentPage() {
     if(this.username == "admin") 
       this.router.navigate(['/register']);
     else
-      this.router.navigate(['/search']);
+      this.router.navigate(['/recent']);
   }
 
 }

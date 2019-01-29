@@ -6,7 +6,7 @@
     <form (submit)="onSearchSubmit()" class="example-form">  
 
       <mat-form-field class="example-full-width">
-        <input matInput [matDatepicker]="printIssueSelectDatePicker" placeholder="Print Issue Date" [(ngModel)]="printIssueSelect" name="printIssueSelect">
+        <input matInput [matDatepickerFilter]="myFilterPrint" [matDatepicker]="printIssueSelectDatePicker" placeholder="Print Issue Date" [(ngModel)]="printIssueSelect" name="printIssueSelect">
         <mat-datepicker-toggle matSuffix [for]="printIssueSelectDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #printIssueSelectDatePicker></mat-datepicker>
       </mat-form-field>
@@ -47,8 +47,11 @@
       <h3 style="color:red">SUMMARY</h3>
 
       <div *ngFor="let d of displayDocs; let i = index">
-        <p>
+        <p *ngIf="!d.docAdClient">
           <span style="color:#4D6FAC"> {{i+1}}. {{d.docSection}} </span>: {{d.docTitle}}
+        <p>
+        <p *ngIf="d.docAdClient">
+          <span style="color:#4D6FAC"> {{i+1}}. {{d.docSection}} </span>: {{d.docAdClient}} &mdash; {{d.docAdDescription}}
         <p>
       </div>
 
@@ -73,14 +76,35 @@
       <p *ngIf="d.docDepartment">
         <span style="color:#4D6FAC">Department:</span> {{ d.docDepartment }}
       </p>
-      <p>
+      <p *ngIf="d.docAuthor">
         <span style="color:#4D6FAC">Author:</span> {{ d.docAuthor }} 
       </p>
-      <p>
+      <p *ngIf="d.docDOI">
         <span style="color:#4D6FAC">DOI:</span> {{ d.docDOI }}
       </p>
-      <p>
+      <p *ngIf="d.docAdConflicts">
         <span style="color:#4D6FAC">Ad Conflicts:</span> {{ d.docAdConflicts }}
+      </p>
+       <p *ngIf="d.docEditor">
+        <span style="color:#4D6FAC">Copy Editor:</span> {{ d.docEditor }}
+      </p>
+       <p *ngIf="d.docAdClient">
+        <span style="color:#4D6FAC">Ad Client:</span> {{ d.docAdClient }}
+      </p>
+       <p *ngIf="d.docAdDescription">
+        <span style="color:#4D6FAC">Ad Description:</span> {{ d.docAdDescription }}
+      </p>
+       <p *ngIf="d.docAdSize">
+        <span style="color:#4D6FAC">Ad Size:</span> {{ d.docAdSize }}
+      </p>
+       <p *ngIf="d.docMultiMedia1 == 'Visual Abstract'">
+        <span style="color:#4D6FAC">Visual Abstract:</span> yes 
+      </p>
+       <p *ngIf="d.docMultiMedia2 == 'Visual Abstract'">
+        <span style="color:#4D6FAC">Visual Abstract:</span> yes 
+      </p>
+       <p *ngIf="d.docMultiMedia3 == 'Visual Abstract'">
+        <span style="color:#4D6FAC">Visual Abstract:</span> yes 
       </p>
       <p *ngIf="d.docCollectionCode1"><span style="color:#4D6FAC">Collection Code 1:</span> {{ d.docCollectionCode1 }}</p>
       <p *ngIf="d.docCollectionCode2"><span style="color:#4D6FAC">Collection Code 2:</span> {{ d.docCollectionCode2 }}</p>
@@ -92,19 +116,17 @@
       <p *ngIf="d.docFocusArea"><span style="color:#4D6FAC">Area of Focus:</span> {{d.docFocusArea}} </p>
       <p *ngIf="d.docOpenAccess"><span style="color:#4D6FAC">Open Access:</span> yes</p>
       <p *ngIf="d.docProfessionalDev"><span style="color:#4D6FAC">Continuing Professional Development:</span> yes </p>
-      <p>
-        <span style="color:#4D6FAC">Copy Editor:</span> {{ d.docEditor }}
-      </p>
+     
 
 
       <div *ngIf="i != docIndex" class = "edit-div">
-        <p>
+        <p *ngIf="d.docNumFigures">
           <span style="color:#4D6FAC">Number of Figures:</span> {{ d.docNumFigures }}
         </p>
-        <p>
+        <p *ngIf="d.docNumTables">
           <span style="color:#4D6FAC">Number of Tables:</span> {{ d.docNumTables }}
         </p>
-        <p>
+        <p *ngIf="d.docNumAppendices">
           <span style="color:#4D6FAC">Number of Appendencies:</span> {{ d.docNumAppendices }}
         </p>
         <p>
@@ -116,7 +138,7 @@
         <p>
           <span style="color:#4D6FAC">Last Page:</span> {{ d.docLastPagePrint }}
         </p>
-        <p>
+        <p *ngIf="d.docPrintNotes">
           <span style="color:#4D6FAC">Print Issue Notes:</span> {{ d.docPrintNotes }}
         </p>
 

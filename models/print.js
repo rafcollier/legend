@@ -8,12 +8,22 @@ const PrintSchema = mongoose.Schema({
     type: Date, default: Date.now
   },
   printIssue: {
-	type: String,
-	required: true
-	}
+	  type: String
+	},
+  date: {
+    type: Date
+  }
 });
 
 const Print = module.exports = mongoose.model('Print', PrintSchema)
+
+module.exports.getPrintByNameUpdate = function(printIssue, id, callback) {
+  const query = {
+    _id: { $ne: id },
+    printIssue: printIssue 
+  }
+  Print.findOne(query, callback);
+}
 
 module.exports.getPrintByName = function(printIssue, callback) {
   console.log("In getPrintByName");
@@ -21,6 +31,6 @@ module.exports.getPrintByName = function(printIssue, callback) {
   Print.findOne(query, callback);
 }
 
-module.exports.addPrintIssue = function(newPrint, callback) {
+module.exports.addPrint = function(newPrint, callback) {
   newPrint.save(callback);
 }

@@ -20,8 +20,10 @@ export class CodesComponent implements OnInit {
   successMessageEdit : String = "";
   description: String;
   code: number;
+  focus: boolean;
   descriptionEdit: String;
   codeEdit: number;
+  focusEdit: boolean;
   codeIDEdit: String;
   codeIndex: number;
   codes: object[];
@@ -49,7 +51,6 @@ export class CodesComponent implements OnInit {
   onGetCodes() {
     this.authService.getCodes().subscribe(entries => {
       this.codes = entries; 
-      console.log(this.codes);
     }, 
     err => {
         console.log(err);
@@ -60,7 +61,8 @@ export class CodesComponent implements OnInit {
   onCodeSubmit(){
     const code = {
       description: this.description,
-      code: this.code
+      code: this.code,
+      focus: this.focus
     }
 
     //Required fields
@@ -98,6 +100,7 @@ export class CodesComponent implements OnInit {
     this.codeIDEdit = code["_id"]; 
     this.descriptionEdit = code['description']; 
     this.codeEdit = code['code']; 
+    this.focusEdit = code['focus']; 
     this.codeIndex = index;
   }
 
@@ -105,7 +108,8 @@ export class CodesComponent implements OnInit {
     const codeEdit = {
       codeID: this.codeIDEdit, //to identify this doc in database
       description: this.descriptionEdit,
-      code: this.codeEdit
+      code: this.codeEdit,
+      focus: this.focusEdit
     }
 
     if(!this.validateService.validateCode(codeEdit)) {
@@ -170,6 +174,7 @@ export class CodesComponent implements OnInit {
   clearFields() {
     this.description = "";
     this.code = null;
+    this.focus = null;
     this.codeIndex = null;
     this.errorMessage = "";
     this.errorMessageEdit = "";

@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 .hr-style {
 	border: 0;
@@ -49,4 +49,8 @@ a:hover {
 
 a:active {
     color: red;
+}
+
+.mat-calendar-body-cell-content { 
+  color: red;
 }

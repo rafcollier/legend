@@ -29,4 +29,14 @@
   display: none; 
 }
 
+.custom-date-class {
+  background: #74BBFB;
+  border-radius: 100%;
+}
+
+.mat-calendar-body-cell-content { 
+  color: red;
+}
+
+
 

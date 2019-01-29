@@ -62,9 +62,11 @@ export class ValidateService {
     }
   }
 
-
-  validatePrintIssue(printIssue){
-    if(printIssue.printIssue == "" || undefined || null) {
+  validatePrint(print){
+    console.log(print);
+    if(print.printIssue == ("" || undefined || null)) {
+      return false;
+    } else if(print.printIssue.length <= 0) {
       return false;
     } else {
       return true;
