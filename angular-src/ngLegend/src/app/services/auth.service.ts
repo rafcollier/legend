@@ -291,7 +291,7 @@ export class AuthService {
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
     //return this.http.get('http://localhost:3000/codes/getCodes', {headers: headers}) 
-    return this.http.get('editors/getEditors', {headers: headers}) 
+    return this.http.get('codes/getCodes', {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
