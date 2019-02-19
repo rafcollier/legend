@@ -1,0 +1,30 @@
+apiVersion: skaffold/v1beta2
+kind: Config
+build:
+  artifacts:
+  - image: changeme
+    context: .
+    docker: {}
+  tagPolicy:
+    envTemplate:
+      template: '{{.DOCKER_REGISTRY}}/joule-cma/cmaj-legend:{{.VERSION}}'
+  local: {}
+deploy:
+  kubectl: {}
+profiles:
+- name: dev
+  build:
+    artifacts:
+    - docker: {}
+    tagPolicy:
+      envTemplate:
+        template: '{{.DOCKER_REGISTRY}}/joule-cma/cmaj-legend:{{.DIGEST_HEX}}'
+    local: {}
+  deploy:
+    helm:
+      releases:
+      - name: cmaj-legend
+        chartPath: charts/cmaj-legend
+        setValueTemplates:
+          image.repository: '{{.DOCKER_REGISTRY}}/joule-cma/cmaj-legend'
+          image.tag: '{{.DIGEST_HEX}}'
