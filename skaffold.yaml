@@ -7,7 +7,7 @@ build:
     docker: {}
   tagPolicy:
     envTemplate:
-      template: '{{.DOCKER_REGISTRY}}/joule-cma/cmaj-legend:{{.VERSION}}'
+      template: '{{.DOCKER_REGISTRY}}/cmaj/legend/legend-app:{{.VERSION}}'
   local: {}
 deploy:
   kubectl: {}
@@ -18,7 +18,7 @@ profiles:
     - docker: {}
     tagPolicy:
       envTemplate:
-        template: '{{.DOCKER_REGISTRY}}/joule-cma/cmaj-legend:{{.DIGEST_HEX}}'
+        template: '{{.DOCKER_REGISTRY}}/cmaj/legend/legend-app:{{.DIGEST_HEX}}'
     local: {}
   deploy:
     helm:
@@ -26,5 +26,5 @@ profiles:
       - name: cmaj-legend
         chartPath: charts/cmaj-legend
         setValueTemplates:
-          image.repository: '{{.DOCKER_REGISTRY}}/joule-cma/cmaj-legend'
+          image.repository: '{{.DOCKER_REGISTRY}}/cmaj/legend/legend-app'
           image.tag: '{{.DIGEST_HEX}}'
