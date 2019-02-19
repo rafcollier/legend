@@ -22,6 +22,7 @@ pipeline {
           sh "npm install"
           sh "CI=true DISPLAY=:99 npm test"
           sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml"
+          sh "echo 'DEVELOPMENT RELEASE'"
           sh "jx step post build --image $DOCKER_REGISTRY/cmaj/legend/legend-app:$PREVIEW_VERSION"        
 
           dir('./charts/preview') {
@@ -47,6 +48,7 @@ pipeline {
           sh "echo \$(jx-release-version) > VERSION"
           sh "jx step tag --version \$(cat VERSION)"
           sh "npm install"
+          sh "echo 'PRODUCTION RELEASE'"
           //sh "CI=true DISPLAY=:99 npm test"
           sh "CI=true DISPLAY=:99"
           sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml"
