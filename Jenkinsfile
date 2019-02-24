@@ -1,6 +1,6 @@
 pipeline {
   agent {
-    label "jenkins-nodejs"
+    label "builder-base"
   }
   environment {
     ORG = 'joule-cma'
@@ -18,7 +18,7 @@ pipeline {
         HELM_RELEASE = "$PREVIEW_NAMESPACE".toLowerCase()
       }
       steps {
-        container('nodejs') {
+        container('builder-base') {
           sh "npm install"
           sh "CI=true DISPLAY=:99 npm test"
           sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml"
@@ -37,7 +37,7 @@ pipeline {
         branch 'master'
       }
       steps {
-        container('nodejs') {
+        container('builder-base') {
 
           // ensure we're not on a detached head
           sh "git checkout master"
@@ -61,7 +61,7 @@ pipeline {
         branch 'master'
       }
       steps {
-        container('nodejs') {
+        container('builder-base') {
           dir('./charts/cmaj-legend') {
             sh "jx step changelog --batch-mode --version v\$(cat ../../VERSION)"
 
