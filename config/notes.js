@@ -1,3 +1,22 @@
+
+Jenkins
+
+Kubernetes
+
+
+development and production cluster
+
+
+
+
+
+
+
+
+
+
+
+
 CwKN&9lXIR23
 
 
@@ -9,8 +28,22 @@ csvtojson legendtrimmed.csv > legend.json
 db.docs.insertMany(
 
 
+//Mongo dump and restore
 
-)
+cd /data/db
+
+mongodump -h ds123490.mlab.com:23490 -d heroku_k52f5vsp -u heroku_k52f5vsp -p efhqgaaq5augddhfj8g61hb7l4 -o dumps 
+
+mongorestore --db legend --verbose "/data/db/dumps/heroku_k52f5vsp"
+
+
+
+
+mongoexport -h ds012345.mlab.com:12345 -d <database> -c <collection> -u <user> -p <password> -o <output file>
+
+
+
+
 
 //LOCAL MONGO IMPORT AND EXPORT
 //in mongofiles directory in legend under projects
@@ -18,12 +51,14 @@ db.docs.insertMany(
 //Import json array into collection from regular command prompt (not mongo shell)
 mongoimport --db legend --collection docs --file docs.json --jsonArray
 
-
 //export json array into collection from regular command prompt (not mongo shell)
 mongoexport --db legend --collection sections --out sections.json --jsonArray
 
 //IMPORT FROM LOCAL TO MLAB ON HEROKU
 mongoimport -h ds123490.mlab.com:23490 -d heroku_k52f5vsp -c sections -u heroku_k52f5vsp -p efhqgaaq5augddhfj8g61hb7l4 --file sections.json --jsonArray
+
+
+mongoexport -h ds123490.mlab.com:23490 -d heroku_k52f5vsp -c sections -u heroku_k52f5vsp -p efhqgaaq5augddhfj8g61hb7l4 -o sections.json --jsonArray
 
 
 //GIT
