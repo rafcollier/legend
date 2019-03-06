@@ -67,9 +67,9 @@ pipeline {
       steps {
         container('builder-base') {
             sh 'ARTIFACTVERSION=\$(cat VERSION)'
-            sh 'sed -i -e \"s/<ModuleVersion>/\$ARTIFACTVERSION/g\" kubernetes/DeployNewArtifact.yaml'
-            sh 'sed -i -e \"s/<environment>/joule-development-218113/g\" kubernetes/DeployNewArtifact.yaml'
-            sh 'kubectl patch deployment cmaj-legend --patch \"\$(kubernetes/DeployNewArtifact.yaml)\" --namespace legend'
+            sh 'sed -i -e \"s/<ModuleVersion>/\$(echo \$ARTIFACTVERSION)/g\" kubernetes/templates/DeployNewArtifact.yaml'
+            sh 'sed -i -e \"s/<environment>/joule-development-218113/g\" kubernetes/templates/DeployNewArtifact.yaml'
+            sh 'kubectl patch deployment cmaj-legend --patch \"\$(kubernetes/templates/DeployNewArtifact.yaml)\" --namespace legend'
           }
         }
       }
