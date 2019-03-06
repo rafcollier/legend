@@ -66,11 +66,10 @@ pipeline {
       }
       steps {
         container('builder-base') {
-            sh 'UPDATEDDEPLOYMENTSCRIPT=kubernetes/DeployNewArtifact-$(date "+%Y%m%d")-$(openssl rand -hex 4).yaml'
-            sh 'cp kubernetes/DeployNewArtifact.yaml $UPDATEDDEPLOYMENTSCRIPT'
-            sh 'sed -i -e "s/<ModuleVersion>/$MODULEVERSION/g" $UPDATEDDEPLOYMENTSCRIPT'
-            sh 'sed -i -e "s/<environment>/$GCPENVIRONMENT/g" $UPDATEDDEPLOYMENTSCRIPT'
-            sh 'kubectl patch deployment cmaj-legend --patch "$(cat $UPDATEDDEPLOYMENTSCRIPT)" --namespace legend'
+            sh 'ARTIFACTVERSION=\$(cat VERSION)'
+            sh 'sed -i -e \"s\/<ModuleVersion>\/\$ARTIFACTVERSION\/g\" kubernetes\/DeployNewArtifact.yaml'
+            sh 'sed -i -e \"s\/<environment>\/joule-development-218113\/g\" kubernetes\/DeployNewArtifact.yaml'
+            sh 'kubectl patch deployment cmaj-legend --patch \"\$(kubernetes/DeployNewArtifact.yaml)\" --namespace legend'
           }
         }
       }
