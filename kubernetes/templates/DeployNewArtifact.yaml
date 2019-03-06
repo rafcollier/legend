@@ -3,4 +3,4 @@ spec:
     spec:
       containers:
       - name: cmaj-legend
-        image: gcr.io/<environment>/cmaj/legend/legend-app:<ModuleVersion>
+        image: gcr.io/joule-development-218113/cmaj/legend/legend-app:<ModuleVersion>
