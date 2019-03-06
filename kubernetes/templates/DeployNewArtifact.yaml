@@ -1,0 +1,6 @@
+spec:
+  template:
+    spec:
+      containers:
+      - name: cmaj-legend
+        image: gcr.io/<environment>/cmaj/legend/legend-app:<ModuleVersion>

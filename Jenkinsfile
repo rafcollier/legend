@@ -66,19 +66,15 @@ pipeline {
       }
       steps {
         container('builder-base') {
-          dir('./charts/cmaj-legend') {
-            sh "jx step changelog --batch-mode --version v\$(cat ../../VERSION)"
-
-            // release the helm chart
-            sh "jx step helm release"
-
-            // promote through all 'Auto' promotion Environments
-            sh "jx promote -b --all-auto --timeout 1h --version \$(cat ../../VERSION)"
+            sh 'UPDATEDDEPLOYMENTSCRIPT=kubernetes/DeployNewArtifact-$(date "+%Y%m%d")-$(openssl rand -hex 4).yaml'
+            sh 'cp kubernetes/DeployNewArtifact.yaml $UPDATEDDEPLOYMENTSCRIPT'
+            sh 'sed -i -e "s/<ModuleVersion>/$MODULEVERSION/g" $UPDATEDDEPLOYMENTSCRIPT'
+            sh 'sed -i -e "s/<environment>/$GCPENVIRONMENT/g" $UPDATEDDEPLOYMENTSCRIPT'
+            sh 'kubectl patch deployment cmaj-legend --patch "$(cat $UPDATEDDEPLOYMENTSCRIPT)" --namespace legend'
           }
         }
       }
     }
-  }
   post {
         always {
           cleanWs()
