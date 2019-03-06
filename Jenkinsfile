@@ -66,9 +66,9 @@ pipeline {
       }
       steps {
         container('builder-base') {
-          withCredentials([string(credentialsId: 'google-cloud-service-account', variable: 'SERVICE_ACCOUNT_KEY')]) {
-            writeFile file: '/home/jenkins/workspace/Joule-CMA_CMAJ-Legend_master/key.json', text: SERVICE_ACCOUNT_KEY
-            sh 'gcloud auth activate-service-account --key-file key.json'
+          withCredentials([string(credentialsId: 'google-cloud-service-account-development-cluster', variable: 'SERVICE_ACCOUNT_KEY')]) {
+            writeFile file: '/home/jenkins/workspace/Joule-CMA_CMAJ-Legend_master/key-development.json', text: SERVICE_ACCOUNT_KEY
+            sh 'gcloud auth activate-service-account --key-file key-development.json'
             }
             sh 'gcloud container clusters get-credentials joule-development-can-ne-a-k8s --zone northamerica-northeast1-a --project joule-development-218113'
             sh 'kubectl config set current-context gke_joule-development-218113_northamerica-northeast1-a_joule-development-can-ne-a-k8s'
