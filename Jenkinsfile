@@ -43,7 +43,11 @@ pipeline {
           sh "git checkout master"
           sh "git config --global credential.helper store"
           sh "jx step git credentials"
-
+          //setup gcp service account access
+          withCredentials([string(credentialsId: 'google-cloud-service-account', variable: 'SERVICE_ACCOUNT_KEY')]) {
+            writeFile file: '/home/jenkins/workspace/Joule-CMA_CMAJ-Legend_master/key.json', text: SERVICE_ACCOUNT_KEY
+            sh "gcloud auth activate-service-account --key-file key.json"
+            }
           // so we can retrieve the version in later steps
           sh "echo \$(jx-release-version) > VERSION"
           sh "jx step tag --version \$(cat VERSION)"
