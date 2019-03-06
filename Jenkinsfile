@@ -66,6 +66,10 @@ pipeline {
       }
       steps {
         container('builder-base') {
+          withCredentials([string(credentialsId: 'google-cloud-service-account', variable: 'SERVICE_ACCOUNT_KEY')]) {
+            writeFile file: '/home/jenkins/workspace/Joule-CMA_CMAJ-Legend_master/key.json', text: SERVICE_ACCOUNT_KEY
+            sh "gcloud auth activate-service-account --key-file key.json"
+            }
             sh "cp kubernetes/templates/DeployNewArtifact.yaml kubernetes/templates/DeployNewArtifact-\$(date \"+%Y%m%d\")-\$(openssl rand -hex 4).yaml"
             sh 'sed -i -e \"s/<ModuleVersion>/\$(cat VERSION)/g\" kubernetes/templates/DeployNewArtifact.yaml'
             sh 'sed -i -e \"s/<environment>/joule-development-218113/g\" kubernetes/templates/DeployNewArtifact.yaml'
