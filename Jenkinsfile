@@ -66,7 +66,7 @@ pipeline {
       }
       steps {
         container('builder-base') {
-            sh 'UPDATEDDEPLOYMENTSCRIPT=kubernetes/templates/DeployNewArtifact-\$(date \"+\%Y\%m\%d\")-$(openssl rand -hex 4).yaml'
+            sh 'UPDATEDDEPLOYMENTSCRIPT=kubernetes/templates/DeployNewArtifact-\$(date \"+%Y%m%d\")-$(openssl rand -hex 4).yaml'
             sh "cp kubernetes/templates/DeployNewArtifact.yaml \$UPDATEDDEPLOYMENTSCRIPT"
             sh 'sed -i -e \"s/<ModuleVersion>/\$(cat VERSION)/g\" kubernetes/templates/DeployNewArtifact.yaml'
             sh 'sed -i -e \"s/<environment>/joule-development-218113/g\" kubernetes/templates/DeployNewArtifact.yaml'
