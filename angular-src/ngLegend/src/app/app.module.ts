@@ -48,7 +48,7 @@ import { PrintConfigComponent } from './print-config/print-config.component';
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'register', component: RegisterComponent, canActivate:[AdminGuard]},
+  {path: 'register', component: RegisterComponent, canActivate:[AuthGuard]},
   //{path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
   {path: 'refresh', component: RefreshComponent},
