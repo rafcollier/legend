@@ -40,10 +40,13 @@ And the following command to establish a connection with the Front End
 
 Then you should be able to access Mongo DB as localhost at port 27017 and to access the NodeJS app as localhost on port 8080
 
+The Application now is published on the following domain:
 
+https://legend.development.joulecma.ca
 
+Note: To connect to the Development DB you need to first establish the Proxy connection, on a terminal you need to copy this code:
 
-
+`kubectl port-forward $(echo $(kubectl get pods -o=name --all-namespaces | grep mongodb) | sed 's/pod\///g') 27020:27017 -n mongodb`
 
 
 

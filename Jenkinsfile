@@ -66,19 +66,21 @@ pipeline {
       }
       steps {
         container('builder-base') {
-          dir('./charts/cmaj-legend') {
-            sh "jx step changelog --batch-mode --version v\$(cat ../../VERSION)"
-
-            // release the helm chart
-            sh "jx step helm release"
-
-            // promote through all 'Auto' promotion Environments
-            sh "jx promote -b --all-auto --timeout 1h --version \$(cat ../../VERSION)"
+          withCredentials([string(credentialsId: 'google-cloud-service-account-development-cluster', variable: 'SERVICE_ACCOUNT_KEY')]) {
+            writeFile file: '/home/jenkins/workspace/Joule-CMA_CMAJ-Legend_master/key-development.json', text: SERVICE_ACCOUNT_KEY
+            sh 'gcloud auth activate-service-account --key-file key-development.json'
+            }
+            sh 'gcloud container clusters get-credentials joule-development-can-ne-a-k8s --zone northamerica-northeast1-a --project joule-development-218113'
+            sh 'kubectl config set current-context gke_joule-development-218113_northamerica-northeast1-a_joule-development-can-ne-a-k8s'
+            sh 'cp kubernetes/templates/DeployNewArtifact.yaml kubernetes/templates/DeployNewArtifact-\$(date \"+%Y%m%d\")-\$(openssl rand -hex 4).yaml'
+            sh 'sed -i -e \"s/<ModuleVersion>/\$(cat VERSION)/g\" kubernetes/templates/DeployNewArtifact.yaml'
+            //sh 'sed -i -e \"s/<environment>/joule-development-218113/g\" kubernetes/templates/DeployNewArtifact.yaml'
+            sh 'cat kubernetes/templates/DeployNewArtifact.yaml'
+            sh 'kubectl patch deployment cmaj-legend --patch kubernetes/templates/DeployNewArtifact.yaml --namespace legend'
           }
         }
       }
     }
-  }
   post {
         always {
           cleanWs()
