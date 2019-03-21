@@ -1,4 +1,29 @@
 
+/////////////////////////////
+
+
+https://legend.development.joulecma.ca
+
+
+**database **transaction **lock file when been edited *can still read
+
+Three databases
+
+Development, Production, localStorage
+
+Proxy can establish connection and see development or production on local host
+
+//CONNECT TO DEV DATABASE FROM LOCAL HOST
+kubectl port-forward $(echo $(kubectl get pods -o=name --all-namespaces | grep mongodb) | sed 's/pod\///g') 27020:27017 -n mongodb
+
+
+
+
+//////////////////////////////
+
+
+
+
 Jenkins
 
 Kubernetes
@@ -7,6 +32,7 @@ Kubernetes
 development and production cluster
 
 
+//Clone github to local
 
 
 
@@ -16,6 +42,11 @@ development and production cluster
 
 
 
+
+
+
+
+///
 
 CwKN&9lXIR23
 
@@ -32,11 +63,20 @@ db.docs.insertMany(
 
 cd /data/db
 
+//Legend
 mongodump -h ds123490.mlab.com:23490 -d heroku_k52f5vsp -u heroku_k52f5vsp -p efhqgaaq5augddhfj8g61hb7l4 -o dumps 
 
 mongorestore --db legend --verbose "/data/db/dumps/heroku_k52f5vsp"
 
+//Collection Tracker
+mongodump -h ds153521.mlab.com:53521 -d heroku_n29prwpc -u rogercollier -p rogercollier123 -o dumps
 
+mongorestore --db whenwear --verbose "/data/db/dumps/heroku_n29prwpc"
+
+
+
+//Colletion Tracker
+"heroku_n29prwpc"
 
 
 mongoexport -h ds012345.mlab.com:12345 -d <database> -c <collection> -u <user> -p <password> -o <output file>
