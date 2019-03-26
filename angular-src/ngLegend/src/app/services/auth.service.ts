@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import{Http, Headers, URLSearchParams, RequestOptions} from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
-//import 'rxjs/add/operator/map';
 import { map } from "rxjs/operators";
 
 @Injectable()
@@ -343,24 +342,6 @@ export class AuthService {
       .pipe(map(res => res.json()));
   } 
 
-  //deleteSection(docID) {
-  //  this.loadToken();
-  //  let headers = new Headers();
-  //  let params = new URLSearchParams();
-  //  let options = new RequestOptions();
-  //  headers.append('Content-Type', 'application/json');
-  //  headers.append('Authorization', this.authToken);
-  //  params.set('docID', docID);
-  //  options.headers = headers;
-  //  options.search = params;
-  //  return this.http.delete('http://localhost:3000/sections/deleteSection', options)
-  //  //return this.http.delete('sections/deleteSection', options)
-  //    .pipe(map(res => res.json()));
-  //}
-
-  
-
-
   /////////////////////////////////////////
   //MANUSCRIPT COLLECTION
   /////////////////////////////////////////
@@ -667,43 +648,5 @@ export class AuthService {
 
 
 
-
-  /////////////////////////////////////////
-  //PRINT ISSUE COLLECTION
-  /////////////////////////////////////////
-  
-  //addPrintIssue(printIssue) {
-  //  console.log("in auth services " + printIssue)
-  //  let headers = new Headers();
-  //  headers.append('Content-Type', 'application/json');
-  //  return this.http.post('http://localhost:3000/print/addPrintIssue', printIssue, {headers: headers}) 
-  //  //return this.http.post('print/addPrintIssue', printIssue, {headers: headers}) 
-  //    .pipe(map(res => res.json()));
-  //}
-
-  //getPrintIssues() {
-  //  this.loadToken();
-  //  let headers = new Headers();
-  //  headers.append('Authorization', this.authToken);
-  //  headers.append('Content-Type', 'application/json');
-  //  return this.http.get('http://localhost:3000/print/getPrintIssues', {headers: headers}) 
-  //  //return this.http.get('print/getPrintIssues', {headers: headers}) 
-  //    .pipe(map(res => res.json()));
-  //} 
-//
-//  deletePrintIssue(docID) {
-//    this.loadToken();
-//    let headers = new Headers();
-//    let params = new URLSearchParams();
-//    let options = new RequestOptions();
-//    headers.append('Content-Type', 'application/json');
-//    headers.append('Authorization', this.authToken);
-//    params.set('docID', docID);
-//    options.headers = headers;
-//    options.search = params;
-//    return this.http.delete('http://localhost:3000/print/deletePrintIssue', options)
-//    //return this.http.delete('print/deletePrintIssue', options)
-//      .pipe(map(res => res.json()));
-//  }
 
 
