@@ -10,9 +10,7 @@ build:
       template: '{{.DOCKER_REGISTRY}}/cmaj/legend/legend-app:{{.VERSION}}'
   local: {}
 deploy:
-  kubectl:
-    manifests:
-      kubernetes/templates/DeployNewArtifact.yaml
+  kubectl: {}
 profiles:
 - name: dev
   build:
