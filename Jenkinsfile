@@ -5,7 +5,6 @@ pipeline {
   environment {
     ORG = 'joule-cma'
     APP_NAME = 'cmaj-legend'
-    CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
   }
   stages {
     stage('CI Build and push snapshot') {
