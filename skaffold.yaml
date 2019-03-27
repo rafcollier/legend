@@ -2,7 +2,7 @@ apiVersion: skaffold/v1beta2
 kind: Config
 build:
   artifacts:
-  - image: changeme
+  - image: cmaj-legend-app
     context: .
     docker: {}
   tagPolicy:
@@ -10,7 +10,9 @@ build:
       template: '{{.DOCKER_REGISTRY}}/cmaj/legend/legend-app:{{.VERSION}}'
   local: {}
 deploy:
-  kubectl: {}
+  kubectl:
+    manifests:
+      kubernetes/templates/DeployNewArtifact.yaml
 profiles:
 - name: dev
   build:

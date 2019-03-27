@@ -58,8 +58,9 @@ pipeline {
           sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml"
           withCredentials([string(credentialsId: 'google-cloud-service-account-development-cluster', variable: 'SERVICE_ACCOUNT_KEY')]) {
             writeFile file: '/home/jenkins/workspace/Joule-CMA_CMAJ-Legend_master/key-development.json', text: SERVICE_ACCOUNT_KEY
-            sh 'gcloud auth revoke --all && gcloud auth activate-service-account --key-file key-development.json'
-            sh "kubectl set image deployment cmaj-legend cmaj-legend=gcr.io/joule-development-218113/cmaj/legend/legend-app:\$VERSION -n legend"
+            sh 'gcloud auth activate-service-account --key-file key-development.json'
+            sh 'gcloud container clusters get-credentials joule-development-can-ne-a-k8s --zone northamerica-northeast1-a --project joule-development-218113'
+            sh "kubectl set image deployment cmaj-legend cmaj-legend=gcr.io/joule-development-218113/cmaj/legend/legend-app:\$(cat VERSION) -n legend"
             }     
           }
       }
