@@ -56,31 +56,15 @@ pipeline {
           //sh "CI=true DISPLAY=:99 npm test"
           sh "CI=true DISPLAY=:99"
           sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml"
-          sh "jx step post build --image $DOCKER_REGISTRY/CMAJ/legend/legend-app:\$(cat VERSION)"        
-          }
-      }
-    }
-    stage('Promote to Environments') {
-      when {
-        branch 'master'
-      }
-      steps {
-        container('builder-base') {
           withCredentials([string(credentialsId: 'google-cloud-service-account-development-cluster', variable: 'SERVICE_ACCOUNT_KEY')]) {
             writeFile file: '/home/jenkins/workspace/Joule-CMA_CMAJ-Legend_master/key-development.json', text: SERVICE_ACCOUNT_KEY
-            sh 'gcloud auth activate-service-account --key-file key-development.json'
-            }
-            sh 'gcloud container clusters get-credentials joule-development-can-ne-a-k8s --zone northamerica-northeast1-a --project joule-development-218113'
-            sh 'kubectl config set current-context gke_joule-development-218113_northamerica-northeast1-a_joule-development-can-ne-a-k8s'
-            sh 'cp kubernetes/templates/DeployNewArtifact.yaml kubernetes/templates/DeployNewArtifact-\$(date \"+%Y%m%d\")-\$(openssl rand -hex 4).yaml'
-            sh 'sed -i -e \"s/<ModuleVersion>/\$(cat VERSION)/g\" kubernetes/templates/DeployNewArtifact.yaml'
-            //sh 'sed -i -e \"s/<environment>/joule-development-218113/g\" kubernetes/templates/DeployNewArtifact.yaml'
-            sh 'cat kubernetes/templates/DeployNewArtifact.yaml'
-            sh 'kubectl patch deployment cmaj-legend --patch kubernetes/templates/DeployNewArtifact.yaml --namespace legend'
+            sh 'gcloud auth revoke --all && gcloud auth activate-service-account --key-file key-development.json'
+            sh "kubectl set image deployment cmaj-legend cmaj-legend=gcr.io/joule-development-218113/cmaj/legend/legend-app:\$VERSION -n legend"
+            }     
           }
-        }
       }
     }
+
   post {
         always {
           cleanWs()
