@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
       this.authService.authenticateUser(user).subscribe(data => {
         if (data.success) {
           this.authService.storeUserData(data.token, data.user);
+          //Load info for drop-down menus into local storage
           this.onConfigSections();
           this.onConfigEditors();
           this.onConfigOnline();
@@ -78,7 +79,8 @@ export class LoginComponent implements OnInit {
       return false;
     }); 
   }
-
+  
+  //Load names of editors for drop-down menus and store in local storage.
   onConfigEditors() {
     this.authService.getEditors().subscribe(entries => {
       let editorsArr = entries;
@@ -89,7 +91,9 @@ export class LoginComponent implements OnInit {
       return false;
     }); 
   }
-
+  
+  //Load online issues and store in local memory. Only these dates will be clickable in calendar for 
+  //selecting an online issue in the calendar.
   onConfigOnline() {
     this.authService.getOnline().subscribe(entries => {
       let onlineArr = entries;
@@ -101,6 +105,7 @@ export class LoginComponent implements OnInit {
     }); 
   }
 
+  //Load the HighWire codes and store in local memory. 
   onConfigCodes() {
     this.authService.getCodes().subscribe(entries => {
       let codeArr = entries;
@@ -112,6 +117,7 @@ export class LoginComponent implements OnInit {
     }); 
   }
 
+  //Load the configuration file and store in local memory.
   onLoadConfigFile() {
     let configFile = {};
     this.authService.getConfig().subscribe(entries => {

@@ -96,6 +96,14 @@ constructor(
         this.onlineIssueDateFormatted = moment(this.docOnlineIssue).format('MMMM DD, YYYY');
         const posDate: number = this.onlineIssueDates.indexOf(this.onlineIssueDateFormatted);
         const prevIssue = this.onlineIssues[posDate + 1];
+
+        console.log(onlineIssueDates);
+
+        console.log(posDate);
+
+        console.log(prevIssue);
+
+
         this.getLastPagePreviousIssue(prevIssue);
       }
     }, 
@@ -107,6 +115,7 @@ constructor(
 
   getLastPagePreviousIssue(prevIssue) {
     this.authService.getOnlineLastPage(prevIssue).subscribe(entries => {
+      console.log(entries);
       this.firstPageCurrentIssue = entries[0]['docLastPageOnline'] + 1;
       this.getLastPageCurrentIssue();
     }, 
