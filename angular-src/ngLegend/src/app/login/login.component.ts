@@ -131,12 +131,12 @@ export class LoginComponent implements OnInit {
     });
   }
 
-
   //Will go to admin page if username is admin, or will go to search page for all other users.
   onGoRecentPage() {
     if(this.username == "admin") 
       this.router.navigate(['/register']);
     else
+      console.log("going to recent");
       this.router.navigate(['/recent']);
   }
 

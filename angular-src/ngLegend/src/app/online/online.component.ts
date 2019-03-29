@@ -97,7 +97,7 @@ constructor(
         const posDate: number = this.onlineIssueDates.indexOf(this.onlineIssueDateFormatted);
         const prevIssue = this.onlineIssues[posDate + 1];
 
-        console.log(onlineIssueDates);
+        console.log(this.onlineIssueDates);
 
         console.log(posDate);
 
