@@ -58,23 +58,23 @@ export class OnlineComponent implements OnInit {
   docHashTags: String;
   docSocialSummary: String;
 
+  firstPagePrevIssue: number;
   lastPagePrevIssue: number;
   firstPageCurrentIssue: number;
   lastPageCurrentIssue: number;
   onlineIssueDateFormatted: string;
+  prevOnlineIssueDateFormatted: string;
 
 constructor(
-  	private authService: AuthService,
-    private router: Router,
+  private authService: AuthService,
+  private router: Router,
 ) { }
 
   ngOnInit() {
     this.username = this.authService.loadUsername(); 
     this.online = this.authService.localGetOnline(); 
-
     this.onlineIssues = this.online.map( x => x['date']);
     this.onlineIssueDates = this.online.map( x => moment(x['date']).format('MMMM DD, YYYY'));
-
     this.showResults = false;
     this.noResults = false;
   }
@@ -94,17 +94,19 @@ constructor(
         this.onlineIssueVolume = entries[0]["docOnlineVolume"];
         this.onlineIssueIssue = entries[0]["docOnlineIssueNumber"];
         this.onlineIssueDateFormatted = moment(this.docOnlineIssue).format('MMMM DD, YYYY');
+
+        //Find position of queried date in array and next item in array will be previous issue.
+        //If current issue if first in database, there is no previous issue so return 1 as first page of current issue. 
+        //If issues are in the same year, check previous issue. Otherwise current issue is first of new year.
         const posDate: number = this.onlineIssueDates.indexOf(this.onlineIssueDateFormatted);
-        const prevIssue = this.onlineIssues[posDate + 1];
-
-        console.log(this.onlineIssueDates);
-
-        console.log(posDate);
-
-        console.log(prevIssue);
-
-
-        this.getLastPagePreviousIssue(prevIssue);
+        if (posDate == this.onlineIssueDates.length -1) {
+          this.getLastPageCurrentIssue();
+        }
+        else {
+          const prevIssue = this.onlineIssues[posDate + 1];
+          this.prevOnlineIssueDateFormatted = moment(prevIssue).format('MMMM DD, YYYY');
+          this.getLastPagePreviousIssue(prevIssue);
+        }
       }
     }, 
     err => {
@@ -115,8 +117,9 @@ constructor(
 
   getLastPagePreviousIssue(prevIssue) {
     this.authService.getOnlineLastPage(prevIssue).subscribe(entries => {
-      console.log(entries);
-      this.firstPageCurrentIssue = entries[0]['docLastPageOnline'] + 1;
+      if(entries.length > 0) {
+        this.lastPagePrevIssue = entries[0]['docLastPageOnline'];
+      }
       this.getLastPageCurrentIssue();
     }, 
     err => {
@@ -127,7 +130,23 @@ constructor(
 
   getLastPageCurrentIssue() {
     this.authService.getOnlineLastPage(this.docOnlineIssue).subscribe(entries => {
-      this.lastPageCurrentIssue = entries[0]['docLastPageOnline'];
+      if(entries.length > 0) {
+        this.lastPageCurrentIssue = entries[0]['docLastPageOnline'];
+      } 
+      this.getFirstPageCurrentIssue();
+    }, 
+    err => {
+        console.log(err);
+        return false;
+    });
+  }
+
+  getFirstPageCurrentIssue() {
+    this.authService.getOnlineFirstPage(this.docOnlineIssue).subscribe(entries => {
+      console.log(entries);
+      if(entries.length > 0) {
+        this.firstPageCurrentIssue = entries[0]['docFirstPageOnline'];
+      } 
       this.showResults = true;
     }, 
     err => {

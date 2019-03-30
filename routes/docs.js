@@ -373,10 +373,27 @@ router.get('/getCheckPreviousOnlineIssue', (req, res, next) => {
 router.get('/getOnlineLastPage', (req, res, next) => {
 
   let query1 = {'docOnlineIssue': req.query.docOnlineIssue};
+  let query2 = {'docLastPageOnline' : {$exists : true}};
 
-  Doc.find(query1, 
+  Doc.find({$and: [query1, query2]}, 
            null,
            {docLastPageOnline:1, limit: 1, sort: {docLastPageOnline: -1}}, 
+           (err, docs) => {
+    if (err) throw err;
+    else {
+      res.json(docs);
+    }
+  });
+});
+
+router.get('/getOnlineFirstPage', (req, res, next) => {
+
+  let query1 = {'docOnlineIssue': req.query.docOnlineIssue};
+  let query2 = {'docFirstPageOnline' : {$exists : true}};
+
+  Doc.find({$and: [query1, query2]}, 
+           null,
+           {docFirstPageOnline:1, limit: 1, sort: {docFirstPageOnline: 1}}, 
            (err, docs) => {
     if (err) throw err;
     else {

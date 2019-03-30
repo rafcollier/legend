@@ -136,7 +136,6 @@ export class LoginComponent implements OnInit {
     if(this.username == "admin") 
       this.router.navigate(['/register']);
     else
-      console.log("going to recent");
       this.router.navigate(['/recent']);
   }
 

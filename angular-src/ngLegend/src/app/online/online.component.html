@@ -37,10 +37,22 @@
 
   <section class="mat-typography">
 
+  <h5><i>
+    <span style="color:#4D6FAC">Previous Issue:&nbsp;</span> 
+    <span *ngIf="prevOnlineIssueDateFormatted">{{ prevOnlineIssueDateFormatted }} </span>
+    <span style="color:#4D6FAC">( Last Page:&nbsp;</span> 
+    <span *ngIf="lastPagePrevIssue">{{ lastPagePrevIssue }} </span> )
+  </i></h5>
+
     <h1>
         <b>Online Issue:</b> {{ onlineIssueDateFormatted }} &nbsp; Volume {{ onlineIssueVolume }} &nbsp; Issue {{ onlineIssueIssue }}
     </h1>
-    <h4> <span style="color:#4D6FAC">First Page:&nbsp;</span> <span *ngIf="firstPageCurrentIssue">{{ firstPageCurrentIssue }} </span>&nbsp; <span style="color:#4D6FAC">Last Page:&nbsp;</span> <span *ngIf="lastPageCurrentIssue">{{ lastPageCurrentIssue }} </span></h4>
+    <h3> 
+      <span style="color:#4D6FAC">First Page:&nbsp;</span> 
+      <span *ngIf="firstPageCurrentIssue">{{ firstPageCurrentIssue }} </span>&nbsp; 
+      <span style="color:#4D6FAC">Last Page:&nbsp;</span> 
+      <span *ngIf="lastPageCurrentIssue">{{ lastPageCurrentIssue }} </span>
+    </h3>
 
     <div class="border-div">
 
