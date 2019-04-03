@@ -13,8 +13,6 @@ let jsonData =  {};
 
 router.post('/submitdoc', (req, res, next) => {
 
-  console.log(req.body);
-
   let newDoc = new Doc({
 
     //GENERAL FIELDS 
@@ -145,14 +143,18 @@ router.post('/submitdoc', (req, res, next) => {
 
   });
 
-  console.log(newDoc);
-
-  newDoc.save((err) => {
-    if(err) {
-      console.log(err);
-      throw err;
+  Doc.getDocByDOI(newDoc.docDOI, (err, doi) => {
+    if(err) throw err;
+    if(doi) {
+      return res.json({success: false, msg: 'A document with this DOI already exists.'});
     }
-    res.json({success: true, msg: 'Doc added'});
+    newDoc.save((err) => {
+      if(err) {
+        console.log(err);
+        throw err;
+      }
+      res.json({success: true, msg: 'Document added'});
+    });
   });
 });
 

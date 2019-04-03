@@ -1,5 +1,4 @@
-/* For production build
-*/
+/* For production build */ 
 
 import { Injectable } from '@angular/core';
 import{Http, Headers, URLSearchParams, RequestOptions} from '@angular/http';
@@ -260,7 +259,7 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.put('codes/updateCodes', editedCode, {headers: headers}) 
+    return this.http.put('codes/updateCode', editedCode, {headers: headers}) 
       .pipe(map(res => res.json()));
   } 
 
@@ -620,7 +619,17 @@ export class AuthService {
 
 
 
-/* for local dev
+
+
+
+
+
+
+
+
+
+
+/* for local dev 
 
 
 import { Injectable } from '@angular/core';
@@ -1240,4 +1249,3 @@ export class AuthService {
 }
 
 */
-

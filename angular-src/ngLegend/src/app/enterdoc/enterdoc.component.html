@@ -7,6 +7,8 @@ MAIN DOCUMENT INPUT SECTION
 **********************************************************************************************************************************************
 *******************************************************************************************************************************************-->
 
+
+
 <div *ngIf="showOther"> 
 
   <div class = "align-form">
@@ -455,9 +457,21 @@ MAIN DOCUMENT INPUT SECTION
         </mat-accordion>
         <br>
 
+        <div *ngIf="errorMessage">
+          <br>
+          <h4 class="red-font">{{errorMessage}}</h4>
+        </div>
+        <div *ngIf="successMessage">
+          <h4 class="blue-font">{{successMessage}}</h4>
+          <br>
+        </div>
+
         <button mat-raised-button type="submit">Submit</button>
 
       </form>
+
+      <br><br><br>
+
     </section>
   </div>
 </div>  
@@ -672,9 +686,22 @@ NEWS INPUT SECTION
           </mat-expansion-panel> 
         </mat-accordion>
         <br>
-  
+
+        <div *ngIf="errorMessage">
+          <br>
+          <h4 class="red-font">{{errorMessage}}</h4>
+        </div>
+        <div *ngIf="successMessage">
+          <h4 class="blue-font">{{successMessage}}</h4>
+          <br>
+        </div>
+
         <button mat-raised-button type="submit">Submit</button>
-      </form>  
+
+      </form>
+
+      <br><br><br>
+
     </section>
   </div>
 </div>
@@ -864,9 +891,20 @@ LETTER INPUT SECTION
         </mat-accordion> 
         <br>
 
+        <div *ngIf="errorMessage">
+          <br>
+          <h4 class="red-font">{{errorMessage}}</h4>
+        </div>
+        <div *ngIf="successMessage">
+          <h4 class="blue-font">{{successMessage}}</h4>
+          <br>
+        </div>
 
         <button mat-raised-button type="submit">Submit</button>
-      </form>  
+
+      </form>
+
+      <br><br><br> 
     </section>
   </div>
 </div>
@@ -916,9 +954,22 @@ PRINT AD INPUT SECTION
           <mat-datepicker-toggle matSuffix [for]="docPrintIssueDatePicker"></mat-datepicker-toggle>
           <mat-datepicker #docPrintIssueDatePicker></mat-datepicker>
         </mat-form-field>
+        <br>
+
+        <div *ngIf="errorMessage">
+          <br>
+          <h4 class="red-font">{{errorMessage}}</h4>
+        </div>
+        <div *ngIf="successMessage">
+          <h4 class="blue-font">{{successMessage}}</h4>
+          <br>
+        </div>
 
         <button mat-raised-button type="submit">Submit</button>
-      </form>  
+
+      </form>
+
+      <br><br><br> 
     </section>
   </div>
 </div>
@@ -956,9 +1007,21 @@ DANS LE CMAJ INPUT SECTION
           <mat-datepicker-toggle matSuffix [for]="docPrintIssueDatePicker"></mat-datepicker-toggle>
           <mat-datepicker #docPrintIssueDatePicker></mat-datepicker>
         </mat-form-field>
+        <br>
+        <div *ngIf="errorMessage">
+          <br>
+          <h4 class="red-font">{{errorMessage}}</h4>
+        </div>
+        <div *ngIf="successMessage">
+          <h4 class="blue-font">{{successMessage}}</h4>
+          <br>
+        </div>
 
         <button mat-raised-button type="submit">Submit</button>
-      </form>  
+
+      </form>
+
+      <br><br><br>  
     </section>
   </div>
 </div>

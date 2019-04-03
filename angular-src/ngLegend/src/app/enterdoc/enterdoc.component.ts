@@ -172,6 +172,9 @@ export class EnterdocComponent implements OnInit {
   myControlCodes6 = new FormControl();
   filteredCodes6: Observable<string[]>;
 
+  errorMessage: String = "";
+  successMessage: String = "";
+
   constructor(
   	private authService: AuthService,
     private route: ActivatedRoute,
@@ -274,12 +277,15 @@ export class EnterdocComponent implements OnInit {
     });
   }
 
+  //For online issues, only show calendar days that are loaded in from admin page that have online issues.
   myFilter = (d: Date): boolean => {
     const onlineIssueDates = this.online.map( x => moment(x['date']).format('MMMM DD, YYYY'));
     const calendarDay = moment(d).format('MMMM DD, YYYY');
     return onlineIssueDates.includes(calendarDay); 
   }
 
+
+  //For print issues, just allow selection of first day of the month.
   myFilterPrint = (d: Date): boolean => {
     const calendarDay = moment(d).format('D');
     return calendarDay == '1'; 
@@ -315,6 +321,7 @@ export class EnterdocComponent implements OnInit {
     }
   }
 
+  //Get the volume and issue number from information entered from the admin page.
   getVolumeIssue() {
     const date1 = moment(this.docOnlineIssue).format('MMMM DD, YYYY');
     const temp = this.online.map( x => {
@@ -326,6 +333,7 @@ export class EnterdocComponent implements OnInit {
     this.getPositions();
   }
 
+  //Get the positions in the table of contents for each paper based on info entered into "Sections" on admin page
   getPositions() {
     if(this.docDepartment) {
       this.docOnlinePosition = this.departments.filter(x => x['department'] == this.docDepartment).map(x => x['onlinePosition'])[0];
@@ -344,6 +352,7 @@ export class EnterdocComponent implements OnInit {
     }
   }
 
+  //Get the status of an article based on where it is in the editing process
   getStatus() {
     if(this.docFinalizeDate) this.docStatus = "8 - Final"; 
     else if (this.docSendProofRead) this.docStatus = "7 - Proof Reading";
@@ -504,12 +513,22 @@ export class EnterdocComponent implements OnInit {
     }
 
     this.authService.submitDoc(doc).subscribe(data => {
+
       if(data.success){
-        this.router.navigate(['/search']); 
-      } else {
-        this.router.navigate(['/enterdoc']); 
-        return false;
+        this.successMessage = data.msg;
+        setTimeout(() => {
+          this.successMessage = "";
+          this.router.navigate(['/recent']); 
+        }, 2000);
+      } 
+      else {
+        this.errorMessage = data.msg;
+        setTimeout(() => {
+          this.errorMessage = "";
+          this.ngOnInit();
+        }, 2000);
       }
+
     });
 
   }

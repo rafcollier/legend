@@ -329,5 +329,16 @@ let DocSchema = new Schema({
 
 });
 
-let Doc = mongoose.model('Doc', DocSchema)
-module.exports = Doc;
+let Doc = module.exports = mongoose.model('Doc', DocSchema)
+
+module.exports.getDocByDOI = function(DOI, callback) {
+  const query = {
+    docDOI: DOI
+  }
+  Doc.findOne(query, callback);
+}
+
+
+
+
+

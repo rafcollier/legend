@@ -19,7 +19,7 @@ router.post('/addSection', (req, res, next) => {
     if(err) throw err;
     if(section) {
       return res.json({success: false, msg: 'This section already exists.'});
-  }
+    }
 
     Section.addSection(newSection, (err, section) => {
       if(err) {
