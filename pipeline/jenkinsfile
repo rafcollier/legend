@@ -75,11 +75,11 @@ pipeline {
             }
             sh 'gcloud container clusters get-credentials joule-development-can-ne-a-k8s --zone northamerica-northeast1-a --project joule-development-218113'
             sh 'kubectl config set current-context gke_joule-development-218113_northamerica-northeast1-a_joule-development-can-ne-a-k8s'
-            sh 'cp kubernetes/templates/DeployNewArtifact.yaml kubernetes/templates/DeployNewArtifact-\$(date \"+%Y%m%d\")-\$(openssl rand -hex 4).yaml'
-            sh 'sed -i -e \"s/<ModuleVersion>/\$(cat VERSION)/g\" kubernetes/templates/DeployNewArtifact.yaml'
-            //sh 'sed -i -e \"s/<environment>/joule-development-218113/g\" kubernetes/templates/DeployNewArtifact.yaml'
-            sh 'cat kubernetes/templates/DeployNewArtifact.yaml'
-            sh 'kubectl patch deployment cmaj-legend --patch kubernetes/templates/DeployNewArtifact.yaml --namespace legend'
+            sh 'YAMLFILE=kubernetes/templates/DeployNewArtifact-\$(date \"+%Y%m%d\")-\$(openssl rand -hex 4).yaml'
+            sh 'cp kubernetes/templates/DeployNewArtifact.yaml \$YAMLFILE'
+            sh 'sed -i -e \"s/<ModuleVersion>/\$(cat VERSION)/g\" \$YAMLFILE'
+            sh 'cat kubernetes/templates/DeployNewArtifact-\$(date \"+%Y%m%d\")-\$(openssl rand -hex 4).yaml'
+            sh 'kubectl patch deployment cmaj-legend --patch \$YAMLFILE --namespace legend'
           }
         }
       }
