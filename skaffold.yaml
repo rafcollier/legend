@@ -2,7 +2,7 @@ apiVersion: skaffold/v1beta2
 kind: Config
 build:
   artifacts:
-  - image: cmajlegend
+  - image: changeme
     context: .
     docker: {}
   tagPolicy:
