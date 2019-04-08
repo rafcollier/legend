@@ -79,7 +79,7 @@ pipeline {
               YAMLFILE=kubernetes/templates/DeployNewArtifact-\$(date \"+%Y%m%d\")-\$(openssl rand -hex 4).yaml;
               cp kubernetes/templates/DeployNewArtifact.yaml \$(echo \$YAMLFILE);
               sed -i -e \"s/<ModuleVersion>/\$(cat VERSION)/g\" \$(echo \$YAMLFILE);
-              kubectl patch deployment cmaj-legend --patch \"\$(echo \$YAMLFILE)\" --namespace legend;
+              kubectl patch deployment cmaj-legend --patch \"\$(cat \$YAMLFILE)\" --namespace legend;
             '''
           }
         }
