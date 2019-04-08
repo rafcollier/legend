@@ -45,7 +45,7 @@ pipeline {
           sh "git config --global credential.helper store"
           sh "jx step git credentials"
           //setup gcp service account access
-          withCredentials([string(credentialsId: '	google-cloud-service-account-development-cluster', variable: 'SERVICE_ACCOUNT_KEY')]) {
+          withCredentials([string(credentialsId: '	google-cloud-service-account-operations-cluster', variable: 'SERVICE_ACCOUNT_KEY')]) {
             writeFile file: '/home/jenkins/workspace/Joule-CMA_CMAJ-Legend_master/key.json', text: SERVICE_ACCOUNT_KEY
             sh "gcloud auth activate-service-account --key-file key.json"
             }
@@ -54,10 +54,13 @@ pipeline {
           sh "jx step tag --version \$(cat VERSION)"
           sh "npm install"
           sh "echo 'PRODUCTION RELEASE'"
-          //sh "CI=true DISPLAY=:99 npm test"
           sh "CI=true DISPLAY=:99"
-          sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml"
-          sh "jx step post build --image $DOCKER_REGISTRY/CMAJ/legend/legend-app:\$(cat VERSION)"        
+            withCredentials([string(credentialsId: 'google-cloud-service-account-development-cluster', variable: 'SERVICE_ACCOUNT_KEY')]) {
+              writeFile file: '/home/jenkins/workspace/Joule-CMA_CMAJ-Legend_master/key-development.json', text: SERVICE_ACCOUNT_KEY
+              sh 'gcloud auth activate-service-account --key-file key-development.json'
+              sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml"
+              sh "jx step post build --image $DOCKER_REGISTRY/CMAJ/legend/legend-app:\$(cat VERSION)"        
+            }
           }
       }
     }
