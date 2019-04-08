@@ -45,7 +45,7 @@ pipeline {
           sh "git config --global credential.helper store"
           sh "jx step git credentials"
           //setup gcp service account access
-          withCredentials([string(credentialsId: '	google-cloud-service-account-operations-cluster', variable: 'SERVICE_ACCOUNT_KEY')]) {
+          withCredentials([string(credentialsId: '	google-cloud-service-account-development-cluster', variable: 'SERVICE_ACCOUNT_KEY')]) {
             writeFile file: '/home/jenkins/workspace/Joule-CMA_CMAJ-Legend_master/key.json', text: SERVICE_ACCOUNT_KEY
             sh "gcloud auth activate-service-account --key-file key.json"
             }
