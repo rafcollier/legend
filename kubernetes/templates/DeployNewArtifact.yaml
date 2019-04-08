@@ -1,6 +1,10 @@
-spec:
-  template:
-    spec:
-      containers:
-      - name: cmaj-legend
-        image: gcr.io/joule-development-218113/cmaj/legend/legend-app:<ModuleVersion>
+apiVersion: v1
+items:
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  spec:
+    template:
+      spec:
+        containers:
+        - name: cmaj-legend
+          image: gcr.io/joule-development-218113/cmaj/legend/legend-app:<ModuleVersion>
