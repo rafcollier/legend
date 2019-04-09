@@ -20,9 +20,6 @@ pipeline {
       }
       steps {
         container('builder-base') {
-          script {
-            slackSend channel: '#builds', color: buildColor, message: '''A '''+env.JOB_NAME+ ''' pipeline build has Started: '''+env.BUILD_URL+'''console''', teamDomain: 'jouleeng', tokenCredentialId: 'slack-token'
-          }
           sh "npm install"
           sh "CI=true DISPLAY=:99 npm test"
           sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml"
@@ -101,7 +98,7 @@ pipeline {
                     buildColor = "#1aaf24"
                     buildResult = "Success!"
                 }
-              slackSend channel: '#builds', color: buildColor, message: buildResult+ ''' building '''+env.BUILD_URL, teamDomain: 'jouleeng', tokenCredentialId: 'slack-token'
+              slackSend channel: '#builds', color: buildColor, message: buildResult+ ''' building '''+env.BUILD_URL+'''console''', teamDomain: 'jouleeng', tokenCredentialId: 'slack-token'
           }
           cleanWs()
         }
