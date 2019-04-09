@@ -6,6 +6,7 @@ pipeline {
     ORG = 'joule-cma'
     APP_NAME = 'cmaj-legend'
     CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
+    buildColor = "#c4077c"
   }
   stages {
     stage('CI Build and push snapshot') {
@@ -19,6 +20,7 @@ pipeline {
       }
       steps {
         container('builder-base') {
+          slackSend channel: '#builds', color: buildColor, message: '''A '''+env.JOB_NAME+ ''' pipeline build has Started: '''+env.BUILD_URL+'''console''', teamDomain: 'jouleeng', tokenCredentialId: 'slack-token'
           sh "npm install"
           sh "CI=true DISPLAY=:99 npm test"
           sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml"
@@ -87,6 +89,18 @@ pipeline {
     }
   post {
         always {
+            if (currentBuild.result == "FAILURE" || currentBuild.result == "EXCEPTION" || currentBuild.result == "UNSTABLE")
+            {
+                buildColor = "#a50b0b"
+                buildResult = "Failure!"
+            }
+            else
+            {
+                buildColor = "#1aaf24"
+                buildResult = "Success!"
+
+            }
+          slackSend channel: '#builds', color: buildColor, message: buildResult+ ''' on the build '''+env.BUILD_URL, teamDomain: 'jouleeng', tokenCredentialId: 'slack-token'
           cleanWs()
         }
   }
