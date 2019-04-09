@@ -83,7 +83,7 @@ pipeline {
               sed -i -e \"s/<ModuleVersion>/\$(cat VERSION)/g\" \$(echo \$YAMLFILE);
               kubectl patch deployment cmaj-legend --patch \"\$(cat \$YAMLFILE)\" --namespace legend;
             '''
-            if ((currentBuild.result == "FAILURE") || (currentBuild.result == "EXCEPTION") || (currentBuild.result == "UNSTABLE"))
+            if ((currentBuild.result == "FAILURE") || (currentBuild.result == "EXCEPTION"))
             {
                 buildColor = "#a50b0b"
                 buildResult = "Failure!"
@@ -92,7 +92,6 @@ pipeline {
             {
                 buildColor = "#1aaf24"
                 buildResult = "Success!"
-
             }
           slackSend channel: '#builds', color: buildColor, message: buildResult+ ''' building '''+env.BUILD_URL, teamDomain: 'jouleeng', tokenCredentialId: 'slack-token'
           }
