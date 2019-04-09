@@ -89,7 +89,7 @@ pipeline {
     }
   post {
         always {
-            if (currentBuild.result == "FAILURE" || currentBuild.result == "EXCEPTION" || currentBuild.result == "UNSTABLE")
+            if ((currentBuild.result == "FAILURE") || (currentBuild.result == "EXCEPTION") || (currentBuild.result == "UNSTABLE"))
             {
                 buildColor = "#a50b0b"
                 buildResult = "Failure!"
