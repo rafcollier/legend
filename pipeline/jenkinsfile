@@ -100,7 +100,7 @@ pipeline {
                 buildResult = "Success!"
 
             }
-          slackSend channel: '#builds', color: buildColor, message: buildResult+ ''' on the build '''+env.BUILD_URL, teamDomain: 'jouleeng', tokenCredentialId: 'slack-token'
+          slackSend channel: '#builds', color: buildColor, message: buildResult+ ''' building '''+env.BUILD_URL, teamDomain: 'jouleeng', tokenCredentialId: 'slack-token'
           cleanWs()
         }
   }
