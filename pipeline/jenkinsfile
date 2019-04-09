@@ -84,6 +84,11 @@ pipeline {
               kubectl patch deployment cmaj-legend --patch \"\$(cat \$YAMLFILE)\" --namespace legend;
             '''
           }
+      }      
+    }
+    }
+  post {
+        always {
           script {
                 if ((currentBuild.result == "FAILURE") || (currentBuild.result == "EXCEPTION"))
                 {
@@ -97,12 +102,6 @@ pipeline {
                 }
               slackSend channel: '#builds', color: buildColor, message: buildResult+ ''' building '''+env.BUILD_URL, teamDomain: 'jouleeng', tokenCredentialId: 'slack-token'
           }
-      }
-      
-      }
-    }
-  post {
-        always {
           cleanWs()
         }
   }
