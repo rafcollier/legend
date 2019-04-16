@@ -1,6 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cmaj-legend
 spec:
+  replicas: 1
   template:
+    metadata:
+      labels:
+        app: cmaj-legend
     spec:
       containers:
-      - name: cmaj-legend
-        image: gcr.io/joule-development-218113/cmaj/legend/legend-app:<ModuleVersion>
+        - name: cmaj-legend
+          image: gcr.io/joule-development-218113/cmaj/legend/legend-app:<ModuleVersion>
