@@ -604,7 +604,7 @@ export class AuthService {
 
   adminLoggedIn() {
     const userJSON = JSON.parse(this.loadUser()); 
-    return userJSON!=null && userJSON["username"]=="admin";
+    return userJSON!=null && userJSON["username"].toLowerCase() == "admin";
   }
 
   capitalizeFirstLetter(string) {
