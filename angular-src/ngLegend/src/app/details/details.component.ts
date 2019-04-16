@@ -18,8 +18,10 @@ const config = require('../../../../../config/docs');
 export class DetailsComponent implements OnInit {
   private sub: any;
   detailsID: String;	
+  user: object;
   username: String; //currently logged in user
   oneDoc: Object;
+  superUser: Boolean = false;
   editDoc: Boolean = false;
   showNews: Boolean = false;
   showLetter: Boolean = false;
@@ -170,7 +172,6 @@ export class DetailsComponent implements OnInit {
   docLastPagePrint: Number;
   docPrintPosition: Number; 
 
-
   //PRINT ADS
   docAdClient: String;
   docAdDescription: String; 
@@ -260,7 +261,9 @@ export class DetailsComponent implements OnInit {
     this.showAd = false;
     this.showFrench = false;
     this.showOther = false;
-    this.username = this.authService.loadUsername(); 
+    this.user = JSON.parse(this.authService.loadUser()); //full user object 
+    this.superUser = this.user['superuser']; //only superusers can delete documents
+    this.username = this.authService.loadUsername();  //only username string
     this.configFile = this.authService.localGetConfigFile();
     this.sections = this.authService.localGetSections(); 
     this.editors = this.authService.localGetEditors(); 
@@ -294,6 +297,7 @@ export class DetailsComponent implements OnInit {
     );
 
     this.authService.getOneDoc(this.detailsID).subscribe(doc => {
+      console.log(doc);
       this.oneDoc = doc; 
       this.docID = doc._id;
 
@@ -443,69 +447,27 @@ export class DetailsComponent implements OnInit {
       this.docNewsInvoiceAmount = doc.docNewsInvoiceAmount; 
 
       //FORMATTED DATE FIELDS
-      if(doc.docAcceptDate) {
-        this.docAcceptDateFormatted = moment(doc.docAcceptDate).format('MMMM DD, YYYY');
-      }
-      if(doc.docPaymentDate) {
-        this.docPaymentDateFormatted = moment(doc.docPaymentDate).format('MMMM DD, YYYY');
-      }
-      if(doc.docETOCDate) {
-        this.docETOCDateFormatted = moment(doc.docETOCDate).format('MMMM DD, YYYY');
-      }
-      if(doc.docOnlineIssue) {
-        this.docOnlineIssueFormatted = moment(doc.docOnlineIssue).format('MMMM DD, YYYY');
-      }
-      if(doc.docPrintIssue) {
-        this.docPrintIssueFormatted = moment(doc.docPrintIssue).format('MMMM YYYY');
-      }
-      if(doc.docEnteredDate) {
-        this.docEnteredDateFormatted = moment(doc.docEnteredDate).format('MMMM DD, YYYY');
-      }
-      if(doc.docCopyEditBeginDate) {
-        this.docCopyEditBeginDateFormatted = moment(doc.docCopyEditBeginDate).format('MMMM DD, YYYY');
-      }
-      if(doc.docCopyEditCompleteDate) {
-        this.docCopyEditCompleteDateFormatted = moment(doc.docCopyEditCompleteDate).format('MMMM DD, YYYY');
-      }
-      if(doc.docSendSEDate) {
-        this.docSendSEDateFormatted = moment(doc.docSendSEDate).format('MMMM DD, YYYY');
-      }
-      if(doc.docReturnSEDate) {
-        this.docReturnSEDateFormatted = moment(doc.docReturnSEDate).format('MMMM DD, YYYY');
-      }
-      if(doc.docSendAuthorDate) {
-        this.docSendAuthorDateFormatted = moment(doc.docSendAuthorDate).format('MMMM DD, YYYY');
-      }
-      if(doc.docReturnAuthorDate) {
-        this.docReturnAuthorDateFormatted = moment(doc.docReturnAuthorDate).format('MMMM DD, YYYY');
-      }
-      if(doc.docSendFineTune) {
-        this.docSendFineTuneDateFormatted = moment(doc.docSendFineTune).format('MMMM DD, YYYY');
-      }
-      if(doc.docReturnFineTune) {
-        this.docReturnFineTuneDateFormatted = moment(doc.docReturnFineTune).format('MMMM DD, YYYY');
-      }
-      if(doc.docSendProofRead) {
-        this.docSendProofReadDateFormatted = moment(doc.docSendProofRead).format('MMMM DD, YYYY');
-      }
-      if(doc.docReturnProofRead) {
-        this.docReturnProofReadDateFormatted = moment(doc.docReturnProofRead).format('MMMM DD, YYYY');
-      }
-      if(doc.docFinalizeDate) {
-        this.docFinalizeDateFormatted = moment(doc.docFinalizeDate).format('MMMM DD, YYYY');
-      }
-      if(doc.docNewsReady) {
-        this.docNewsReadyFormatted = moment(doc.docNewsReady).format('MMMM DD, YYYY');
-      }
-      if(doc.docPublishDateCMAJnews) {
-        this.docPublishDateCMAJnewsFormatted = moment(doc.docPublishDateCMAJnews).format('MMMM DD, YYYY');
-      }
-      if(doc.docNewsCommissionDate) {
-        this.docNewsCommissionDateFormatted = moment(doc.docNewsCommissionDate).format('MMMM DD, YYYY');
-      }
-      if(doc.docNewsInvoiceDate) {
-        this.docNewsInvoiceDateFormatted = moment(doc.docNewsInvoiceDate).format('MMMM DD, YYYY');
-      }
+      this.docAcceptDateFormatted = doc.docAcceptDateFormatted;
+      this.docPaymentDateFormatted = doc.docPaymentDateFormatted;
+      this.docETOCDateFormatted = doc.docETOCDateFormatted;
+      this.docOnlineIssueFormatted = doc.docOnlineIssueFormatted;
+      this.docPrintIssueFormatted = doc.docPrintIssueFormatted;
+      this.docEnteredDateFormatted = doc.docEnteredDateFormatted;
+      this.docCopyEditBeginDateFormatted = doc.docCopyEditBeginDateFormatted;
+      this.docCopyEditCompleteDateFormatted = doc.docCopyEditCompleteDateFormatted;
+      this.docSendSEDateFormatted = doc.docSendSEDateFormatted;
+      this.docReturnSEDateFormatted = doc.docReturnSEDateFormatted;
+      this.docSendAuthorDateFormatted = doc.docSendAuthorDateFormatted;
+      this.docReturnAuthorDateFormatted = doc.docReturnAuthorDateFormatted;
+      this.docSendFineTuneDateFormatted = doc.docSendFineTuneDateFormatted;
+      this.docReturnFineTuneDateFormatted = doc.docReturnFineTuneDateFormatted;
+      this.docSendProofReadDateFormatted = doc.docSendProofReadDateFormatted;
+      this.docReturnProofReadDateFormatted = doc.docReturnProofReadDateFormatted;
+      this.docFinalizeDateFormatted = doc.docFinalizeDateFormatted;
+      this.docNewsReadyFormatted = doc.docNewsReadyFormatted;
+      this.docPublishDateCMAJnewsFormatted = doc.docPublishDateCMAJnewsFormatted;
+      this.docNewsCommissionDateFormatted = doc.docNewsCommissionDateFormatted;
+      this.docNewsInvoiceDateFormatted = doc.docNewsInvoiceDateFormatted;
     },
     err => {
       console.log(err);
@@ -585,6 +547,71 @@ export class DetailsComponent implements OnInit {
     const code4 = this.codes.filter(x => x['description'] == this.docCollectionCode4).map(x => x['code'])[0];
     const code5 = this.codes.filter(x => x['description'] == this.docCollectionCode5).map(x => x['code'])[0];
     const code6 = this.codes.filter(x => x['description'] == this.docCollectionCode6).map(x => x['code'])[0];
+
+    //Add formatted dates as strings to database for easy display on user interface
+    if(this.docAcceptDate) {
+      this.docAcceptDateFormatted = moment(this.docAcceptDate).format('MMMM DD, YYYY');
+    }
+    if(this.docPaymentDate) {
+      this.docPaymentDateFormatted = moment(this.docPaymentDate).format('MMMM DD, YYYY');
+    }
+    if(this.docETOCDate) {
+      this.docETOCDateFormatted = moment(this.docETOCDate).format('MMMM DD, YYYY');
+    }
+    if(this.docOnlineIssue) {
+      this.docOnlineIssueFormatted = moment(this.docOnlineIssue).format('MMMM DD, YYYY');
+    }
+    if(this.docPrintIssue) {
+      this.docPrintIssueFormatted = moment(this.docPrintIssue).format('MMMM YYYY');
+    }
+    if(this.docEnteredDate) {
+      this.docEnteredDateFormatted = moment(this.docEnteredDate).format('MMMM DD, YYYY');
+    }
+    if(this.docCopyEditBeginDate) {
+      this.docCopyEditBeginDateFormatted = moment(this.docCopyEditBeginDate).format('MMMM DD, YYYY');
+    }
+    if(this.docCopyEditCompleteDate) {
+      this.docCopyEditCompleteDateFormatted = moment(this.docCopyEditCompleteDate).format('MMMM DD, YYYY');
+    }
+    if(this.docSendSEDate) {
+      this.docSendSEDateFormatted = moment(this.docSendSEDate).format('MMMM DD, YYYY');
+    }
+    if(this.docReturnSEDate) {
+      this.docReturnSEDateFormatted = moment(this.docReturnSEDate).format('MMMM DD, YYYY');
+    }
+    if(this.docSendAuthorDate) {
+      this.docSendAuthorDateFormatted = moment(this.docSendAuthorDate).format('MMMM DD, YYYY');
+    }
+    if(this.docReturnAuthorDate) {
+      this.docReturnAuthorDateFormatted = moment(this.docReturnAuthorDate).format('MMMM DD, YYYY');
+    }
+    if (this.docSendFineTune) {
+      this.docSendFineTuneDateFormatted = moment(this.docSendFineTune).format('MMMM DD, YYYY');
+    }
+    if(this.docReturnFineTune) {
+      this.docReturnFineTuneDateFormatted = moment(this.docReturnFineTune).format('MMMM DD, YYYY');
+    }
+    if(this.docSendProofRead) {
+      this.docSendProofReadDateFormatted = moment(this.docSendProofRead).format('MMMM DD, YYYY');
+    }
+    if(this.docReturnProofRead) {
+      this.docReturnProofReadDateFormatted = moment(this.docReturnProofRead).format('MMMM DD, YYYY');
+    }
+    if(this.docFinalizeDate) {
+      this.docFinalizeDateFormatted = moment(this.docFinalizeDate).format('MMMM DD, YYYY');
+    }
+    if(this.docNewsReady) {
+      this.docNewsReadyFormatted = moment(this.docNewsReady).format('MMMM DD, YYYY');
+    }
+    if(this.docPublishDateCMAJnews) {
+      this.docPublishDateCMAJnewsFormatted = moment(this.docPublishDateCMAJnews).format('MMMM DD, YYYY');
+    }
+    if(this.docNewsCommissionDate) {
+      this.docNewsCommissionDateFormatted = moment(this.docNewsCommissionDate).format('MMMM DD, YYYY');
+    }
+    if(this.docNewsInvoiceDate) {
+      this.docNewsInvoiceDateFormatted = moment(this.docNewsInvoiceDate).format('MMMM DD, YYYY');
+    }
 
 
     let editedDoc = {
@@ -714,7 +741,32 @@ export class DetailsComponent implements OnInit {
       docPublishDateCMAJnews: this.docPublishDateCMAJnews,
       docNewsCommissionDate: this.docNewsCommissionDate,
       docNewsInvoiceDate: this.docNewsInvoiceDate,
-      docNewsInvoiceAmount: this.docNewsInvoiceAmount
+      docNewsInvoiceAmount: this.docNewsInvoiceAmount,
+
+      //FORMATTED DATES
+      docAcceptDateFormatted: this.docAcceptDateFormatted,
+      docPaymentDateFormatted: this.docPaymentDateFormatted,
+      docETOCDateFormatted: this.docETOCDateFormatted,
+      docOnlineIssueFormatted: this.docOnlineIssueFormatted,
+      docPrintIssueFormatted: this.docPrintIssueFormatted,
+
+      docEnteredDateFormatted: this.docEnteredDateFormatted,
+      docCopyEditBeginDateFormatted: this.docCopyEditBeginDateFormatted,
+      docCopyEditCompleteDateFormatted: this.docCopyEditCompleteDateFormatted,
+      docSendSEDateFormatted: this.docSendSEDateFormatted,
+      docReturnSEDateFormatted: this.docReturnSEDateFormatted,
+      docSendAuthorDateFormatted: this.docSendAuthorDateFormatted,
+      docReturnAuthorDateFormatted: this.docReturnAuthorDateFormatted,
+      docSendFineTuneDateFormatted: this.docSendFineTuneDateFormatted,
+      docReturnFineTuneDateFormatted: this.docReturnFineTuneDateFormatted,
+      docSendProofReadDateFormatted: this.docSendProofReadDateFormatted,
+      docReturnProofReadDateFormatted: this.docReturnProofReadDateFormatted,
+      docFinalizeDateFormatted: this.docFinalizeDateFormatted,
+
+      docNewsReadyFormatted: this.docNewsReadyFormatted,
+      docPublishDateCMAJnewsFormatted: this.docPublishDateCMAJnewsFormatted,
+      docNewsCommissionDateFormatted: this.docNewsCommissionDateFormatted,
+      docNewsInvoiceDateFormatted: this.docNewsInvoiceDateFormatted
 
     }
 

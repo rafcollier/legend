@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
       this.authService.authenticateUser(user).subscribe(data => {
         if (data.success) {
           this.authService.storeUserData(data.token, data.user);
+          console.log(data.user);
           //Load info for drop-down menus into local storage
           this.onConfigSections();
           this.onConfigEditors();
@@ -133,7 +134,7 @@ export class LoginComponent implements OnInit {
 
   //Will go to admin page if username is admin, or will go to search page for all other users.
   onGoRecentPage() {
-    if(this.username == "admin") 
+    if(this.username.toLowerCase() == "admin") 
       this.router.navigate(['/register']);
     else
       this.router.navigate(['/recent']);

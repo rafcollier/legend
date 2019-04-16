@@ -132,6 +132,32 @@ export class EnterdocComponent implements OnInit {
   docNewsInvoiceDate: Date;
   docNewsInvoiceAmount: Number;
 
+  //FORMATTED DATES FOR DISPLAY
+
+  docAcceptDateFormatted: String;
+  docPaymentDateFormatted: String;
+  docETOCDateFormatted: String;
+  docOnlineIssueFormatted: String;
+  docPrintIssueFormatted: String;
+
+  docEnteredDateFormatted: String = "";
+  docCopyEditBeginDateFormatted: String = "";
+  docCopyEditCompleteDateFormatted: String = "";
+  docSendSEDateFormatted: String = "";
+  docReturnSEDateFormatted: String = "";
+  docSendAuthorDateFormatted: String = "";
+  docReturnAuthorDateFormatted: String = "";
+  docSendFineTuneDateFormatted: String = "";
+  docReturnFineTuneDateFormatted: String = "";
+  docSendProofReadDateFormatted: String = "";
+  docReturnProofReadDateFormatted: String = "";
+  docFinalizeDateFormatted: String = "";
+
+  docNewsReadyFormatted: String = "";
+  docPublishDateCMAJnewsFormatted: String = ""; 
+  docNewsCommissionDateFormatted: String = "";
+  docNewsInvoiceDateFormatted: String = "";
+
   //Generated from login user
   username: String;
 
@@ -374,12 +400,79 @@ export class EnterdocComponent implements OnInit {
   }
 
   submitNewDoc(){
+
+    //Add the number code value for the selected HighWire Category
     const code1 = this.codes.filter(x => x['description'] == this.docCollectionCode1).map(x => x['code'])[0];
     const code2 = this.codes.filter(x => x['description'] == this.docCollectionCode2).map(x => x['code'])[0];
     const code3 = this.codes.filter(x => x['description'] == this.docCollectionCode3).map(x => x['code'])[0];
     const code4 = this.codes.filter(x => x['description'] == this.docCollectionCode4).map(x => x['code'])[0];
     const code5 = this.codes.filter(x => x['description'] == this.docCollectionCode5).map(x => x['code'])[0];
     const code6 = this.codes.filter(x => x['description'] == this.docCollectionCode6).map(x => x['code'])[0];
+
+    //Add formatted dates as strings to database for easy display on user interface
+    if(this.docAcceptDate) {
+      this.docAcceptDateFormatted = moment(this.docAcceptDate).format('MMMM DD, YYYY');
+    }
+    if(this.docPaymentDate) {
+      this.docPaymentDateFormatted = moment(this.docPaymentDate).format('MMMM DD, YYYY');
+    }
+    if(this.docETOCDate) {
+      this.docETOCDateFormatted = moment(this.docETOCDate).format('MMMM DD, YYYY');
+    }
+    if(this.docOnlineIssue) {
+      this.docOnlineIssueFormatted = moment(this.docOnlineIssue).format('MMMM DD, YYYY');
+    }
+    if(this.docPrintIssue) {
+      this.docPrintIssueFormatted = moment(this.docPrintIssue).format('MMMM YYYY');
+    }
+    if(this.docEnteredDate) {
+      this.docEnteredDateFormatted = moment(this.docEnteredDate).format('MMMM DD, YYYY');
+    }
+    if(this.docCopyEditBeginDate) {
+      this.docCopyEditBeginDateFormatted = moment(this.docCopyEditBeginDate).format('MMMM DD, YYYY');
+    }
+    if(this.docCopyEditCompleteDate) {
+      this.docCopyEditCompleteDateFormatted = moment(this.docCopyEditCompleteDate).format('MMMM DD, YYYY');
+    }
+    if(this.docSendSEDate) {
+      this.docSendSEDateFormatted = moment(this.docSendSEDate).format('MMMM DD, YYYY');
+    }
+    if(this.docReturnSEDate) {
+      this.docReturnSEDateFormatted = moment(this.docReturnSEDate).format('MMMM DD, YYYY');
+    }
+    if(this.docSendAuthorDate) {
+      this.docSendAuthorDateFormatted = moment(this.docSendAuthorDate).format('MMMM DD, YYYY');
+    }
+    if(this.docReturnAuthorDate) {
+      this.docReturnAuthorDateFormatted = moment(this.docReturnAuthorDate).format('MMMM DD, YYYY');
+    }
+    if (this.docSendFineTune) {
+      this.docSendFineTuneDateFormatted = moment(this.docSendFineTune).format('MMMM DD, YYYY');
+    }
+    if(this.docReturnFineTune) {
+      this.docReturnFineTuneDateFormatted = moment(this.docReturnFineTune).format('MMMM DD, YYYY');
+    }
+    if(this.docSendProofRead) {
+      this.docSendProofReadDateFormatted = moment(this.docSendProofRead).format('MMMM DD, YYYY');
+    }
+    if(this.docReturnProofRead) {
+      this.docReturnProofReadDateFormatted = moment(this.docReturnProofRead).format('MMMM DD, YYYY');
+    }
+    if(this.docFinalizeDate) {
+      this.docFinalizeDateFormatted = moment(this.docFinalizeDate).format('MMMM DD, YYYY');
+    }
+    if(this.docNewsReady) {
+      this.docNewsReadyFormatted = moment(this.docNewsReady).format('MMMM DD, YYYY');
+    }
+    if(this.docPublishDateCMAJnews) {
+      this.docPublishDateCMAJnewsFormatted = moment(this.docPublishDateCMAJnews).format('MMMM DD, YYYY');
+    }
+    if(this.docNewsCommissionDate) {
+      this.docNewsCommissionDateFormatted = moment(this.docNewsCommissionDate).format('MMMM DD, YYYY');
+    }
+    if(this.docNewsInvoiceDate) {
+      this.docNewsInvoiceDateFormatted = moment(this.docNewsInvoiceDate).format('MMMM DD, YYYY');
+    }
 
     let doc = {
 
@@ -508,7 +601,33 @@ export class EnterdocComponent implements OnInit {
       docPublishDateCMAJnews: this.docPublishDateCMAJnews,
       docNewsCommissionDate: this.docNewsCommissionDate,
       docNewsInvoiceDate: this.docNewsInvoiceDate,
-      docNewsInvoiceAmount: this.docNewsInvoiceAmount
+      docNewsInvoiceAmount: this.docNewsInvoiceAmount,
+
+      //FORMATTED DATES
+
+      docAcceptDateFormatted: this.docAcceptDateFormatted,
+      docPaymentDateFormatted: this.docPaymentDateFormatted,
+      docETOCDateFormatted: this.docETOCDateFormatted,
+      docOnlineIssueFormatted: this.docOnlineIssueFormatted,
+      docPrintIssueFormatted: this.docPrintIssueFormatted,
+
+      docEnteredDateFormatted: this.docEnteredDateFormatted,
+      docCopyEditBeginDateFormatted: this.docCopyEditBeginDateFormatted,
+      docCopyEditCompleteDateFormatted: this.docCopyEditCompleteDateFormatted,
+      docSendSEDateFormatted: this.docSendSEDateFormatted,
+      docReturnSEDateFormatted: this.docReturnSEDateFormatted,
+      docSendAuthorDateFormatted: this.docSendAuthorDateFormatted,
+      docReturnAuthorDateFormatted: this.docReturnAuthorDateFormatted,
+      docSendFineTuneDateFormatted: this.docSendFineTuneDateFormatted,
+      docReturnFineTuneDateFormatted: this.docReturnFineTuneDateFormatted,
+      docSendProofReadDateFormatted: this.docSendProofReadDateFormatted,
+      docReturnProofReadDateFormatted: this.docReturnProofReadDateFormatted,
+      docFinalizeDateFormatted: this.docFinalizeDateFormatted,
+
+      docNewsReadyFormatted: this.docNewsReadyFormatted,
+      docPublishDateCMAJnewsFormatted: this.docPublishDateCMAJnewsFormatted,
+      docNewsCommissionDateFormatted: this.docNewsCommissionDateFormatted,
+      docNewsInvoiceDateFormatted: this.docNewsInvoiceDateFormatted
     
     }
 

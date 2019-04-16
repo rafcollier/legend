@@ -18,6 +18,7 @@ export class RegisterComponent implements OnInit {
   displayUsers :[Object];
   deleteMessage : String = "";
   newsAddDelete : Boolean = false;
+  superuser : Boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -40,14 +41,12 @@ export class RegisterComponent implements OnInit {
   onGetUsers() {
     this.authService.getUsers().subscribe(entries => {
       this.displayUsers = entries; 
-      console.log(entries);
     }, 
     err => {
         console.log(err);
         return false;
     });
   }
-
 
   onUserDelete(user, index) {
     console.log("delete user");
@@ -70,7 +69,7 @@ export class RegisterComponent implements OnInit {
     const user = {
       username: this.username,
       password: this.password,
-      newsAddDelete: this.newsAddDelete
+      superuser: this.superuser
     }
 
     //Required fields
@@ -86,8 +85,7 @@ export class RegisterComponent implements OnInit {
       this.authService.registerUser(user).subscribe(data => {
         if(data.success){
           setTimeout(() => {
-            this.username = "";
-            this.password = "";
+            this.clearFields();
             this.onGetUsers();
             this.router.navigate(['/register']); 
           }, 1000);
@@ -95,9 +93,8 @@ export class RegisterComponent implements OnInit {
         else {
           this.errorMessage = data.msg;
           setTimeout(() => {
-            this.errorMessage = "";
-            this.username = "";
-      	    this.password = "";
+            this.clearFields();
+            this.onGetUsers();
             this.router.navigate(['/register']); 
           }, 2000);
         }
@@ -107,6 +104,13 @@ export class RegisterComponent implements OnInit {
       return false;
       });
     }
+  }
+
+  clearFields() {
+    this.username = "";
+    this.password = "";
+    this.superuser = null;
+    this.errorMessage = "";
   }
 
 

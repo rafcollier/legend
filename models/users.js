@@ -12,7 +12,7 @@ const UserSchema = mongoose.Schema({
 	type: String,
 	required: true
   },
-  newsAddDelete: {
+  superuser: {
   	type: Boolean
   }
 });

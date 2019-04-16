@@ -12,12 +12,10 @@
         <input type="password" matInput placeholder="Password" [(ngModel)]="password" name="password">  
       </mat-form-field>  
 
-      <!--
       <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
         <input matInput placeholder="" style="display: none">
-        <mat-checkbox [(ngModel)]="newsAddDelete" name="newsAddDelete">User can add and delete News articles</mat-checkbox>
+           <mat-checkbox [(ngModel)]="superuser" name="superuser"> Super User</mat-checkbox>
       </mat-form-field>
-      -->
 
       <button mat-raised-button type="submit">Submit</button>
 
@@ -34,15 +32,12 @@
     <h2>Current Users</h2>
 
     <div *ngFor="let d of displayUsers; let i = index">
-      <h3><b>
+      <h3 class="red-font"><b>
          {{ d.username }}
       </b></h3>
-
-      <!--
-      <p *ngIf= "d.newsAddDelete">
-        Can add and delete News articles
+      <p *ngIf="d.superuser">
+           &bull; Super User 
       </p>
-      -->
 
       <a href="" onClick="return false;">
         <span (click)="onUserDelete(d, i)"> Delete</span>

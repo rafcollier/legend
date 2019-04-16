@@ -31,14 +31,16 @@ export class OnlineComponent implements OnInit {
   displayDocs: [Object];
   username: String;
   docID: String;
-  docOnlinePosition: Number;
-  docIndex: Number;
-  docFirstPageOnline: Number;
-  docLastPageOnline: Number;
-  docOnlineNotes: String;
-  docNumFigures: String;
-  docNumTables: String;
-  docNumAppendices: String;
+
+  docOnlinePosition: number;
+  docIndex: number;
+  docFirstPageOnline: number;
+  docLastPageOnline: number;
+  docOnlineNotes: number;
+  docNumFigures: number;
+  docNumTables: number;
+  docNumAppendices: number;
+
   docCollectionCode1: String;
   docCollectionCode2: String;
   docCollectionCode3: String;
@@ -143,7 +145,6 @@ constructor(
 
   getFirstPageCurrentIssue() {
     this.authService.getOnlineFirstPage(this.docOnlineIssue).subscribe(entries => {
-      console.log(entries);
       if(entries.length > 0) {
         this.firstPageCurrentIssue = entries[0]['docFirstPageOnline'];
       } 
@@ -223,160 +224,116 @@ constructor(
                       value: 'docSection'
                     },
                     {
-                      label: 'Description',
-                      value: 'docDescription'
-                    },
-                    {
-                      label: 'Collection Code 1',
-                      value: 'docCollectionCode1' 
-                    },
-                    {
-                      label: 'Collection Code 2',
-                      value: 'docCollectionCode2' 
-                    },
-                    {
-                      label: 'Collection Code 3',
-                      value: 'docCollectionCode3' 
-                    },
-                    {
-                      label: 'Collection Code 4',
-                      value: 'docCollectionCode4' 
-                    },
-                    {
-                      label: 'Commission Date',
-                      value: 'docCommissionDateFormatted' 
-                    },
-                    {
-                      label: 'Invoice Date',
-                      value: 'docInvoiceDateFormatted' 
-                    },
-                    {
-                      label: 'Invoice Amount',
-                      value: 'docInvoiceAmount' 
-                    },
-                    {
-                      label: 'Accept Date',
-                      value: 'docAcceptDateFormatted' 
-                    },
-                    {
-                      label: 'Publish Date',
-                      value: 'docPublishDateFormatted' 
-                    },
-                    {
-                      label: 'InCopy Entered Date',
-                      value: 'docEnteredDateFormatted' 
-                    },
-                    {
-                      label: 'Begin Copy Edit',
-                      value: 'docCopyEditBeginDateFormatted'
-                    },
-                    {
-                      label: 'Copy Edit Complete',
-                      value: 'docCopyEditCompleteDateFormatted' 
-                    },
-                    {
-                      label: 'Sent to SE',
-                      value: 'docSendSEDateFormatted' 
-                    },
-                    {
-                      label: 'Returned from SE',
-                      value: 'docReturnSEDateFormatted' 
-                    },
-                    {
-                      label: 'Finalized',
-                      value: 'docFinalizeDateFormatted' 
+                      label: 'Area of Focus',
+                      value: 'docFocusArea'
                     },
                     {
                       label: 'MS Editor',
                       value: 'docEditor' 
                     },
                     {
-                      label: 'MS Coordinator',
-                      value: 'docCoordinator' 
-                    },
-                    {
-                      label: 'MS Proofreader',
-                      value: 'docProofReader' 
-                    },
-                    {
-                      label: 'SE1',
-                      value: 'docSE1' 
-                    },
-                    {
-                      label: 'SE2',
-                      value: 'docSE2' 
-                    },
-                    {
                       label: 'Open Access',
                       value: 'docOpenAccess' 
                     },
                     {
-                      label: 'Translation',
-                      value: 'docTranslation' 
-                    },
-                    {
-                      label: 'Online Issue',
-                      value: 'docOnlineIssue' 
-                    },
-                    {
-                      label: 'First Page Online Issue',
-                      value: 'docFirstPageOnline' 
-                    },
-                    {
-                      label: 'Last Page Online Issue',
-                      value: 'docLastPageOnline' 
-                    },
-                    {
-                      label: 'Number of Pages Online',
-                      value: 'docNumPagesOnline' 
+                      label: 'Continuing Professional Development',
+                      value: 'docProfessionalDev' 
                     },
                     {
                       label: 'Notes for Online Issue',
                       value: 'docOnlineNotes' 
                     },
                     {
-                      label: 'Print Issue',
-                      value: 'docPrintIssue' 
+                      label: 'Collection Code 1 - name',
+                      value: 'docCollectionCode1' 
                     },
                     {
-                      label: 'First Page Print Issue', 
-                      value: 'docFirstPagePrint'
+                      label: 'Collection Code 1 - code',
+                      value: 'code1Code' 
                     },
                     {
-                      label: 'Last Page Print Issue',
-                      value: 'docLastPagePrint' 
+                      label: 'Collection Code 2 - name',
+                      value: 'docCollectionCode2' 
                     },
                     {
-                      label: 'Number of Pages Print',
-                      value: 'docNumPagesPrint' 
+                      label: 'Collection Code 2 - code',
+                      value: 'code2Code'
                     },
                     {
-                      label: 'Notes for Print Issue',
-                      value: 'docPrintNotes' 
+                      label: 'Collection Code 3 - name',
+                      value: 'docCollectionCode3' 
                     },
                     {
-                      label: 'Ad Conflicts',
-                      value: 'docAdConflicts' 
+                      label: 'Collection Code 3 - code',
+                      value: 'code3Code' 
                     },
                     {
-                      label: 'Date Posted on CMAJ News',
-                      value: 'docPublishDateCMAJnewsFormatted' 
+                      label: 'Collection Code 4 - name',
+                      value: 'docCollectionCode4' 
                     },
                     {
-                      label: 'News Author Type',
-                      value: 'docNewsAuthorType' 
+                      label: 'Collection Code 4 - code',
+                      value: 'code4Code' 
                     },
                     {
-                      label: 'News Commission Date',
-                      value: 'docNewsCommissionDateFormatted' 
+                      label: 'Collection Code 5 - name',
+                      value: 'docCollectionCode5' 
                     },
                     {
-                      label: 'News Invoice Date',
-                      value: 'docNewsInvoiceDateFormatted' 
+                      label: 'Collection Code 5 - code',
+                      value: 'code5Code' 
                     },
                     {
-                      label: 'News Invoice Amount',
-                      value: 'docNewsInvoiceAmount' 
+                      label: 'Collection Code 6 - name',
+                      value: 'docCollectionCode6' 
+                    },
+                    {
+                      label: 'Collection Code 6 - code',
+                      value: 'code6Code' 
+                    },
+                    {
+                      label: 'Multimedia 1',
+                      value: 'docMultiMedia1' 
+                    },
+                    {
+                      label: 'Multimedia 2',
+                      value: 'docMultiMedia2' 
+                    },
+                    {
+                      label: 'Multimedia 3',
+                      value: 'docMultiMedia3' 
+                    },
+                    {
+                      label: 'Podcast Embargo Link',
+                      value: 'docPodcastEmbargoLink' 
+                    },
+                    {
+                      label: 'Podcast Permanent Link',
+                      value: 'docPodcastPermLink' 
+                    },
+                    {
+                      label: 'Podcast Embed Code',
+                      value: 'docPodcastEmbedCode' 
+                    },
+                    {
+                      label: 'Video Embed Code',
+                      value: 'docVideoEmbedCode' 
+                    },
+                    {
+                      label: 'Video Link',
+                      value: 'docVideoLink' 
+                    },
+                    {
+                      label: 'URL',
+                      value: 'docURL' 
+                    },
+                    {
+                      label: 'Hashtags',
+                      value: 'docHashTags' 
+                    },
+                    {
+                      label: 'Social Summary',
+                      value: 'docSocialSummary' 
                     }
                   ];
 
@@ -395,31 +352,7 @@ constructor(
     return 'success';
   }
 
-
-
-
-
-
 }
 
-/*
-getVolumeIssue() {
-    console.log(this.onlineIssues);
-    for(let i = 0; i <this.onlineIssues.length; i++) {
-      if(this.onlineIssues[i]['date'] == this.docOnlineIssue) {
-        this.onlineIssuesVolume = this.onlineIssues[i]['volume'];
-        this.onlineIssuesIssue = this.onlineIssues[i]['issue'];
-        if(this.onlineIssues[i]['date'] == this.dateFirstIssue) { //If first issue in config file, set first and last pages
-          this.firstPageCurrentIssue = this.firstPageFirstIssue;
-          this.lastPageCurrentIssue = this.lastPageFirstIssue;
-        }
-        else {
-          this.getLastPagePreviousIssue(this.onlineIssues[i + 1]['date'], this.onlineIssues[i]['date']);
-        }
-        break;
-      }
-    }
-  }
 
-  */
 

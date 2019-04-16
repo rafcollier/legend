@@ -11,7 +11,7 @@ router.post('/register', (req, res, next) => {
   let newUser = new User({
 	username: req.body.username,
 	password: req.body.password,
-	newsAddDelete: req.body.newsAddDelete
+	superuser: req.body.superuser
   });
 
   User.getUserByUsername(newUser.username, (err, user) => {
@@ -51,6 +51,7 @@ router.post('/authenticate', (req, res, next) => {
 		user: {
 		  id: user._id,
 		  username: user.username,
+		  superuser: user.superuser
 		}
 	  });
 	  } 
