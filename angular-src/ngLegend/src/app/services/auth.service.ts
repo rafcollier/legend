@@ -1,4 +1,3 @@
-/* For production build */ 
 
 import { Injectable } from '@angular/core';
 import{Http, Headers, URLSearchParams, RequestOptions} from '@angular/http';
@@ -605,7 +604,7 @@ export class AuthService {
 
   adminLoggedIn() {
     const userJSON = JSON.parse(this.loadUser()); 
-    return userJSON!=null && userJSON["username"]=="admin";
+    return userJSON!=null && userJSON["username"].toLowerCase() == "admin";
   }
 
   capitalizeFirstLetter(string) {
@@ -613,7 +612,6 @@ export class AuthService {
 }
 
 }
-
 
 
 
@@ -1239,7 +1237,7 @@ export class AuthService {
 
   adminLoggedIn() {
     const userJSON = JSON.parse(this.loadUser()); 
-    return userJSON!=null && userJSON["username"]=="admin";
+    return userJSON!=null && userJSON["username"].toLowerCase() == "admin";
   }
 
   capitalizeFirstLetter(string) {
@@ -1249,3 +1247,4 @@ export class AuthService {
 }
 
 */
+

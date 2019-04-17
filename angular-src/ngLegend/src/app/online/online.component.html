@@ -85,6 +85,14 @@
       <p *ngIf="d.docEditor "><span style="color:#4D6FAC">Copy Editor:</span> {{ d.docEditor }} </p>
       <p *ngIf="d.docFocusArea"><span style="color:#4D6FAC">Area of Focus:</span> {{d.docFocusArea}} </p>
       <p *ngIf="d.docRelatedMaterial"><span style="color:#4D6FAC">Related Material:</span> {{ d.docRelatedMaterial }}</p>
+      <p *ngIf="d.docOpenAccess"><span style="color:#4D6FAC">Open Access:</span> yes</p>
+      <p *ngIf="d.docProfessionalDev"><span style="color:#4D6FAC">Continuing Professional Development:</span> yes </p>
+      <p *ngIf="d.docCollectionCode1"><span style="color:#4D6FAC">Collection Code 1:</span> {{ d.docCollectionCode1 }} &ndash; {{ d.code1Code }}</p>
+      <p *ngIf="d.docCollectionCode2"><span style="color:#4D6FAC">Collection Code 2:</span> {{ d.docCollectionCode2 }} &ndash; {{ d.code2Code }}</p>
+      <p *ngIf="d.docCollectionCode3"><span style="color:#4D6FAC">Collection Code 3:</span> {{ d.docCollectionCode3 }} &ndash; {{ d.code3Code }}</p>
+      <p *ngIf="d.docCollectionCode4"><span style="color:#4D6FAC">Collection Code 4:</span> {{ d.docCollectionCode4 }} &ndash; {{ d.code4Code }}</p>
+      <p *ngIf="d.docCollectionCode5"><span style="color:#4D6FAC">Collection Code 5:</span> {{ d.docCollectionCode5 }} &ndash; {{ d.code5Code }}</p>
+      <p *ngIf="d.docCollectionCode6"><span style="color:#4D6FAC">Collection Code 6:</span> {{ d.docCollectionCode6 }} &ndash; {{ d.code6Code }}</p>
       <p *ngIf="d.docMultiMedia1"><span style="color:#4D6FAC">Multimedia 1:</span> {{ d.docMultiMedia1 }}</p>
       <p *ngIf="d.docMultiMedia2"><span style="color:#4D6FAC">Multimedia 2:</span> {{ d.docMultiMedia2 }}</p>
       <p *ngIf="d.docMultiMedia3"><span style="color:#4D6FAC">Multimedia 3:</span> {{ d.docMultiMedia3 }}</p>
@@ -96,14 +104,6 @@
       <p *ngIf="d.docURL"><span style="color:#4D6FAC">URL:</span> {{ d.docURL }}</p>
       <p *ngIf="d.docHashTags"><span style="color:#4D6FAC">Hash Tags:</span> {{ d.docHashTags }}</p>
       <p *ngIf="d.docSocialSummary"><span style="color:#4D6FAC">Social Summary:</span> {{ d.docSocialSummary }}</p>
-      <p *ngIf="d.docOpenAccess"><span style="color:#4D6FAC">Open Access:</span> yes</p>
-      <p *ngIf="d.docProfessionalDev"><span style="color:#4D6FAC">Continuing Professional Development:</span> yes </p>
-      <p *ngIf="d.docCollectionCode1"><span style="color:#4D6FAC">Collection Code 1:</span> {{ d.docCollectionCode1 }}</p>
-      <p *ngIf="d.docCollectionCode2"><span style="color:#4D6FAC">Collection Code 2:</span> {{ d.docCollectionCode2 }}</p>
-      <p *ngIf="d.docCollectionCode3"><span style="color:#4D6FAC">Collection Code 3:</span> {{ d.docCollectionCode3 }}</p>
-      <p *ngIf="d.docCollectionCode4"><span style="color:#4D6FAC">Collection Code 4:</span> {{ d.docCollectionCode4 }}</p>
-      <p *ngIf="d.docCollectionCode5"><span style="color:#4D6FAC">Collection Code 5:</span> {{ d.docCollectionCode5 }}</p>
-      <p *ngIf="d.docCollectionCode6"><span style="color:#4D6FAC">Collection Code 6:</span> {{ d.docCollectionCode6 }}</p>
 
       <div *ngIf="i != docIndex" class = "edit-div">
         <p *ngIf="d.docNumFigures"><span style="color:#4D6FAC">Number of Figures:</span> {{ d.docNumFigures }} </p>

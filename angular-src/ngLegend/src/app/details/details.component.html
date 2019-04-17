@@ -202,7 +202,7 @@ MAIN DOCUMENT INPUT SECTION
           <button mat-raised-button>Edit</button>
         </span>
          <span (click)="onDeleteDocSubmit()">
-           <button mat-raised-button>Delete</button>
+           <button *ngIf="superUser" mat-raised-button>Delete</button>
          </span>
        </div>
      </section>

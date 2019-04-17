@@ -111,9 +111,6 @@ let DocSchema = new Schema({
 	docVideoEmbedCode: {
 	  type: String
 	},
-	docVideoEmbedCode: {
-	  type: String
-	},
 	docVideoLink: {
 	  type: String
 	},
@@ -325,7 +322,72 @@ let DocSchema = new Schema({
 	},
 	docNewsInvoiceAmount: {
 	  type: Number	
-	}
+	},
+    docAcceptDateFormatted: {
+      type: String
+    },
+    docPaymentDateFormatted: {
+      type: String
+    },
+    docETOCDateFormatted: { 
+      type: String
+    },
+    docOnlineIssueFormatted: {
+      type: String
+    },
+    docPrintIssueFormatted: {
+      type: String
+    },
+
+    docEnteredDateFormatted: { 
+      type: String
+    },
+    docCopyEditBeginDateFormatted: {
+      type: String
+    },
+    docCopyEditCompleteDateFormatted: {
+      type: String
+    },
+    docSendSEDateFormatted: {
+      type: String
+    },
+    docReturnSEDateFormatted: {
+      type: String
+    },
+    docSendAuthorDateFormatted: {
+      type: String
+    },
+    docReturnAuthorDateFormatted: {
+      type: String
+    },
+    docSendFineTuneDateFormatted: {
+      type: String
+    },
+    docReturnFineTuneDateFormatted: {
+      type: String
+    },
+    docSendProofReadDateFormatted: {
+      type: String
+    },
+    docReturnProofReadDateFormatted: {
+      type: String
+    },
+    docFinalizeDateFormatted: {
+      type: String
+    },
+
+    docNewsReadyFormatted: {
+      type: String
+    },
+    docPublishDateCMAJnewsFormatted: { 
+      type: String
+    },
+    docNewsCommissionDateFormatted: {
+      type: String
+    },
+    docNewsInvoiceDateFormatted: {
+      type: String
+    },
 
 });
 

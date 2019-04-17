@@ -141,13 +141,56 @@ router.post('/submitdoc', (req, res, next) => {
     docNewsInvoiceDate: req.body.docNewsInvoiceDate,
     docNewsInvoiceAmount: req.body.docNewsInvoiceAmount,
 
+    //FORMATTED DATES
+
+    docAcceptDateFormatted: req.body.docAcceptDateFormatted,
+    docPaymentDateFormatted: req.body.docPaymentDateFormatted,
+    docETOCDateFormatted: req.body.docETOCDateFormatted,
+    docOnlineIssueFormatted: req.body.docOnlineIssueFormatted,
+    docPrintIssueFormatted: req.body.docPrintIssueFormatted,
+
+    docEnteredDateFormatted: req.body.docEnteredDateFormatted,
+    docCopyEditBeginDateFormatted: req.body.docCopyEditBeginDateFormatted,
+    docCopyEditCompleteDateFormatted: req.body.docCopyEditCompleteDateFormatted,
+    docSendSEDateFormatted: req.body.docSendSEDateFormatted,
+    docReturnSEDateFormatted: req.body.docReturnSEDateFormatted,
+    docSendAuthorDateFormatted: req.body.docSendAuthorDateFormatted,
+    docReturnAuthorDateFormatted: req.body.docReturnAuthorDateFormatted,
+    docSendFineTuneDateFormatted: req.body.docSendFineTuneDateFormatted,
+    docReturnFineTuneDateFormatted: req.body.docReturnFineTuneDateFormatted,
+    docSendProofReadDateFormatted: req.body.docSendProofReadDateFormatted,
+    docReturnProofReadDateFormatted: req.body.docReturnProofReadDateFormatted,
+    docFinalizeDateFormatted: req.body.docFinalizeDateFormatted,
+
+    docNewsReadyFormatted: req.body.docNewsReadyFormatted,
+    docPublishDateCMAJnewsFormatted: req.body.docPublishDateCMAJnewsFormatted,
+    docNewsCommissionDateFormatted: req.body.docNewsCommissionDateFormatted,
+    docNewsInvoiceDateFormatted: req.body.docNewsInvoiceDateFormatted
+
   });
 
-  Doc.getDocByDOI(newDoc.docDOI, (err, doi) => {
-    if(err) throw err;
-    if(doi) {
-      return res.json({success: false, msg: 'A document with this DOI already exists.'});
-    }
+  console.log(req.body.docDOI);
+
+  //Check for duplicate DOI if there is a DOI -- Dans le CMAJ and Print Ads don't have DOIs
+  //if(req.body.docDOI != (null || undefined || "" || 0)) {
+
+  if(req.body.docDOI) {
+    Doc.getDocByDOI(newDoc.docDOI, (err, doi) => {
+    console.log(doi);
+      if(err) throw err;
+      if(doi) {
+        return res.json({success: false, msg: 'A document with this DOI already exists.'});
+      }
+      newDoc.save((err) => {
+        if(err) {
+          console.log(err);
+          throw err;
+        }
+        res.json({success: true, msg: 'Document added'});
+      });
+    });
+  }
+  else {
     newDoc.save((err) => {
       if(err) {
         console.log(err);
@@ -155,8 +198,10 @@ router.post('/submitdoc', (req, res, next) => {
       }
       res.json({success: true, msg: 'Document added'});
     });
-  });
+  }
+  
 });
+  
 
 router.get('/getRecentAdded', (req, res, next) => {
   const limit = req.query.limit;
