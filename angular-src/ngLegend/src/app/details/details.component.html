@@ -58,11 +58,6 @@ MAIN DOCUMENT INPUT SECTION
           <p *ngIf="oneDoc.docWebBlurb"><b>Web Blurb:</b> {{ docWebBlurb }}</p>
           <p *ngIf="oneDoc.docWebImageURL"><b>Web Image URL:</b> {{ docWebImageURL }}</p>
           <p *ngIf="oneDoc.docWebImageCredit"><b>Web Image Credit:</b> {{ docWebImageCredit }}</p>
-          <p *ngIf="oneDoc.docNumPages"><b>Number of Pages:</b> {{ docNumPages }}</p>
-          <p *ngIf="oneDoc.docNumFigures"><b>Number of Figures:</b> {{ docNumFigures }}</p>
-          <p *ngIf="oneDoc.docNumBoxes"><b>Number of Boxes:</b> {{ docNumBoxes }}</p>
-          <p *ngIf="oneDoc.docNumTables"><b>Number of Tables:</b> {{ docNumTables }}</p>
-          <p *ngIf="oneDoc.docNumAppendices"><b>Number of Appendices:</b> {{ docNumAppendices }}</p>
           <p *ngIf="oneDoc.docRelatedMaterial"><b>Related Material:</b> {{ docRelatedMaterial }}</p>
           <p *ngIf="oneDoc.docOutStandingMaterial"><b>Outstanding Material:</b> {{ docOutStandingMaterial }}</p>
           <p *ngIf="oneDoc.docInvoiceNumber"><b>Invoice Number:</b> {{ docInvoiceNumber }}</p>
@@ -71,6 +66,37 @@ MAIN DOCUMENT INPUT SECTION
           <p *ngIf="oneDoc.docTranslation"><b>Translation:</b> yes </p>
           <p *ngIf="oneDoc.docPressRelease"><b>Press Release:</b> yes </p>
           <p *ngIf="oneDoc.docProfessionalDev"><b>Continuing Professional Development:</b> yes </p>
+
+        </mat-expansion-panel> 
+      </mat-accordion>
+      <br>
+
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <br>
+              Layout 
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <br> 
+          <p *ngIf="oneDoc.docNumPages"><b>Number of Pages:</b> {{ docNumPages }}</p>
+          <p *ngIf="oneDoc.docNumPages"><b>Number of Pages Online:</b> {{ docNumPagesOnline }}</p>
+          <p *ngIf="oneDoc.docNumPages"><b>Number of Pages Print:</b> {{ docNumPagesPrint }}</p>
+          <p *ngIf="oneDoc.docNumFigures"><b>Number of Figures:</b> {{ docNumFigures }}</p>
+          <p *ngIf="oneDoc.docNumFigures"><b>Number of Figures Online:</b> {{ docNumFiguresOnline }}</p>
+          <p *ngIf="oneDoc.docNumFigures"><b>Number of Figures Print:</b> {{ docNumFiguresPrint }}</p>
+          <p *ngIf="oneDoc.docNumTables"><b>Number of Tables:</b> {{ docNumTables }}</p>
+          <p *ngIf="oneDoc.docNumTables"><b>Number of Tables Online:</b> {{ docNumTablesOnline }}</p>
+          <p *ngIf="oneDoc.docNumTables"><b>Number of TablesPrint:</b> {{ docNumTablesPrint }}</p>
+          <p *ngIf="oneDoc.docNumBoxes"><b>Number of Boxes:</b> {{ docNumBoxes }}</p>
+          <p *ngIf="oneDoc.docNumBoxes"><b>Number of Boxes Online:</b> {{ docNumBoxesOnline }}</p>
+          <p *ngIf="oneDoc.docNumBoxes"><b>Number of Boxes Print:</b> {{ docNumBoxesPrint }}</p>
+          <p *ngIf="oneDoc.docNumAppendices"><b>Number of Appendices:</b> {{ docNumAppendices }}</p>
+          <p *ngIf="oneDoc.docNumAppendices"><b>Number of Appendices Online:</b> {{ docNumAppendicesOnline }}</p>
+          <p *ngIf="oneDoc.docNumAppendices"><b>Number of Appendices Print:</b> {{ docNumAppendicesPrint }}</p>
 
         </mat-expansion-panel> 
       </mat-accordion>
@@ -409,93 +435,7 @@ LETTER INPUT SECTION
    </div>
 
 </div>
-
- <!-- *****************************************************************************************************************************************
-**********************************************************************************************************************************************
-**********************************************************************************************************************************************
-PRINT AD INPUT SECTION
-**********************************************************************************************************************************************
-**********************************************************************************************************************************************
-*******************************************************************************************************************************************--> 
-
-<div *ngIf="showAd">
-
-  <div class = "align-form">
-    <section class = "mat-typography">
-
-      <h4>Welcome {{username}}</h4> 
-
-      <h2> {{ docSection }} for {{ docAdClient }} </h2>
-      <p *ngIf="oneDoc.docAdDescription"> <b>Description:</b> {{ docAdDescription }}</p>
-      <p *ngIf="oneDoc.docAdSize"><b>Size:</b> {{ docAdSize }}</p>
-      <p *ngIf="oneDoc.docFirstPagePrint"><b>Start Page:</b> {{ docAdFirstPagePrint }}</p>
-      <p *ngIf="oneDoc.docAdLastPagePrint"><b>End Page:</b> {{ docAdLastPagePrint }}</p>
-      <p *ngIf="oneDoc.docPrintIssue"><b>Print Issue Date:</b> {{ docPrintIssueFormatted }}</p>
-
-    </section>
-  </div>
-
-  <div class = "align-form">
-    <section class = "mat-typography">
-      <div class="flex-center">
-        <hr class="hr-style">
-        <span (click)="onEditDocSubmit()">
-          <button mat-raised-button>Edit</button>
-        </span>
-         <span (click)="onDeleteDocSubmit()">
-           <button mat-raised-button>Delete</button>
-         </span>
-       </div>
-     </section>
-   </div>
 </div>
-
- <!-- *****************************************************************************************************************************************
-**********************************************************************************************************************************************
-**********************************************************************************************************************************************
-DANS LE CMAJ INPUT SECTION
-**********************************************************************************************************************************************
-**********************************************************************************************************************************************
-*******************************************************************************************************************************************--> 
-
-<div *ngIf="showFrench">
-
-  <div class = "align-form">
-    <section class = "mat-typography">
-
-      <h4>Welcome {{username}}</h4> 
-
-      <h2> {{ docSection }} for {{ docAdClient }} </h2>
-      <p *ngIf="oneDoc.docFirstPagePrint"><b>Start Page:</b> {{ docFirstPagePrint }}</p>
-      <p *ngIf="oneDoc.docLastPagePrint"><b>End Page:</b> {{ docLastPagePrint }}</p>
-      <p *ngIf="oneDoc.docPrintIssue"><b>Print Issue Date:</b> {{ docPrintIssueFormatted }}</p>
-
-    </section>
-  </div>
-
-  <div class = "align-form">
-    <section class = "mat-typography">
-      <div class="flex-center">
-        <hr class="hr-style">
-        <span (click)="onEditDocSubmit()">
-          <button mat-raised-button>Edit</button>
-        </span>
-         <span (click)="onDeleteDocSubmit()">
-           <button mat-raised-button>Delete</button>
-         </span>
-       </div>
-     </section>
-   </div>
-</div>
-
-
-
-
-
-</div>
-
-
-
 
 
 <!-- #####################################################################
@@ -515,21 +455,13 @@ MAIN DOCUMENT INPUT SECTION
 **********************************************************************************************************************************************
 *******************************************************************************************************************************************-->
 
-<!-- *****************************************************************************************************************************************
-**********************************************************************************************************************************************
-**********************************************************************************************************************************************
-MAIN DOCUMENT INPUT SECTION
-**********************************************************************************************************************************************
-**********************************************************************************************************************************************
-*******************************************************************************************************************************************-->
-
 <div *ngIf="showOther"> 
 
   <div class = "align-form">
     <section class = "mat-typography">
 
       <h4>Welcome {{username}}</h4> 
-      <h2>Enter Document</h2>
+      <h2>Edit Document</h2>
 
       <form (submit)="onEditedDocSubmit()" class="example-form">  
 
@@ -609,7 +541,6 @@ MAIN DOCUMENT INPUT SECTION
 
             <mat-form-field class="example-full-width">
               <mat-select [(ngModel)]="docFocusArea" name="docFocusArea" placeholder="Area of Focus">
-                <mat-option>None</mat-option>
                 <mat-option *ngFor="let f of focusareas" [value]="f"> {{f}} </mat-option>
               </mat-select>
             </mat-form-field>
@@ -635,26 +566,6 @@ MAIN DOCUMENT INPUT SECTION
             </mat-form-field> 
 
             <mat-form-field class="example-full-width">  
-              <input type="number" matInput placeholder="Number of Pages" [(ngModel)]="docNumPages" name="docNumPages">
-            </mat-form-field>  
-
-            <mat-form-field class="example-full-width">  
-              <input type="number" matInput placeholder="Number of Figures" [(ngModel)]="docNumFigures" name="docNumFigures">
-            </mat-form-field>  
-
-            <mat-form-field class="example-full-width">  
-              <input type="number" matInput placeholder="Number of Boxes" [(ngModel)]="docNumBoxes" name="docNumBoxes">
-            </mat-form-field>  
-
-            <mat-form-field class="example-full-width">  
-              <input type="number" matInput placeholder="Number of Tables" [(ngModel)]="docNumTables" name="docNumTables">
-            </mat-form-field>  
-
-            <mat-form-field class="example-full-width">  
-              <input type="number" matInput placeholder="Number of Appendices" [(ngModel)]="docNumAppendices" name="docNumAppendices">
-            </mat-form-field>  
-
-            <mat-form-field class="example-full-width">  
               <input type="text" matInput placeholder="Related Material" [(ngModel)]="docRelatedMaterial" name="docRelatedMaterial">  
             </mat-form-field>  
 
@@ -665,7 +576,6 @@ MAIN DOCUMENT INPUT SECTION
             <mat-form-field class="example-full-width">  
               <input type="text" matInput placeholder="Invoice Number" [(ngModel)]="docInvoiceNumber" name="docInvoiceNumber">  
             </mat-form-field>  
-
 
             <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
               <input matInput placeholder="" style="display: none">
@@ -686,6 +596,40 @@ MAIN DOCUMENT INPUT SECTION
               <input matInput placeholder="" style="display: none">
                 <mat-checkbox [(ngModel)]="docProfessionalDev" name="docProfessionalDev">Continued Professional Development</mat-checkbox>
             </mat-form-field>
+
+          </mat-expansion-panel> 
+        </mat-accordion> 
+        <br>
+
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Layout  
+              </mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <mat-form-field class="example-full-width">  
+              <input type="number" matInput placeholder="Number of Pages" [(ngModel)]="docNumPages" name="docNumPages">
+            </mat-form-field>  
+
+            <mat-form-field class="example-full-width">  
+              <input type="number" matInput placeholder="Number of Figures" [(ngModel)]="docNumFigures" name="docNumFigures">
+            </mat-form-field>  
+
+            <mat-form-field class="example-full-width">  
+              <input type="number" matInput placeholder="Number of Tables" [(ngModel)]="docNumTables" name="docNumTables">
+            </mat-form-field>  
+
+            <mat-form-field class="example-full-width">  
+              <input type="number" matInput placeholder="Number of Boxes" [(ngModel)]="docNumBoxes" name="docNumBoxes">
+            </mat-form-field>  
+
+            <mat-form-field class="example-full-width">  
+              <input type="number" matInput placeholder="Number of Appendices" [(ngModel)]="docNumAppendices" name="docNumAppendices">
+            </mat-form-field> 
 
           </mat-expansion-panel> 
         </mat-accordion> 
@@ -988,6 +932,7 @@ MAIN DOCUMENT INPUT SECTION
         <br>
 
         <button mat-raised-button type="submit">Submit</button>
+        <button mat-raised-button type="button" (click)="onEditedDocCancel()">Cancel</button>
 
       </form>
     </section>
@@ -1414,116 +1359,11 @@ LETTER INPUT SECTION
         </mat-accordion> 
         <br>
 
-
         <button mat-raised-button type="submit">Submit</button>
       </form>  
     </section>
   </div>
+
 </div>
-  
-
- <!-- *****************************************************************************************************************************************
-**********************************************************************************************************************************************
-**********************************************************************************************************************************************
-PRINT AD INPUT SECTION
-**********************************************************************************************************************************************
-**********************************************************************************************************************************************
-*******************************************************************************************************************************************--> 
- 
-<div *ngIf="showAd">
-
-  <div class = "align-form">
-    <section class = "mat-typography">
-
-      <h4>Welcome {{username}}</h4> 
-      <h2>Enter Document</h2>
-
-      <form (submit)="onEditedDocSubmit()" class="example-form">  
-
-        <mat-form-field class="example-full-width">
-          <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
-             <mat-option>None</mat-option>
-             <mat-option *ngFor="let s of sectionsMenu" [value]="s"> {{s}} </mat-option>
-           </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="example-full-width">  
-          <input type="text" matInput placeholder="Client" [(ngModel)]="docAdClient" name="docAdClient">  
-        </mat-form-field> 
-        <mat-form-field class="example-full-width">  
-          <input type="text" matInput placeholder="Description" [(ngModel)]="docAdDescription" name="docAdDescription">  
-        </mat-form-field> 
-
-        <mat-form-field class="example-full-width">  
-          <input type="number" matInput placeholder="Size" [(ngModel)]="docAdSize" name="docAdSize">
-        </mat-form-field>  
-
-        <mat-form-field class="example-full-width">  
-          <input type="number" matInput placeholder="Start Page" [(ngModel)]="docAdFirstPagePrint" name="docAdFirstPagePrint">
-        </mat-form-field>  
-
-        <mat-form-field class="example-full-width">  
-          <input type="number" matInput placeholder="End Page" [(ngModel)]="docAdLastPagePrint" name="docAdLastPagePrint">
-        </mat-form-field>  
-
-        <mat-form-field class="example-full-width">
-          <input matInput [matDatepickerFilter]="myFilterPrint" [matDatepicker]="docPrintIssueDatePicker" placeholder="Print Issue Date" [(ngModel)]="docPrintIssue" name="docPrintIssue">
-          <mat-datepicker-toggle matSuffix [for]="docPrintIssueDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #docPrintIssueDatePicker></mat-datepicker>
-        </mat-form-field>
-
-        <button mat-raised-button type="submit">Submit</button>
-      </form>  
-    </section>
-  </div>
-</div>
-
-<!-- *****************************************************************************************************************************************
-**********************************************************************************************************************************************
-**********************************************************************************************************************************************
-DANS LE CMAJ INPUT SECTION
-**********************************************************************************************************************************************
-**********************************************************************************************************************************************
-*******************************************************************************************************************************************--> 
- 
-<div *ngIf="showFrench">
-
-  <div class = "align-form">
-    <section class = "mat-typography">
-
-      <h4>Welcome {{username}}</h4> 
-      <h2>Enter Document</h2>
-
-      <form (submit)="onEditedDocSubmit()" class="example-form">  
-        
-        <mat-form-field class="example-full-width">
-          <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
-             <mat-option>None</mat-option>
-             <mat-option *ngFor="let s of sectionsMenu" [value]="s"> {{s}} </mat-option>
-           </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="example-full-width">  
-          <input type="number" matInput placeholder="Start Page" [(ngModel)]="docFirstPagePrint" name="docFirstPagePrint">
-        </mat-form-field>  
-
-        <mat-form-field class="example-full-width">  
-          <input type="number" matInput placeholder="End Page" [(ngModel)]="docLastPagePrint" name="docLastPagePrint">
-        </mat-form-field>  
-
-        <mat-form-field class="example-full-width">
-          <input matInput [matDatepickerFilter]="myFilterPrint" [matDatepicker]="docPrintIssueDatePicker" placeholder="Print Issue Date" [(ngModel)]="docPrintIssue" name="docPrintIssue">
-          <mat-datepicker-toggle matSuffix [for]="docPrintIssueDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #docPrintIssueDatePicker></mat-datepicker>
-        </mat-form-field>
-
-        <button mat-raised-button type="submit">Submit</button>
-      </form>  
-    </section>
-  </div>
-</div>
-
-
-
 </div>
 

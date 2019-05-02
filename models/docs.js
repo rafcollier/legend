@@ -51,21 +51,6 @@ let DocSchema = new Schema({
 	docProfessionalDev: {
 	  type: Boolean
 	},
-	docNumPages: {
-	  type: Number
-	},
-	docNumAppendices: {
-	  type: Number
-	},
-	docNumFigures: {
-	  type: Number
-	},
-	docNumBoxes: {
-	  type: Number
-	},
-	docNumTables: {
-	  type: Number
-	},
     docRelatedMaterial: {
 	  type: String
 	},
@@ -86,6 +71,57 @@ let DocSchema = new Schema({
 	},
 	docWebImageCredit: {
 	  type: String
+	},
+ 
+    //LAYOUT
+
+	docNumPages: {
+	  type: Number
+	},
+	docNumPagesOnline: {
+	  type: Number
+	},
+	docNumPagesPrint: {
+	  type: Number
+	},
+	docNumAppendices: {
+	  type: Number
+	},
+	docNumAppendicesOnline: {
+	  type: Number
+	},
+	docNumAppendicesPrint: {
+	  type: Number
+	},
+	docNumFigures: {
+	  type: Number
+	},
+	docNumFiguresOnline: {
+	  type: Number
+	},
+	docNumFiguresPrint: {
+	  type: Number
+	},
+	docNumBoxes: {
+	  type: Number
+	},
+	docNumBoxesOnline: {
+	  type: Number
+	},
+	docNumBoxesPrint: {
+	  type: Number
+	},
+	docNumTables: {
+	  type: Number
+	},
+	docNumTablesOnline: {
+	  type: Number
+	},
+	docNumTablesPrint: {
+	  type: Number
+	},
+	docLayoutOnly: {
+	  type: Boolean
 	},
 
 	//MULTIMEDIA

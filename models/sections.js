@@ -20,6 +20,9 @@ const SectionSchema = mongoose.Schema({
   printPosition: {
     type: Number
   },
+  layout: {
+    type: Boolean
+  }
 
 });
 

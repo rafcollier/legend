@@ -32,11 +32,6 @@ router.post('/submitdoc', (req, res, next) => {
     docTranslation: req.body.docTranslation,
     docPressRelease: req.body.docPressRelease,
     docProfessionalDev: req.body.docProfessionalDev,
-    docNumPages: req.body.docNumPages,
-    docNumFigures: req.body.docNumFigures,
-    docNumBoxes: req.body.docNumBoxes,
-    docNumTables: req.body.docNumTables,
-    docNumAppendices: req.body.docNumAppendices,
     docRelatedMaterial: req.body.docRelatedMaterial,
     docOutStandingMaterial: req.body.docOutStandingMaterial,
     docInvoiceNum: req.body.docInvoiceNum,
@@ -44,6 +39,26 @@ router.post('/submitdoc', (req, res, next) => {
     docWebBlurb: req.body.docWebBlurb,
     docWebImageURL: req.body.docWebImageURL,
     docWebImageCredit: req.body.docWebImageCredit,
+
+    //LAYOUT
+
+    docNumPages: req.body.docNumPages,
+    docNumPagesOnline: req.body.docNumPagesOnline,
+    docNumPagesPrint: req.body.docNumPagesPrint,
+    docNumFigures: req.body.docNumFigures,
+    docNumFiguresOnline: req.body.docNumFiguresOnline,
+    docNumFiguresPrint: req.body.docNumFiguresPrint,
+    docNumBoxes: req.body.docNumBoxes,
+    docNumBoxesOnline: req.body.docNumBoxesOnline,
+    docNumBoxesPrint: req.body.docNumBoxesPrint,
+    docNumTables: req.body.docNumTables,
+    docNumTablesOnline: req.body.docNumTablesOnline,
+    docNumTablesPrint: req.body.docNumTablesPrint,
+    docNumAppendices: req.body.docNumAppendices,
+    docNumAppendicesOnline: req.body.docNumAppendicesOnline,
+    docNumAppendicesPrint: req.body.docNumAppendicesPrint,
+    docLayoutOnly: req.body.docLayoutOnly,
+
 
     //MULTIMEDIA
 
@@ -201,7 +216,6 @@ router.post('/submitdoc', (req, res, next) => {
   }
   
 });
-  
 
 router.get('/getRecentAdded', (req, res, next) => {
   const limit = req.query.limit;
@@ -229,8 +243,40 @@ router.get('/getNewsDOI', (req, res, next) => {
 });
 
 router.delete('/deleteOneDoc', (req, res, next) => {
-  Doc.findByIdAndRemove(req.query.docID, (err, doc) => { 
-    if (err) throw err;
+  console.log
+  let query1 = {'_id' : req.query.docID};
+  Doc.deleteOne(query1, (err, doc) => { 
+    if (err) {
+      res.json({success: false, msg: 'Failed to delete document.'});
+      throw err;
+    }
+    else {
+     res.json({success: true, msg: 'Document deleted.'}); 
+    }
+  });
+});
+
+router.delete('/deleteManyDoc', (req, res, next) => {
+  let query1 = {'docSection' : {$regex: 'Print Ad', $options: 'i'}};
+  let query2 = {'docSection' : {$regex: 'Filler', $options: 'i'}};
+  let query3 = {'docSection' : {$regex: 'Classified', $options: 'i'}};
+  let query4 = {'docSection' : {$regex: 'Masthead', $options: 'i'}};
+  let query5 = {'docSection' : {$regex: 'Dans le CMAJ', $options: 'i'}};
+  let query6 = {'docSection' : {$regex: 'CMAJ Open', $options: 'i'}};
+  let query7 = {'docSection' : {$regex: 'Contents', $options: 'i'}};
+  let query8 = {'docSection' : {$regex: 'Cover', $options: 'i'}};
+  let query9 = {'docSection' : {$regex: 'Cover blurb', $options: 'i'}};
+  let query10 = {'docPrintIssue' : req.query.printIssue};
+  Doc.deleteMany( {$and: [query10, {$or:[query1, query2, query3, query4, 
+                       query5, query6, query7, query8,
+                       query9]} ]}, (err, doc) => { 
+    if (err) {
+      res.json({success: false, msg: 'Failed to delete document.'});
+      throw err;
+    }
+    else {
+     res.json({success: true, msg: 'Document deleted.'}); 
+    }
   });
 });
 
@@ -269,8 +315,6 @@ router.get('/getSearchResults', (req, res, next) => {
 
   if(req.query.status)
     query1 = {'docStatus' : req.query.status};
-
-  console.log(query1);
 
   if(req.query.editor) { 
     query2A = {'docEditor' : req.query.editor};
@@ -314,7 +358,6 @@ router.get('/getSearchResults', (req, res, next) => {
   if(req.query.docFlagPrint) { 
     query11 = {'docFlagPrint' : true};
   }
-
 
   Doc.find({$and: [query1, query2, query3, query4, query5, query6, query7, query8, query9, query10, query11]}, 
            null, 
@@ -376,14 +419,65 @@ router.get('/getTimeDiff', (req, res, next) => {
 router.get('/getLayoutSearchResults', (req, res, next) => {
   let query1 = {};
   if(req.query.docPrintIssue) 
-    query1 = {'docPrintIssue' : req.query.docPrintIssue};
-  
-  Doc.find(query1,
-           null, 
-           {sort: {docPrintPosition: 1}}, 
-           (err, docs) => {
+    query1 = {docPrintIssueFormatted : req.query.docPrintIssue};
+  Doc.aggregate([
+  {
+    $project:
+    {
+      'docSection': 1,
+      'docDOI': 1,
+      'docAuthor': 1,
+      'docEditor': 1,
+      'docAdConflicts': 1,
+      'docProfessionalDev': 1,
+      'docMultiMedia1': 1,
+      'docMultiMedia2': 1,
+      'docMultiMedia3': 1,
+      'docFocusArea': 1,
+      'docTitle': 1,
+      'docPrintIssueFormatted': 1,
+      'docPrintPosition' : 1,
+      'docFirstPagePrint': 1,
+      'docLastPagePrint': 1,
+      'docDepartment': 1,
+      'docNumPagesPrint' : 1,
+      'docNumFiguresPrint' : 1,
+      'docNumTablesPrint' : 1,
+      'docNumBoxesPrint' : 1,
+      'docPrintIssueNotes' : 1,
+      'docLayoutOnly' : 1,
+      sortValue:
+      {
+        $cond: 
+        {
+          if: 
+          {
+            $or: 
+            [ 
+              {$eq: ['$docFirstPagePrint', 0] },
+              {$eq: ['$docFirstPagePrint', null]}
+            ]
+          },
+          then: 1000, 
+          else: 0,
+        }
+      }
+    }
+  },
+  {$match: query1},
+  {
+    $sort:
+    { 
+      'sortValue': 1,
+      'docFirstPagePrint': 1, 
+      'docPrintPosition': 1
+    }
+  }
+  ], (err, docs) => {
     if (err) throw err;
-    res.json(docs);
+    else {
+      res.json(docs);
+    }
   });
 });
 

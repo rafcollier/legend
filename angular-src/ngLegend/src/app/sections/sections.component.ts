@@ -15,11 +15,13 @@ export class SectionsComponent implements OnInit {
   sectionID: String;
   onlinePosition: number;
   printPosition: number;
+  layout: Boolean;
   sectionEdit: String;
   departmentEdit: String;
   sectionIDEdit: String;
   onlinePositionEdit: number;
   printPositionEdit: number;
+  layoutEdit: Boolean;
   sectionIndex: number = null;
   errorMessage: String = "";
   errorMessageEdit: String = "";
@@ -47,12 +49,14 @@ export class SectionsComponent implements OnInit {
       console.log(err);
       return false;
     });
-    this.onGetSections();
+    this.onGetSections('section');
   }
 
-  onGetSections() {
-    this.authService.getSections().subscribe(entries => {
+  onGetSections(sortBy) {
+    console.log(`in get sections with ${sortBy}`);
+    this.authService.getSections(sortBy).subscribe(entries => {
       this.displaySections = entries; 
+      console.log(entries);
     }, 
     err => {
         console.log(err);
@@ -87,7 +91,8 @@ export class SectionsComponent implements OnInit {
       section: this.section,
       department: this.department,
       onlinePosition: this.onlinePosition,
-      printPosition: this.printPosition
+      printPosition: this.printPosition,
+      layout: this.layout
     }
 
     //Required fields
@@ -122,6 +127,8 @@ export class SectionsComponent implements OnInit {
     this.departmentEdit = section['department']; 
     this.onlinePositionEdit = section['onlinePosition']; 
     this.printPositionEdit = section['printPosition']; 
+    this.layoutEdit = section['layout'];
+    console.log(section['layout']);
     this.sectionIndex = index;
   }
 
@@ -131,7 +138,8 @@ export class SectionsComponent implements OnInit {
       section: this.sectionEdit, 
       department: this.departmentEdit, 
       onlinePosition: this.onlinePositionEdit, 
-      printPosition: this.printPositionEdit 
+      printPosition: this.printPositionEdit,
+      layout: this.layoutEdit 
     }
     if(!this.validateService.validateSection(sectionEdit)) {
       this.validateMessageEdit = "Please fill in section name.";
@@ -172,6 +180,7 @@ export class SectionsComponent implements OnInit {
     this.department = "";
     this.onlinePosition = null;
     this.printPosition = null;
+    this.layout = null;
     this.sectionIndex = null;
     this.errorMessage = "";
     this.errorMessageEdit = "";

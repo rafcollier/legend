@@ -12,7 +12,8 @@ router.post('/addSection', (req, res, next) => {
     section: req.body.section,
     department: req.body.department,
     onlinePosition: req.body.onlinePosition,
-    printPosition: req.body.printPosition
+    printPosition: req.body.printPosition,
+    layout: req.body.layout
   });
 
   Section.getSectionByName(newSection.section, (err, section) => {
@@ -33,7 +34,23 @@ router.post('/addSection', (req, res, next) => {
 });
 
 router.get('/getSections', (req, res, next) => {
-  Section.find({}, null, {sort: {section: 1}}, (err, sections) => {
+
+  let sortField = req.query.sortBy;
+  let sortBy = {sort: sortField};
+  let query1 = {}
+
+  if(sortField == 'section')
+    query1 = {'section' : {$exists : true, $nin: [ null, "", undefined ]}};
+  else if(sortField == 'department')
+    query1 = {'department' : {$exists : true, $nin: [ null, "", undefined ]}};
+  else if(sortField == 'onlinePosition')
+    query1 = {'onlinePosition' : {$exists : true, $nin: [ null, "", undefined ]}};
+  else if(sortField == 'printPosition')
+    query1 = {'printPosition' : {$exists : true, $nin: [ null, "", undefined ]}};
+  else if(sortField == 'layout')
+    query1 = {'layout' : {$exists : true, $nin: [ null, "", undefined ]}};
+
+  Section.find(query1, null, sortBy, (err, sections) => {
     if (err) throw err;
     else {
       res.json(sections);

@@ -67,10 +67,13 @@ export class LoginComponent implements OnInit {
  //Load sections for dropdown menus from section collection into an array, 
  //store into array and save in local memory.
   onConfigSections() {
-    this.authService.getSections().subscribe(entries => {
+    this.authService.getSections('section').subscribe(entries => {
       let sectionArr = entries;
-      let sectionArrUnique = entries.filter(entry => (!entry.department) || (entry.department == "" || null || undefined)); 
-      let departmentArr = entries.filter(entry => (entry.department) && (entry.department != "" || null || undefined)); 
+      console.log(sectionArr);
+      let sectionArrUnique = entries.filter(entry => !entry.layout && !entry.department); 
+      console.log(sectionArrUnique);
+      let departmentArr = entries.filter(entry => 
+        (entry.department) && (entry.department != "" || null || undefined)); 
       this.authService.localStoreSections(sectionArr);
       this.authService.localStoreUniqueSections(sectionArrUnique);
       this.authService.localStoreDepartments(departmentArr);

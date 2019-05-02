@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
@@ -47,19 +47,17 @@ constructor(
 ) { }
 
   ngOnInit() {
-
     this.username = this.authService.loadUsername(); 
     this.configFile = this.authService.localGetConfigFile();
     this.sections = this.authService.localGetUniqueSections().map(x => x.section);
-    this.editorsMenu = this.authService.localGetEditors().filter(x => x.docEditor).map(x => x.name);
+//    this.editorsMenu = this.authService.localGetEditors().filter(x => x.docEditor).map(x => x.name);
+    this.editorsMenu = this.authService.localGetEditors().map(x => x.name);
     this.statusConfig = config.status;
     this.showResults = false;
     this.noResults = false;
-
   }
 
   onSearchSubmit() {
-    console.log(this.afterAcceptDate);
     this.authService.getSearchResults(
     	this.docSection,
     	this.docAuthor,
@@ -73,7 +71,6 @@ constructor(
       this.editor,
       this.status
     ).subscribe(entries => {
-      console.log(entries);
       if(entries.length == 0) {
         this.noResults = true;
       } else { 
@@ -83,7 +80,6 @@ constructor(
     }, 
     err => {
       console.log(err);
-      return false;
     });
   }
 

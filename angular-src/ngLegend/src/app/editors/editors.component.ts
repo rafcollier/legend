@@ -55,7 +55,6 @@ export class EditorsComponent implements OnInit {
   onGetEditors() {
     this.authService.getEditors().subscribe(entries => {
       this.editors = entries; 
-      console.log(this.editors);
     }, 
     err => {
         console.log(err);
@@ -132,7 +131,6 @@ export class EditorsComponent implements OnInit {
     }
     else {
       this.authService.updateEditor(editorEdit).subscribe(doc => {
-        console.log(doc);
         if(doc.success){
           this.successMessageEdit = doc.msg;
           setTimeout(() => {
@@ -156,7 +154,6 @@ export class EditorsComponent implements OnInit {
   onEditorDelete(editor, index) {
     const editorID = editor["_id"]; 
     this.authService.deleteEditor(editorID).subscribe(editor => {
-      console.log(editor);
       if(editor.success){
         this.deleteMessageEdit = editor.msg;
         console.log(this.deleteMessageEdit);

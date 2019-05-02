@@ -5,9 +5,7 @@ import {FormControl} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
-
 import * as moment from 'moment';
-
 declare var require: any;
 declare var fs: any;
 let Json2csvParser = require('json2csv').Parser;
@@ -27,20 +25,19 @@ export class OnlineComponent implements OnInit {
   selectedIssue: Date;
   onlineIssueVolume: number;
   onlineIssueIssue: number; 
-
   displayDocs: [Object];
   username: String;
   docID: String;
-
   docOnlinePosition: number;
   docIndex: number;
   docFirstPageOnline: number;
   docLastPageOnline: number;
-  docOnlineNotes: number;
-  docNumFigures: number;
-  docNumTables: number;
-  docNumAppendices: number;
-
+  docOnlineNotes: string;
+  docNumPagesOnline: number;
+  docNumFiguresOnline: number;
+  docNumBoxesOnline: number;
+  docNumTablesOnline: number;
+  docNumAppendicesOnline: number;
   docCollectionCode1: String;
   docCollectionCode2: String;
   docCollectionCode3: String;
@@ -59,13 +56,14 @@ export class OnlineComponent implements OnInit {
   docURL: String;
   docHashTags: String;
   docSocialSummary: String;
-
   firstPagePrevIssue: number;
   lastPagePrevIssue: number;
   firstPageCurrentIssue: number;
   lastPageCurrentIssue: number;
   onlineIssueDateFormatted: string;
   prevOnlineIssueDateFormatted: string;
+  editorialView: boolean;
+  layoutView: boolean;
 
 constructor(
   private authService: AuthService,
@@ -79,6 +77,7 @@ constructor(
     this.onlineIssueDates = this.online.map( x => moment(x['date']).format('MMMM DD, YYYY'));
     this.showResults = false;
     this.noResults = false;
+    this.editorialView = true;
   }
 
   myFilter = (d: Date): boolean => {
@@ -162,9 +161,11 @@ constructor(
     this.docFirstPageOnline = doc['docFirstPageOnline']; 
     this.docLastPageOnline = doc['docLastPageOnline']; 
     this.docOnlineNotes = doc['docOnlineNotes']; 
-    this.docNumFigures = doc['docNumFigures']; 
-    this.docNumTables = doc['docNumTables'];
-    this.docNumAppendices = doc['docNumAppendices'];
+    this.docNumPagesOnline = doc['docNumPagesOnline']; 
+    this.docNumFiguresOnline = doc['docNumFiguresOnline']; 
+    this.docNumTablesOnline = doc['docNumTablesOnline'];
+    this.docNumBoxesOnline = doc['docNumBoxesOnline']; 
+    this.docNumAppendicesOnline = doc['docNumAppendicesOnline'];
     this.docIndex = index;
   }
 
@@ -175,9 +176,11 @@ constructor(
       docFirstPageOnline: this.docFirstPageOnline,
       docLastPageOnline: this.docLastPageOnline,
       docOnlineNotes: this.docOnlineNotes,
-      docNumFigures: this.docNumFigures,
-      docNumTables: this.docNumTables,
-      docNumAppendices: this.docNumAppendices
+      docNumPagesOnline: this.docNumPagesOnline,
+      docNumFiguresOnline: this.docNumFiguresOnline,
+      docNumTablesOnline: this.docNumTablesOnline,
+      docNumBoxesOnline: this.docNumBoxesOnline,
+      docNumAppendicesOnline: this.docNumAppendicesOnline
     }
     this.authService.putUpdateDoc(onlineOrderDoc).subscribe(doc => {
       this.onSearchSubmit();
@@ -202,6 +205,16 @@ constructor(
   onDocClick(doc, index) {
     const docID = doc["_id"]; 
     this.router.navigate(['/details', docID]);
+  }
+
+  onViewLayout() {
+    this.layoutView = true;
+    this.editorialView = false;
+  }
+
+  onViewEditorial() {
+    this.editorialView = true;
+    this.layoutView = false;
   }
 
   onDownload() {

@@ -8,6 +8,11 @@
   width: 100%;  
 }  
 
+.container1 {
+  display: flex; /* or inline-flex */
+  flex-direction: row-reverse;
+}
+
 .align-form {
   flex: 1 1 auto;
   margin-left: 50px;
@@ -42,6 +47,10 @@
 
 .red-link {
   color: red;
+}
+
+.grey-link {
+  color: grey;
 }
 
 .mat-calendar-body-cell-content { 

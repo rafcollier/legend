@@ -114,26 +114,6 @@ MAIN DOCUMENT INPUT SECTION
             </mat-form-field> 
 
             <mat-form-field class="example-full-width">  
-              <input type="number" matInput placeholder="Number of Pages" [(ngModel)]="docNumPages" name="docNumPages">
-            </mat-form-field>  
-
-            <mat-form-field class="example-full-width">  
-              <input type="number" matInput placeholder="Number of Figures" [(ngModel)]="docNumFigures" name="docNumFigures">
-            </mat-form-field>  
-
-            <mat-form-field class="example-full-width">  
-              <input type="number" matInput placeholder="Number of Boxes" [(ngModel)]="docNumBoxes" name="docNumBoxes">
-            </mat-form-field>  
-
-            <mat-form-field class="example-full-width">  
-              <input type="number" matInput placeholder="Number of Tables" [(ngModel)]="docNumTables" name="docNumTables">
-            </mat-form-field>  
-
-            <mat-form-field class="example-full-width">  
-              <input type="number" matInput placeholder="Number of Appendices" [(ngModel)]="docNumAppendices" name="docNumAppendices">
-            </mat-form-field>  
-
-            <mat-form-field class="example-full-width">  
               <input type="text" matInput placeholder="Related Material" [(ngModel)]="docRelatedMaterial" name="docRelatedMaterial">  
             </mat-form-field>  
 
@@ -164,6 +144,40 @@ MAIN DOCUMENT INPUT SECTION
               <input matInput placeholder="" style="display: none">
                 <mat-checkbox [(ngModel)]="docProfessionalDev" name="docProfessionalDev">Continued Professional Development</mat-checkbox>
             </mat-form-field>
+
+          </mat-expansion-panel> 
+        </mat-accordion> 
+        <br>
+
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Layout  
+              </mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <mat-form-field class="example-full-width">  
+              <input type="number" matInput placeholder="Number of Pages" [(ngModel)]="docNumPages" name="docNumPages">
+            </mat-form-field>  
+
+            <mat-form-field class="example-full-width">  
+              <input type="number" matInput placeholder="Number of Figures" [(ngModel)]="docNumFigures" name="docNumFigures">
+            </mat-form-field>  
+
+            <mat-form-field class="example-full-width">  
+              <input type="number" matInput placeholder="Number of Tables" [(ngModel)]="docNumTables" name="docNumTables">
+            </mat-form-field>  
+
+            <mat-form-field class="example-full-width">  
+              <input type="number" matInput placeholder="Number of Boxes" [(ngModel)]="docNumBoxes" name="docNumBoxes">
+            </mat-form-field>  
+
+            <mat-form-field class="example-full-width">  
+              <input type="number" matInput placeholder="Number of Appendices" [(ngModel)]="docNumAppendices" name="docNumAppendices">
+            </mat-form-field> 
 
           </mat-expansion-panel> 
         </mat-accordion> 
@@ -909,122 +923,6 @@ LETTER INPUT SECTION
   </div>
 </div>
   
-
- <!-- *****************************************************************************************************************************************
-**********************************************************************************************************************************************
-**********************************************************************************************************************************************
-PRINT AD INPUT SECTION
-**********************************************************************************************************************************************
-**********************************************************************************************************************************************
-*******************************************************************************************************************************************--> 
- 
-<div *ngIf="showAd">
-
-  <div class = "align-form">
-    <section class = "mat-typography">
-
-      <h4>Welcome {{username}}</h4> 
-      <h2>Enter Document</h2>
-
-      <form (submit)="onDocSubmit()" class="example-form">  
-        Section: {{docSection}}
-        <br><br>
-
-        <mat-form-field class="example-full-width">  
-          <input type="text" matInput placeholder="Client" [(ngModel)]="docAdClient" name="docAdClient">  
-        </mat-form-field> 
-        <mat-form-field class="example-full-width">  
-          <input type="text" matInput placeholder="Description" [(ngModel)]="docAdDescription" name="docAdDescription">  
-        </mat-form-field> 
-
-        <mat-form-field class="example-full-width">  
-          <input type="number" matInput placeholder="Size" [(ngModel)]="docAdSize" name="docAdSize">
-        </mat-form-field>  
-
-        <mat-form-field class="example-full-width">  
-          <input type="number" matInput placeholder="Start Page" [(ngModel)]="docAdFirstPagePrint" name="docAdFirstPagePrint">
-        </mat-form-field>  
-
-        <mat-form-field class="example-full-width">  
-          <input type="number" matInput placeholder="End Page" [(ngModel)]="docAdLastPagePrint" name="docAdLastPagePrint">
-        </mat-form-field>  
-
-        <mat-form-field class="example-full-width">
-          <input matInput [matDatepickerFilter]="myFilterPrint" [matDatepicker]="docPrintIssueDatePicker" placeholder="Print Issue Date" [(ngModel)]="docPrintIssue" name="docPrintIssue">
-          <mat-datepicker-toggle matSuffix [for]="docPrintIssueDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #docPrintIssueDatePicker></mat-datepicker>
-        </mat-form-field>
-        <br>
-
-        <div *ngIf="errorMessage">
-          <br>
-          <h4 class="red-font">{{errorMessage}}</h4>
-        </div>
-        <div *ngIf="successMessage">
-          <h4 class="blue-font">{{successMessage}}</h4>
-          <br>
-        </div>
-
-        <button mat-raised-button type="submit">Submit</button>
-
-      </form>
-
-      <br><br><br> 
-    </section>
-  </div>
-</div>
-
-<!-- *****************************************************************************************************************************************
-**********************************************************************************************************************************************
-**********************************************************************************************************************************************
-DANS LE CMAJ INPUT SECTION
-**********************************************************************************************************************************************
-**********************************************************************************************************************************************
-*******************************************************************************************************************************************--> 
- 
-<div *ngIf="showFrench">
-
-  <div class = "align-form">
-    <section class = "mat-typography">
-
-      <h4>Welcome {{username}}</h4> 
-      <h2>Enter Document</h2>
-
-      <form (submit)="onDocSubmit()" class="example-form">  
-        Section: {{docSection}}
-        <br><br>
-
-        <mat-form-field class="example-full-width">  
-          <input type="number" matInput placeholder="Start Page" [(ngModel)]="docFirstPagePrint" name="docFirstPagePrint">
-        </mat-form-field>  
-
-        <mat-form-field class="example-full-width">  
-          <input type="number" matInput placeholder="End Page" [(ngModel)]="docLastPagePrint" name="docLastPagePrint">
-        </mat-form-field>  
-
-        <mat-form-field class="example-full-width">
-          <input matInput [matDatepickerFilter]="myFilterPrint" [matDatepicker]="docPrintIssueDatePicker" placeholder="Print Issue Date" [(ngModel)]="docPrintIssue" name="docPrintIssue">
-          <mat-datepicker-toggle matSuffix [for]="docPrintIssueDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #docPrintIssueDatePicker></mat-datepicker>
-        </mat-form-field>
-        <br>
-        <div *ngIf="errorMessage">
-          <br>
-          <h4 class="red-font">{{errorMessage}}</h4>
-        </div>
-        <div *ngIf="successMessage">
-          <h4 class="blue-font">{{successMessage}}</h4>
-          <br>
-        </div>
-
-        <button mat-raised-button type="submit">Submit</button>
-
-      </form>
-
-      <br><br><br>  
-    </section>
-  </div>
-</div>
 
 
 

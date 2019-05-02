@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import{Http, Headers, URLSearchParams, RequestOptions} from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
@@ -84,12 +83,18 @@ export class AuthService {
       .pipe(map(res => res.json()));
   } 
 
-  getSections() {
+  getSections(sortBy) {
+    console.log(`in auth services with ${sortBy}`)
     this.loadToken();
+    let params = new URLSearchParams();
+    let options = new RequestOptions();
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('sections/getSections', {headers: headers}) 
+    params.set('sortBy', sortBy);
+    options.headers = headers;
+    options.search = params;
+    return this.http.get('sections/getSections', options) 
       .pipe(map(res => res.json()));
   } 
 
@@ -381,6 +386,20 @@ export class AuthService {
       .pipe(map(res => res.json()));
   }
 
+  deleteManyDoc(printIssue) {
+    this.loadToken();
+    let headers = new Headers();
+    let params = new URLSearchParams();
+    let options = new RequestOptions();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.authToken);
+    params.set('printIssue', printIssue);
+    options.headers = headers;
+    options.search = params;
+    return this.http.delete('docs/deleteManyDoc', options)
+      .pipe(map(res => res.json()));
+  }
+
   getSearchResults(section, author, DOI, title, notusedonline, notusedprint, flagprint, afterAcceptDate, beforeAcceptDate, editor, status) {
     let headers = new Headers();
     let params = new URLSearchParams();
@@ -626,8 +645,7 @@ export class AuthService {
 
 
 
-
-/* for local dev 
+/*
 
 
 import { Injectable } from '@angular/core';
@@ -715,12 +733,18 @@ export class AuthService {
       .pipe(map(res => res.json()));
   } 
 
-  getSections() {
+  getSections(sortBy) {
+    console.log(`in auth services with ${sortBy}`)
     this.loadToken();
+    let params = new URLSearchParams();
+    let options = new RequestOptions();
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/sections/getSections', {headers: headers}) 
+    params.set('sortBy', sortBy);
+    options.headers = headers;
+    options.search = params;
+    return this.http.get('http://localhost:3000/sections/getSections', options) 
       .pipe(map(res => res.json()));
   } 
 
@@ -1012,6 +1036,20 @@ export class AuthService {
       .pipe(map(res => res.json()));
   }
 
+  deleteManyDoc(printIssue) {
+    this.loadToken();
+    let headers = new Headers();
+    let params = new URLSearchParams();
+    let options = new RequestOptions();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.authToken);
+    params.set('printIssue', printIssue);
+    options.headers = headers;
+    options.search = params;
+    return this.http.delete('http://localhost:3000/docs/deleteManyDoc', options)
+      .pipe(map(res => res.json()));
+  }
+
   getSearchResults(section, author, DOI, title, notusedonline, notusedprint, flagprint, afterAcceptDate, beforeAcceptDate, editor, status) {
     let headers = new Headers();
     let params = new URLSearchParams();
@@ -1247,4 +1285,3 @@ export class AuthService {
 }
 
 */
-

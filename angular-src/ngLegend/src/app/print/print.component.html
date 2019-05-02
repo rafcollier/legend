@@ -38,160 +38,200 @@
 
   <section class="mat-typography">
 
-    <h1>
-        <b>Print Issue:</b> {{ printIssueDateFormatted }} &nbsp; 
-    </h1>
 
-    <div class="border-div">
 
-      <h3 style="color:red">SUMMARY</h3>
+<!-- *************************************************************************************************
+******************************************************************************************************
+******************************************************************************************************
+******************************* EDITORIAL VIEW *******************************************************
+******************************************************************************************************
+******************************************************************************************************
+***************************************************************************************************-->
 
-      <div *ngFor="let d of displayDocs; let i = index">
-        <p *ngIf="!d.docAdClient">
-          <span style="color:#4D6FAC"> {{i+1}}. {{d.docSection}} </span>: {{d.docTitle}}
-        <p>
-        <p *ngIf="d.docAdClient">
-          <span style="color:#4D6FAC"> {{i+1}}. {{d.docSection}} </span>: {{d.docAdClient}} &mdash; {{d.docAdDescription}}
-        <p>
-      </div>
+    <div *ngIf="editorialView">
 
-    </div>
-    <br>
-
-<div *ngFor="let d of displayDocs; let i = index" class="padded-div">
       <div>
         <h1 style="display: inline">
-          {{i+1}}. {{ d.docTitle }}
+          <b>Print Issue:</b> {{ printIssueFormatted }} 
         </h1>
-
         <a href="" onClick="return false;" style="display: inline" class="red-link">
-          <span (click)="onDocClick(d, i)"> See full entry </span>
+          <span (click)="onViewLayout()"> Switch to layout view</span>
         </a>
       </div>
       <br>
 
-      <p>
-        <span style="color:#4D6FAC">Section:</span> {{ d.docSection }}
-      </p>
-      <p *ngIf="d.docDepartment">
-        <span style="color:#4D6FAC">Department:</span> {{ d.docDepartment }}
-      </p>
-      <p *ngIf="d.docAuthor">
-        <span style="color:#4D6FAC">Author:</span> {{ d.docAuthor }} 
-      </p>
-      <p *ngIf="d.docDOI">
-        <span style="color:#4D6FAC">DOI:</span> {{ d.docDOI }}
-      </p>
-      <p *ngIf="d.docAdConflicts">
-        <span style="color:#4D6FAC">Ad Conflicts:</span> {{ d.docAdConflicts }}
-      </p>
-       <p *ngIf="d.docEditor">
-        <span style="color:#4D6FAC">Copy Editor:</span> {{ d.docEditor }}
-      </p>
-       <p *ngIf="d.docAdClient">
-        <span style="color:#4D6FAC">Ad Client:</span> {{ d.docAdClient }}
-      </p>
-       <p *ngIf="d.docAdDescription">
-        <span style="color:#4D6FAC">Ad Description:</span> {{ d.docAdDescription }}
-      </p>
-       <p *ngIf="d.docAdSize">
-        <span style="color:#4D6FAC">Ad Size:</span> {{ d.docAdSize }}
-      </p>
-       <p *ngIf="d.docMultiMedia1 == 'Visual Abstract'">
-        <span style="color:#4D6FAC">Visual Abstract:</span> yes 
-      </p>
-       <p *ngIf="d.docMultiMedia2 == 'Visual Abstract'">
-        <span style="color:#4D6FAC">Visual Abstract:</span> yes 
-      </p>
-       <p *ngIf="d.docMultiMedia3 == 'Visual Abstract'">
-        <span style="color:#4D6FAC">Visual Abstract:</span> yes 
-      </p>
-      <p *ngIf="d.docCollectionCode1"><span style="color:#4D6FAC">Collection Code 1:</span> {{ d.docCollectionCode1 }}</p>
-      <p *ngIf="d.docCollectionCode2"><span style="color:#4D6FAC">Collection Code 2:</span> {{ d.docCollectionCode2 }}</p>
-      <p *ngIf="d.docCollectionCode3"><span style="color:#4D6FAC">Collection Code 3:</span> {{ d.docCollectionCode3 }}</p>
-      <p *ngIf="d.docCollectionCode4"><span style="color:#4D6FAC">Collection Code 4:</span> {{ d.docCollectionCode4 }}</p>
-      <p *ngIf="d.docCollectionCode5"><span style="color:#4D6FAC">Collection Code 5:</span> {{ d.docCollectionCode5 }}</p>
-      <p *ngIf="d.docCollectionCode6"><span style="color:#4D6FAC">Collection Code 6:</span> {{ d.docCollectionCode6 }}</p>
+      <div class="border-div">
+        <h3 style="color:red">SUMMARY - Editorial View</h3>
+        <div *ngFor="let d of displayDocsEditorial; let i = index">
+          <p><span style="color:#4D6FAC"> {{i+1}}. {{d.docSection}} </span>: {{d.docTitle}}</p>
+        </div>
+      </div>
+      <br>
 
-      <p *ngIf="d.docFocusArea"><span style="color:#4D6FAC">Area of Focus:</span> {{d.docFocusArea}} </p>
-      <p *ngIf="d.docOpenAccess"><span style="color:#4D6FAC">Open Access:</span> yes</p>
-      <p *ngIf="d.docProfessionalDev"><span style="color:#4D6FAC">Continuing Professional Development:</span> yes </p>
+      <div *ngFor="let d of displayDocsEditorial; let i = index" class="padded-div">
+        <div>
+          <h1 style="display: inline">
+            {{i+1}}. {{ d.docTitle }}
+          </h1>
+
+          <a href="" onClick="return false;" style="display: inline" class="red-link">
+            <span (click)="onDocClick(d, i)"> See full entry </span>
+          </a>
+        </div>
+        <br>
+
+        <p><span style="color:#4D6FAC">Section:</span> {{ d.docSection }}</p>
+        <p *ngIf="d.docDepartment"><span style="color:#4D6FAC">Department:</span> {{ d.docDepartment }}</p>
+        <p *ngIf="d.docAuthor"><span style="color:#4D6FAC">Author:</span> {{ d.docAuthor }}</p> 
+        <p *ngIf="d.docDOI"><span style="color:#4D6FAC">DOI:</span> {{ d.docDOI }}</p>
+        <p *ngIf="d.docEditor"><span style="color:#4D6FAC">Copy Editor:</span> {{ d.docEditor }}</p>
+        <p *ngIf="d.docAdConflicts"><span style="color:#4D6FAC">Ad Conflicts:</span> {{ d.docAdConflicts }}</p>
+        <p *ngIf="d.docFocusArea"><span style="color:#4D6FAC">Area of Focus:</span> {{d.docFocusArea}} </p>
+
+      </div>   
+    </div>   
+
+<!-- *************************************************************************************************
+******************************************************************************************************
+******************************************************************************************************
+******************************* LAYOUT VIEW *******************************************************
+******************************************************************************************************
+******************************************************************************************************
+***************************************************************************************************-->
      
+    <div *ngIf="layoutView">
 
-
-      <div *ngIf="i != docIndex" class = "edit-div">
-        <p *ngIf="d.docNumFigures">
-          <span style="color:#4D6FAC">Number of Figures:</span> {{ d.docNumFigures }}
-        </p>
-        <p *ngIf="d.docNumTables">
-          <span style="color:#4D6FAC">Number of Tables:</span> {{ d.docNumTables }}
-        </p>
-        <p *ngIf="d.docNumAppendices">
-          <span style="color:#4D6FAC">Number of Appendencies:</span> {{ d.docNumAppendices }}
-        </p>
-        <p>
-          <span style="color:#4D6FAC">Position:</span> {{ d.docPrintPosition }}
-        </p>
-        <p>
-          <span style="color:#4D6FAC">First Page:</span> {{ d.docFirstPagePrint }}
-        </p>
-        <p>
-          <span style="color:#4D6FAC">Last Page:</span> {{ d.docLastPagePrint }}
-        </p>
-        <p *ngIf="d.docPrintNotes">
-          <span style="color:#4D6FAC">Print Issue Notes:</span> {{ d.docPrintNotes }}
-        </p>
-
-        <a href="" onClick="return false;" class="red-link">
-         <span (click)="onPrintOrderClick(d, i)"> Edit </span>
+      <div>
+        <h1 style="display: inline">
+          <b>Print Issue:</b> {{ printIssueFormatted }} 
+        </h1>
+        <a href="" onClick="return false;" style="display: inline" class="red-link">
+          <span (click)="onViewEditorial()"> Switch to editorial view</span>
         </a>
-       
+        <br><br>
+        <span (click)="onLoadNonEditorial()">
+          <button mat-raised-button>Load Layout-Only Sections</button>
+        </span>
       </div>
 
-      <div *ngIf="i == docIndex">
-        <div class = "align-form">
+      <br>
 
-          <section class = "mat-typography">
-           <h4>Edit Print Issue </h4>
-            <form (submit)="onPrintOrderSubmit()" class="example-form">  
-
-              <mat-form-field class="example-full-width">  
-                <input type="number" matInput placeholder="Number of Figures" [(ngModel)]="docNumFigures" name="docNumFigures">
-              </mat-form-field>  
-
-              <mat-form-field class="example-full-width">  
-                <input type="number" matInput placeholder="Number of Tables" [(ngModel)]="docNumTables" name="docNumTables">
-              </mat-form-field>  
-
-              <mat-form-field class="example-full-width">  
-                <input type="number" matInput placeholder="Number of Appendices" [(ngModel)]="docNumAppendices" name="docNumAppendices">
-              </mat-form-field>  
-
-              <mat-form-field class="example-full-width">
-                <input type="number" matInput [(ngModel)]="docPrintPosition" name="docPrintPosition" placeholder="Position">
-              </mat-form-field>
-
-              <mat-form-field class="example-full-width">
-                <input type="number" matInput [(ngModel)]="docFirstPagePrint" name="docFirstPagePrint" placeholder="First Page">
-              </mat-form-field>
-
-              <mat-form-field class="example-full-width">
-                <input type="number" matInput [(ngModel)]="docLastPagePrint" name="docLastPagePrint" placeholder="Last Page">
-              </mat-form-field>
-
-              <mat-form-field class="example-full-width">  
-                <input type="text" matInput placeholder="Print Issue Notes " [(ngModel)]="docPrintNotes" name="docPrintNotes">  
-              </mat-form-field> 
-
-            <button mat-raised-button type="submit">Submit</button>
-            <button mat-raised-button type="button" (click)="onPrintOrderCancel()">Cancel</button>
-            </form>  
-          </section>
-
+      <div class="border-div">
+        <h3><span style="color:red">SUMMARY - Layout View</span> 
+        <span style="color:#4D6FAC">
+          (editorial pages: {{editorialPages}},
+           ad pages: {{adPages}}, 
+           layout pages: {{layoutPages}}, 
+           total: {{totalPages}})
+        </span>
+        </h3>
+        <div *ngFor="let d of displayDocsLayout; let i = index">
+          <p>
+            <span style="color:#4D6FAC"> {{i+1}}. {{d.docSection}} </span> 
+            <span *ngIf = "!(d.docSection==d.docTitle)"> : {{d.docTitle}} </span>
+              <span *ngIf="d.docFirstPagePrint"> ({{d.docFirstPagePrint }}</span>
+              <span *ngIf="!d.docFirstPagePrint">(0</span>
+              <span *ngIf="d.docLastPagePrint">,{{d.docLastPagePrint}})</span>
+              <span *ngIf="!d.docLastPagePrint">,0)</span>
+          </p>
         </div>
+      </div>
+      <br>
+
+      <div *ngFor="let d of displayDocsLayout; let i = index" class="padded-div">
+
+        <div>
+          <h1 style="display: inline">
+            {{i+1}}. {{ d.docTitle }}
+          </h1>
+
+          <a *ngIf="!d.docLayoutOnly" href="" onClick="return false;" style="display: inline" class="red-link">
+            <span (click)="onDocClick(d, i)"> See full entry </span>
+          </a>
+        </div>
+        <br>
+
+
+        <p>
+          <span style="color:#4D6FAC">Section:</span> {{ d.docSection }}
+        </p>
+        <p *ngIf="d.docDepartment"><span style="color:#4D6FAC">Department:</span> {{ d.docDepartment }}</p>
+        <p *ngIf="d.docAuthor"><span style="color:#4D6FAC">Author:</span> {{ d.docAuthor }}</p>
+        <p *ngIf="d.docDOI"><span style="color:#4D6FAC">DOI:</span> {{ d.docDOI }}</p>
+        <p *ngIf="d.docEditor"><span style="color:#4D6FAC">Copy Editor:</span> {{ d.docEditor }}</p>
+        <p *ngIf="d.docProfessionalDev"><span style="color:#4D6FAC">Continuing Professional Development:</span> yes </p>
+        <p *ngIf="d.docMultiMedia1=='Visual Abstract'"><span style="color:#4D6FAC">Visual Abstract:</span> yes </p>
+        <p *ngIf="d.docMultiMedia2=='Visual Abstract'"><span style="color:#4D6FAC">Visual Abstract:</span> yes </p>
+        <p *ngIf="d.docMultiMedia3=='Visual Abstract'"><span style="color:#4D6FAC">Visual Abstract:</span> yes </p>
+        <p *ngIf="d.docAdConflicts"><span style="color:#4D6FAC">Ad Conflicts:</span> {{ d.docAdConflicts }}</p>
+        <p *ngIf="d.docFocusArea"><span style="color:#4D6FAC">Area of Focus:</span> {{d.docFocusArea}} </p>
+
+        <div *ngIf="i != docIndex" class = "edit-div">
+          <p *ngIf="d.docLayoutOnly"><span style="color:#4D6FAC">Title:</span> {{ d.docTitle }}</p>
+          <p><span style="color:#4D6FAC">Position:</span> {{ d.docPrintPosition }}</p>
+          <p><span style="color:#4D6FAC">Number of Pages in Print:</span> {{ d.docNumPagesPrint }}</p>
+          <p><span style="color:#4D6FAC">First Page:</span> {{ d.docFirstPagePrint }}</p>
+          <p><span style="color:#4D6FAC">Last Page:</span> {{ d.docLastPagePrint }}</p>
+          <p *ngIf="d.docNumFiguresPrint"><span style="color:#4D6FAC">Number of Figures in Print:</span> {{ d.docNumFiguresPrint }}</p>
+          <p *ngIf="d.docNumTablesPrint"><span style="color:#4D6FAC">Number of Tables in Print:</span> {{ d.docNumTablesPrint }}</p>
+          <p *ngIf="d.docNumBoxesPrint"><span style="color:#4D6FAC">Number of Boxes in Print:</span> {{ d.docNumBoxesPrint }}</p>
+          <p *ngIf="d.docPrintNotes"><span style="color:#4D6FAC">Print Issue Notes:</span> {{ d.docPrintNotes }}</p>
+          <a href="" onClick="return false;" class="red-link">
+           <span (click)="onPrintOrderClick(d, i)"> Edit </span>
+          </a>
+        </div>
+
+        <div *ngIf="i == docIndex">
+          <div class = "align-form">
+            <section class = "mat-typography">
+              <h4>Edit Print Issue </h4>
+              <form (submit)="onPrintOrderSubmit()" class="example-form">  
+                <mat-form-field *ngIf="d.docLayoutOnly" class="example-full-width">
+                  <input type="string" matInput [(ngModel)]="docTitle" name="docTitle" placeholder="Title">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                  <input type="number" matInput [(ngModel)]="docPrintPosition" name="docPrintPosition" placeholder="Position">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                  <input type="number" matInput [(ngModel)]="docNumPagesPrint" name="docNumPagesPrint" placeholder="Number of Pages in Print">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                  <input type="number" matInput [(ngModel)]="docFirstPagePrint" name="docFirstPagePrint" placeholder="First Page">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                  <input type="number" matInput [(ngModel)]="docLastPagePrint" name="docLastPagePrint" placeholder="Last Page">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                  <input type="number" matInput [(ngModel)]="docNumFiguresPrint" name="docNumFiguresPrint" placeholder="Number of Figures in Print">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                  <input type="number" matInput [(ngModel)]="docNumTablesPrint" name="docNumTablesPrint" placeholder="Number of Tables in Print">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                  <input type="number" matInput [(ngModel)]="docNumBoxesPrint" name="docNumBoxesPrint" placeholder="Number of Boxes in Print">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">  
+                  <input type="text" matInput placeholder="Print Issue Notes " [(ngModel)]="docPrintNotes" name="docPrintNotes">  
+                </mat-form-field> 
+                <button mat-raised-button type="submit">Submit</button>
+                <button mat-raised-button type="button" (click)="onPrintOrderCancel()">Cancel</button>
+              </form>  
+            </section>
+          </div>
+        </div>
+
+        <div class = "container1">
+          <a *ngIf="d.docLayoutOnly" href="" onClick="return false;" class="grey-link">
+           <span (click)="onDeleteDocSubmit(d, i)"> Delete </span>
+          </a>
+        </div>
+
       </div>
     </div>
   </section>
+
+
+
   <div class = "align-form">
     <section class = "mat-typography">
       <div class="flex-center">
@@ -202,62 +242,13 @@
         <span (click)="onDownload()">
           <button mat-raised-button>Download CSV</button>
         </span>
+        <span (click)="onDeletePreload()">
+          <button mat-raised-button>Delete Preload</button>
+        </span>
       </div>
     </section>
   </div>
+
+
 </div>
 
-<!--
-
-
-    <div *ngFor="let d of displayDocs; let i = index">
-      <h2>
-         {{ d.docTitle }}
-      </h2>
-      <p>
-        DOI: {{ d.docDOI }}
-      </p>
-      <p>
-        Section: {{ d.docSection }}
-      </p>
-      <div *ngIf="i != docIndex">
-        <p>
-        First Page: {{ d.docFirstPagePrint }}
-        </p>
-        <p>
-        Last Page: {{ d.docLastPagePrint }}
-        </p>
-        <a href="" onClick="return false;">
-          <span (click)="onDocClick(d, i)"> edit </span>
-        </a>
-      </div>
-
-      <div *ngIf="i == docIndex">
-        <div class = "align-form">
-          <section class = "mat-typography">
-           <h4>Enter Page Numbers</h4>
-            <form (submit)="onDocSubmit()" class="example-form">  
-              <mat-form-field class="example-full-width">
-                <input type="number" matInput [(ngModel)]="docFirstPagePrint" name="docFirstPagePrint" placeholder="First Page">
-              </mat-form-field>
-              <mat-form-field class="example-full-width">
-                <input type="number" matInput [(ngModel)]="docLastPagePrint" name="docLastPagePrint" placeholder="Last Page">
-              </mat-form-field>
-            <button mat-raised-button type="submit">Submit</button>
-            </form>  
-          </section>
-        </div>
-      </div>
-
-      <hr class="hr-style">
-    </div>
-
-    <div class="flex-center">
-      <span (click)="onNewSearch()">
-        <button mat-raised-button>New Search</button>
-      </span>
-    </div>
-  </section>
-</div>
-
--->

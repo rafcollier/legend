@@ -17,6 +17,10 @@
       <mat-form-field class="example-full-width">  
         <input type="number" matInput placeholder="Print issue position" [(ngModel)]="printPosition" name="printPosition">
       </mat-form-field>  
+      <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+        <input matInput placeholder="" style="display: none">
+          <mat-checkbox [(ngModel)]="layout" name="layout">Print Layout Only</mat-checkbox>
+      </mat-form-field>
       <button mat-raised-button type="submit">Submit</button>
     </form>  
     <div *ngIf="errorMessage">
@@ -36,8 +40,28 @@
 <div class = "align-form">
   <section class = "mat-typography">
 
-    <br>
-    <h2>Current Sections</h2>
+    <div>
+      <h2 style="display: inline">
+        <b>Current Sections </b> 
+      </h2>
+     <p style="display: inline">Sort by: &nbsp;</p> 
+      <a href="" onClick="return false;" style="display: inline" class="red-link">
+        <span (click)="onGetSections('section')">Section</span>
+      </a>&mdash; 
+      <a href="" onClick="return false;" style="display: inline" class="red-link">
+        <span (click)="onGetSections('department')">Department</span>
+      </a>&mdash; 
+      <a href="" onClick="return false;" style="display: inline" class="red-link">
+        <span (click)="onGetSections('onlinePosition')">Online position</span>
+      </a>&mdash; 
+      <a href="" onClick="return false;" style="display: inline" class="red-link">
+        <span (click)="onGetSections('printPosition')">Print position</span>
+      </a>&mdash; 
+      <a href="" onClick="return false;" style="display: inline" class="red-link">
+        <span (click)="onGetSections('layout')">Layout</span>
+      </a>
+    </div>
+
     <hr class="hr-style">
 
     <div *ngFor="let d of displaySections; let i = index">
@@ -54,6 +78,9 @@
         </p>
         <p>
            Print Position: {{ d.printPosition }}
+        </p>
+        <p *ngIf="d.layout">
+           Print Layout Only
         </p>
 
         <a href="" onClick="return false;">
@@ -81,6 +108,10 @@
           <mat-form-field class="example-full-width">  
             <input type="number" matInput placeholder="Print issue position" [(ngModel)]="printPositionEdit" name="printPositionEdit">
           </mat-form-field>  
+          <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+            <input matInput placeholder="" style="display: none">
+              <mat-checkbox [(ngModel)]="layoutEdit" name="layoutEdit">Print Layout Only</mat-checkbox>
+          </mat-form-field>
           <button mat-raised-button type="submit">Submit</button>
           <button mat-raised-button type="button" (click)="editCancel()">Cancel</button>
         </form>  

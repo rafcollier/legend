@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const configDatabase = require('./config/database');
 const moment = require('moment');
 
+mongoose.Schema.Types.Boolean.convertToFalse.add('');
 
 //Connect to database
 mongoose.connect(configDatabase.database);
