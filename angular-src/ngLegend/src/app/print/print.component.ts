@@ -117,7 +117,6 @@ constructor(
                    docPrintNotes: ""
                 };
       this.authService.submitDoc(doc).subscribe(data => {
-        resolve('done ' + index);
       },
       err => {
         console.log(err);
@@ -309,7 +308,6 @@ constructor(
   onDeletePreload() {
     if(confirm("Are you sure you want to delete the preloaded documents?")) {
       this.authService.deleteManyDoc(this.printIssueSelect).subscribe(doc => {
-        console.log(doc);
         this.onSearchSubmit();
       },
       err => {
@@ -323,7 +321,6 @@ constructor(
     if(confirm("Are you sure you want to delete this document?")) {
     const docID = doc["_id"]; 
       this.authService.deleteOneDoc(docID).subscribe(doc => {
-        console.log(doc);
         this.onSearchSubmit();
       },
       err => {
