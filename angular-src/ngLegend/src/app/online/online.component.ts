@@ -78,6 +78,7 @@ constructor(
     this.showResults = false;
     this.noResults = false;
     this.editorialView = true;
+    this.layoutView = false;
   }
 
   myFilter = (d: Date): boolean => {
@@ -86,15 +87,16 @@ constructor(
   }
 
   onSearchSubmit() {
-    this.authService.getOnlineSearchResults(this.docOnlineIssue).subscribe(entries => {
+    this.onlineIssueDateFormatted = moment(this.docOnlineIssue).format('MMMM DD, YYYY');
+    this.authService.getOnlineSearchResults(this.onlineIssueDateFormatted).subscribe(entries => {
       if(entries.length == 0) {
         this.noResults = true;
       } 
       else {
+        console.log(entries);
         this.displayDocs = entries;
         this.onlineIssueVolume = entries[0]["docOnlineVolume"];
         this.onlineIssueIssue = entries[0]["docOnlineIssueNumber"];
-        this.onlineIssueDateFormatted = moment(this.docOnlineIssue).format('MMMM DD, YYYY');
 
         //Find position of queried date in array and next item in array will be previous issue.
         //If current issue if first in database, there is no previous issue so return 1 as first page of current issue. 

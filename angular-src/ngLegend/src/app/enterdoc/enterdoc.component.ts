@@ -77,12 +77,12 @@ export class EnterdocComponent implements OnInit {
   docCollectionCode4: String;
   docCollectionCode5: String;
   docCollectionCode6: String;
-  code1Code: Number;
-  code2Code: Number;
-  code3Code: Number;
-  code4Code: Number;
-  code5Code: Number;
-  code6Code: Number;
+ // code1Code: Number;
+ // code2Code: Number;
+ // code3Code: Number;
+ // code4Code: Number;
+ // code5Code: Number;
+ // code6Code: Number;
 
   //DOCUMENT TIMELINE
   docAcceptDate: Date;
@@ -270,7 +270,7 @@ export class EnterdocComponent implements OnInit {
     this.coordinatorsMenu = this.authService.localGetEditors().filter(x => x.docCoordinator).map(x => x.name);
     this.proofersMenu = this.authService.localGetEditors().filter(x => x.docProofReader).map(x => x.name);
     this.seMenu = this.authService.localGetEditors().filter(x => x.docSE).map(x => x.name);
-    this.codesMenu = this.authService.localGetCodes().map(x => x.description);
+    this.codesMenu = this.authService.localGetCodes().map(x => x.description.concat(' - ', x.code.toString()));
     this.focusareas = this.authService.localGetCodes().filter(x => x.focus).map(x => x.description);
 
     const mediaArray: string [] = [
@@ -481,12 +481,12 @@ export class EnterdocComponent implements OnInit {
       docCollectionCode5: this.docCollectionCode5,
       docCollectionCode6: this.docCollectionCode6,
       //Get number codes in admin associated with selected collection codes
-      code1Code: this.codes.filter(x => x['description'] == this.docCollectionCode1).map(x => x['code'])[0],
-      code2Code: this.codes.filter(x => x['description'] == this.docCollectionCode2).map(x => x['code'])[0],
-      code3Code: this.codes.filter(x => x['description'] == this.docCollectionCode3).map(x => x['code'])[0],
-      code4Code: this.codes.filter(x => x['description'] == this.docCollectionCode4).map(x => x['code'])[0],
-      code5Code: this.codes.filter(x => x['description'] == this.docCollectionCode5).map(x => x['code'])[0],
-      code6Code: this.codes.filter(x => x['description'] == this.docCollectionCode6).map(x => x['code'])[0],
+      //code1Code: this.codes.filter(x => x['description'] == this.docCollectionCode1).map(x => x['code'])[0],
+      //code2Code: this.codes.filter(x => x['description'] == this.docCollectionCode2).map(x => x['code'])[0],
+      //code3Code: this.codes.filter(x => x['description'] == this.docCollectionCode3).map(x => x['code'])[0],
+      //code4Code: this.codes.filter(x => x['description'] == this.docCollectionCode4).map(x => x['code'])[0],
+      //code5Code: this.codes.filter(x => x['description'] == this.docCollectionCode5).map(x => x['code'])[0],
+      //code6Code: this.codes.filter(x => x['description'] == this.docCollectionCode6).map(x => x['code'])[0],
     
       //DOCUMENT TIMELINE
     

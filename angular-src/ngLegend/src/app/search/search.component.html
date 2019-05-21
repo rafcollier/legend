@@ -93,50 +93,21 @@
   <section class="mat-typography">
 
     <div *ngFor="let d of displayDocs; let i = index">
-      <div *ngIf="d.docSection != 'Print Ad'">
-      <div *ngIf="d.docSection != 'Dans le CMAJ'">
-        <h2>
-           {{ d.docTitle }}
-        </h2>
-        <p>
-          Section: {{ d.docSection }}
-        </p>
-        <p>
-          Author: {{ d.docAuthor }} 
-        </p>
-        <p>
-          DOI: {{ d.docDOI }}
-        </p>
-        <p>
-          Status: {{ d.docStatus }}
-        </p>
-      </div>
-      </div>
-
-      <div *ngIf="d.docSection == 'Print Ad'">
-        <h2>
-           {{ d.docSection }} 
-        </h2>
-        <p>
-          Client: {{ d.docAdClient }}
-        </p>
-        <p>
-          Description: {{ d.docAdDescription }} 
-        </p>
-        <p>
-          Print Issue: {{ d.docPrintIssue }} 
-        </p>
-      </div>
-
-      <div *ngIf="d.docSection == 'Dans le CMAJ'">
-        <h2>
-           {{ d.docSection }} 
-        </h2>
-        <p>
-          Print Issue: {{ d.docPrintIssue }} 
-        </p>
-      </div>
-
+      <h2>
+         {{ d.docTitle }}
+      </h2>
+      <p>
+        Section: {{ d.docSection }}
+      </p>
+      <p>
+        Author: {{ d.docAuthor }} 
+      </p>
+      <p>
+        DOI: {{ d.docDOI }}
+      </p>
+      <p>
+        Status: {{ d.docStatus }}
+      </p>
 
       <a href="" onClick="return false;" style="display: inline" class="red-link">
         <span (click)="onDocClick(d, i)"> See full entry</span>
@@ -151,9 +122,11 @@
         <span (click)="onNewSearch()">
           <button mat-raised-button>New Search</button>
         </span>
+        &nbsp;
         <span (click)="onModifySearch()">
           <button mat-raised-button>Modify Search</button>
         </span>
+        &nbsp;
         <span (click)="onDownload()">
           <button mat-raised-button>Download CSV</button>
         </span>

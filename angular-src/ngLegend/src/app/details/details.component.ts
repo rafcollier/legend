@@ -133,12 +133,12 @@ export class DetailsComponent implements OnInit {
   docCollectionCode4: String;
   docCollectionCode5: String;
   docCollectionCode6: String;
-  code1Code: Number;
-  code2Code: Number;
-  code3Code: Number;
-  code4Code: Number;
-  code5Code: Number;
-  code6Code: Number;
+  //code1Code: Number;
+  //code2Code: Number;
+  //code3Code: Number;
+  //code4Code: Number;
+  //code5Code: Number;
+  //code6Code: Number;
 
   //DOCUMENT TIMELINE
   docAcceptDate: Date;
@@ -290,7 +290,7 @@ export class DetailsComponent implements OnInit {
     this.coordinatorsMenu = this.authService.localGetEditors().filter(x => x.docCoordinator).map(x => x.name);
     this.proofersMenu = this.authService.localGetEditors().filter(x => x.docProofReader).map(x => x.name);
     this.seMenu = this.authService.localGetEditors().filter(x => x.docSE).map(x => x.name);
-    this.codesMenu = this.authService.localGetCodes().map(x => x.description);
+    this.codesMenu = this.authService.localGetCodes().map(x => x.description.concat(' - ', x.code.toString()));
     this.focusareas = this.authService.localGetCodes().filter(x => x.focus).map(x => x.description);
       
     const mediaArray: string [] = [
@@ -391,12 +391,12 @@ export class DetailsComponent implements OnInit {
       this.docCollectionCode4 = doc.docCollectionCode4;
       this.docCollectionCode5 = doc.docCollectionCode5;
       this.docCollectionCode6 = doc.docCollectionCode6;
-      this.code1Code = doc.code1Code;
-      this.code2Code = doc.code2Code;
-      this.code3Code = doc.code3Code;
-      this.code4Code = doc.code4Code;
-      this.code5Code = doc.code5Code;
-      this.code6Code = doc.code6Code;
+      //this.code1Code = doc.code1Code;
+      //this.code2Code = doc.code2Code;
+      //this.code3Code = doc.code3Code;
+      //this.code4Code = doc.code4Code;
+      //this.code5Code = doc.code5Code;
+      //this.code6Code = doc.code6Code;
     
       //DOCUMENT TIMELINE
     
@@ -574,6 +574,9 @@ export class DetailsComponent implements OnInit {
     if( (this.docNumAppendices) && !(this.docNumAppendicesOnline) ) this.docNumAppendicesOnline = this.docNumAppendices; 
     if( (this.docNumAppendices) && !(this.docNumAppendicesPrint) ) this.docNumAppendicesPrint = this.docNumAppendices; 
 
+    if(!this.docFirstPageOnline) this.docFirstPageOnline = 0;
+    if(!this.docLastPageOnline) this.docLastPageOnline = 0;
+
     let editedDoc = {
  
       docID: this.docID, //to identify this doc in database
@@ -646,12 +649,12 @@ export class DetailsComponent implements OnInit {
       docCollectionCode5: this.docCollectionCode5,
       docCollectionCode6: this.docCollectionCode6,
       //Get number codes in admin associated with selected collection codes
-      code1Code: this.codes.filter(x => x['description'] == this.docCollectionCode1).map(x => x['code'])[0],
-      code2Code: this.codes.filter(x => x['description'] == this.docCollectionCode2).map(x => x['code'])[0],
-      code3Code: this.codes.filter(x => x['description'] == this.docCollectionCode3).map(x => x['code'])[0],
-      code4Code: this.codes.filter(x => x['description'] == this.docCollectionCode4).map(x => x['code'])[0],
-      code5Code: this.codes.filter(x => x['description'] == this.docCollectionCode5).map(x => x['code'])[0],
-      code6Code: this.codes.filter(x => x['description'] == this.docCollectionCode6).map(x => x['code'])[0],
+      //code1Code: this.codes.filter(x => x['description'] == this.docCollectionCode1).map(x => x['code'])[0],
+      //code2Code: this.codes.filter(x => x['description'] == this.docCollectionCode2).map(x => x['code'])[0],
+      //code3Code: this.codes.filter(x => x['description'] == this.docCollectionCode3).map(x => x['code'])[0],
+      //code4Code: this.codes.filter(x => x['description'] == this.docCollectionCode4).map(x => x['code'])[0],
+      //code5Code: this.codes.filter(x => x['description'] == this.docCollectionCode5).map(x => x['code'])[0],
+      //code6Code: this.codes.filter(x => x['description'] == this.docCollectionCode6).map(x => x['code'])[0],
     
       //DOCUMENT TIMELINE
     

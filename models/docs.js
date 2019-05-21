@@ -76,49 +76,49 @@ let DocSchema = new Schema({
     //LAYOUT
 
 	docNumPages: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docNumPagesOnline: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docNumPagesPrint: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docNumAppendices: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docNumAppendicesOnline: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docNumAppendicesPrint: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docNumFigures: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docNumFiguresOnline: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docNumFiguresPrint: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docNumBoxes: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docNumBoxesOnline: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docNumBoxesPrint: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docNumTables: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docNumTablesOnline: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docNumTablesPrint: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docLayoutOnly: {
 	  type: Boolean
@@ -293,10 +293,10 @@ let DocSchema = new Schema({
 
 
 	docFirstPageOnline: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docLastPageOnline: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docOnlinePosition: {
 	  type: Number
@@ -315,10 +315,10 @@ let DocSchema = new Schema({
       type: String	
 	},
 	docFirstPagePrint: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docLastPagePrint: {
-	  type: Number
+	  type: Number, default: 0
 	},
 	docPrintPosition: {
 	  type: Number

@@ -72,9 +72,6 @@ constructor(
       } 
       else {
         console.log(entries);
-        for(let i = 0; i<entries.length; i++) {
-          console.log(entries[i]['docFirstPagePrint']);
-        }
         this.adPages = entries.filter(x => x.docLayoutOnly)
                                   .filter(x => x.docSection == 'Print Ad')
                                   .filter(x => x.docNumPagesPrint)
@@ -120,7 +117,6 @@ constructor(
                    docPrintNotes: ""
                 };
       this.authService.submitDoc(doc).subscribe(data => {
-        console.log('Resolving another Ad');
         resolve('done ' + index);
       },
       err => {
@@ -149,8 +145,6 @@ constructor(
     this.docNumAppendicesPrint = doc['docNumAppendicesPrint'];
     this.docIndex = index;
   }
-
-
 
   onPrintOrderSubmit() {
     const printOrderDoc = {
@@ -204,7 +198,6 @@ constructor(
   //Load standard noneditorial parts of a print issue
 
   onLoadNonEditorial() {
-    console.log("hello");
     let layoutPromises = [];
     if(!this.issueSections.includes('Print Ad') ||
        !this.issueSections.includes('Cover') ||
@@ -216,8 +209,6 @@ constructor(
        !this.issueSections.includes('Masthead') || 
        !this.issueSections.includes('Classified')  
       ) {
-
-      console.log("found something to add");
 
       if(!this.issueSections.includes('Print Ad')) {
         for (let i = 0; i < 30; i++) {
@@ -255,8 +246,6 @@ constructor(
       }
       Promise.all(layoutPromises)
         .then((value) => {
-          console.log("All done");
-          console.log(value);
           this.onSearchSubmit();
        })
        .catch((e) => {
@@ -264,6 +253,56 @@ constructor(
        });
 
     } 
+  }
+
+  onCreateAd() {
+    let doc = {
+      docLayoutOnly: true,
+      docSection: 'Print Ad',
+      docTitle: 'Print Ad',
+      docPrintIssue: this.printIssueSelect,
+      docPrintIssueFormatted: this.printIssueFormatted, 
+      docPrintPosition: this.layoutSections.filter(x => x['section']=='Print Ad').map(x => x['printPosition'])[0],
+      docNumPagesPrint: 0,
+      docFirstPagePrint: 0,
+      docLastPagePrint: 0,
+      docNumFiguresPrint: 0,
+      docNumTablesPrint: 0,
+      docNumBoxesPrint: 0,
+      docPrintNotes: ""
+    };
+    this.authService.submitDoc(doc).subscribe(data => {
+      this.onSearchSubmit();
+    },
+    err => {
+      console.log(err);
+      return false;
+    });
+  }
+
+  onCreateFiller() {
+    let doc = {
+      docLayoutOnly: true,
+      docSection: 'Filler',
+      docTitle: 'Filler',
+      docPrintIssue: this.printIssueSelect,
+      docPrintIssueFormatted: this.printIssueFormatted, 
+      docPrintPosition: this.layoutSections.filter(x => x['section']=='Filler').map(x => x['printPosition'])[0],
+      docNumPagesPrint: 0,
+      docFirstPagePrint: 0,
+      docLastPagePrint: 0,
+      docNumFiguresPrint: 0,
+      docNumTablesPrint: 0,
+      docNumBoxesPrint: 0,
+      docPrintNotes: ""
+    };
+    this.authService.submitDoc(doc).subscribe(data => {
+      this.onSearchSubmit();
+    },
+    err => {
+      console.log(err);
+      return false;
+    });
   }
 
   //The button to delete the layout only articles (ads, cover, etc) 

@@ -74,6 +74,7 @@ constructor(
       if(entries.length == 0) {
         this.noResults = true;
       } else { 
+        console.log(entries);
         this.showResults = true;
         this.displayDocs = entries;
       }
@@ -275,52 +276,28 @@ constructor(
     // COLLECTION CODES
 
     {
-        label: 'Collection Code 1 - name',
+        label: 'Collection Code 1',
         value: 'docCollectionCode1' 
     },
     {
-        label: 'Collection Code 1 - code',
-        value: 'code1Code' 
-    },
-    {
-        label: 'Collection Code 2 - name',
+        label: 'Collection Code 2',
         value: 'docCollectionCode2' 
     },
     {
-        label: 'Collection Code 2 - code',
-        value: 'code2Code'
-    },
-    {
-        label: 'Collection Code 3 - name',
+        label: 'Collection Code 3',
         value: 'docCollectionCode3' 
     },
     {
-        label: 'Collection Code 3 - code',
-        value: 'code3Code' 
-    },
-    {
-        label: 'Collection Code 4 - name',
+        label: 'Collection Code 4',
         value: 'docCollectionCode4' 
     },
     {
-        label: 'Collection Code 4 - code',
-        value: 'code4Code' 
-    },
-    {
-        label: 'Collection Code 5 - name',
+        label: 'Collection Code 5',
         value: 'docCollectionCode5' 
     },
     {
-        label: 'Collection Code 5 - code',
-        value: 'code5Code' 
-    },
-    {
-        label: 'Collection Code 6 - name',
+        label: 'Collection Code 6',
         value: 'docCollectionCode6' 
-    },
-    {
-        label: 'Collection Code 6 - code',
-        value: 'code6Code' 
     },
 
   //EDITING TIMELINE

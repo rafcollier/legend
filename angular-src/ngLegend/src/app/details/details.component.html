@@ -187,12 +187,12 @@ MAIN DOCUMENT INPUT SECTION
           </mat-panel-description>
         </mat-expansion-panel-header>
         <br> 
-        <p *ngIf="oneDoc.docCollectionCode1"><b> {{ code1Code }} </b> &mdash; {{ docCollectionCode1 }} </p>
-        <p *ngIf="oneDoc.docCollectionCode2"><b> {{ code2Code }} </b> &mdash; {{ docCollectionCode2 }} </p>
-        <p *ngIf="oneDoc.docCollectionCode3"><b> {{ code3Code }} </b> &mdash; {{ docCollectionCode3 }} </p>
-        <p *ngIf="oneDoc.docCollectionCode4"><b> {{ code4Code }} </b> &mdash; {{ docCollectionCode4 }} </p>
-        <p *ngIf="oneDoc.docCollectionCode5"><b> {{ code5Code }} </b> &mdash; {{ docCollectionCode5 }} </p>
-        <p *ngIf="oneDoc.docCollectionCode6"><b> {{ code6Code }} </b> &mdash; {{ docCollectionCode6 }} </p>
+        <p *ngIf="oneDoc.docCollectionCode1">{{ docCollectionCode1 }} </p>
+        <p *ngIf="oneDoc.docCollectionCode2">{{ docCollectionCode2 }} </p>
+        <p *ngIf="oneDoc.docCollectionCode3">{{ docCollectionCode3 }} </p>
+        <p *ngIf="oneDoc.docCollectionCode4">{{ docCollectionCode4 }} </p>
+        <p *ngIf="oneDoc.docCollectionCode5">{{ docCollectionCode5 }} </p>
+        <p *ngIf="oneDoc.docCollectionCode6">{{ docCollectionCode6 }} </p>
       </mat-expansion-panel> 
     </mat-accordion>
     <br>
@@ -932,6 +932,7 @@ MAIN DOCUMENT INPUT SECTION
         <br>
 
         <button mat-raised-button type="submit">Submit</button>
+        &nbsp;
         <button mat-raised-button type="button" (click)="onEditedDocCancel()">Cancel</button>
 
       </form>
@@ -1157,8 +1158,9 @@ NEWS INPUT SECTION
           </mat-expansion-panel> 
         </mat-accordion>
         <br>
-  
-        <button mat-raised-button type="submit">Submit</button>
+         <button mat-raised-button type="submit">Submit</button>
+        &nbsp;
+        <button mat-raised-button type="button" (click)="onEditedDocCancel()">Cancel</button> 
       </form>  
     </section>
   </div>
@@ -1358,8 +1360,9 @@ LETTER INPUT SECTION
           </mat-expansion-panel> 
         </mat-accordion> 
         <br>
-
         <button mat-raised-button type="submit">Submit</button>
+        &nbsp;
+        <button mat-raised-button type="button" (click)="onEditedDocCancel()">Cancel</button> 
       </form>  
     </section>
   </div>

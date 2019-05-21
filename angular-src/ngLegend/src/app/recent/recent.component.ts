@@ -37,6 +37,7 @@ export class RecentComponent implements OnInit {
 
   getRecentDocs() {
     this.authService.getRecentAdded(this.username, this.numDocs).subscribe(docs => {
+      console.log(docs);
       this.displayDocs = docs;
     }, 
     err => {

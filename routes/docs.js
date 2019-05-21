@@ -219,8 +219,14 @@ router.post('/submitdoc', (req, res, next) => {
 
 router.get('/getRecentAdded', (req, res, next) => {
   const limit = req.query.limit;
+
+  //Don't diplay non-editorial sections
+  let query1 = {'docLayoutOnly' : {$exists : false}};
+  let query2 = {'docLayoutOnly' : null};
+  let query3 = {'docLayoutOnly' : false};
+  
   //Doc.find({'docUsername' : req.query.docUsername}, null, {limit: Number(limit), sort: {dateEntered: -1}}, (err, docs) => {
-  Doc.find({}, null, {limit: Number(limit), sort: {dateEntered: -1}}, (err, docs) => {
+  Doc.find({$or: [query1, query2, query3]}, null, {limit: Number(limit), sort: {dateEntered: -1}}, (err, docs) => {
     if (err) throw err;
     res.json(docs);
   });
@@ -256,6 +262,7 @@ router.delete('/deleteOneDoc', (req, res, next) => {
   });
 });
 
+//For testing. Delete all the non-editorial pages in the print issue
 router.delete('/deleteManyDoc', (req, res, next) => {
   let query1 = {'docSection' : {$regex: 'Print Ad', $options: 'i'}};
   let query2 = {'docSection' : {$regex: 'Filler', $options: 'i'}};
@@ -416,6 +423,8 @@ router.get('/getTimeDiff', (req, res, next) => {
   });
 });
 
+//Get search results for a print issue and sort by poisition by default, but sort by first page as entered
+
 router.get('/getLayoutSearchResults', (req, res, next) => {
   let query1 = {};
   if(req.query.docPrintIssue) 
@@ -481,6 +490,76 @@ router.get('/getLayoutSearchResults', (req, res, next) => {
   });
 });
 
+//Get search results for a print issue and sort by poisition by default, but sort by first page as entered
+router.get('/getOnlineSearchResults', (req, res, next) => {
+  let query1 = {};
+  if(req.query.docOnlineIssue) 
+    query1 = {docOnlineIssueFormatted : req.query.docOnlineIssue};
+
+  console.log(query1);
+
+  Doc.aggregate([
+  {
+    $project:
+    {
+      'docSection': 1,
+      'docDOI': 1,
+      'docAuthor': 1,
+      'docEditor': 1,
+      'docProfessionalDev': 1,
+      'docMultiMedia1': 1,
+      'docMultiMedia2': 1,
+      'docMultiMedia3': 1,
+      'docFocusArea': 1,
+      'docTitle': 1,
+      'docOnlineIssueFormatted': 1,
+      'docOnlinePosition' : 1,
+      'docFirstPageOnline': 1,
+      'docLastPageOnline': 1,
+      'docDepartment': 1,
+      'docNumPagesOnline' : 1,
+      'docNumFiguresOnline' : 1,
+      'docNumTablesOnline' : 1,
+      'docNumBoxesOnline' : 1,
+      'docOnlineIssueNotes' : 1,
+      sortValue:
+      {
+        $cond: 
+        {
+          if: 
+          {
+            $or: 
+            [ 
+              {$eq: ['$docFirstPageOnline', 0] },
+              {$eq: ['$docFirstPageOnline', null]}
+            ]
+          },
+          then: 1000, 
+          else: 0,
+        }
+      }
+    }
+  },
+  {$match: query1},
+  {
+    $sort:
+    { 
+      'sortValue': 1,
+      'docFirstPageOnline': 1, 
+      'docOnlinePosition': 1
+    }
+  }
+  ], (err, docs) => {
+    if (err) throw err;
+    else {
+      res.json(docs);
+    }
+  });
+});
+
+
+/*
+
 router.get('/getOnlineSearchResults', (req, res, next) => {
 
   let query1 = {'docOnlineIssue': req.query.docOnlineIssue}; 
@@ -495,6 +574,11 @@ router.get('/getOnlineSearchResults', (req, res, next) => {
     }
   });
 });
+
+*/
+
+
+
 
 router.get('/getCheckPreviousOnlineIssue', (req, res, next) => {
 

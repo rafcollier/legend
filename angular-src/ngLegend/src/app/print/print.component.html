@@ -108,10 +108,7 @@
         <a href="" onClick="return false;" style="display: inline" class="red-link">
           <span (click)="onViewEditorial()"> Switch to editorial view</span>
         </a>
-        <br><br>
-        <span (click)="onLoadNonEditorial()">
-          <button mat-raised-button>Load Layout-Only Sections</button>
-        </span>
+
       </div>
 
       <br>
@@ -129,14 +126,30 @@
           <p>
             <span style="color:#4D6FAC"> {{i+1}}. {{d.docSection}} </span> 
             <span *ngIf = "!(d.docSection==d.docTitle)"> : {{d.docTitle}} </span>
-              <span *ngIf="d.docFirstPagePrint"> ({{d.docFirstPagePrint }}</span>
-              <span *ngIf="!d.docFirstPagePrint">(0</span>
-              <span *ngIf="d.docLastPagePrint">,{{d.docLastPagePrint}})</span>
-              <span *ngIf="!d.docLastPagePrint">,0)</span>
+            <span *ngIf="d.docFirstPagePrint"> ({{d.docFirstPagePrint }}</span>
+            <span *ngIf="!d.docFirstPagePrint">(0</span>
+            <span *ngIf="d.docLastPagePrint">,{{d.docLastPagePrint}})</span>
+            <span *ngIf="!d.docLastPagePrint">,0)</span>
           </p>
         </div>
       </div>
       <br>
+
+      <div>
+        <span (click)="onLoadNonEditorial()">
+          <button mat-raised-button>Load Non-Editorial Sections</button>
+        </span>
+        &nbsp;
+        <span (click)="onCreateAd()">
+          <button mat-raised-button>Create Ad</button>
+        </span>
+        &nbsp;
+        <span (click)="onCreateFiller()">
+          <button mat-raised-button>Create Filler</button>
+        </span>
+      </div>
+      <br>
+      <hr>
 
       <div *ngFor="let d of displayDocsLayout; let i = index" class="padded-div">
 
@@ -168,7 +181,6 @@
 
         <div *ngIf="i != docIndex" class = "edit-div">
           <p *ngIf="d.docLayoutOnly"><span style="color:#4D6FAC">Title:</span> {{ d.docTitle }}</p>
-          <p><span style="color:#4D6FAC">Position:</span> {{ d.docPrintPosition }}</p>
           <p><span style="color:#4D6FAC">Number of Pages in Print:</span> {{ d.docNumPagesPrint }}</p>
           <p><span style="color:#4D6FAC">First Page:</span> {{ d.docFirstPagePrint }}</p>
           <p><span style="color:#4D6FAC">Last Page:</span> {{ d.docLastPagePrint }}</p>
@@ -188,9 +200,6 @@
               <form (submit)="onPrintOrderSubmit()" class="example-form">  
                 <mat-form-field *ngIf="d.docLayoutOnly" class="example-full-width">
                   <input type="string" matInput [(ngModel)]="docTitle" name="docTitle" placeholder="Title">
-                </mat-form-field>
-                <mat-form-field class="example-full-width">
-                  <input type="number" matInput [(ngModel)]="docPrintPosition" name="docPrintPosition" placeholder="Position">
                 </mat-form-field>
                 <mat-form-field class="example-full-width">
                   <input type="number" matInput [(ngModel)]="docNumPagesPrint" name="docNumPagesPrint" placeholder="Number of Pages in Print">
@@ -239,9 +248,11 @@
         <span (click)="onNewSearch()">
           <button mat-raised-button>New Search</button>
         </span>
+        &nbsp;
         <span (click)="onDownload()">
           <button mat-raised-button>Download CSV</button>
         </span>
+        &nbsp;
         <span (click)="onDeletePreload()">
           <button mat-raised-button>Delete Preload</button>
         </span>
