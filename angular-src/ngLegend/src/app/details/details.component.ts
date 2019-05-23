@@ -133,12 +133,6 @@ export class DetailsComponent implements OnInit {
   docCollectionCode4: String;
   docCollectionCode5: String;
   docCollectionCode6: String;
-  //code1Code: Number;
-  //code2Code: Number;
-  //code3Code: Number;
-  //code4Code: Number;
-  //code5Code: Number;
-  //code6Code: Number;
 
   //DOCUMENT TIMELINE
   docAcceptDate: Date;
@@ -391,12 +385,6 @@ export class DetailsComponent implements OnInit {
       this.docCollectionCode4 = doc.docCollectionCode4;
       this.docCollectionCode5 = doc.docCollectionCode5;
       this.docCollectionCode6 = doc.docCollectionCode6;
-      //this.code1Code = doc.code1Code;
-      //this.code2Code = doc.code2Code;
-      //this.code3Code = doc.code3Code;
-      //this.code4Code = doc.code4Code;
-      //this.code5Code = doc.code5Code;
-      //this.code6Code = doc.code6Code;
     
       //DOCUMENT TIMELINE
     
