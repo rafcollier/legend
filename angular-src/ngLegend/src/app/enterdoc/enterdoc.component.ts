@@ -389,9 +389,11 @@ export class EnterdocComponent implements OnInit {
   }
 
   getNewsStatus() {
-    if(this.docPublishDateCMAJnews) this.docStatus = "C - News Posted";
-    else if(this.docNewsReady) this.docStatus = "B - News Ready";
-    else this.docStatus = "A - News In Edit";
+    if(this.docPublishDateCMAJnews) this.docStatus = "E - News Posted";
+    else if(this.docNewsReady) this.docStatus = "D - News Ready";
+    else if(this.docAcceptDate) this.docStatus = "C - News In Edit";
+    else if(this.docNewsCommissionDate) this.docStatus = "B - News Commissioned";
+    else this.docStatus = "A - News No Status";
     this.submitNewDoc();
   }
 
