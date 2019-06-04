@@ -3,6 +3,21 @@ import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
 import * as moment from 'moment';
+import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'LL',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
 declare var require: any;
 declare var fs: any;
 let Json2csvParser = require('json2csv').Parser;
@@ -10,7 +25,11 @@ let Json2csvParser = require('json2csv').Parser;
 @Component({
   selector: 'app-print',
   templateUrl: './print.component.html',
-  styleUrls: ['./print.component.css']
+  styleUrls: ['./print.component.css'],
+  providers: [
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ]
 })
 export class PrintComponent implements OnInit {
   showResults: Boolean = false;
@@ -36,6 +55,7 @@ export class PrintComponent implements OnInit {
   sections: Object[] = []; 
   configFile: Object;
   printIssueSelect: Date;
+  datePrint = new FormControl(moment());
   printIssueFormatted: String;
   layoutSections: [Object];
   layoutSectionsOnly;
@@ -47,6 +67,8 @@ export class PrintComponent implements OnInit {
   layoutPages: number = 0;
   adPages: number = 0;
   totalPages: number = 0;
+  errorMessage: String = "";
+  successMessage: String = "";
 
 constructor(
   	private authService: AuthService,
@@ -66,37 +88,46 @@ constructor(
 
   onSearchSubmit() {
     this.printIssueFormatted = moment(this.printIssueSelect).format('MMMM YYYY');
-    this.authService.getLayoutSearchResults(this.printIssueFormatted).subscribe(entries => {
-      if(entries.length == 0) {
-        this.noResults = true;
-      } 
-      else {
-        console.log(entries);
-        this.adPages = entries.filter(x => x.docLayoutOnly)
-                                  .filter(x => x.docSection == 'Print Ad')
-                                  .filter(x => x.docNumPagesPrint)
-                                  .map(x => x.docNumPagesPrint)
-                                  .reduce((a, b) => a + b, 0);
-        this.layoutPages = entries.filter(x => x.docLayoutOnly)
-                                  .filter(x => x.docSection != 'Print Ad')
-                                  .filter(x => x.docNumPagesPrint)
-                                  .map(x => x.docNumPagesPrint)
-                                  .reduce((a, b) => a + b, 0);
-        this.editorialPages = entries.filter(x => !x.docLayoutOnly)
-                                     .filter(x => x.docNumPagesPrint)
-                                     .map(x => x.docNumPagesPrint)
-                                     .reduce((a, b) => a + b, 0);
-        this.totalPages = entries.filter(x => x.docNumPagesPrint).map(x => x.docNumPagesPrint).reduce((a, b) => a + b, 0);
-        this.issueSections = entries.map(x => x.docSection);
-        this.displayDocsLayout = entries;
-        this.displayDocsEditorial = entries.filter( x => !this.layoutSectionsOnly.includes(x.docSection) );
-        this.showResults = true;
-      }
-    }, 
-    err => {
-        console.log(err);
-        return false;
-    });
+    const printIssueDay = moment(this.printIssueSelect).format('DD');
+    if(printIssueDay != "01") {
+      this.errorMessage = "Print issue date must be first day of the month"; 
+      setTimeout(() => {
+        this.errorMessage = "";
+        this.ngOnInit();
+      }, 3000); 
+    } else {
+      this.authService.getLayoutSearchResults(this.printIssueFormatted).subscribe(entries => {
+        if(entries.length == 0) {
+          this.noResults = true;
+        } 
+        else {
+          console.log(entries);
+          this.adPages = entries.filter(x => x.docLayoutOnly)
+                                    .filter(x => x.docSection == 'Print Ad')
+                                    .filter(x => x.docNumPagesPrint)
+                                    .map(x => x.docNumPagesPrint)
+                                    .reduce((a, b) => a + b, 0);
+          this.layoutPages = entries.filter(x => x.docLayoutOnly)
+                                    .filter(x => x.docSection != 'Print Ad')
+                                    .filter(x => x.docNumPagesPrint)
+                                    .map(x => x.docNumPagesPrint)
+                                    .reduce((a, b) => a + b, 0);
+          this.editorialPages = entries.filter(x => !x.docLayoutOnly)
+                                       .filter(x => x.docNumPagesPrint)
+                                       .map(x => x.docNumPagesPrint)
+                                       .reduce((a, b) => a + b, 0);
+          this.totalPages = entries.filter(x => x.docNumPagesPrint).map(x => x.docNumPagesPrint).reduce((a, b) => a + b, 0);
+          this.issueSections = entries.map(x => x.docSection);
+          this.displayDocsLayout = entries;
+          this.displayDocsEditorial = entries.filter( x => !this.layoutSectionsOnly.includes(x.docSection) );
+          this.showResults = true;
+        }
+      }, 
+      err => {
+          console.log(err);
+          return false;
+      });
+    }
   }
 
   makeDoc(section, index) {

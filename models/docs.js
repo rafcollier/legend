@@ -123,6 +123,9 @@ let DocSchema = new Schema({
 	docLayoutOnly: {
 	  type: Boolean
 	},
+	docKeyWords: {
+	  type: String
+	},
 
 	//MULTIMEDIA
 

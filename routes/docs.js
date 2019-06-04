@@ -58,6 +58,7 @@ router.post('/submitdoc', (req, res, next) => {
     docNumAppendicesOnline: req.body.docNumAppendicesOnline,
     docNumAppendicesPrint: req.body.docNumAppendicesPrint,
     docLayoutOnly: req.body.docLayoutOnly,
+    docKeyWords: req.body.docKeyWords,
 
 
     //MULTIMEDIA
@@ -176,7 +177,6 @@ router.post('/submitdoc', (req, res, next) => {
     docSendProofReadDateFormatted: req.body.docSendProofReadDateFormatted,
     docReturnProofReadDateFormatted: req.body.docReturnProofReadDateFormatted,
     docFinalizeDateFormatted: req.body.docFinalizeDateFormatted,
-
     docNewsReadyFormatted: req.body.docNewsReadyFormatted,
     docPublishDateCMAJnewsFormatted: req.body.docPublishDateCMAJnewsFormatted,
     docNewsCommissionDateFormatted: req.body.docNewsCommissionDateFormatted,
@@ -184,7 +184,7 @@ router.post('/submitdoc', (req, res, next) => {
 
   });
 
-  console.log(req.body.docDOI);
+  console.log(newDoc);
 
   //Check for duplicate DOI if there is a DOI -- Dans le CMAJ and Print Ads don't have DOIs
   //if(req.body.docDOI != (null || undefined || "" || 0)) {
@@ -423,12 +423,13 @@ router.get('/getTimeDiff', (req, res, next) => {
   });
 });
 
-//Get search results for a print issue and sort by poisition by default, but sort by first page as entered
+//Get search results for a print issue and sort by position by default, but sort by first page as entered
 
 router.get('/getLayoutSearchResults', (req, res, next) => {
   let query1 = {};
   if(req.query.docPrintIssue) 
     query1 = {docPrintIssueFormatted : req.query.docPrintIssue};
+  console.log(query1);
   Doc.aggregate([
   {
     $project:
@@ -454,7 +455,10 @@ router.get('/getLayoutSearchResults', (req, res, next) => {
       'docNumTablesPrint' : 1,
       'docNumBoxesPrint' : 1,
       'docPrintIssueNotes' : 1,
+      'docNumAppendicesPrint' : 1,
       'docLayoutOnly' : 1,
+      'docOnlineIssueNumber' : 1,
+      'docOnlineVolume' : 1,
       sortValue:
       {
         $cond: 
@@ -521,7 +525,10 @@ router.get('/getOnlineSearchResults', (req, res, next) => {
       'docNumFiguresOnline' : 1,
       'docNumTablesOnline' : 1,
       'docNumBoxesOnline' : 1,
+      'docNumAppendicesOnline' : 1,
       'docOnlineIssueNotes' : 1,
+      'docOnlineIssueNumber' : 1,
+      'docOnlineVolume' : 1,
       sortValue:
       {
         $cond: 

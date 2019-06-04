@@ -6,6 +6,21 @@ import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import * as moment from 'moment';
+import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'LL',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
 declare var require: any;
 declare var fs: any;
 let Json2csvParser = require('json2csv').Parser;
@@ -13,7 +28,11 @@ let Json2csvParser = require('json2csv').Parser;
 @Component({
   selector: 'app-online',
   templateUrl: './online.component.html',
-  styleUrls: ['./online.component.css']
+  styleUrls: ['./online.component.css'],
+  providers: [
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ]
 })
 export class OnlineComponent implements OnInit {
   showResults: Boolean = false;
@@ -22,6 +41,7 @@ export class OnlineComponent implements OnInit {
   onlineIssues: object [];
   onlineIssueDates: string [];
   docOnlineIssue: Date;
+  dateOnline = new FormControl(moment());
   selectedIssue: Date;
   onlineIssueVolume: number;
   onlineIssueIssue: number; 
@@ -65,6 +85,9 @@ export class OnlineComponent implements OnInit {
   editorialView: boolean;
   layoutView: boolean;
 
+  errorMessage: String = "";
+  successMessage: String = "";
+
 constructor(
   private authService: AuthService,
   private router: Router,
@@ -88,34 +111,42 @@ constructor(
 
   onSearchSubmit() {
     this.onlineIssueDateFormatted = moment(this.docOnlineIssue).format('MMMM DD, YYYY');
-    this.authService.getOnlineSearchResults(this.onlineIssueDateFormatted).subscribe(entries => {
-      if(entries.length == 0) {
-        this.noResults = true;
-      } 
-      else {
-        console.log(entries);
-        this.displayDocs = entries;
-        this.onlineIssueVolume = entries[0]["docOnlineVolume"];
-        this.onlineIssueIssue = entries[0]["docOnlineIssueNumber"];
-
-        //Find position of queried date in array and next item in array will be previous issue.
-        //If current issue if first in database, there is no previous issue so return 1 as first page of current issue. 
-        //If issues are in the same year, check previous issue. Otherwise current issue is first of new year.
-        const posDate: number = this.onlineIssueDates.indexOf(this.onlineIssueDateFormatted);
-        if (posDate == this.onlineIssueDates.length -1) {
-          this.getLastPageCurrentIssue();
-        }
+    if(!this.onlineIssueDates.includes(this.onlineIssueDateFormatted)) {
+      this.errorMessage = "Invalid online issue date"; 
+        setTimeout(() => {
+          this.errorMessage = "";
+          this.ngOnInit();
+      }, 3000); 
+    }
+    else { 
+      this.authService.getOnlineSearchResults(this.onlineIssueDateFormatted).subscribe(entries => {
+        if(entries.length == 0) {
+          this.noResults = true;
+        } 
         else {
-          const prevIssue = this.onlineIssues[posDate + 1];
-          this.prevOnlineIssueDateFormatted = moment(prevIssue).format('MMMM DD, YYYY');
-          this.getLastPagePreviousIssue(prevIssue);
+          this.displayDocs = entries;
+          this.onlineIssueVolume = entries[0]["docOnlineVolume"];
+          this.onlineIssueIssue = entries[0]["docOnlineIssueNumber"];
+
+          //Find position of queried date in array and next item in array will be previous issue.
+          //If current issue if first in database, there is no previous issue so return 1 as first page of current issue. 
+          //If issues are in the same year, check previous issue. Otherwise current issue is first of new year.
+          const posDate: number = this.onlineIssueDates.indexOf(this.onlineIssueDateFormatted);
+          if (posDate == this.onlineIssueDates.length -1) {
+            this.getLastPageCurrentIssue();
+          }
+          else {
+            const prevIssue = this.onlineIssues[posDate + 1];
+            this.prevOnlineIssueDateFormatted = moment(prevIssue).format('MMMM DD, YYYY');
+            this.getLastPagePreviousIssue(prevIssue);
+          }
         }
-      }
-    }, 
-    err => {
+      }, 
+      err => {
         console.log(err);
         return false;
-    });
+      });
+    }
   }
 
   getLastPagePreviousIssue(prevIssue) {
@@ -184,6 +215,7 @@ constructor(
       docNumBoxesOnline: this.docNumBoxesOnline,
       docNumAppendicesOnline: this.docNumAppendicesOnline
     }
+    console.log(onlineOrderDoc);
     this.authService.putUpdateDoc(onlineOrderDoc).subscribe(doc => {
       this.onSearchSubmit();
       this.docIndex = null;

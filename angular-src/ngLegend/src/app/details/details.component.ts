@@ -7,13 +7,31 @@ import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 
 import * as moment from 'moment';
+import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'LL',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 const config = require('../../../../../config/docs');
 
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
-  styleUrls: ['./details.component.css']
+  styleUrls: ['./details.component.css'],
+  providers: [
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ]
 })
 export class DetailsComponent implements OnInit {
   private sub: any;
@@ -110,6 +128,7 @@ export class DetailsComponent implements OnInit {
   docNumAppendices: Number;
   docNumAppendicesOnline: Number;
   docNumAppendicesPrint: Number;
+  docKeyWords: String;
 
   //MULTIMEDIA
   docMultiMedia1: String;
@@ -136,10 +155,15 @@ export class DetailsComponent implements OnInit {
 
   //DOCUMENT TIMELINE
   docAcceptDate: Date;
+  dateAccept = new FormControl(moment());
   docPaymentDate: Date;
+  datePayment = new FormControl(moment());
   docETOCDate: Date;
+  dateETOC = new FormControl(moment());
   docOnlineIssue: Date;
+  dateOnline = new FormControl(moment());
   docPrintIssue: Date;
+  datePrint = new FormControl(moment());
 
   //EDITING TIMELINE
   docEditor: String;
@@ -148,17 +172,29 @@ export class DetailsComponent implements OnInit {
   docSE1: String;
   docSE2: String;
   docEnteredDate: Date;
+  dateEnter = new FormControl(moment());
   docCopyEditBeginDate: Date;
+  dateCopyEditBegin = new FormControl(moment());
   docCopyEditCompleteDate: Date;
+  dateCopyEditComplete = new FormControl(moment());
   docSendSEDate: Date;
+  dateSendSE = new FormControl(moment());
   docReturnSEDate: Date;
+  dateReturnSE = new FormControl(moment());
   docSendAuthorDate: Date;
+  dateSendAuthor = new FormControl(moment());
   docReturnAuthorDate: Date;
+  dateReturnAuthor = new FormControl(moment());
   docSendFineTune: Date;
+  dateSendFineTune = new FormControl(moment());
   docReturnFineTune: Date;
+  dateReturnFineTune = new FormControl(moment());
   docSendProofRead: Date;
+  dateSendProofRead = new FormControl(moment());
   docReturnProofRead: Date;
+  dateReturnProofRead = new FormControl(moment());
   docFinalizeDate: Date;
+  dateFinalize = new FormControl(moment());
   docStatus: String;
 
   //NOTES
@@ -219,6 +255,11 @@ export class DetailsComponent implements OnInit {
   docNewsCommissionDateFormatted: String;
   docNewsInvoiceDateFormatted: String;
 
+  onlineIssueDates: string [];
+
+  errorMessage: String = "";
+  successMessage: String = "";
+
   constructor(
   	private route: ActivatedRoute,
     private authService: AuthService,
@@ -276,6 +317,7 @@ export class DetailsComponent implements OnInit {
     this.editors = this.authService.localGetEditors(); 
     this.codes = this.authService.localGetCodes();
     this.online = this.authService.localGetOnline(); 
+    this.onlineIssueDates = this.online.map(x => moment(x['date']).format('MMMM DD, YYYY'));
     this.departments = this.authService.localGetDepartments();
     this.sectionsUnique = this.authService.localGetUniqueSections(); 
     this.sectionsMenu = this.authService.localGetUniqueSections().map(x => x.section); 
@@ -359,6 +401,7 @@ export class DetailsComponent implements OnInit {
       this.docNumAppendices = doc.docNumAppendices;
       this.docNumAppendicesOnline = doc.docNumAppendicesOnline;
       this.docNumAppendicesPrint = doc.docNumAppendicesPrint;
+      this.docKeyWords = doc.docKeyWords;
     
       //MULTIMEDIA
     
@@ -481,9 +524,8 @@ export class DetailsComponent implements OnInit {
   }
 
   myFilter = (d: Date): boolean => {
-    const onlineIssueDates = this.online.map( x => moment(x['date']).format('MMMM DD, YYYY'));
     const calendarDay = moment(d).format('MMMM DD, YYYY');
-    return onlineIssueDates.includes(calendarDay); 
+    return this.onlineIssueDates.includes(calendarDay); 
   }
 
   myFilterPrint = (d: Date): boolean => {
@@ -516,7 +558,58 @@ export class DetailsComponent implements OnInit {
 
   //The button to submit the edited document was pushed
   onEditedDocSubmit() {
+   
+    const onlineIssueSelect = moment(this.docOnlineIssue).format('MMMM DD, YYYY');
+    const printIssueDay = moment(this.docPrintIssue).format('DD');
+    console.log(printIssueDay);
+
+    if(!this.onlineIssueDates.includes(onlineIssueSelect)) {
+      this.errorMessage = "Invalid online issue date"; 
+        setTimeout(() => {
+          this.errorMessage = "";
+          this.ngOnInit();
+      }, 3000); 
+    }
+    else if(printIssueDay != "01") {
+      this.errorMessage = "Print issue date must be first day of the month"; 
+        setTimeout(() => {
+          this.errorMessage = "";
+          this.ngOnInit();
+      }, 3000); 
+    }
+    else if(this.docOnlineIssue) {
+      this.getVolumeIssue();
+    }
+    else {
+      this.getPositions();
+    }
+
+  }
+
+  //Get the volume and issue number from information entered from the admin page.
+  getVolumeIssue() {
+    const date1 = moment(this.docOnlineIssue).format('MMMM DD, YYYY');
+    const temp = this.online.map( x => {
+      x['date'] = moment(x['date']).format('MMMM DD, YYYY');
+      return {'date': x['date'], 'volume': x['volume'], 'issue': x['issue']};
+    });
+    this.docOnlineVolume = temp.filter(x => x['date'] == date1).map(x => x['volume'])[0];
+    this.docOnlineIssueNumber = temp.filter(x => x['date'] == date1).map(x => x['issue'])[0];
+    this.getPositions();
+  }
+
+  //Get the positions in the table of contents for each paper based on info entered into "Sections" on admin page
+  getPositions() {
+    if(this.docDepartment) {
+      this.docOnlinePosition = this.departments.filter(x => x['department'] == this.docDepartment).map(x => x['onlinePosition'])[0];
+      this.docPrintPosition = this.departments.filter(x => x['department'] == this.docDepartment).map(x => x['printPosition'])[0];
+    }
+    else if (this.docSection) {
+      this.docOnlinePosition = this.sectionsUnique.filter(x => x['section'] == this.docSection).map(x => x['onlinePosition'])[0];
+      this.docPrintPosition = this.sectionsUnique.filter(x => x['section'] == this.docSection).map(x => x['printPosition'])[0];
+    }
     if (this.docSection != "News") {
+      this.docETOCDate = this.docOnlineIssue;
       this.getStatus();
     } 
     else {
@@ -553,6 +646,24 @@ export class DetailsComponent implements OnInit {
 
   submitEditedDoc() { 
 
+    if(!this.docFirstPageOnline) this.docFirstPageOnline = 0;
+    if(!this.docLastPageOnline) this.docLastPageOnline = 0;
+    if(!(this.docNumPages)) this.docNumPages = 0; 
+    if(!(this.docNumPagesOnline)) this.docNumPagesOnline = 0; 
+    if(!(this.docNumPagesPrint)) this.docNumPagesPrint = 0;
+    if(!(this.docNumFigures)) this.docNumFigures= 0;
+    if(!(this.docNumFiguresOnline)) this.docNumFiguresOnline = 0;
+    if(!(this.docNumFiguresPrint)) this.docNumFiguresPrint = 0;
+    if(!(this.docNumBoxes)) this.docNumBoxes= 0;
+    if(!(this.docNumBoxesOnline)) this.docNumBoxesOnline = 0;
+    if(!(this.docNumBoxesPrint)) this.docNumBoxesPrint = 0;
+    if(!(this.docNumTables)) this.docNumTables= 0;
+    if(!(this.docNumTablesOnline)) this.docNumTablesOnline = 0;
+    if(!(this.docNumTablesPrint)) this.docNumTablesPrint = 0;
+    if(!(this.docNumAppendices)) this.docNumAppendices= 0;
+    if(!(this.docNumAppendicesOnline)) this.docNumAppendicesOnline = 0;
+    if(!(this.docNumAppendicesPrint)) this.docNumAppendicesPrint = 0;
+
     if( (this.docNumPages) && !(this.docNumPagesOnline) ) this.docNumPagesOnline = this.docNumPages; 
     if( (this.docNumPages) && !(this.docNumPagesPrint) ) this.docNumPagesPrint = this.docNumPages; 
     if( (this.docNumFigures) && !(this.docNumFiguresOnline) ) this.docNumFiguresOnline = this.docNumFigures; 
@@ -564,8 +675,29 @@ export class DetailsComponent implements OnInit {
     if( (this.docNumAppendices) && !(this.docNumAppendicesOnline) ) this.docNumAppendicesOnline = this.docNumAppendices; 
     if( (this.docNumAppendices) && !(this.docNumAppendicesPrint) ) this.docNumAppendicesPrint = this.docNumAppendices; 
 
-    if(!this.docFirstPageOnline) this.docFirstPageOnline = 0;
-    if(!this.docLastPageOnline) this.docLastPageOnline = 0;
+    //Store string formatted dates for display if the date has been entered
+
+    if (this.docAcceptDate) this.docAcceptDateFormatted = moment(this.docAcceptDate).format('MMMM DD, YYYY');
+    if (this.docPaymentDate) this.docPaymentDateFormatted = moment(this.docPaymentDate).format('MMMM DD, YYYY');
+    if (this.docETOCDate) this.docETOCDateFormatted = moment(this.docETOCDate).format('MMMM DD, YYYY');
+    if (this.docOnlineIssue) this.docOnlineIssueFormatted = moment(this.docOnlineIssue).format('MMMM DD, YYYY');
+    if (this.docPrintIssue) this.docPrintIssueFormatted = moment(this.docPrintIssue).format('MMMM YYYY');
+    if (this.docEnteredDate) this.docEnteredDateFormatted = moment(this.docEnteredDate).format('MMMM DD, YYYY');
+    if (this.docCopyEditBeginDate) this.docCopyEditBeginDateFormatted = moment(this.docCopyEditBeginDate).format('MMMM DD, YYYY');
+    if (this.docCopyEditCompleteDate) this.docCopyEditCompleteDateFormatted = moment(this.docCopyEditCompleteDate).format('MMMM DD, YYYY');
+    if (this.docSendSEDate) this.docSendSEDateFormatted = moment(this.docSendSEDate).format('MMMM DD, YYYY');
+    if (this.docReturnSEDate) this.docReturnSEDateFormatted = moment(this.docReturnSEDate).format('MMMM DD, YYYY');
+    if (this.docSendAuthorDate) this.docSendAuthorDateFormatted = moment(this.docSendAuthorDate).format('MMMM DD, YYYY');
+    if (this.docReturnAuthorDate) this.docReturnAuthorDateFormatted = moment(this.docReturnAuthorDate).format('MMMM DD, YYYY');
+    if (this.docSendFineTune) this.docSendFineTuneDateFormatted = moment(this.docSendFineTune).format('MMMM DD, YYYY');
+    if (this.docReturnFineTune) this.docReturnFineTuneDateFormatted = moment(this.docReturnFineTune).format('MMMM DD, YYYY');
+    if (this.docSendProofRead) this.docSendProofReadDateFormatted = moment(this.docSendProofRead).format('MMMM DD, YYYY');
+    if (this.docReturnProofRead) this.docReturnProofReadDateFormatted = moment(this.docReturnProofRead).format('MMMM DD, YYYY');
+    if (this.docFinalizeDate) this.docFinalizeDateFormatted = moment(this.docFinalizeDate).format('MMMM DD, YYYY');
+    if (this.docNewsReady) this.docNewsReadyFormatted = moment(this.docNewsReady).format('MMMM DD, YYYY');
+    if (this.docPublishDateCMAJnews) this.docPublishDateCMAJnewsFormatted = moment(this.docPublishDateCMAJnews).format('MMMM DD, YYYY');
+    if (this.docNewsCommissionDate) this.docNewsCommissionDateFormatted = moment(this.docNewsCommissionDate).format('MMMM DD, YYYY');
+    if (this.docNewsInvoiceDate) this.docNewsInvoiceDateFormatted = moment(this.docNewsInvoiceDate).format('MMMM DD, YYYY');
 
     let editedDoc = {
  
@@ -612,6 +744,7 @@ export class DetailsComponent implements OnInit {
       docNumAppendices: this.docNumAppendices,
       docNumAppendicesOnline: this.docNumAppendicesOnline,
       docNumAppendicesPrint: this.docNumAppendicesPrint,
+      docKeyWords: this.docKeyWords,
     
       //MULTIMEDIA
     
@@ -638,13 +771,6 @@ export class DetailsComponent implements OnInit {
       docCollectionCode4: this.docCollectionCode4,
       docCollectionCode5: this.docCollectionCode5,
       docCollectionCode6: this.docCollectionCode6,
-      //Get number codes in admin associated with selected collection codes
-      //code1Code: this.codes.filter(x => x['description'] == this.docCollectionCode1).map(x => x['code'])[0],
-      //code2Code: this.codes.filter(x => x['description'] == this.docCollectionCode2).map(x => x['code'])[0],
-      //code3Code: this.codes.filter(x => x['description'] == this.docCollectionCode3).map(x => x['code'])[0],
-      //code4Code: this.codes.filter(x => x['description'] == this.docCollectionCode4).map(x => x['code'])[0],
-      //code5Code: this.codes.filter(x => x['description'] == this.docCollectionCode5).map(x => x['code'])[0],
-      //code6Code: this.codes.filter(x => x['description'] == this.docCollectionCode6).map(x => x['code'])[0],
     
       //DOCUMENT TIMELINE
     
@@ -709,40 +835,56 @@ export class DetailsComponent implements OnInit {
       docNewsCommissionDate: this.docNewsCommissionDate,
       docNewsInvoiceDate: this.docNewsInvoiceDate,
       docNewsInvoiceAmount: this.docNewsInvoiceAmount,
-
+    
       //FORMATTED DATES
 
-      docAcceptDateFormatted: moment(this.docAcceptDate).format('MMMM DD, YYYY'),
-      docPaymentDateFormatted: moment(this.docPaymentDate).format('MMMM DD, YYYY'),
-      docETOCDateFormatted: moment(this.docETOCDate).format('MMMM DD, YYYY'),
-      docOnlineIssueFormatted: moment(this.docOnlineIssue).format('MMMM DD, YYYY'),
-      docPrintIssueFormatted: moment(this.docPrintIssue).format('MMMM YYYY'),
-      docEnteredDateFormatted: moment(this.docEnteredDate).format('MMMM DD, YYYY'),
-      docCopyEditBeginDateFormatted: moment(this.docCopyEditBeginDate).format('MMMM DD, YYYY'),
-      docCopyEditCompleteDateFormatted: moment(this.docCopyEditCompleteDate).format('MMMM DD, YYYY'),
-      docSendSEDateFormatted: moment(this.docSendSEDate).format('MMMM DD, YYYY'),
-      docReturnSEDateFormatted: moment(this.docReturnSEDate).format('MMMM DD, YYYY'),
-      docSendAuthorDateFormatted: moment(this.docSendAuthorDate).format('MMMM DD, YYYY'),
-      docReturnAuthorDateFormatted: moment(this.docReturnAuthorDate).format('MMMM DD, YYYY'),
-      docSendFineTuneDateFormatted: moment(this.docSendFineTune).format('MMMM DD, YYYY'),
-      docReturnFineTuneDateFormatted: moment(this.docReturnFineTune).format('MMMM DD, YYYY'),
-      docSendProofReadDateFormatted: moment(this.docSendProofRead).format('MMMM DD, YYYY'),
-      docReturnProofReadDateFormatted: moment(this.docReturnProofRead).format('MMMM DD, YYYY'),
-      docFinalizeDateFormatted: moment(this.docFinalizeDate).format('MMMM DD, YYYY'),
-      docNewsReadyFormatted: moment(this.docNewsReady).format('MMMM DD, YYYY'),
-      docPublishDateCMAJnewsFormatted: moment(this.docPublishDateCMAJnews).format('MMMM DD, YYYY'),
-      docNewsCommissionDateFormatted: moment(this.docNewsCommissionDate).format('MMMM DD, YYYY'),
-      docNewsInvoiceDateFormatted: moment(this.docNewsInvoiceDate).format('MMMM DD, YYYY'),
+      docAcceptDateFormatted: this.docAcceptDateFormatted,
+      docPaymentDateFormatted: this.docPaymentDateFormatted,
+      docETOCDateFormatted: this.docETOCDateFormatted,
+      docOnlineIssueFormatted: this.docOnlineIssueFormatted,
+      docPrintIssueFormatted: this.docPrintIssueFormatted,
+      docEnteredDateFormatted: this.docEnteredDateFormatted,
+      docCopyEditBeginDateFormatted: this.docCopyEditBeginDateFormatted,
+      docCopyEditCompleteDateFormatted: this.docCopyEditCompleteDateFormatted,
+      docSendSEDateFormatted: this.docSendSEDateFormatted,
+      docReturnSEDateFormatted: this.docReturnSEDateFormatted,
+      docSendAuthorDateFormatted: this.docSendAuthorDateFormatted,
+      docReturnAuthorDateFormatted: this.docReturnAuthorDateFormatted,
+      docSendFineTuneDateFormatted: this.docSendFineTuneDateFormatted,
+      docReturnFineTuneDateFormatted: this.docReturnFineTuneDateFormatted,
+      docSendProofReadDateFormatted: this.docSendProofReadDateFormatted,
+      docReturnProofReadDateFormatted: this.docReturnProofReadDateFormatted,
+      docFinalizeDateFormatted: this.docFinalizeDateFormatted,
+      docNewsReadyFormatted: this.docNewsReadyFormatted,
+      docPublishDateCMAJnewsFormatted: this.docPublishDateCMAJnewsFormatted,
+      docNewsCommissionDateFormatted: this.docNewsCommissionDateFormatted,
+      docNewsInvoiceDateFormatted: this.docNewsInvoiceDateFormatted
 
     }
 
+    console.log(editedDoc);
+
     this.authService.putUpdateDoc(editedDoc).subscribe(doc => {
+      
+      if(doc.success) {
+        this.successMessage = doc.msg;
+        setTimeout(() => {
+          this.successMessage = "";
+          this.router.navigate(['/recent']); 
+        }, 2000);
+      }
+      else {
+        this.errorMessage = doc.msg;
+        setTimeout(() => {
+          this.errorMessage = "";
+          this.ngOnInit();
+        }, 2000);
+      }
     },
     err => {
       console.log(err);
       return false;
     });
-    this.router.navigate(['/recent']);
   }
 
 }

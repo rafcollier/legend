@@ -6,10 +6,19 @@
     <form (submit)="onSearchSubmit()" class="example-form">  
 
       <mat-form-field class="example-full-width">
-        <input matInput [matDatepickerFilter]="myFilterPrint" [matDatepicker]="printIssueSelectDatePicker" placeholder="Print Issue Date" [(ngModel)]="printIssueSelect" name="printIssueSelect">
-        <mat-datepicker-toggle matSuffix [for]="printIssueSelectDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #printIssueSelectDatePicker></mat-datepicker>
+        <input matInput [matDatepickerFilter]="myFilterPrint" [matDatepicker]="docPrintIssueDatePicker" placeholder="Print Issue Date" [(ngModel)]="printIssueSelect" name="printIssueSelect" [formControl]="datePrint">
+        <mat-datepicker-toggle matSuffix [for]="docPrintIssueDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #docPrintIssueDatePicker></mat-datepicker>
       </mat-form-field>
+
+      <div *ngIf="errorMessage">
+        <br>
+        <h4 class="red-font">{{errorMessage}}</h4>
+      </div>
+      <div *ngIf="successMessage">
+        <h4 class="blue-font">{{successMessage}}</h4>
+        <br>
+      </div>
 
       <button mat-raised-button type="submit">Search</button>
 
@@ -181,9 +190,9 @@
 
         <div *ngIf="i != docIndex" class = "edit-div">
           <p *ngIf="d.docLayoutOnly"><span style="color:#4D6FAC">Title:</span> {{ d.docTitle }}</p>
-          <p><span style="color:#4D6FAC">Number of Pages in Print:</span> {{ d.docNumPagesPrint }}</p>
           <p><span style="color:#4D6FAC">First Page:</span> {{ d.docFirstPagePrint }}</p>
           <p><span style="color:#4D6FAC">Last Page:</span> {{ d.docLastPagePrint }}</p>
+          <p><span style="color:#4D6FAC">Number of Pages in Print:</span> {{ d.docNumPagesPrint }}</p>
           <p *ngIf="d.docNumFiguresPrint"><span style="color:#4D6FAC">Number of Figures in Print:</span> {{ d.docNumFiguresPrint }}</p>
           <p *ngIf="d.docNumTablesPrint"><span style="color:#4D6FAC">Number of Tables in Print:</span> {{ d.docNumTablesPrint }}</p>
           <p *ngIf="d.docNumBoxesPrint"><span style="color:#4D6FAC">Number of Boxes in Print:</span> {{ d.docNumBoxesPrint }}</p>
@@ -201,14 +210,15 @@
                 <mat-form-field *ngIf="d.docLayoutOnly" class="example-full-width">
                   <input type="string" matInput [(ngModel)]="docTitle" name="docTitle" placeholder="Title">
                 </mat-form-field>
-                <mat-form-field class="example-full-width">
-                  <input type="number" matInput [(ngModel)]="docNumPagesPrint" name="docNumPagesPrint" placeholder="Number of Pages in Print">
-                </mat-form-field>
+
                 <mat-form-field class="example-full-width">
                   <input type="number" matInput [(ngModel)]="docFirstPagePrint" name="docFirstPagePrint" placeholder="First Page">
                 </mat-form-field>
                 <mat-form-field class="example-full-width">
                   <input type="number" matInput [(ngModel)]="docLastPagePrint" name="docLastPagePrint" placeholder="Last Page">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                  <input type="number" matInput [(ngModel)]="docNumPagesPrint" name="docNumPagesPrint" placeholder="Number of Pages in Print">
                 </mat-form-field>
                 <mat-form-field class="example-full-width">
                   <input type="number" matInput [(ngModel)]="docNumFiguresPrint" name="docNumFiguresPrint" placeholder="Number of Figures in Print">

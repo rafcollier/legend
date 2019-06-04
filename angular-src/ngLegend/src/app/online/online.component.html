@@ -6,12 +6,21 @@
     <form (submit)="onSearchSubmit()" class="example-form">  
 
       <mat-form-field class="example-full-width">
-        <input matInput  [matDatepickerFilter]="myFilter" [matDatepicker]="docOnlineIssueDatePicker" placeholder="Online Issue Date" [(ngModel)]="docOnlineIssue" name="docOnlineIssue">
+        <input matInput  [matDatepickerFilter]="myFilter" [matDatepicker]="docOnlineIssueDatePicker" placeholder="Online Issue Date" [(ngModel)]="docOnlineIssue" name="docOnlineIssue" [formControl]="dateOnline">
         <mat-datepicker-toggle matSuffix [for]="docOnlineIssueDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #docOnlineIssueDatePicker></mat-datepicker>
       </mat-form-field>
 
-       <button mat-raised-button type="submit">Search</button>
+      <div *ngIf="errorMessage">
+        <br>
+        <h4 class="red-font">{{errorMessage}}</h4>
+      </div>
+      <div *ngIf="successMessage">
+        <h4 class="blue-font">{{successMessage}}</h4>
+        <br>
+      </div>
+
+      <button mat-raised-button type="submit">Search</button>
 
     </form>  
   </section>
@@ -178,12 +187,13 @@
       <p *ngIf="d.docVideoLink"><span style="color:#4D6FAC">Video Link:</span> {{ d.docVideoLink }}</p>
 
       <div *ngIf="i != docIndex" class = "edit-div">
+        <p> <span style="color:#4D6FAC">First Page:</span> {{ d.docFirstPageOnline }} </p>
+        <p> <span style="color:#4D6FAC">Last Page:</span> {{ d.docLastPageOnline }} </p>
+        <p *ngIf="d.docNumPagesOnline"><span style="color:#4D6FAC">Number of Pages Online:</span> {{ d.docNumPagesOnline }} </p>
         <p *ngIf="d.docNumFiguresOnline"><span style="color:#4D6FAC">Number of Figures Online:</span> {{ d.docNumFiguresOnline }} </p>
         <p *ngIf="d.docNumTablesOnline"><span style="color:#4D6FAC">Number of Tables Online:</span> {{ d.docNumTablesOnline }} </p>
-        <p *ngIf="d.docNumBoxesOnline"><span style="color:#4D6FAC">Number of Tables Online:</span> {{ d.docNumTablesOnline }} </p>
+        <p *ngIf="d.docNumBoxesOnline"><span style="color:#4D6FAC">Number of Boxes Online:</span> {{ d.docNumBoxesOnline }} </p>
         <p *ngIf="d.docNumAppendicesOnline"><span style="color:#4D6FAC">Number of Appendencies Online:</span> {{ d.docNumAppendicesOnline }} </p>
-        <p *ngIf="d.docFirstPageOnline"> <span style="color:#4D6FAC">First Page:</span> {{ d.docFirstPageOnline }} </p>
-        <p *ngIf="d.docLastPageOnline"> <span style="color:#4D6FAC">Last Page:</span> {{ d.docLastPageOnline }} </p>
         <p *ngIf="d.docOnlineNotes"> <span style="color:#4D6FAC">Online Issue Notes:</span> {{ d.docOnlineNotes }} </p>
 
         <a href="" onClick="return false;" class="red-link">
@@ -198,6 +208,10 @@
           <section class = "mat-typography">
            <h4>Edit Online Issue </h4>
             <form (submit)="onOnlineOrderSubmit()" class="example-form">  
+
+              <mat-form-field class="example-full-width">  
+                <input type="number" matInput placeholder="Number of Pages Online" [(ngModel)]="docNumPagesOnline" name="docNumPagesOnline">
+              </mat-form-field>  
 
               <mat-form-field class="example-full-width">  
                 <input type="number" matInput placeholder="Number of Figures Online" [(ngModel)]="docNumFiguresOnline" name="docNumFiguresOnline">
