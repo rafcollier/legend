@@ -39,6 +39,7 @@ export class SearchComponent implements OnInit {
   username: String;
   editorsMenu: string []; 
   docFlagPrint: Boolean;
+  docEditorialOnly: Boolean;
   printIssueFormatted: string;
 
 constructor(
@@ -66,6 +67,7 @@ constructor(
       this.docNotUsedOnline,
       this.docNotUsedPrint,
       this.docFlagPrint,
+      this.docEditorialOnly,
       this.afterAcceptDate,
       this.beforeAcceptDate,
       this.editor,
@@ -94,6 +96,7 @@ constructor(
     this.docNotUsedOnline = null;
     this.docNotUsedPrint = null;
     this.docFlagPrint = null;
+    this.docEditorialOnly = null;
     this.afterAcceptDate = null;
     this.beforeAcceptDate = null;
   	this.ngOnInit();

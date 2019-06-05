@@ -21,7 +21,11 @@
       <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
         <input matInput placeholder="" style="display: none">
           <mat-checkbox [(ngModel)]="docFlagPrint" name="docFlagPrint">Flagged for Print Issue</mat-checkbox>
+      </mat-form-field>
 
+      <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+        <input matInput placeholder="" style="display: none">
+          <mat-checkbox [(ngModel)]="docEditorialOnly" name="docEditorialOnly">Editorial Only</mat-checkbox>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">

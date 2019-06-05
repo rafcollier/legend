@@ -319,6 +319,10 @@ router.get('/getSearchResults', (req, res, next) => {
   let query9 = {};
   let query10 = {};
   let query11 = {};
+  let query12 = {};
+  let query12A = {};
+  let query12B = {};
+  let query12C = {};
 
   if(req.query.status)
     query1 = {'docStatus' : req.query.status};
@@ -366,7 +370,15 @@ router.get('/getSearchResults', (req, res, next) => {
     query11 = {'docFlagPrint' : true};
   }
 
-  Doc.find({$and: [query1, query2, query3, query4, query5, query6, query7, query8, query9, query10, query11]}, 
+  //Don't diplay non-editorial sections
+  if(req.query.docEditorialOnly) { 
+    query12A = {'docLayoutOnly' : {$exists : false}};
+    query12B = {'docLayoutOnly' : null};
+    query12C = {'docLayoutOnly' : false};
+    query12 = {$or: [query12A, query12B, query12C]};
+  }
+
+  Doc.find({$and: [query1, query2, query3, query4, query5, query6, query7, query8, query9, query10, query11, query12]}, 
            null, 
            {sort: {docStatus: 1}
            }, 

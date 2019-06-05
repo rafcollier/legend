@@ -375,18 +375,19 @@ export class EnterdocComponent implements OnInit {
     const onlineIssueSelect = moment(this.docOnlineIssue).format('MMMM DD, YYYY');
     const printIssueDay = moment(this.docPrintIssue).format('DD');
 
-    if(!this.onlineIssueDates.includes(onlineIssueSelect)) {
+    console.log(this.docOnlineIssue);
+    console.log(this.docPrintIssue);
+
+    if((this.docOnlineIssue) && (!this.onlineIssueDates.includes(onlineIssueSelect))) {
       this.errorMessage = "Invalid online issue date"; 
         setTimeout(() => {
           this.errorMessage = "";
-          this.ngOnInit();
       }, 3000); 
     }
-    else if(printIssueDay != "01") {
+    else if((this.docPrintIssue) && (printIssueDay != "01")) {
       this.errorMessage = "Print issue date must be first day of the month"; 
         setTimeout(() => {
           this.errorMessage = "";
-          this.ngOnInit();
       }, 3000); 
     }
     else if(this.docOnlineIssue) {

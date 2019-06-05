@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import{Http, Headers, URLSearchParams, RequestOptions} from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
@@ -401,7 +400,8 @@ export class AuthService {
       .pipe(map(res => res.json()));
   }
 
-  getSearchResults(section, author, DOI, title, notusedonline, notusedprint, flagprint, afterAcceptDate, beforeAcceptDate, editor, status) {
+  getSearchResults(section, author, DOI, title, notusedonline, notusedprint, 
+                   flagprint, editorialOnly, afterAcceptDate, beforeAcceptDate, editor, status) {
     let headers = new Headers();
     let params = new URLSearchParams();
     let options = new RequestOptions();
@@ -413,6 +413,7 @@ export class AuthService {
     params.set('docNotUsedOnline', notusedonline);
     params.set('docNotUsedPrint', notusedprint);
     params.set('docFlagPrint', flagprint);
+    params.set('docEditorialOnly', editorialOnly);
     params.set('afterAcceptDate', afterAcceptDate);
     params.set('beforeAcceptDate', beforeAcceptDate);
     params.set('editor', editor);
@@ -636,9 +637,7 @@ export class AuthService {
 
 
 
-
 /*
-
 
 
 
@@ -1047,7 +1046,8 @@ export class AuthService {
       .pipe(map(res => res.json()));
   }
 
-  getSearchResults(section, author, DOI, title, notusedonline, notusedprint, flagprint, afterAcceptDate, beforeAcceptDate, editor, status) {
+  getSearchResults(section, author, DOI, title, notusedonline, notusedprint, flagprint, editorialOnly,
+                   afterAcceptDate, beforeAcceptDate, editor, status) {
     let headers = new Headers();
     let params = new URLSearchParams();
     let options = new RequestOptions();
@@ -1059,6 +1059,7 @@ export class AuthService {
     params.set('docNotUsedOnline', notusedonline);
     params.set('docNotUsedPrint', notusedprint);
     params.set('docFlagPrint', flagprint);
+    params.set('docEditorialOnly', editorialOnly);
     params.set('afterAcceptDate', afterAcceptDate);
     params.set('beforeAcceptDate', beforeAcceptDate);
     params.set('editor', editor);
@@ -1280,5 +1281,6 @@ export class AuthService {
 }
 
 }
+
 
 */
