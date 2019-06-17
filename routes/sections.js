@@ -13,8 +13,12 @@ router.post('/addSection', (req, res, next) => {
     department: req.body.department,
     onlinePosition: req.body.onlinePosition,
     printPosition: req.body.printPosition,
-    layout: req.body.layout
+    ETOCPosition: req.body.ETOCPosition,
+    layout: req.body.layout,
+    ETOCOnly: req.body.ETOCOnly
   });
+
+  console.log(newSection);
 
   Section.getSectionByName(newSection.section, (err, section) => {
     if(err) throw err;
@@ -39,16 +43,21 @@ router.get('/getSections', (req, res, next) => {
   let sortBy = {sort: sortField};
   let query1 = {}
 
-  if(sortField == 'section')
-    query1 = {'section' : {$exists : true, $nin: [ null, "", undefined ]}};
-  else if(sortField == 'department')
+  if(sortField == 'department')
     query1 = {'department' : {$exists : true, $nin: [ null, "", undefined ]}};
   else if(sortField == 'onlinePosition')
     query1 = {'onlinePosition' : {$exists : true, $nin: [ null, "", undefined ]}};
   else if(sortField == 'printPosition')
     query1 = {'printPosition' : {$exists : true, $nin: [ null, "", undefined ]}};
+  else if(sortField == 'ETOCPosition')
+    query1 = {'ETOCPosition' : {$exists : true, $nin: [ null, "", undefined ]}};
   else if(sortField == 'layout')
     query1 = {'layout' : {$exists : true, $nin: [ null, "", undefined ]}};
+  else if(sortField == 'ETOCOnly')
+    query1 = {'ETOCOnly' : {$exists : true, $nin: [ null, "", undefined ]}};
+  else
+    query1 = {'section' : {$exists : true, $nin: [ null, "", undefined ]}};
+
 
   Section.find(query1, null, sortBy, (err, sections) => {
     if (err) throw err;

@@ -17,9 +17,16 @@
       <mat-form-field class="example-full-width">  
         <input type="number" matInput placeholder="Print issue position" [(ngModel)]="printPosition" name="printPosition">
       </mat-form-field>  
+      <mat-form-field class="example-full-width">  
+        <input type="number" matInput placeholder="ETOC position" [(ngModel)]="ETOCPosition" name="ETOCPosition">
+      </mat-form-field> 
       <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
         <input matInput placeholder="" style="display: none">
-          <mat-checkbox [(ngModel)]="layout" name="layout">Print Layout Only</mat-checkbox>
+          <mat-checkbox [(ngModel)]="layout" name="layout"> Print Layout Section </mat-checkbox>
+      </mat-form-field>
+      <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+        <input matInput placeholder="" style="display: none">
+      <mat-checkbox [(ngModel)]="ETOCOnly" name="ETOCOnly"> ETOC Section</mat-checkbox>
       </mat-form-field>
       <button mat-raised-button type="submit">Submit</button>
     </form>  
@@ -58,8 +65,8 @@
         <span (click)="onGetSections('printPosition')">Print position</span>
       </a>&mdash; 
       <a href="" onClick="return false;" style="display: inline" class="red-link">
-        <span (click)="onGetSections('layout')">Layout</span>
-      </a>
+        <span (click)="onGetSections('ETOCPosition')">ETOC position</span>
+      </a> 
     </div>
 
     <hr class="hr-style">
@@ -79,8 +86,14 @@
         <p>
            Print Position: {{ d.printPosition }}
         </p>
+        <p>
+           ETOC Position: {{ d.ETOCPosition }}
+        </p>
         <p *ngIf="d.layout">
-           Print Layout Only
+           * Print Layout Section
+        </p>
+        <p *ngIf="d.ETOCOnly">
+           * ETOC Section
         </p>
 
         <a href="" onClick="return false;">
@@ -108,9 +121,16 @@
           <mat-form-field class="example-full-width">  
             <input type="number" matInput placeholder="Print issue position" [(ngModel)]="printPositionEdit" name="printPositionEdit">
           </mat-form-field>  
+          <mat-form-field class="example-full-width">  
+            <input type="number" matInput placeholder="ETOC position" [(ngModel)]="ETOCPositionEdit" name="ETOCPositionEdit">
+          </mat-form-field> 
           <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
             <input matInput placeholder="" style="display: none">
-              <mat-checkbox [(ngModel)]="layoutEdit" name="layoutEdit">Print Layout Only</mat-checkbox>
+              <mat-checkbox [(ngModel)]="layoutEdit" name="layoutEdit">Print Layout Section</mat-checkbox>
+          </mat-form-field>
+          <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+            <input matInput placeholder="" style="display: none">
+              <mat-checkbox [(ngModel)]="ETOCOnlyEdit" name="ETOCOnlyEdit">ETOC Section</mat-checkbox>
           </mat-form-field>
           <button mat-raised-button type="submit">Submit</button>
           <button mat-raised-button type="button" (click)="editCancel()">Cancel</button>

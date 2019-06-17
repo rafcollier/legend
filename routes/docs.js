@@ -576,6 +576,22 @@ router.get('/getOnlineSearchResults', (req, res, next) => {
   });
 });
 
+router.get('/getETOCSearchResults', (req, res, next) => {
+
+  let query1 = {'docETOCDateFormatted': req.query.docETOCDate}; 
+
+  console.log(query1);
+
+  Doc.find(query1, 
+           null,
+           {sort: {docOnlinePosition: 1}}, 
+           (err, docs) => {
+    if (err) throw err;
+    else {
+      res.json(docs);
+    }
+  });
+});
 
 /*
 

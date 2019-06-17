@@ -20,7 +20,13 @@ const SectionSchema = mongoose.Schema({
   printPosition: {
     type: Number
   },
+  ETOCPosition: {
+    type: Number
+  },
   layout: {
+    type: Boolean
+  },
+  ETOCOnly: {
     type: Boolean
   }
 

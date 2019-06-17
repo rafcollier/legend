@@ -375,9 +375,6 @@ export class EnterdocComponent implements OnInit {
     const onlineIssueSelect = moment(this.docOnlineIssue).format('MMMM DD, YYYY');
     const printIssueDay = moment(this.docPrintIssue).format('DD');
 
-    console.log(this.docOnlineIssue);
-    console.log(this.docPrintIssue);
-
     if((this.docOnlineIssue) && (!this.onlineIssueDates.includes(onlineIssueSelect))) {
       this.errorMessage = "Invalid online issue date"; 
         setTimeout(() => {

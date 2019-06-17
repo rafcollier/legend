@@ -43,7 +43,8 @@ import { EnterletterComponent } from './enterletter/enterletter.component';
 import { EnteradvertComponent } from './enteradvert/enteradvert.component';
 import { EditorsComponent } from './editors/editors.component';
 import { CodesComponent } from './codes/codes.component';
-import { PrintConfigComponent } from './print-config/print-config.component';  
+import { PrintConfigComponent } from './print-config/print-config.component';
+import { EtocComponent } from './etoc/etoc.component';  
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -60,6 +61,7 @@ const appRoutes: Routes = [
   {path: 'search', component: SearchComponent, canActivate:[AuthGuard]},
   {path: 'online', component: OnlineComponent, canActivate:[AuthGuard]},
   {path: 'print', component: PrintComponent, canActivate:[AuthGuard]},
+  {path: 'etoc', component: EtocComponent, canActivate:[AuthGuard]},
   {path: 'admin', component: AdminComponent, canActivate:[AuthGuard]},
   {path: 'metrics', component: MetricsComponent, canActivate:[AuthGuard]},
   {path: 'sections', component: SectionsComponent, canActivate:[AuthGuard]},
@@ -104,7 +106,8 @@ const appRoutes: Routes = [
     EnteradvertComponent,
     EditorsComponent,
     CodesComponent,
-    PrintConfigComponent
+    PrintConfigComponent,
+    EtocComponent
   ],
   imports: [
     BrowserModule,

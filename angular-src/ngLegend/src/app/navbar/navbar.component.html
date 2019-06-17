@@ -57,17 +57,6 @@ i-->
         Online 
       </a>
       </li>
-      <!--
-      <li *ngIf="authService.adminLoggedIn()">
-      <a  mat-tab-link 
-        [routerLink] = "['/print-config']" 
-        routerLinkActive #rlf="routerLinkActive"
-        [active]="rlf.isActive"
-      >
-        Print 
-      </a>
-      </li>
-    -->
       <li *ngIf="authService.adminLoggedIn()">
       <a  mat-tab-link 
         [routerLink] = "['/codes']" 
@@ -130,6 +119,15 @@ i-->
         Print 
       </a>
       </li>
+      <li *ngIf="authService.loggedIn() && !authService.adminLoggedIn()">
+      <a  mat-tab-link 
+        [routerLink] = "['/etoc']" 
+        routerLinkActive #rln="routerLinkActive"
+        [active]="rln.isActive"
+      >
+        ETOC 
+      </a>
+      </li> 
       <li *ngIf="authService.loggedIn()">
       <a  mat-tab-link 
         (click)="onLogoutClick()" href=""

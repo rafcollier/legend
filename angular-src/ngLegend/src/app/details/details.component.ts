@@ -562,9 +562,6 @@ export class DetailsComponent implements OnInit {
     const onlineIssueSelect = moment(this.docOnlineIssue).format('MMMM DD, YYYY');
     const printIssueDay = moment(this.docPrintIssue).format('DD');
 
-    console.log(this.docOnlineIssue);
-    console.log(this.docPrintIssue);
-
     if((this.docOnlineIssue) && (!this.onlineIssueDates.includes(onlineIssueSelect))) {
       this.errorMessage = "Invalid online issue date"; 
         setTimeout(() => {
@@ -609,7 +606,9 @@ export class DetailsComponent implements OnInit {
       this.docPrintPosition = this.sectionsUnique.filter(x => x['section'] == this.docSection).map(x => x['printPosition'])[0];
     }
     if (this.docSection != "News") {
-      this.docETOCDate = this.docOnlineIssue;
+      if(!this.docETOCDate) { //if no ETOC date in database, set it to default of same as online date
+        this.docETOCDate = this.docOnlineIssue;
+      }
       this.getStatus();
     } 
     else {

@@ -1,0 +1,134 @@
+<div *ngIf="!showResults && !noResults" class = "align-form">
+
+  <section class = "mat-typography">
+
+    <h2>Select ETOC Date</h2>
+    <form (submit)="onSearchSubmit()" class="example-form">  
+
+      <mat-form-field class="example-full-width">
+        <input matInput  [matDatepickerFilter]="myFilter" [matDatepicker]="docETOCDatePicker" placeholder="ETOC Date" [(ngModel)]="docETOCDate" name="docETOCDate" [formControl]="dateETOC">
+        <mat-datepicker-toggle matSuffix [for]="docETOCDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #docETOCDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <div *ngIf="errorMessage">
+        <br>
+        <h4 class="red-font">{{errorMessage}}</h4>
+      </div>
+      <div *ngIf="successMessage">
+        <h4 class="blue-font">{{successMessage}}</h4>
+        <br>
+      </div>
+
+      <button mat-raised-button type="submit">Search</button>
+
+    </form>  
+  </section>
+</div>
+
+<div *ngIf="noResults" class = "align-page" >
+  <h2>
+     Sorry, your query found no results.
+  </h2>
+  <div class = "align-form">
+    <section class = "mat-typography">
+      <div class="flex-center">
+        <hr class="hr-style">
+        <span (click)="onNewSearch()">
+          <button mat-raised-button>New Search</button>
+        </span>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div *ngIf="showResults" class = "align-page">
+
+  <section class="mat-typography">
+
+      <div> 
+        <h1 style="display: inline">
+          <b>ETOC Date:</b> {{ ETOCDateFormatted }} &nbsp; Volume {{ onlineIssueVolume }} &nbsp; Issue {{ onlineIssueIssue }}
+        </h1>
+      </div>
+
+    <div class="border-div">
+
+      <h3 style="color:red">SUMMARY</h3>
+
+      <div *ngFor="let d of displayDocs; let i = index">
+        <p>
+          <span style="color:#4D6FAC"> {{i+1}}. {{d.docSection}} </span>: {{d.docTitle}}
+          </p>
+      </div>
+
+    </div>
+
+    <div *ngFor="let d of displayDocs; let i = index" class="padded-div">
+      <div>
+        <h1 style="display: inline">
+          {{i+1}}. {{ d.docTitle }}
+        </h1>
+
+        <a href="" onClick="return false;" style="display: inline" class="red-link">
+          <span (click)="onDocClick(d, i)"> See full entry </span>
+        </a>
+      </div>
+      <br>
+
+      <p><span style="color:#4D6FAC">Section:</span> {{ d.docSection }} </p>
+      <p><span style="color:#4D6FAC">Area of Focus:</span> {{ d.docFocusArea }} </p>
+      <p><span style="color:#4D6FAC">Web Blurb:</span> {{ d.docWebBlurb }} </p>
+
+      <div *ngIf="i != docIndex" class = "edit-div">
+        <p><span style="color:#4D6FAC">Position:</span> {{ d.docOnlinePosition }} </p>
+        <p><span style="color:#4D6FAC">Online Issue Notes:</span> {{ d.docOnlineNotes }} </p>
+        <p><span style="color:#4D6FAC">General Notes:</span> {{ d.docNotes }} </p>
+        <a href="" onClick="return false;" class="red-link">
+         <span (click)="onOnlineOrderClick(d, i)"> Edit </span>
+        </a>
+       
+      </div>
+
+      <div *ngIf="i == docIndex">
+        <div class = "align-form">
+
+          <section class = "mat-typography">
+           <h4>Edit Online Issue </h4>
+            <form (submit)="onOnlineOrderSubmit()" class="example-form">  
+
+              <mat-form-field class="example-full-width">  
+                <input type="number" matInput placeholder="Number of Pages Online" [(ngModel)]="docNumPagesOnline" name="docNumPagesOnline">
+              </mat-form-field>  
+
+              <mat-form-field class="example-full-width">  
+                <input type="text" matInput placeholder="Online Issue Notes" [(ngModel)]="docOnlineNotes" name="docOnlineNotes">
+              </mat-form-field> 
+
+              <mat-form-field class="example-full-width">  
+                <input type="text" matInput placeholder="General Notes" [(ngModel)]="docNotes" name="docNotes">
+              </mat-form-field> 
+
+              <button mat-raised-button type="submit">Submit</button>
+              <button mat-raised-button type="button" (click)="onOnlineOrderCancel()">Cancel</button>
+
+            </form>  
+          </section>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <div class = "align-form">
+    <section class = "mat-typography">
+      <div class="flex-center">
+        <hr class="hr-style">
+        <span (click)="onNewSearch()">
+          <button mat-raised-button>New Search</button>
+        </span>
+      </div>
+    </section>
+  </div>
+</div>

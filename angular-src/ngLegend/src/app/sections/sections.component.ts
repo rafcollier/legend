@@ -15,13 +15,17 @@ export class SectionsComponent implements OnInit {
   sectionID: String;
   onlinePosition: number;
   printPosition: number;
+  ETOCPosition: number;
   layout: Boolean;
+  ETOCOnly: Boolean;
   sectionEdit: String;
   departmentEdit: String;
   sectionIDEdit: String;
   onlinePositionEdit: number;
   printPositionEdit: number;
+  ETOCPositionEdit: number;
   layoutEdit: Boolean;
+  ETOCOnlyEdit: Boolean;
   sectionIndex: number = null;
   errorMessage: String = "";
   errorMessageEdit: String = "";
@@ -92,7 +96,9 @@ export class SectionsComponent implements OnInit {
       department: this.department,
       onlinePosition: this.onlinePosition,
       printPosition: this.printPosition,
-      layout: this.layout
+      ETOCPosition: this.ETOCPosition,
+      layout: this.layout,
+      ETOCOnly: this.ETOCOnly
     }
 
     //Required fields
@@ -127,8 +133,9 @@ export class SectionsComponent implements OnInit {
     this.departmentEdit = section['department']; 
     this.onlinePositionEdit = section['onlinePosition']; 
     this.printPositionEdit = section['printPosition']; 
+    this.ETOCPositionEdit = section['ETOCPosition']; 
     this.layoutEdit = section['layout'];
-    console.log(section['layout']);
+    this.ETOCOnlyEdit = section['ETOCOnly'];
     this.sectionIndex = index;
   }
 
@@ -139,7 +146,10 @@ export class SectionsComponent implements OnInit {
       department: this.departmentEdit, 
       onlinePosition: this.onlinePositionEdit, 
       printPosition: this.printPositionEdit,
-      layout: this.layoutEdit 
+      Position: this.printPositionEdit,
+      ETOCPosition: this.ETOCPositionEdit,
+      layout: this.layoutEdit, 
+      ETOCOnly: this.ETOCOnlyEdit 
     }
     if(!this.validateService.validateSection(sectionEdit)) {
       this.validateMessageEdit = "Please fill in section name.";
@@ -180,7 +190,9 @@ export class SectionsComponent implements OnInit {
     this.department = "";
     this.onlinePosition = null;
     this.printPosition = null;
+    this.ETOCPosition = null;
     this.layout = null;
+    this.ETOCOnly = null;
     this.sectionIndex = null;
     this.errorMessage = "";
     this.errorMessageEdit = "";

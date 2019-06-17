@@ -1,0 +1,59 @@
+.example-form {  
+  min-width: 150px;  
+  max-width: 500px;  
+  width: 100%;  
+}  
+  
+.example-full-width {  
+  width: 100%;  
+}  
+
+.container1 {
+  display: flex; /* or inline-flex */
+  flex-direction: row-reverse;
+}
+
+.align-form {
+  flex: 1 1 auto;
+  margin-left: 50px;
+  margin-top: 50px;
+}
+
+.border-div {
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    border-style: solid;
+    border-color: #A9A9A9;
+    border-width: 2px;
+}
+
+.edit-div {
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 50px;
+  background-color: #F5F5F5;    
+}
+
+.padded-div {
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    background-color: #FFFFFF; 
+}
+
+.red-link {
+  color: red;
+}
+
+.grey-link {
+  color: grey;
+}
+
+.mat-calendar-body-cell-content { 
+  color: red;
+}
+

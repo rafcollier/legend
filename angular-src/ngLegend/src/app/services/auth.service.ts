@@ -1,3 +1,5 @@
+
+
 import { Injectable } from '@angular/core';
 import{Http, Headers, URLSearchParams, RequestOptions} from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
@@ -476,6 +478,18 @@ export class AuthService {
       .pipe(map(res => res.json()));
   } 
 
+  getETOCSearchResults(ETOCDate) {
+    let headers = new Headers();
+    let params = new URLSearchParams();
+    let options = new RequestOptions();
+    headers.append('Content-Type', 'application/json');
+    params.set('docETOCDate', ETOCDate);
+    options.headers = headers;
+    options.search = params;
+    return this.http.get('docs/getETOCSearchResults', options) 
+      .pipe(map(res => res.json()));
+  } 
+
   getCheckPreviousOnlineIssue(onlineIssue) {
     let headers = new Headers();
     let params = new URLSearchParams();
@@ -638,8 +652,6 @@ export class AuthService {
 
 
 /*
-
-
 
 
 
@@ -1122,6 +1134,18 @@ export class AuthService {
       .pipe(map(res => res.json()));
   } 
 
+  getETOCSearchResults(ETOCDate) {
+    let headers = new Headers();
+    let params = new URLSearchParams();
+    let options = new RequestOptions();
+    headers.append('Content-Type', 'application/json');
+    params.set('docETOCDate', ETOCDate);
+    options.headers = headers;
+    options.search = params;
+    return this.http.get('http://localhost:3000/docs/getETOCSearchResults', options) 
+      .pipe(map(res => res.json()));
+  } 
+
   getCheckPreviousOnlineIssue(onlineIssue) {
     let headers = new Headers();
     let params = new URLSearchParams();
@@ -1282,5 +1306,5 @@ export class AuthService {
 
 }
 
-
 */
+

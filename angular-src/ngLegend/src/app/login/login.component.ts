@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
   onConfigSections() {
     this.authService.getSections('section').subscribe(entries => {
       let sectionArr = entries;
-      let sectionArrUnique = entries.filter(entry => !entry.layout && !entry.department); 
+      let sectionArrUnique = entries.filter(entry => !entry.layout && !entry.ETOCOnly && !entry.department); 
       let departmentArr = entries.filter(entry => 
         (entry.department) && (entry.department != "" || null || undefined)); 
       this.authService.localStoreSections(sectionArr);
