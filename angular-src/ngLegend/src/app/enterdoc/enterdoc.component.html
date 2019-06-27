@@ -562,7 +562,7 @@ NEWS INPUT SECTION
             </mat-form-field>
   
             <mat-form-field class="example-full-width">
-              <input matInput [matDatepicker]="docETOCDatePicker" placeholder="eTOC Date" [(ngModel)]="docETOCDate" name="docETOCDate" formcontrol="dateETOC">
+              <input matInput  [matDatepickerFilter]="myFilter" matInput [matDatepicker]="docETOCDatePicker" placeholder="eTOC Date" [(ngModel)]="docETOCDate" name="docETOCDate" formcontrol="dateETOC">
               <mat-datepicker-toggle matSuffix [for]="docETOCDatePicker"></mat-datepicker-toggle>
               <mat-datepicker #docETOCDatePicker></mat-datepicker>
             </mat-form-field>

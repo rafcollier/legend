@@ -191,7 +191,6 @@ router.post('/submitdoc', (req, res, next) => {
 
   if(req.body.docDOI) {
     Doc.getDocByDOI(newDoc.docDOI, (err, doi) => {
-    console.log(doi);
       if(err) throw err;
       if(doi) {
         return res.json({success: false, msg: 'A document with this DOI already exists.'});
@@ -287,14 +286,80 @@ router.delete('/deleteManyDoc', (req, res, next) => {
   });
 });
 
+//For testing. Delete all the non-editorial pages in the print issue
+router.delete('/deleteManyETOC', (req, res, next) => {
+  let query1 = {'docSection' : {$regex: '10 Health Stories That Mattered This Week', $options: 'i'}};
+  let query2 = {'docSection' : {$regex: 'CMAJ Blogs', $options: 'i'}};
+  let query3 = {'docSection' : {$regex: 'CMAJ Open', $options: 'i'}};
+  let query4 = {'docSection' : {$regex: 'Canadian Journal of Surgery', $options: 'i'}};
+  let query5 = {'docSection' : {$regex: 'ETOC Bottom Ad', $options: 'i'}};
+  let query6 = {'docSection' : {$regex: 'ETOC Middle Ad', $options: 'i'}};
+  let query7 = {'docSection' : {$regex: 'ETOC Top Ad', $options: 'i'}};
+  let query8 = {'docSection' : {$regex: 'From the Archives', $options: 'i'}};
+  let query9 = {'docSection' : {$regex: 'Journal of Psychiatry and Neuroscience', $options: 'i'}};
+  let query10 = {'docSection' : {$regex: 'Memoriam', $options: 'i'}};
+  let query11 = {'docSection' : {$regex: 'Sante Inc', $options: 'i'}};
+  let query12 = {'docETOCDateFormatted' : req.query.ETOCDate};
+  console.log(query12);
+
+  Doc.deleteMany( {$and: [query12, {$or:[query1, query2, query3, query4, 
+                       query5, query6, query7, query8,
+                       query9, query10, query11]} ]}, (err, doc) => { 
+    if (err) {
+      res.json({success: false, msg: 'Failed to delete document.'});
+      throw err;
+    }
+    else {
+     res.json({success: true, msg: 'Document deleted.'}); 
+    }
+  });
+});
+
 router.put('/updateDoc', (req, res, next) => {
   const query = {_id:req.body.docID};
   const updatedDoc = req.body;
-  console.log(updatedDoc);
-  Doc.update({'_id' : req.body.docID}, req.body, (err) => {
+
+  //Check if document has a DOI and check it against other documents for duplicate DOI if the DOI was changed
+  if(updatedDoc.docDOI) {
+    console.log(updatedDoc.docDOI);
+    //First check if DOI was changed before comparing against other DOIs
+    Doc.findById(req.body.docID, (err, doc) => { 
+      if (err) throw err;
+      else {
+        console.log(updatedDoc.docDOI);
+        console.log(doc.docDOI);
+
+        if(doc.docDOI != updatedDoc.docDOI) {
+          //DOI was updates so check for a duplicate DOI before allowing the change
+          Doc.getDocByDOI(updatedDoc.docDOI, (err, doi) => {
+            if(err) throw err;
+            if(doi) {
+              return res.json({success: false, msg: 'A document with this DOI already exists.'});
+            }
+            //Allow the update with changed DOI
+            Doc.update({'_id' : req.body.docID}, req.body, (err) => {
+              if(err) throw err;
+              res.json({success: true, msg: 'Document updated'});
+            });
+          });
+        } 
+        //DOI of edited doc didn't change so update the document
+        else {
+          Doc.update({'_id' : req.body.docID}, req.body, (err) => {
+            if(err) throw err;
+            res.json({success: true, msg: 'Document updated'});
+          });
+        }
+      }
+    });
+  }
+  //If no DOI (non-editorial) then just update the document
+  else {
+    Doc.update({'_id' : req.body.docID}, req.body, (err) => {
     if(err) throw err;
-    res.json({success: true, msg: 'Document updated'});
-  });
+      res.json({success: true, msg: 'Document updated'});
+    });
+  }
 });
 
 router.get('/getSearchResults', (req, res, next) => {
@@ -446,31 +511,61 @@ router.get('/getLayoutSearchResults', (req, res, next) => {
   {
     $project:
     {
-      'docSection': 1,
       'docDOI': 1,
+      'docSection': 1,
+      'docDepartment': 1,
       'docAuthor': 1,
+      'docTitle': 1,
+      'docFocusArea': 1,
       'docEditor': 1,
-      'docAdConflicts': 1,
+      'docOpenAccess' : 1,
       'docProfessionalDev': 1,
+      'docRelatedMaterial' : 1,
+      'docWebBlurb' : 1,
+      'docAdConflicts': 1,
+      'docNumPages' : 1,
+      'docNumPagesOnline' : 1,
+      'docNumPagesPrint' : 1,
+      'docNumFigures' : 1,
+      'docNumFiguresOnline' : 1,
+      'docNumFiguresPrint' : 1,
+      'docNumBoxes' : 1,
+      'docNumBoxesOnline' : 1,
+      'docNumBoxesPrint' : 1,
+      'docNumTables' : 1,
+      'docNumTablesOnline': 1,
+      'docNumTablesPrint' : 1,
+      'docNumAppendices': 1,
+      'docNumAppendicesOnline' : 1,
+      'docNumAppendicesPrint' : 1,
       'docMultiMedia1': 1,
       'docMultiMedia2': 1,
       'docMultiMedia3': 1,
-      'docFocusArea': 1,
-      'docTitle': 1,
+      'docPrintIssue': 1,
       'docPrintIssueFormatted': 1,
+      'docOnlineIssue': 1,
+      'docOnlineIssueFormatted': 1,
       'docPrintPosition' : 1,
       'docFirstPagePrint': 1,
       'docLastPagePrint': 1,
-      'docDepartment': 1,
-      'docNumPagesPrint' : 1,
-      'docNumFiguresPrint' : 1,
-      'docNumTablesPrint' : 1,
-      'docNumBoxesPrint' : 1,
-      'docPrintIssueNotes' : 1,
-      'docNumAppendicesPrint' : 1,
-      'docLayoutOnly' : 1,
+      'docOnlinePosition' : 1,
+      'docFirstPageOnline': 1,
+      'docLastPageOnline': 1,
       'docOnlineIssueNumber' : 1,
       'docOnlineVolume' : 1,
+      'docLayoutOnly' : 1,
+      'docCollectionCode1' : 1,
+      'docCollectionCode2' : 1,
+      'docCollectionCode3' : 1,
+      'docCollectionCode4' : 1,
+      'docCollectionCode5' : 1,
+      'docCollectionCode6' : 1,
+      'docShortTitle' : 1,
+      'docURL' : 1,
+      'docHashTags' : 1,
+      'docSocialSummary' : 1,
+      'docPodcastPermLink' : 1,
+      'docVideoLink' : 1,
       sortValue:
       {
         $cond: 
@@ -518,29 +613,61 @@ router.get('/getOnlineSearchResults', (req, res, next) => {
   {
     $project:
     {
-      'docSection': 1,
       'docDOI': 1,
+      'docSection': 1,
+      'docDepartment': 1,
       'docAuthor': 1,
+      'docTitle': 1,
+      'docFocusArea': 1,
       'docEditor': 1,
+      'docOpenAccess' : 1,
       'docProfessionalDev': 1,
+      'docRelatedMaterial' : 1,
+      'docWebBlurb' : 1,
+      'docAdConflicts': 1,
+      'docNumPages' : 1,
+      'docNumPagesOnline' : 1,
+      'docNumPagesPrint' : 1,
+      'docNumFigures' : 1,
+      'docNumFiguresOnline' : 1,
+      'docNumFiguresPrint' : 1,
+      'docNumBoxes' : 1,
+      'docNumBoxesOnline' : 1,
+      'docNumBoxesPrint' : 1,
+      'docNumTables' : 1,
+      'docNumTablesOnline': 1,
+      'docNumTablesPrint' : 1,
+      'docNumAppendices': 1,
+      'docNumAppendicesOnline' : 1,
+      'docNumAppendicesPrint' : 1,
       'docMultiMedia1': 1,
       'docMultiMedia2': 1,
       'docMultiMedia3': 1,
-      'docFocusArea': 1,
-      'docTitle': 1,
+      'docPrintIssue': 1,
+      'docPrintIssueFormatted': 1,
+      'docOnlineIssue': 1,
       'docOnlineIssueFormatted': 1,
+      'docPrintPosition' : 1,
+      'docFirstPagePrint': 1,
+      'docLastPagePrint': 1,
       'docOnlinePosition' : 1,
       'docFirstPageOnline': 1,
       'docLastPageOnline': 1,
-      'docDepartment': 1,
-      'docNumPagesOnline' : 1,
-      'docNumFiguresOnline' : 1,
-      'docNumTablesOnline' : 1,
-      'docNumBoxesOnline' : 1,
-      'docNumAppendicesOnline' : 1,
-      'docOnlineIssueNotes' : 1,
       'docOnlineIssueNumber' : 1,
       'docOnlineVolume' : 1,
+      'docLayoutOnly' : 1,
+      'docCollectionCode1' : 1,
+      'docCollectionCode2' : 1,
+      'docCollectionCode3' : 1,
+      'docCollectionCode4' : 1,
+      'docCollectionCode5' : 1,
+      'docCollectionCode6' : 1,
+      'docShortTitle' : 1,
+      'docURL' : 1,
+      'docHashTags' : 1,
+      'docSocialSummary' : 1,
+      'docPodcastPermLink' : 1,
+      'docVideoLink' : 1,
       sortValue:
       {
         $cond: 

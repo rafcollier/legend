@@ -125,6 +125,7 @@ constructor(
         } 
         else {
           this.displayDocs = entries;
+          console.log(this.displayDocs);
           this.onlineIssueVolume = entries[0]["docOnlineVolume"];
           this.onlineIssueIssue = entries[0]["docOnlineIssueNumber"];
 
@@ -275,68 +276,12 @@ constructor(
                       value: 'docFocusArea'
                     },
                     {
-                      label: 'MS Editor',
-                      value: 'docEditor' 
-                    },
-                    {
-                      label: 'Open Access',
-                      value: 'docOpenAccess' 
+                      label: 'Related Material',
+                      value: 'docRelatedMaterial'
                     },
                     {
                       label: 'Continuing Professional Development',
                       value: 'docProfessionalDev' 
-                    },
-                    {
-                      label: 'Notes for Online Issue',
-                      value: 'docOnlineNotes' 
-                    },
-                    {
-                      label: 'Collection Code 1 - name',
-                      value: 'docCollectionCode1' 
-                    },
-                    {
-                      label: 'Collection Code 1 - code',
-                      value: 'code1Code' 
-                    },
-                    {
-                      label: 'Collection Code 2 - name',
-                      value: 'docCollectionCode2' 
-                    },
-                    {
-                      label: 'Collection Code 2 - code',
-                      value: 'code2Code'
-                    },
-                    {
-                      label: 'Collection Code 3 - name',
-                      value: 'docCollectionCode3' 
-                    },
-                    {
-                      label: 'Collection Code 3 - code',
-                      value: 'code3Code' 
-                    },
-                    {
-                      label: 'Collection Code 4 - name',
-                      value: 'docCollectionCode4' 
-                    },
-                    {
-                      label: 'Collection Code 4 - code',
-                      value: 'code4Code' 
-                    },
-                    {
-                      label: 'Collection Code 5 - name',
-                      value: 'docCollectionCode5' 
-                    },
-                    {
-                      label: 'Collection Code 5 - code',
-                      value: 'code5Code' 
-                    },
-                    {
-                      label: 'Collection Code 6 - name',
-                      value: 'docCollectionCode6' 
-                    },
-                    {
-                      label: 'Collection Code 6 - code',
-                      value: 'code6Code' 
                     },
                     {
                       label: 'Multimedia 1',
@@ -349,52 +294,86 @@ constructor(
                     {
                       label: 'Multimedia 3',
                       value: 'docMultiMedia3' 
-                    },
-                    {
-                      label: 'Podcast Embargo Link',
-                      value: 'docPodcastEmbargoLink' 
-                    },
-                    {
-                      label: 'Podcast Permanent Link',
-                      value: 'docPodcastPermLink' 
-                    },
-                    {
-                      label: 'Podcast Embed Code',
-                      value: 'docPodcastEmbedCode' 
-                    },
-                    {
-                      label: 'Video Embed Code',
-                      value: 'docVideoEmbedCode' 
-                    },
-                    {
-                      label: 'Video Link',
-                      value: 'docVideoLink' 
-                    },
-                    {
-                      label: 'URL',
-                      value: 'docURL' 
-                    },
-                    {
-                      label: 'Hashtags',
-                      value: 'docHashTags' 
-                    },
-                    {
-                      label: 'Social Summary',
-                      value: 'docSocialSummary' 
                     }
                   ];
 
     const data = this.displayDocs; 
     const json2csvParser = new Json2csvParser({ fields });
     const csv = json2csvParser.parse(data);
-    console.log(csv);
     let a = document.createElement("a");
     a.setAttribute('style', 'display:none;');
     document.body.appendChild(a);
     let blob = new Blob([csv], { type: 'text/csv' });
     let url= window.URL.createObjectURL(blob);
     a.href = url;
-    a.download = 'Search_Results.csv';
+    a.download = 'Online_Issue_Download.csv';
+    a.click();
+    return 'success';
+  }
+
+  onDownloadSM() {
+
+    const fields = [
+                    {
+                      label: 'Short Title',
+                      value: 'docShortTitle'
+                    },
+                    {
+                      label: 'Web Blurb',
+                      value: 'docWebBlurb'
+                    },
+                    {  
+                      label: 'Social Summary',
+                      value: 'docSocialSummary' 
+                    },
+                    {
+                      label: 'Document URL',
+                      value: 'docURL' 
+                    },
+                    {
+                      label: 'Podcast Permanent Link',
+                      value: 'docPodcastPermLink' 
+                    },
+                    {
+                      label: 'Video Link',
+                      value: 'docVideoLink' 
+                    },
+                    {
+                      label: 'Hashtags',
+                      value: 'docHashTags' 
+                    },
+                    {
+                      label: 'Ad Conflicts',
+                      value: 'docAdConflicts' 
+                    },
+                    {
+                      label: 'Online Issue Date',
+                      value: 'docOnlineIssueFormatted' 
+                    },
+                    {
+                      label: 'DOI', 
+                      value: 'docDOI'
+                    },
+                    {
+                      label: 'Author',
+                      value: 'docAuthor'
+                    },
+                    {
+                      label: 'Section',
+                      value: 'docSection'
+                    }
+                  ];
+
+    const data = this.displayDocs; 
+    const json2csvParser = new Json2csvParser({ fields });
+    const csv = json2csvParser.parse(data);
+    let a = document.createElement("a");
+    a.setAttribute('style', 'display:none;');
+    document.body.appendChild(a);
+    let blob = new Blob([csv], { type: 'text/csv' });
+    let url= window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = 'Social_Media_Download.csv';
     a.click();
     return 'success';
   }

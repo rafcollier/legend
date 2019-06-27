@@ -402,6 +402,21 @@ export class AuthService {
       .pipe(map(res => res.json()));
   }
 
+  deleteManyETOC(ETOCDate) {
+    this.loadToken();
+    let headers = new Headers();
+    let params = new URLSearchParams();
+    let options = new RequestOptions();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.authToken);
+    params.set('ETOCDate', ETOCDate);
+    options.headers = headers;
+    options.search = params;
+    console.log(options);
+    return this.http.delete('docs/deleteManyETOC', options)
+      .pipe(map(res => res.json()));
+  }
+
   getSearchResults(section, author, DOI, title, notusedonline, notusedprint, 
                    flagprint, editorialOnly, afterAcceptDate, beforeAcceptDate, editor, status) {
     let headers = new Headers();
@@ -1058,6 +1073,23 @@ export class AuthService {
       .pipe(map(res => res.json()));
   }
 
+  deleteManyETOC(ETOCDate) {
+    console.log(ETOCDate);
+    this.loadToken();
+    let headers = new Headers();
+    let params = new URLSearchParams();
+    let options = new RequestOptions();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.authToken);
+    params.set('ETOCDate', ETOCDate);
+    options.headers = headers;
+    options.search = params;
+    console.log(options);
+    return this.http.delete('http://localhost:3000/docs/deleteManyETOC', options)
+      .pipe(map(res => res.json()));
+  }
+
+
   getSearchResults(section, author, DOI, title, notusedonline, notusedprint, flagprint, editorialOnly,
                    afterAcceptDate, beforeAcceptDate, editor, status) {
     let headers = new Headers();
@@ -1307,4 +1339,3 @@ export class AuthService {
 }
 
 */
-

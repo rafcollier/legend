@@ -61,8 +61,16 @@
           <span style="color:#4D6FAC"> {{i+1}}. {{d.docSection}} </span>: {{d.docTitle}}
           </p>
       </div>
-
     </div>
+    <br>
+
+    <div>
+      <span (click)="onLoadNonEditorial()">
+        <button mat-raised-button>Load Non-Editorial Sections</button>
+      </span>
+    </div>
+    <br>
+    <hr>
 
     <div *ngFor="let d of displayDocs; let i = index" class="padded-div">
       <div>
@@ -127,6 +135,10 @@
         <hr class="hr-style">
         <span (click)="onNewSearch()">
           <button mat-raised-button>New Search</button>
+        </span>
+        &nbsp;
+        <span (click)="onDeleteManyETOC()">
+          <button mat-raised-button>Delete Non-Editorial</button>
         </span>
       </div>
     </section>

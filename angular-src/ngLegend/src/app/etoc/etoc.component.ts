@@ -49,6 +49,9 @@ export class EtocComponent implements OnInit {
   onlineIssueVolume: number;
   onlineIssueIssue: number; 
   docIndex: number;
+  ETOCSections: [Object];
+  ETOCSectionsOnly;
+  issueSections: [string];
 
 constructor(
   	private authService: AuthService,
@@ -62,18 +65,19 @@ constructor(
     this.onlineIssueDates = this.online.map( x => moment(x['date']).format('MMMM DD, YYYY'));
     this.showResults = false;
     this.noResults = false;
+    let sections = this.authService.localGetSections(); 
+    console.log(sections);
+    this.ETOCSections = this.authService.localGetSections().filter(x => x.ETOCOnly);
+    console.log(this.ETOCSections);
+    this.ETOCSectionsOnly = this.ETOCSections.map( x => x['section']);
+    console.log(typeof this.ETOCSectionsOnly);
+    console.log(this.ETOCSectionsOnly);
   }
 
   myFilter = (d: Date): boolean => {
     const calendarDay = moment(d).format('MMMM DD, YYYY');
     return this.onlineIssueDates.includes(calendarDay); 
   }
-
-
-  //onSearchSubmit() {
-  //  console.log(this.docETOCDate);
-
-  //}
 
   onSearchSubmit() {
     this.ETOCDateFormatted = moment(this.docETOCDate).format('MMMM DD, YYYY');
@@ -92,11 +96,95 @@ constructor(
         } 
         else {
           this.displayDocs = entries;
+          this.issueSections = entries.map(x => x.docSection);
+          console.log(this.issueSections);
           this.onlineIssueVolume = entries[0]["docOnlineVolume"];
           this.onlineIssueIssue = entries[0]["docOnlineIssueNumber"];
           this.showResults = true;
         }
       }, 
+      err => {
+        console.log(err);
+        return false;
+      });
+    }
+  }
+
+  onLoadNonEditorial() {
+    let layoutPromises = [];
+    console.log(this.issueSections);
+    if(!this.issueSections.includes('10 Health Stories That Mattered This Week') ||
+       !this.issueSections.includes('CMAJ Blogs') ||
+       !this.issueSections.includes('CMAJ Open') || 
+       !this.issueSections.includes('Canadian Journal of Surgery') || 
+       !this.issueSections.includes('ETOC Bottom Ad') || 
+       !this.issueSections.includes('ETOC Middle Ad') || 
+       !this.issueSections.includes('ETOC Top Ad') || 
+       !this.issueSections.includes('From the Archives') || 
+       !this.issueSections.includes('Journal of Psychiatry and Neuroscience') || 
+       !this.issueSections.includes('Memoriam') || 
+       !this.issueSections.includes('Sante Inc')  
+      ) {
+
+      
+      console.log("adding noneditoirla content");  
+
+
+      if(!this.issueSections.includes('10 Health Stories That Mattered This Week')) {
+          layoutPromises.push(this.makeDoc('10 Health Stories That Mattered This Week'));
+      }
+     // if(!this.issueSections.includes('CMAJ Blogs')) {
+     //   layoutPromises.push(this.makeDoc('CMAJ Blogs'));
+     // }
+     // if(!this.issueSections.includes('CMAJ Open')) {
+     //   layoutPromises.push(this.makeDoc('CMAJ Open'));
+     // }
+     // if(!this.issueSections.includes('Canadian Journal of Surgery')) {
+     //   layoutPromises.push(this.makeDoc('Canadian Journal of Surgery'));
+     // }
+     // if(!this.issueSections.includes('ETOC Bottom Ad'')) {
+     //   layoutPromises.push(this.makeDoc('ETOC Bottom Ad'));
+     // }
+
+      Promise.all(layoutPromises)
+        .then((value) => {
+          this.onSearchSubmit();
+       })
+       .catch((e) => {
+          console.log(e); 
+       });
+    } 
+  }
+
+  makeDoc(section) {
+    return new Promise( (resolve, reject) => {
+      let doc = {
+                   docLayoutOnly: true,
+                   docSection: section,
+                   docTitle: "",
+                   docWebBlurb: "",
+                   docETOCDate: this.docETOCDate,
+                   docETOCDateFormatted: this.ETOCDateFormatted, 
+                   docETOCPosition: this.ETOCSections.filter(x => x['section']==section).map(x => x['ETOCPosition'])[0],
+                   docOnlineNotes: "",
+                   docNotes: ""
+                };
+      console.log(doc);
+      this.authService.submitDoc(doc).subscribe(data => {
+      },
+      err => {
+        console.log(err);
+        return false;
+      });
+    });
+  }
+
+  //The button to delete the ETOC only articles (ads, blogs, etc) 
+  onDeleteManyETOC() {
+    if(confirm("Are you sure you want to delete the ETOC-only documents?")) {
+      this.authService.deleteManyETOC(this.ETOCDateFormatted).subscribe(doc => {
+        this.onSearchSubmit();
+      },
       err => {
         console.log(err);
         return false;
