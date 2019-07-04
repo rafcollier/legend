@@ -130,32 +130,6 @@ constructor(
     }
   }
 
-  makeDoc(section, index) {
-    return new Promise( (resolve, reject) => {
-      let doc = {
-                   docLayoutOnly: true,
-                   docSection: section,
-                   docTitle: section,
-                   docPrintIssue: this.printIssueSelect,
-                   docPrintIssueFormatted: this.printIssueFormatted, 
-                   docPrintPosition: this.layoutSections.filter(x => x['section']==section).map(x => x['printPosition'])[0],
-                   docNumPagesPrint: 0,
-                   docFirstPagePrint: 0,
-                   docLastPagePrint: 0,
-                   docNumFiguresPrint: 0,
-                   docNumTablesPrint: 0,
-                   docNumBoxesPrint: 0,
-                   docPrintNotes: ""
-                };
-      this.authService.submitDoc(doc).subscribe(data => {
-      },
-      err => {
-        console.log(err);
-        return false;
-      });
-    });
-  }
-  
   myFilterPrint = (d: Date): boolean => {
     const calendarDay = moment(d).format('D');
     return calendarDay == '1'; 
@@ -190,6 +164,7 @@ constructor(
       docNumBoxesPrint: this.docNumBoxesPrint,
       docNumAppendicesPrint: this.docNumAppendicesPrint
     }
+    console.log(printOrderDoc);
     this.authService.putUpdateDoc(printOrderDoc).subscribe(doc => {
       this.docIndex = null;
       this.onSearchSubmit();
@@ -229,110 +204,72 @@ constructor(
 
   onLoadNonEditorial() {
     let layoutPromises = [];
-    if(!this.issueSections.includes('Print Ad') ||
-       !this.issueSections.includes('Cover') ||
-       !this.issueSections.includes('Contents') || 
-       !this.issueSections.includes('CMAJ Open') || 
-       !this.issueSections.includes('Dans le CMAJ') || 
-       !this.issueSections.includes('Cover blurb') || 
-       !this.issueSections.includes('Filler') || 
-       !this.issueSections.includes('Masthead') || 
-       !this.issueSections.includes('Classified')  
-      ) {
 
-      if(!this.issueSections.includes('Print Ad')) {
-        for (let i = 0; i < 30; i++) {
-          layoutPromises.push(this.makeDoc('Print Ad', i));
-        }
-      }
-      if(!this.issueSections.includes('Filler')) {
-        for (let i = 0; i < 10; i++) {
-          layoutPromises.push(this.makeDoc('Filler', i));
-        }
-      }
       if(!this.issueSections.includes('Cover')) {
-        layoutPromises.push(this.makeDoc('Cover', 0));
+        layoutPromises.push(this.makeDoc('Cover'));
       }
       if(!this.issueSections.includes('Contents')) {
-        layoutPromises.push(this.makeDoc('Contents', 0));
+        layoutPromises.push(this.makeDoc('Contents'));
       }
       if(!this.issueSections.includes('CMAJ Open')) {
-        layoutPromises.push(this.makeDoc('CMAJ Open', 0));
+        layoutPromises.push(this.makeDoc('CMAJ Open'));
       }
       if(!this.issueSections.includes('Dans le CMAJ')) {
-        layoutPromises.push(this.makeDoc('Dans le CMAJ', 0));
+        layoutPromises.push(this.makeDoc('Dans le CMAJ'));
       }
       if(!this.issueSections.includes('Cover blurb')) {
-        layoutPromises.push(this.makeDoc('Cover blurb', 0));
+        layoutPromises.push(this.makeDoc('Cover blurb'));
       }
       if(!this.issueSections.includes('Masthead')) {
-        layoutPromises.push(this.makeDoc('Masthead', 0));
-      }
-      if(!this.issueSections.includes('Filler')) {
-        layoutPromises.push(this.makeDoc('Filler', 0));
+        layoutPromises.push(this.makeDoc('Masthead'));
       }
       if(!this.issueSections.includes('Classified')) {
-        layoutPromises.push(this.makeDoc('Classified', 0));
+        layoutPromises.push(this.makeDoc('Classified'));
       }
+
       Promise.all(layoutPromises)
         .then((value) => {
           this.onSearchSubmit();
-       })
-       .catch((e) => {
+        })
+        .catch((e) => {
           console.log(e); 
-       });
+        });
 
-    } 
+  }
+
+  makeDoc(section) {
+    return new Promise( (resolve, reject) => {
+      let doc = {
+                   docLayoutOnly: true,
+                   docSection: section,
+                   docTitle: section,
+                   docPrintIssue: this.printIssueSelect,
+                   docPrintIssueFormatted: this.printIssueFormatted, 
+                   docPrintPosition: this.layoutSections.filter(x => x['section']==section).map(x => x['printPosition'])[0],
+                   docNumPagesPrint: 0,
+                   docFirstPagePrint: 0,
+                   docLastPagePrint: 0,
+                   docNumFiguresPrint: 0,
+                   docNumTablesPrint: 0,
+                   docNumBoxesPrint: 0,
+                   docPrintNotes: ""
+                };
+      this.authService.submitDoc(doc).subscribe(data => {
+        this.onSearchSubmit();
+      },
+      err => {
+        console.log(err);
+        return false;
+      });
+    });
   }
 
   onCreateAd() {
-    let doc = {
-      docLayoutOnly: true,
-      docSection: 'Print Ad',
-      docTitle: 'Print Ad',
-      docPrintIssue: this.printIssueSelect,
-      docPrintIssueFormatted: this.printIssueFormatted, 
-      docPrintPosition: this.layoutSections.filter(x => x['section']=='Print Ad').map(x => x['printPosition'])[0],
-      docNumPagesPrint: 0,
-      docFirstPagePrint: 0,
-      docLastPagePrint: 0,
-      docNumFiguresPrint: 0,
-      docNumTablesPrint: 0,
-      docNumBoxesPrint: 0,
-      docPrintNotes: ""
-    };
-    this.authService.submitDoc(doc).subscribe(data => {
-      this.onSearchSubmit();
-    },
-    err => {
-      console.log(err);
-      return false;
-    });
+    this.makeDoc('Print Ad');
   }
 
   onCreateFiller() {
-    let doc = {
-      docLayoutOnly: true,
-      docSection: 'Filler',
-      docTitle: 'Filler',
-      docPrintIssue: this.printIssueSelect,
-      docPrintIssueFormatted: this.printIssueFormatted, 
-      docPrintPosition: this.layoutSections.filter(x => x['section']=='Filler').map(x => x['printPosition'])[0],
-      docNumPagesPrint: 0,
-      docFirstPagePrint: 0,
-      docLastPagePrint: 0,
-      docNumFiguresPrint: 0,
-      docNumTablesPrint: 0,
-      docNumBoxesPrint: 0,
-      docPrintNotes: ""
-    };
-    this.authService.submitDoc(doc).subscribe(data => {
-      this.onSearchSubmit();
-    },
-    err => {
-      console.log(err);
-      return false;
-    });
+    this.makeDoc('Filler');
   }
 
   //The button to delete the layout only articles (ads, cover, etc) 
@@ -380,9 +317,42 @@ constructor(
                       label: 'Section',
                       value: 'docSection'
                     },
+ 
                     {
-                      label: 'Description',
-                      value: 'docDescription'
+                      label: 'First Page Print Issue', 
+                      value: 'docFirstPagePrint'
+                    },
+                    {
+                      label: 'Last Page Print Issue',
+                      value: 'docLastPagePrint' 
+                    },
+                    {
+                      label: 'Number of Pages Print',
+                      value: 'docNumPagesPrint' 
+                    },
+                    {
+                      label: 'Notes for Print Issue',
+                      value: 'docPrintNotes' 
+                    },
+                    {                   
+                      label: 'Open Access',
+                      value: 'docOpenAccess' 
+                    },
+                    {
+                      label: 'Continued Professional Development',
+                      value: 'docProfessionalDev'
+                    },
+                    {
+                      label: 'MS Editor',
+                      value: 'docEditor' 
+                    },
+                    {
+                      label: 'Online Issue',
+                      value: 'docOnlineIssueFormatted' 
+                    },
+                    {
+                      label: 'Ad Conflicts',
+                      value: 'docAdConflicts' 
                     },
                     {
                       label: 'Collection Code 1',
@@ -401,154 +371,25 @@ constructor(
                       value: 'docCollectionCode4' 
                     },
                     {
-                      label: 'Commission Date',
-                      value: 'docCommissionDateFormatted' 
+                      label: 'Collection Code 5',
+                      value: 'docCollectionCode4' 
                     },
                     {
-                      label: 'Invoice Date',
-                      value: 'docInvoiceDateFormatted' 
-                    },
-                    {
-                      label: 'Invoice Amount',
-                      value: 'docInvoiceAmount' 
-                    },
-                    {
-                      label: 'Accept Date',
-                      value: 'docAcceptDateFormatted' 
-                    },
-                    {
-                      label: 'Publish Date',
-                      value: 'docPublishDateFormatted' 
-                    },
-                    {
-                      label: 'InCopy Entered Date',
-                      value: 'docEnteredDateFormatted' 
-                    },
-                    {
-                      label: 'Begin Copy Edit',
-                      value: 'docCopyEditBeginDateFormatted'
-                    },
-                    {
-                      label: 'Copy Edit Complete',
-                      value: 'docCopyEditCompleteDateFormatted' 
-                    },
-                    {
-                      label: 'Sent to SE',
-                      value: 'docSendSEDateFormatted' 
-                    },
-                    {
-                      label: 'Returned from SE',
-                      value: 'docReturnSEDateFormatted' 
-                    },
-                    {
-                      label: 'Finalized',
-                      value: 'docFinalizeDateFormatted' 
-                    },
-                    {
-                      label: 'MS Editor',
-                      value: 'docEditor' 
-                    },
-                    {
-                      label: 'MS Coordinator',
-                      value: 'docCoordinator' 
-                    },
-                    {
-                      label: 'MS Proofreader',
-                      value: 'docProofReader' 
-                    },
-                    {
-                      label: 'SE1',
-                      value: 'docSE1' 
-                    },
-                    {
-                      label: 'SE2',
-                      value: 'docSE2' 
-                    },
-                    {
-                      label: 'Open Access',
-                      value: 'docOpenAccess' 
-                    },
-                    {
-                      label: 'Translation',
-                      value: 'docTranslation' 
-                    },
-                    {
-                      label: 'Online Issue',
-                      value: 'docOnlineIssue' 
-                    },
-                    {
-                      label: 'First Page Online Issue',
-                      value: 'docFirstPageOnline' 
-                    },
-                    {
-                      label: 'Last Page Online Issue',
-                      value: 'docLastPageOnline' 
-                    },
-                    {
-                      label: 'Number of Pages Online',
-                      value: 'docNumPagesOnline' 
-                    },
-                    {
-                      label: 'Notes for Online Issue',
-                      value: 'docOnlineNotes' 
-                    },
-                    {
-                      label: 'Print Issue',
-                      value: 'docPrintIssue' 
-                    },
-                    {
-                      label: 'First Page Print Issue', 
-                      value: 'docFirstPagePrint'
-                    },
-                    {
-                      label: 'Last Page Print Issue',
-                      value: 'docLastPagePrint' 
-                    },
-                    {
-                      label: 'Number of Pages Print',
-                      value: 'docNumPagesPrint' 
-                    },
-                    {
-                      label: 'Notes for Print Issue',
-                      value: 'docPrintNotes' 
-                    },
-                    {
-                      label: 'Ad Conflicts',
-                      value: 'docAdConflicts' 
-                    },
-                    {
-                      label: 'Date Posted on CMAJ News',
-                      value: 'docPublishDateCMAJnewsFormatted' 
-                    },
-                    {
-                      label: 'News Author Type',
-                      value: 'docNewsAuthorType' 
-                    },
-                    {
-                      label: 'News Commission Date',
-                      value: 'docNewsCommissionDateFormatted' 
-                    },
-                    {
-                      label: 'News Invoice Date',
-                      value: 'docNewsInvoiceDateFormatted' 
-                    },
-                    {
-                      label: 'News Invoice Amount',
-                      value: 'docNewsInvoiceAmount' 
+                      label: 'Collection Code 6',
+                      value: 'docCollectionCode4' 
                     }
                   ];
 
     const data = this.displayDocsEditorial; 
     const json2csvParser = new Json2csvParser({ fields });
     const csv = json2csvParser.parse(data);
-    console.log(csv);
     let a = document.createElement("a");
     a.setAttribute('style', 'display:none;');
     document.body.appendChild(a);
     let blob = new Blob([csv], { type: 'text/csv' });
     let url= window.URL.createObjectURL(blob);
     a.href = url;
-    a.download = 'Search_Results.csv';
+    a.download = this.printIssueFormatted + ' Print Issue.csv';
     a.click();
     return 'success';
   }

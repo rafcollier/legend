@@ -13,8 +13,9 @@ module.exports = {
            'A - News No Status',
            'B - News Commissioned',
            'C - News In Edit',
-           'D - News Ready',
-           'E - News Posted'
+           'D - News with Duty Editor',
+           'E - News Ready',
+           'F - News Posted'
 
           ]
  }

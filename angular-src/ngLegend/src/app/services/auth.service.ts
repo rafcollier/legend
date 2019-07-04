@@ -1,5 +1,4 @@
 
-
 import { Injectable } from '@angular/core';
 import{Http, Headers, URLSearchParams, RequestOptions} from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
@@ -663,10 +662,8 @@ export class AuthService {
 
 }
 
-
-
-
 /*
+
 
 
 

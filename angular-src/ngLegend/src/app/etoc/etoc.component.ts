@@ -66,12 +66,8 @@ constructor(
     this.showResults = false;
     this.noResults = false;
     let sections = this.authService.localGetSections(); 
-    console.log(sections);
     this.ETOCSections = this.authService.localGetSections().filter(x => x.ETOCOnly);
-    console.log(this.ETOCSections);
     this.ETOCSectionsOnly = this.ETOCSections.map( x => x['section']);
-    console.log(typeof this.ETOCSectionsOnly);
-    console.log(this.ETOCSectionsOnly);
   }
 
   myFilter = (d: Date): boolean => {
@@ -80,6 +76,7 @@ constructor(
   }
 
   onSearchSubmit() {
+    console.log("In search");
     this.ETOCDateFormatted = moment(this.docETOCDate).format('MMMM DD, YYYY');
     if(!this.onlineIssueDates.includes(this.ETOCDateFormatted)) {
       this.errorMessage = "Invalid ETOC date"; 
@@ -96,10 +93,8 @@ constructor(
         } 
         else {
           this.displayDocs = entries;
+          console.log(this.displayDocs);
           this.issueSections = entries.map(x => x.docSection);
-          console.log(this.issueSections);
-          this.onlineIssueVolume = entries[0]["docOnlineVolume"];
-          this.onlineIssueIssue = entries[0]["docOnlineIssueNumber"];
           this.showResults = true;
         }
       }, 
@@ -126,16 +121,13 @@ constructor(
        !this.issueSections.includes('Sante Inc')  
       ) {
 
-      
-      console.log("adding noneditoirla content");  
-
 
       if(!this.issueSections.includes('10 Health Stories That Mattered This Week')) {
           layoutPromises.push(this.makeDoc('10 Health Stories That Mattered This Week'));
       }
-     // if(!this.issueSections.includes('CMAJ Blogs')) {
-     //   layoutPromises.push(this.makeDoc('CMAJ Blogs'));
-     // }
+      if(!this.issueSections.includes('CMAJ Blogs')) {
+        layoutPromises.push(this.makeDoc('CMAJ Blogs'));
+      }
      // if(!this.issueSections.includes('CMAJ Open')) {
      //   layoutPromises.push(this.makeDoc('CMAJ Open'));
      // }
@@ -159,7 +151,7 @@ constructor(
   makeDoc(section) {
     return new Promise( (resolve, reject) => {
       let doc = {
-                   docLayoutOnly: true,
+                   docETOCOnly: true,
                    docSection: section,
                    docTitle: "",
                    docWebBlurb: "",

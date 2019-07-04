@@ -544,9 +544,15 @@ NEWS INPUT SECTION
             </mat-form-field>
   
             <mat-form-field class="example-full-width">
-              <input matInput [matDatepicker]="docAcceptDatePicker" placeholder="Accept Date" [(ngModel)]="docAcceptDate" name="docAcceptDate" formcontrol="dateAccept">
+              <input matInput [matDatepicker]="docAcceptDatePicker" placeholder="Received Date" [(ngModel)]="docAcceptDate" name="docAcceptDate" formcontrol="dateAccept">
               <mat-datepicker-toggle matSuffix [for]="docAcceptDatePicker"></mat-datepicker-toggle>
               <mat-datepicker #docAcceptDatePicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <input matInput [matDatepicker]="docSendSEDatePicker" placeholder="Duty Editor Date" [(ngModel)]="docSendSEDate" name="docSendSEDate" [formControl]="dateSendSE">
+              <mat-datepicker-toggle matSuffix [for]="docSendSEDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #docSendSEDatePicker></mat-datepicker>
             </mat-form-field>
   
             <mat-form-field class="example-full-width">
@@ -556,7 +562,7 @@ NEWS INPUT SECTION
             </mat-form-field>
   
             <mat-form-field class="example-full-width">
-              <input matInput [matDatepicker]="docPublishDateCMAJnewsDatePicker" placeholder="Date Posted on cmajnews.com" [(ngModel)]="docPublishDateCMAJnews" name="docPublishDateCMAJnews" formcontrol="datePublishCMAJ">
+              <input matInput [matDatepicker]="docPublishDateCMAJnewsDatePicker" placeholder="Posted Date" [(ngModel)]="docPublishDateCMAJnews" name="docPublishDateCMAJnews" formcontrol="datePublishCMAJ">
               <mat-datepicker-toggle matSuffix [for]="docPublishDateCMAJnewsDatePicker"></mat-datepicker-toggle>
               <mat-datepicker #docPublishDateCMAJnewsDatePicker></mat-datepicker>
             </mat-form-field>

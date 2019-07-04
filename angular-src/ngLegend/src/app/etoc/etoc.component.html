@@ -85,13 +85,13 @@
       <br>
 
       <p><span style="color:#4D6FAC">Section:</span> {{ d.docSection }} </p>
-      <p><span style="color:#4D6FAC">Area of Focus:</span> {{ d.docFocusArea }} </p>
-      <p><span style="color:#4D6FAC">Web Blurb:</span> {{ d.docWebBlurb }} </p>
+      <p *ngIf='d.docFocusArea'><span style="color:#4D6FAC">Area of Focus:</span> {{ d.docFocusArea }} </p>
+      <p *ngIf='d.docWebBlurb'><span style="color:#4D6FAC">Web Blurb:</span> {{ d.docWebBlurb }} </p>
 
       <div *ngIf="i != docIndex" class = "edit-div">
         <p><span style="color:#4D6FAC">Position:</span> {{ d.docOnlinePosition }} </p>
-        <p><span style="color:#4D6FAC">Online Issue Notes:</span> {{ d.docOnlineNotes }} </p>
-        <p><span style="color:#4D6FAC">General Notes:</span> {{ d.docNotes }} </p>
+        <p *ngIf='d.docOnlineNotes'><span style="color:#4D6FAC">Online Issue Notes:</span> {{ d.docOnlineNotes }} </p>
+        <p *ngIf='d.docNotes'><span style="color:#4D6FAC">General Notes:</span> {{ d.docNotes }} </p>
         <a href="" onClick="return false;" class="red-link">
          <span (click)="onOnlineOrderClick(d, i)"> Edit </span>
         </a>

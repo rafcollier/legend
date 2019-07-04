@@ -511,61 +511,144 @@ router.get('/getLayoutSearchResults', (req, res, next) => {
   {
     $project:
     {
+      //GENERAL FIELDS 
+      'docUsername': 1,
       'docDOI': 1,
       'docSection': 1,
       'docDepartment': 1,
       'docAuthor': 1,
       'docTitle': 1,
       'docFocusArea': 1,
-      'docEditor': 1,
-      'docOpenAccess' : 1,
+      //DOCUMENT DETAILS
+      'docFlagPrint': 1,
+      'docOpenAccess': 1,
+      'docTranslation': 1,
+      'docPressRelease': 1,
       'docProfessionalDev': 1,
-      'docRelatedMaterial' : 1,
-      'docWebBlurb' : 1,
-      'docAdConflicts': 1,
-      'docNumPages' : 1,
-      'docNumPagesOnline' : 1,
-      'docNumPagesPrint' : 1,
-      'docNumFigures' : 1,
-      'docNumFiguresOnline' : 1,
-      'docNumFiguresPrint' : 1,
-      'docNumBoxes' : 1,
-      'docNumBoxesOnline' : 1,
-      'docNumBoxesPrint' : 1,
-      'docNumTables' : 1,
+      'docRelatedMaterial': 1,
+      'docOutStandingMaterial': 1,
+      'docInvoiceNum': 1,
+      'docShortTitle': 1,
+      'docWebBlurb': 1,
+      'docWebImageURL': 1,
+      'docWebImageCredit': 1,
+      //LAYOUT
+      'docNumPages': 1,
+      'docNumPagesOnline': 1,
+      'docNumPagesPrint': 1,
+      'docNumFigures': 1,
+      'docNumFiguresOnline': 1,
+      'docNumFiguresPrint': 1,
+      'docNumBoxes': 1,
+      'docNumBoxesOnline': 1,
+      'docNumBoxesPrint': 1,
+      'docNumTables': 1,
       'docNumTablesOnline': 1,
-      'docNumTablesPrint' : 1,
+      'docNumTablesPrint': 1,
       'docNumAppendices': 1,
-      'docNumAppendicesOnline' : 1,
-      'docNumAppendicesPrint' : 1,
+      'docNumAppendicesOnline': 1,
+      'docNumAppendicesPrint': 1,
+      'docLayoutOnly': 1,
+      'docKeyWords': 1,
+      //MULTIMEDIA
       'docMultiMedia1': 1,
       'docMultiMedia2': 1,
       'docMultiMedia3': 1,
-      'docPrintIssue': 1,
-      'docPrintIssueFormatted': 1,
+      'docPodcastEmbargoLink': 1,
+      'docPodcastPermLink': 1,
+      'docPodcastEmbedCode': 1,
+      'docVideoEmbedCode': 1,
+      'docVideoLink': 1,
+      //SOCIAL MEDIA
+      'docURL': 1,
+      'docHashTags': 1,
+      'docSocialSummary': 1,
+      //COLLECTION CODES
+      'docCollectionCode1': 1,
+      'docCollectionCode2': 1,
+      'docCollectionCode3': 1,
+      'docCollectionCode4': 1,   
+      'docCollectionCode5': 1,  
+      'docCollectionCode6': 1,
+      'code1Code': 1,
+      'code2Code': 1,
+      'code3Code': 1,
+      'code4Code': 1,
+      'code5Code': 1,
+      'code6Code': 1,
+      //DOCUMENT TIMELINE
+      'docAcceptDate': 1,
+      'docPaymentDate': 1,
+      'docETOCDate': 1,
       'docOnlineIssue': 1,
-      'docOnlineIssueFormatted': 1,
-      'docPrintPosition' : 1,
-      'docFirstPagePrint': 1,
-      'docLastPagePrint': 1,
-      'docOnlinePosition' : 1,
+      'docPrintIssue': 1,
+      //EDITING TIMELINE
+      'docEditor': 1,
+      'docCoordinator': 1,
+      'docProofReader': 1,
+      'docSE1': 1,
+      'docSE2': 1,
+      'docEnteredDate': 1,
+      'docCopyEditBeginDate': 1,
+      'docCopyEditCompleteDate': 1,
+      'docSendSEDate': 1,
+      'docReturnSEDate': 1, 
+      'docSendAuthorDate': 1,
+      'docReturnAuthorDate': 1,
+      'docSendFineTune': 1,
+      'docReturnFineTune': 1,
+      'docSendProofRead': 1,
+      'docReturnProofRead': 1,
+      'docFinalizeDate': 1,
+      'docStatus': 1,
+      //NOTES
+      'docOnlineNotes': 1,
+      'docPrintNotes': 1,
+      //ONLINE ISSUE
       'docFirstPageOnline': 1,
       'docLastPageOnline': 1,
-      'docOnlineIssueNumber' : 1,
-      'docOnlineVolume' : 1,
-      'docLayoutOnly' : 1,
-      'docCollectionCode1' : 1,
-      'docCollectionCode2' : 1,
-      'docCollectionCode3' : 1,
-      'docCollectionCode4' : 1,
-      'docCollectionCode5' : 1,
-      'docCollectionCode6' : 1,
-      'docShortTitle' : 1,
-      'docURL' : 1,
-      'docHashTags' : 1,
-      'docSocialSummary' : 1,
-      'docPodcastPermLink' : 1,
-      'docVideoLink' : 1,
+      'docOnlinePosition': 1,
+      'docOnlineVolume': 1,
+      'docOnlineIssueNumber': 1,
+      //PRINT ISSUE
+      'docAdConflicts': 1,
+      'docFirstPagePrint': 1,
+      'docLastPagePrint': 1,
+      'docPrintPosition': 1,
+      //PRINT ADS
+      'docAdClient': 1,
+      'docAdDescription': 1,
+      'docAdSize': 1,
+      'docAdFirstPagePrint': 1,
+      'docAdLastPagePrint': 1,
+      //NEWS ONLY
+      'docNewsReady': 1,
+      'docPublishDateCMAJnews': 1,
+      'docNewsCommissionDate': 1,
+      'docNewsInvoiceDate': 1,
+      'docNewsInvoiceAmount': 1,
+      //FORMATTED DATES
+      'docAcceptDateFormatted': 1,
+      'docPaymentDateFormatted': 1,
+      'docETOCDateFormatted': 1,
+      'docOnlineIssueFormatted': 1,
+      'docPrintIssueFormatted': 1,
+      'docEnteredDateFormatted': 1,
+      'docCopyEditBeginDateFormatted': 1,
+      'docCopyEditCompleteDateFormatted': 1,
+      'docSendSEDateFormatted': 1,
+      'docReturnSEDateFormatted': 1,
+      'docSendAuthorDateFormatted': 1,
+      'docReturnAuthorDateFormatted': 1,
+      'docSendFineTuneDateFormatted': 1,
+      'docReturnFineTuneDateFormatted': 1,
+      'docSendProofReadDateFormatted': 1,
+      'docReturnProofReadDateFormatted': 1,
+      'docFinalizeDateFormatted': 1,
+      'docNewsReadyFormatted': 1,
+      'docPublishDateCMAJnewsFormatted': 1,
+      'docNewsCommissionDateFormatted': 1,
+      'docNewsInvoiceDateFormatted': 1,
       sortValue:
       {
         $cond: 
@@ -613,61 +696,144 @@ router.get('/getOnlineSearchResults', (req, res, next) => {
   {
     $project:
     {
+      //GENERAL FIELDS 
+      'docUsername': 1,
       'docDOI': 1,
       'docSection': 1,
       'docDepartment': 1,
       'docAuthor': 1,
       'docTitle': 1,
       'docFocusArea': 1,
-      'docEditor': 1,
-      'docOpenAccess' : 1,
+      //DOCUMENT DETAILS
+      'docFlagPrint': 1,
+      'docOpenAccess': 1,
+      'docTranslation': 1,
+      'docPressRelease': 1,
       'docProfessionalDev': 1,
-      'docRelatedMaterial' : 1,
-      'docWebBlurb' : 1,
-      'docAdConflicts': 1,
-      'docNumPages' : 1,
-      'docNumPagesOnline' : 1,
-      'docNumPagesPrint' : 1,
-      'docNumFigures' : 1,
-      'docNumFiguresOnline' : 1,
-      'docNumFiguresPrint' : 1,
-      'docNumBoxes' : 1,
-      'docNumBoxesOnline' : 1,
-      'docNumBoxesPrint' : 1,
-      'docNumTables' : 1,
+      'docRelatedMaterial': 1,
+      'docOutStandingMaterial': 1,
+      'docInvoiceNum': 1,
+      'docShortTitle': 1,
+      'docWebBlurb': 1,
+      'docWebImageURL': 1,
+      'docWebImageCredit': 1,
+      //LAYOUT
+      'docNumPages': 1,
+      'docNumPagesOnline': 1,
+      'docNumPagesPrint': 1,
+      'docNumFigures': 1,
+      'docNumFiguresOnline': 1,
+      'docNumFiguresPrint': 1,
+      'docNumBoxes': 1,
+      'docNumBoxesOnline': 1,
+      'docNumBoxesPrint': 1,
+      'docNumTables': 1,
       'docNumTablesOnline': 1,
-      'docNumTablesPrint' : 1,
+      'docNumTablesPrint': 1,
       'docNumAppendices': 1,
-      'docNumAppendicesOnline' : 1,
-      'docNumAppendicesPrint' : 1,
+      'docNumAppendicesOnline': 1,
+      'docNumAppendicesPrint': 1,
+      'docLayoutOnly': 1,
+      'docKeyWords': 1,
+      //MULTIMEDIA
       'docMultiMedia1': 1,
       'docMultiMedia2': 1,
       'docMultiMedia3': 1,
-      'docPrintIssue': 1,
-      'docPrintIssueFormatted': 1,
+      'docPodcastEmbargoLink': 1,
+      'docPodcastPermLink': 1,
+      'docPodcastEmbedCode': 1,
+      'docVideoEmbedCode': 1,
+      'docVideoLink': 1,
+      //SOCIAL MEDIA
+      'docURL': 1,
+      'docHashTags': 1,
+      'docSocialSummary': 1,
+      //COLLECTION CODES
+      'docCollectionCode1': 1,
+      'docCollectionCode2': 1,
+      'docCollectionCode3': 1,
+      'docCollectionCode4': 1,   
+      'docCollectionCode5': 1,  
+      'docCollectionCode6': 1,
+      'code1Code': 1,
+      'code2Code': 1,
+      'code3Code': 1,
+      'code4Code': 1,
+      'code5Code': 1,
+      'code6Code': 1,
+      //DOCUMENT TIMELINE
+      'docAcceptDate': 1,
+      'docPaymentDate': 1,
+      'docETOCDate': 1,
       'docOnlineIssue': 1,
-      'docOnlineIssueFormatted': 1,
-      'docPrintPosition' : 1,
-      'docFirstPagePrint': 1,
-      'docLastPagePrint': 1,
-      'docOnlinePosition' : 1,
+      'docPrintIssue': 1,
+      //EDITING TIMELINE
+      'docEditor': 1,
+      'docCoordinator': 1,
+      'docProofReader': 1,
+      'docSE1': 1,
+      'docSE2': 1,
+      'docEnteredDate': 1,
+      'docCopyEditBeginDate': 1,
+      'docCopyEditCompleteDate': 1,
+      'docSendSEDate': 1,
+      'docReturnSEDate': 1, 
+      'docSendAuthorDate': 1,
+      'docReturnAuthorDate': 1,
+      'docSendFineTune': 1,
+      'docReturnFineTune': 1,
+      'docSendProofRead': 1,
+      'docReturnProofRead': 1,
+      'docFinalizeDate': 1,
+      'docStatus': 1,
+      //NOTES
+      'docOnlineNotes': 1,
+      'docPrintNotes': 1,
+      //ONLINE ISSUE
       'docFirstPageOnline': 1,
       'docLastPageOnline': 1,
-      'docOnlineIssueNumber' : 1,
-      'docOnlineVolume' : 1,
-      'docLayoutOnly' : 1,
-      'docCollectionCode1' : 1,
-      'docCollectionCode2' : 1,
-      'docCollectionCode3' : 1,
-      'docCollectionCode4' : 1,
-      'docCollectionCode5' : 1,
-      'docCollectionCode6' : 1,
-      'docShortTitle' : 1,
-      'docURL' : 1,
-      'docHashTags' : 1,
-      'docSocialSummary' : 1,
-      'docPodcastPermLink' : 1,
-      'docVideoLink' : 1,
+      'docOnlinePosition': 1,
+      'docOnlineVolume': 1,
+      'docOnlineIssueNumber': 1,
+      //PRINT ISSUE
+      'docAdConflicts': 1,
+      'docFirstPagePrint': 1,
+      'docLastPagePrint': 1,
+      'docPrintPosition': 1,
+      //PRINT ADS
+      'docAdClient': 1,
+      'docAdDescription': 1,
+      'docAdSize': 1,
+      'docAdFirstPagePrint': 1,
+      'docAdLastPagePrint': 1,
+      //NEWS ONLY
+      'docNewsReady': 1,
+      'docPublishDateCMAJnews': 1,
+      'docNewsCommissionDate': 1,
+      'docNewsInvoiceDate': 1,
+      'docNewsInvoiceAmount': 1,
+      //FORMATTED DATES
+      'docAcceptDateFormatted': 1,
+      'docPaymentDateFormatted': 1,
+      'docETOCDateFormatted': 1,
+      'docOnlineIssueFormatted': 1,
+      'docPrintIssueFormatted': 1,
+      'docEnteredDateFormatted': 1,
+      'docCopyEditBeginDateFormatted': 1,
+      'docCopyEditCompleteDateFormatted': 1,
+      'docSendSEDateFormatted': 1,
+      'docReturnSEDateFormatted': 1,
+      'docSendAuthorDateFormatted': 1,
+      'docReturnAuthorDateFormatted': 1,
+      'docSendFineTuneDateFormatted': 1,
+      'docReturnFineTuneDateFormatted': 1,
+      'docSendProofReadDateFormatted': 1,
+      'docReturnProofReadDateFormatted': 1,
+      'docFinalizeDateFormatted': 1,
+      'docNewsReadyFormatted': 1,
+      'docPublishDateCMAJnewsFormatted': 1,
+      'docNewsCommissionDateFormatted': 1,
+      'docNewsInvoiceDateFormatted': 1,
       sortValue:
       {
         $cond: 
@@ -720,28 +886,6 @@ router.get('/getETOCSearchResults', (req, res, next) => {
   });
 });
 
-/*
-
-router.get('/getOnlineSearchResults', (req, res, next) => {
-
-  let query1 = {'docOnlineIssue': req.query.docOnlineIssue}; 
-
-  Doc.find(query1, 
-           null,
-           {sort: {docOnlinePosition: 1}}, 
-           (err, docs) => {
-    if (err) throw err;
-    else {
-      res.json(docs);
-    }
-  });
-});
-
-*/
-
-
-
-
 router.get('/getCheckPreviousOnlineIssue', (req, res, next) => {
 
   let query1 = {docOnlineIssue: {$lt: new Date(req.query.docOnlineIssue)}};
@@ -789,32 +933,6 @@ router.get('/getOnlineFirstPage', (req, res, next) => {
   });
 });
 
-/*
-router.get('/getOnlineLastPage', (req, res, next) => {
-  
-  const onlineDate = new Date(req.query.docOnlineIssue);
-  const month = onlineDate.getMonth() + 1;
-  const year = onlineDate.getFullYear();
-  const dayBefore = onlineDate.getDate() - 1;
-  const dayAfter = onlineDate.getDate() + 1;
-  const date1 = year + '-' + month + '-' + dayBefore;
-  const date2 = year + '-' + month + '-' + dayAfter;
-  const query1 = {docOnlineIssue: {$gt: new Date(date1)}};
-  const query2 = {docOnlineIssue: {$lt: new Date(date2)}};
-
-  Doc.find({$and: [query1, query2]},
-          {docLastPageOnline: 1}, 
-          {limit: 1, sort: {docLastPageOnline: -1}}, 
-          (err, docs) => {
-    if (err) throw err;
-    else {
-      console.log(docs);
-      res.json(docs);
-    }
-  });
-});
-
-*/
 
 module.exports = router;
 
@@ -965,3 +1083,53 @@ converter.fromFile('./data/data2017news4.csv', (err, result) => {
 });
 
 */
+
+
+/*
+router.get('/getOnlineLastPage', (req, res, next) => {
+  
+  const onlineDate = new Date(req.query.docOnlineIssue);
+  const month = onlineDate.getMonth() + 1;
+  const year = onlineDate.getFullYear();
+  const dayBefore = onlineDate.getDate() - 1;
+  const dayAfter = onlineDate.getDate() + 1;
+  const date1 = year + '-' + month + '-' + dayBefore;
+  const date2 = year + '-' + month + '-' + dayAfter;
+  const query1 = {docOnlineIssue: {$gt: new Date(date1)}};
+  const query2 = {docOnlineIssue: {$lt: new Date(date2)}};
+
+  Doc.find({$and: [query1, query2]},
+          {docLastPageOnline: 1}, 
+          {limit: 1, sort: {docLastPageOnline: -1}}, 
+          (err, docs) => {
+    if (err) throw err;
+    else {
+      console.log(docs);
+      res.json(docs);
+    }
+  });
+});
+
+*/
+
+/*
+
+router.get('/getOnlineSearchResults', (req, res, next) => {
+
+  let query1 = {'docOnlineIssue': req.query.docOnlineIssue}; 
+
+  Doc.find(query1, 
+           null,
+           {sort: {docOnlinePosition: 1}}, 
+           (err, docs) => {
+    if (err) throw err;
+    else {
+      res.json(docs);
+    }
+  });
+});
+
+*/
+
+
+

@@ -630,8 +630,9 @@ export class DetailsComponent implements OnInit {
   }
     
   getNewsStatus() {
-    if(this.docPublishDateCMAJnews) this.docStatus = "E - News Posted";
-    else if(this.docNewsReady) this.docStatus = "D - News Ready";
+    if(this.docPublishDateCMAJnews) this.docStatus = "F - News Posted";
+    else if(this.docNewsReady) this.docStatus = "E - News Ready";
+    else if(this.docSendSEDate) this.docStatus = "D - News with Duty Editor";
     else if(this.docAcceptDate) this.docStatus = "C - News In Edit";
     else if(this.docNewsCommissionDate) this.docStatus = "B - News Commissioned";
     else this.docStatus = "A - News No Status";

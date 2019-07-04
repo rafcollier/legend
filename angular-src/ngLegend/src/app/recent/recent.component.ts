@@ -23,6 +23,7 @@ export class RecentComponent implements OnInit {
 
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {
+      console.log(profile);
       this.username = profile.user.username;
       this.showAd = false;
       this.showFrench = false;
