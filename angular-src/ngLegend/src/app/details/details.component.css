@@ -26,3 +26,7 @@
 .red-font {
 	color: red;
 }
+
+.white-space-pre-line {
+    white-space: pre-line;
+}

@@ -72,6 +72,9 @@ let DocSchema = new Schema({
 	docWebImageCredit: {
 	  type: String
 	},
+	docFullText: {
+	  type: String
+	},
  
     //LAYOUT
 
@@ -121,6 +124,9 @@ let DocSchema = new Schema({
 	  type: Number, default: 0
 	},
 	docLayoutOnly: {
+	  type: Boolean
+	},
+	docETOCOnly: {
 	  type: Boolean
 	},
 	docKeyWords: {

@@ -39,6 +39,7 @@ router.post('/submitdoc', (req, res, next) => {
     docWebBlurb: req.body.docWebBlurb,
     docWebImageURL: req.body.docWebImageURL,
     docWebImageCredit: req.body.docWebImageCredit,
+    docFullText: req.body.docFullText,
 
     //LAYOUT
 
@@ -58,6 +59,7 @@ router.post('/submitdoc', (req, res, next) => {
     docNumAppendicesOnline: req.body.docNumAppendicesOnline,
     docNumAppendicesPrint: req.body.docNumAppendicesPrint,
     docLayoutOnly: req.body.docLayoutOnly,
+    docETOCOnly: req.body.docETOCOnly,
     docKeyWords: req.body.docKeyWords,
 
 
@@ -549,6 +551,7 @@ router.get('/getLayoutSearchResults', (req, res, next) => {
       'docNumAppendicesOnline': 1,
       'docNumAppendicesPrint': 1,
       'docLayoutOnly': 1,
+      'docETOCOnly': 1,
       'docKeyWords': 1,
       //MULTIMEDIA
       'docMultiMedia1': 1,
@@ -734,6 +737,7 @@ router.get('/getOnlineSearchResults', (req, res, next) => {
       'docNumAppendicesOnline': 1,
       'docNumAppendicesPrint': 1,
       'docLayoutOnly': 1,
+      'docETOCOnly': 1,
       'docKeyWords': 1,
       //MULTIMEDIA
       'docMultiMedia1': 1,

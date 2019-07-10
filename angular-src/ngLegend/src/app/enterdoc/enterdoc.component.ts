@@ -55,6 +55,7 @@ export class EnterdocComponent implements OnInit {
   docWebBlurb: String;
   docWebImageURL: String;
   docWebImageCredit: String;
+  docFullText: String;
 
   //LAYOUT
   docNumPages: number = 0;
@@ -516,6 +517,7 @@ export class EnterdocComponent implements OnInit {
       docWebBlurb: this.docWebBlurb,
       docWebImageURL: this.docWebImageURL,
       docWebImageCredit: this.docWebImageCredit,
+      docFullText: this.docFullText,
    
       //LAYOUT
 

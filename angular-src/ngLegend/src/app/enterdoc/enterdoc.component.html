@@ -145,6 +145,10 @@ MAIN DOCUMENT INPUT SECTION
                 <mat-checkbox [(ngModel)]="docProfessionalDev" name="docProfessionalDev">Continued Professional Development</mat-checkbox>
             </mat-form-field>
 
+            <mat-form-field class="example-full-width">  
+              <textarea matInput placeholder="Full Text" [(ngModel)]="docFullText" name="docFullText"></textarea>
+            </mat-form-field> 
+
           </mat-expansion-panel> 
         </mat-accordion> 
         <br>
@@ -460,17 +464,17 @@ MAIN DOCUMENT INPUT SECTION
             </mat-expansion-panel-header>
 
             <mat-form-field class="example-full-width">  
-              <input type="text" matInput placeholder="Online Issue Notes " [(ngModel)]="docOnlineNotes" name="docOnlineNotes">  
+              <textarea matInput placeholder="Online Issue Notes " [(ngModel)]="docOnlineNotes" name="docOnlineNotes"></textarea>  
             </mat-form-field> 
   
             <mat-form-field class="example-full-width">  
-              <input type="text" matInput placeholder="Print Issue Notes " [(ngModel)]="docPrintNotes" name="docPrintNotes">  
+              <textarea matInput placeholder="Print Issue Notes " [(ngModel)]="docPrintNotes" name="docPrintNotes"></textarea>
             </mat-form-field> 
-  
-            <mat-form-field class="example-full-width">  
-              <input type="text" matInput placeholder="General Notes" [(ngModel)]="docNotes" name="docNotes">
+
+             <mat-form-field class="example-full-width">  
+              <textarea matInput placeholder="General Notes" [(ngModel)]="docNotes" name="docNotes"></textarea>
             </mat-form-field> 
-  
+
           </mat-expansion-panel> 
         </mat-accordion>
         <br>
@@ -628,6 +632,11 @@ NEWS INPUT SECTION
             <mat-form-field class="example-full-width">  
               <input type="text" matInput placeholder="Hashtags" [(ngModel)]="docHashTags" name="docHashTags">  
             </mat-form-field>  
+
+
+            <mat-form-field class="example-full-width">  
+              <textarea matInput placeholder="Full Text" [(ngModel)]="docFullText" name="docFullText"></textarea>
+            </mat-form-field> 
   
           </mat-expansion-panel> 
         </mat-accordion> 
@@ -711,17 +720,16 @@ NEWS INPUT SECTION
               </mat-panel-description>
             </mat-expansion-panel-header>
   
-  
             <mat-form-field class="example-full-width">  
-              <input type="text" matInput placeholder="Online Issue Notes " [(ngModel)]="docOnlineNotes" name="docOnlineNotes">  
+              <textarea matInput placeholder="Online Issue Notes " [(ngModel)]="docOnlineNotes" name="docOnlineNotes"></textarea>  
             </mat-form-field> 
   
             <mat-form-field class="example-full-width">  
-              <input type="text" matInput placeholder="Print Issue Notes " [(ngModel)]="docPrintNotes" name="docPrintNotes">  
+              <textarea matInput placeholder="Print Issue Notes " [(ngModel)]="docPrintNotes" name="docPrintNotes"></textarea>
             </mat-form-field> 
-  
-            <mat-form-field class="example-full-width">  
-              <input type="text" matInput placeholder="General Notes" [(ngModel)]="docNotes" name="docNotes">
+
+             <mat-form-field class="example-full-width">  
+              <textarea matInput placeholder="General Notes" [(ngModel)]="docNotes" name="docNotes"></textarea>
             </mat-form-field> 
   
   
@@ -787,7 +795,7 @@ LETTER INPUT SECTION
         </mat-form-field>
 
         <mat-form-field class="example-full-width">  
-          <input type="text" matInput placeholder="General Notes" [(ngModel)]="docNotes" name="docNotes">
+          <textarea matInput placeholder="General Notes" [(ngModel)]="docNotes" name="docNotes"></textarea>
         </mat-form-field> 
 
         <mat-form-field class="example-full-width">  
@@ -814,6 +822,10 @@ LETTER INPUT SECTION
           <input matInput placeholder="" style="display: none">
             <mat-checkbox [(ngModel)]="docFlagPrint" name="docFlagPrint">Flag for Print</mat-checkbox>
         </mat-form-field>
+
+        <mat-form-field class="example-full-width">  
+          <textarea matInput placeholder="Full Text" [(ngModel)]="docFullText" name="docFullText"></textarea>
+        </mat-form-field> 
 
         <br>
 

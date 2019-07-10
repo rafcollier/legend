@@ -122,9 +122,9 @@ constructor(
       ) {
 
 
-      if(!this.issueSections.includes('10 Health Stories That Mattered This Week')) {
-          layoutPromises.push(this.makeDoc('10 Health Stories That Mattered This Week'));
-      }
+     // if(!this.issueSections.includes('10 Health Stories That Mattered This Week')) {
+     //     layoutPromises.push(this.makeDoc('10 Health Stories That Mattered This Week'));
+      //}
       if(!this.issueSections.includes('CMAJ Blogs')) {
         layoutPromises.push(this.makeDoc('CMAJ Blogs'));
       }

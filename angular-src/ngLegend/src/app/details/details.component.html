@@ -67,6 +67,7 @@ MAIN DOCUMENT INPUT SECTION
           <p *ngIf="oneDoc.docTranslation"><b>Translation:</b> yes </p>
           <p *ngIf="oneDoc.docPressRelease"><b>Press Release:</b> yes </p>
           <p *ngIf="oneDoc.docProfessionalDev"><b>Continuing Professional Development:</b> yes </p>
+          <p *ngIf="oneDoc.docFullText" class="white-space-pre-line"><b>Full Text:</b> {{ docFullText }}</p>
 
         </mat-expansion-panel> 
       </mat-accordion>
@@ -200,9 +201,9 @@ MAIN DOCUMENT INPUT SECTION
           </mat-panel-description>
         </mat-expansion-panel-header>
         <br> 
-        <p *ngIf="oneDoc.docOnlineNotes"><b>Online Issue Notes:</b> {{ docOnlineNotes }}</p>
-        <p *ngIf="oneDoc.docPrintNotes"><b>Print Issue Notes:</b> {{ docPrintNotes }}</p>
-        <p *ngIf="oneDoc.docNotes"><b>General Notes:</b> {{ docNotes }}</p>
+        <p *ngIf="oneDoc.docOnlineNotes" class="white-space-pre-line"><b>Online Issue Notes:</b> {{ docOnlineNotes }}</p>
+        <p *ngIf="oneDoc.docPrintNotes" class="white-space-pre-line"><b>Print Issue Notes:</b> {{ docPrintNotes }}</p>
+        <p *ngIf="oneDoc.docNotes" class="white-space-pre-line"><b>General Notes:</b> {{ docNotes }}</p>
       </mat-expansion-panel> 
     </mat-accordion>
     <br>
@@ -260,7 +261,7 @@ NEWS INPUT SECTION
             <mat-panel-description>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <p *ngIf="oneDoc.docNewsCommissionDate"> <b>Commission Date:</b> {{ docNewsCommissionDate }}</p>
+          <p *ngIf="oneDoc.docNewsCommissionDate"> <b>Commission Date:</b> {{ docNewsCommissionDateFormatted }}</p>
           <p *ngIf="oneDoc.docAcceptDate"> <b>Received Date:</b> {{ docAcceptDateFormatted }}</p>
           <p *ngIf="oneDoc.docSendSEDate"> <b>Duty Editor Date:</b> {{ docAcceptDateFormatted }}</p>
           <p *ngIf="oneDoc.docNewsReady"> <b>Ready Date:</b> {{ docNewsReadyFormatted }}</p>
@@ -290,6 +291,7 @@ NEWS INPUT SECTION
           <p *ngIf="oneDoc.docWebImageCredit"><b>Web Image Credit:</b> {{ docWebImageCredit }}</p>
           <p *ngIf="oneDoc.docURL"><b>URL:</b> {{ docURL }}</p>
           <p *ngIf="oneDoc.docHashTags"><b>Hashtags:</b> {{ docHashTags }}</p>
+          <p *ngIf="oneDoc.docFullText" class="white-space-pre-line"><b>Full Text:</b> {{ docFullText }}</p>
         </mat-expansion-panel> 
       </mat-accordion>
       <br>
@@ -326,9 +328,9 @@ NEWS INPUT SECTION
             </mat-panel-description>
           </mat-expansion-panel-header>
           <br> 
-          <p *ngIf="oneDoc.docOnlineNotes"><b>Online Issue Notes:</b> {{ docOnlineNotes }}</p>
-          <p *ngIf="oneDoc.docPrintNotes"><b>Print Issue Notes:</b> {{ docPrintNotes }}</p>
-          <p *ngIf="oneDoc.docNotes"><b>General Notes:</b> {{ docNotes }}</p>
+          <p *ngIf="oneDoc.docOnlineNotes" class="white-space-pre-line"><b>Online Issue Notes:</b> {{ docOnlineNotes }}</p>
+          <p *ngIf="oneDoc.docPrintNotes" class="white-space-pre-line"><b>Print Issue Notes:</b> {{ docPrintNotes }}</p>
+          <p *ngIf="oneDoc.docNotes" class="white-space-pre-line"><b>General Notes:</b> {{ docNotes }}</p>
         </mat-expansion-panel> 
       </mat-accordion>
   
@@ -376,10 +378,11 @@ LETTER INPUT SECTION
         <p *ngIf="oneDoc.docOnlineIssue"> <b>Online Issue Date:</b> {{ docOnlineIssueFormatted }}</p>
         <p *ngIf="oneDoc.docETOCDate"> <b>ETOC Date:</b> {{ docETOCDateFormatted }}</p>
         <p *ngIf="oneDoc.docPrintIssue"> <b>Print Issue Date:</b> {{ docPrintIssueFormatted }}</p>
-        <p *ngIf="oneDoc.docNotes"><b>General Notes:</b> {{ docNotes }}</p>
+        <p *ngIf="oneDoc.docNotes" class="white-space-pre-line"><b>General Notes:</b> {{ docNotes }}</p>
         <p *ngIf="oneDoc.docNumPages"><b>Number of Pages:</b> {{ docNumPages }}</p>
         <p *ngIf="oneDoc.docRelatedMaterial"><b>Related Material:</b> {{ docRelatedMaterial }}</p>
         <p *ngIf="oneDoc.docFlagPrint"><b>Flagged for Print:</b> yes </p>
+        <p *ngIf="oneDoc.docFullText" class="white-space-pre-line"><b>Full Text:</b> {{ docFullText }}</p>
 
 
       <mat-accordion>
@@ -593,6 +596,10 @@ MAIN DOCUMENT INPUT SECTION
               <input matInput placeholder="" style="display: none">
                 <mat-checkbox [(ngModel)]="docProfessionalDev" name="docProfessionalDev">Continued Professional Development</mat-checkbox>
             </mat-form-field>
+
+            <mat-form-field class="example-full-width">  
+              <textarea matInput placeholder="Full Text" [(ngModel)]="docFullText" name="docFullText"></textarea>
+            </mat-form-field> 
 
           </mat-expansion-panel> 
         </mat-accordion> 
@@ -909,15 +916,15 @@ MAIN DOCUMENT INPUT SECTION
             </mat-expansion-panel-header>
 
             <mat-form-field class="example-full-width">  
-              <input type="text" matInput placeholder="Online Issue Notes " [(ngModel)]="docOnlineNotes" name="docOnlineNotes">  
+              <textarea matInput placeholder="Online Issue Notes " [(ngModel)]="docOnlineNotes" name="docOnlineNotes"></textarea>  
             </mat-form-field> 
   
             <mat-form-field class="example-full-width">  
-              <input type="text" matInput placeholder="Print Issue Notes " [(ngModel)]="docPrintNotes" name="docPrintNotes">  
+              <textarea matInput placeholder="Print Issue Notes " [(ngModel)]="docPrintNotes" name="docPrintNotes"></textarea>
             </mat-form-field> 
-  
-            <mat-form-field class="example-full-width">  
-              <input type="text" matInput placeholder="General Notes" [(ngModel)]="docNotes" name="docNotes">
+
+             <mat-form-field class="example-full-width">  
+              <textarea matInput placeholder="General Notes" [(ngModel)]="docNotes" name="docNotes"></textarea>
             </mat-form-field> 
   
           </mat-expansion-panel> 
@@ -1080,6 +1087,10 @@ NEWS INPUT SECTION
             <mat-form-field class="example-full-width">  
               <input type="text" matInput placeholder="Hashtags" [(ngModel)]="docHashTags" name="docHashTags">  
             </mat-form-field>  
+
+            <mat-form-field class="example-full-width">  
+              <textarea matInput placeholder="Full Text" [(ngModel)]="docFullText" name="docFullText"></textarea>
+            </mat-form-field> 
   
           </mat-expansion-panel> 
         </mat-accordion> 
@@ -1165,15 +1176,15 @@ NEWS INPUT SECTION
   
   
             <mat-form-field class="example-full-width">  
-              <input type="text" matInput placeholder="Online Issue Notes " [(ngModel)]="docOnlineNotes" name="docOnlineNotes">  
+              <textarea matInput placeholder="Online Issue Notes " [(ngModel)]="docOnlineNotes" name="docOnlineNotes"></textarea>  
             </mat-form-field> 
   
             <mat-form-field class="example-full-width">  
-              <input type="text" matInput placeholder="Print Issue Notes " [(ngModel)]="docPrintNotes" name="docPrintNotes">  
+              <textarea matInput placeholder="Print Issue Notes " [(ngModel)]="docPrintNotes" name="docPrintNotes"></textarea>
             </mat-form-field> 
-  
-            <mat-form-field class="example-full-width">  
-              <input type="text" matInput placeholder="General Notes" [(ngModel)]="docNotes" name="docNotes">
+
+             <mat-form-field class="example-full-width">  
+              <textarea matInput placeholder="General Notes" [(ngModel)]="docNotes" name="docNotes"></textarea>
             </mat-form-field> 
   
   
@@ -1239,7 +1250,7 @@ LETTER INPUT SECTION
         </mat-form-field>
 
         <mat-form-field class="example-full-width">  
-          <input type="text" matInput placeholder="General Notes" [(ngModel)]="docNotes" name="docNotes">
+          <textarea matInput placeholder="General Notes" [(ngModel)]="docNotes" name="docNotes"></textarea>
         </mat-form-field> 
 
         <mat-form-field class="example-full-width">  
@@ -1272,6 +1283,10 @@ LETTER INPUT SECTION
           <input matInput placeholder="" style="display: none">
             <mat-checkbox [(ngModel)]="docFlagPrint" name="docFlagPrint">Flag for Print</mat-checkbox>
         </mat-form-field>
+
+        <mat-form-field class="example-full-width">  
+          <textarea matInput placeholder="Full Text" [(ngModel)]="docFullText" name="docFullText"></textarea>
+        </mat-form-field> 
 
         <br>
 

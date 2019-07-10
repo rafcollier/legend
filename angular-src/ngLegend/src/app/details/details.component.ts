@@ -110,6 +110,7 @@ export class DetailsComponent implements OnInit {
   docWebBlurb: String;
   docWebImageURL: String;
   docWebImageCredit: String;
+  docFullText: String;
 
   //LAYOUT
 
@@ -383,6 +384,7 @@ export class DetailsComponent implements OnInit {
       this.docWebBlurb = doc.docWebBlurb;
       this.docWebImageURL = doc.docWebImageURL;
       this.docWebImageCredit = doc.docWebImageCredit;
+      this.docFullText = doc.docFullText;
 
       //LAYOUT
 
@@ -726,6 +728,7 @@ export class DetailsComponent implements OnInit {
       docWebBlurb: this.docWebBlurb,
       docWebImageURL: this.docWebImageURL,
       docWebImageCredit: this.docWebImageCredit,
+      docFullText: this.docFullText,
    
       //LAYOUT
 
