@@ -319,6 +319,10 @@ constructor(
                       value: 'docShortTitle'
                     },
                     {
+                      label: 'Title',
+                      value: 'docTitle'
+                    },
+                    {
                       label: 'Web Blurb',
                       value: 'docWebBlurb'
                     },

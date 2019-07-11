@@ -659,7 +659,7 @@ export class DetailsComponent implements OnInit {
     if(!(this.docNumBoxes)) this.docNumBoxes= 0;
     if(!(this.docNumBoxesOnline)) this.docNumBoxesOnline = 0;
     if(!(this.docNumBoxesPrint)) this.docNumBoxesPrint = 0;
-    if(!(this.docNumTables)) this.docNumTables= 0;
+    if(!(this.docNumTables)) this.docNumTables = 0;
     if(!(this.docNumTablesOnline)) this.docNumTablesOnline = 0;
     if(!(this.docNumTablesPrint)) this.docNumTablesPrint = 0;
     if(!(this.docNumAppendices)) this.docNumAppendices= 0;
@@ -679,27 +679,27 @@ export class DetailsComponent implements OnInit {
 
     //Store string formatted dates for display if the date has been entered
 
-    if (this.docAcceptDate) this.docAcceptDateFormatted = moment(this.docAcceptDate).format('MMMM DD, YYYY');
-    if (this.docPaymentDate) this.docPaymentDateFormatted = moment(this.docPaymentDate).format('MMMM DD, YYYY');
-    if (this.docETOCDate) this.docETOCDateFormatted = moment(this.docETOCDate).format('MMMM DD, YYYY');
-    if (this.docOnlineIssue) this.docOnlineIssueFormatted = moment(this.docOnlineIssue).format('MMMM DD, YYYY');
-    if (this.docPrintIssue) this.docPrintIssueFormatted = moment(this.docPrintIssue).format('MMMM YYYY');
-    if (this.docEnteredDate) this.docEnteredDateFormatted = moment(this.docEnteredDate).format('MMMM DD, YYYY');
-    if (this.docCopyEditBeginDate) this.docCopyEditBeginDateFormatted = moment(this.docCopyEditBeginDate).format('MMMM DD, YYYY');
-    if (this.docCopyEditCompleteDate) this.docCopyEditCompleteDateFormatted = moment(this.docCopyEditCompleteDate).format('MMMM DD, YYYY');
-    if (this.docSendSEDate) this.docSendSEDateFormatted = moment(this.docSendSEDate).format('MMMM DD, YYYY');
-    if (this.docReturnSEDate) this.docReturnSEDateFormatted = moment(this.docReturnSEDate).format('MMMM DD, YYYY');
-    if (this.docSendAuthorDate) this.docSendAuthorDateFormatted = moment(this.docSendAuthorDate).format('MMMM DD, YYYY');
-    if (this.docReturnAuthorDate) this.docReturnAuthorDateFormatted = moment(this.docReturnAuthorDate).format('MMMM DD, YYYY');
-    if (this.docSendFineTune) this.docSendFineTuneDateFormatted = moment(this.docSendFineTune).format('MMMM DD, YYYY');
-    if (this.docReturnFineTune) this.docReturnFineTuneDateFormatted = moment(this.docReturnFineTune).format('MMMM DD, YYYY');
-    if (this.docSendProofRead) this.docSendProofReadDateFormatted = moment(this.docSendProofRead).format('MMMM DD, YYYY');
-    if (this.docReturnProofRead) this.docReturnProofReadDateFormatted = moment(this.docReturnProofRead).format('MMMM DD, YYYY');
-    if (this.docFinalizeDate) this.docFinalizeDateFormatted = moment(this.docFinalizeDate).format('MMMM DD, YYYY');
-    if (this.docNewsReady) this.docNewsReadyFormatted = moment(this.docNewsReady).format('MMMM DD, YYYY');
-    if (this.docPublishDateCMAJnews) this.docPublishDateCMAJnewsFormatted = moment(this.docPublishDateCMAJnews).format('MMMM DD, YYYY');
-    if (this.docNewsCommissionDate) this.docNewsCommissionDateFormatted = moment(this.docNewsCommissionDate).format('MMMM DD, YYYY');
-    if (this.docNewsInvoiceDate) this.docNewsInvoiceDateFormatted = moment(this.docNewsInvoiceDate).format('MMMM DD, YYYY');
+    this.docAcceptDateFormatted = this.docAcceptDate ? moment(this.docAcceptDate).format('MMMM DD, YYYY') : null;
+    this.docPaymentDateFormatted = this.docPaymentDate ? moment(this.docPaymentDate).format('MMMM DD, YYYY') : null;
+    this.docETOCDateFormatted = this.docETOCDate ? moment(this.docETOCDate).format('MMMM DD, YYYY') : null;
+    this.docOnlineIssueFormatted = this.docOnlineIssue ? moment(this.docOnlineIssue).format('MMMM DD, YYYY') : null;
+    this.docPrintIssueFormatted = this.docPrintIssue ? moment(this.docPrintIssue).format('MMMM YYYY') : null;
+    this.docEnteredDateFormatted = this.docEnteredDate ? moment(this.docEnteredDate).format('MMMM DD, YYYY') : null;
+    this.docCopyEditBeginDateFormatted = this.docCopyEditBeginDate ? moment(this.docCopyEditBeginDate).format('MMMM DD, YYYY') : null;
+    this.docCopyEditCompleteDateFormatted = this.docCopyEditCompleteDate ? moment(this.docCopyEditCompleteDate).format('MMMM DD, YYYY') : null;
+    this.docSendSEDateFormatted = this.docSendSEDate ? moment(this.docSendSEDate).format('MMMM DD, YYYY') : null;
+    this.docReturnSEDateFormatted = this.docReturnSEDate ? moment(this.docReturnSEDate).format('MMMM DD, YYYY') : null;
+    this.docSendAuthorDateFormatted = this.docSendAuthorDate ? moment(this.docSendAuthorDate).format('MMMM DD, YYYY') : null;
+    this.docReturnAuthorDateFormatted = this.docReturnAuthorDate ? moment(this.docReturnAuthorDate).format('MMMM DD, YYYY') : null;
+    this.docSendFineTuneDateFormatted = this.docSendFineTune ? moment(this.docSendFineTune).format('MMMM DD, YYYY') : null;
+    this.docReturnFineTuneDateFormatted = this.docReturnFineTune ? moment(this.docReturnFineTune).format('MMMM DD, YYYY') : null;
+    this.docSendProofReadDateFormatted = this.docSendProofRead ? moment(this.docSendProofRead).format('MMMM DD, YYYY') : null;
+    this.docReturnProofReadDateFormatted = this.docReturnProofRead ? moment(this.docReturnProofRead).format('MMMM DD, YYYY') : null;
+    this.docFinalizeDateFormatted = this.docFinalizeDate ? moment(this.docFinalizeDate).format('MMMM DD, YYYY') : null;
+    this.docNewsReadyFormatted = this.docNewsReady ? moment(this.docNewsReady).format('MMMM DD, YYYY') : null;
+    this.docPublishDateCMAJnewsFormatted = this.docPublishDateCMAJnews ? moment(this.docPublishDateCMAJnews).format('MMMM DD, YYYY') : null;
+    this.docNewsCommissionDateFormatted = this.docNewsCommissionDate ? moment(this.docNewsCommissionDate).format('MMMM DD, YYYY') : null;
+    this.docNewsInvoiceDateFormatted = this.docNewsInvoiceDate ? moment(this.docNewsInvoiceDate).format('MMMM DD, YYYY') : null;
 
     let editedDoc = {
  
