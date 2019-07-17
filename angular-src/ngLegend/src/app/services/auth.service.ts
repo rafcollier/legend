@@ -416,8 +416,8 @@ export class AuthService {
       .pipe(map(res => res.json()));
   }
 
-  getSearchResults(section, author, DOI, title, notusedonline, notusedprint, 
-                   flagprint, editorialOnly, afterAcceptDate, beforeAcceptDate, editor, status) {
+  getSearchResults(section, author, DOI, title, notusedonline, notusedprint, flagprint, editorialOnly,
+                   notFinal, afterAcceptDate, beforeAcceptDate, afterOnline, beforeOnline, editor, status) {
     let headers = new Headers();
     let params = new URLSearchParams();
     let options = new RequestOptions();
@@ -430,8 +430,11 @@ export class AuthService {
     params.set('docNotUsedPrint', notusedprint);
     params.set('docFlagPrint', flagprint);
     params.set('docEditorialOnly', editorialOnly);
+    params.set('docNotFinal', notFinal);
     params.set('afterAcceptDate', afterAcceptDate);
     params.set('beforeAcceptDate', beforeAcceptDate);
+    params.set('afterOnline', afterOnline);
+    params.set('beforeOnline', beforeOnline);
     params.set('editor', editor);
     params.set('status', status);
     options.headers = headers;
@@ -1088,7 +1091,7 @@ export class AuthService {
 
 
   getSearchResults(section, author, DOI, title, notusedonline, notusedprint, flagprint, editorialOnly,
-                   afterAcceptDate, beforeAcceptDate, editor, status) {
+                   notFinal, afterAcceptDate, beforeAcceptDate, afterOnline, beforeOnline, editor, status) {
     let headers = new Headers();
     let params = new URLSearchParams();
     let options = new RequestOptions();
@@ -1101,8 +1104,11 @@ export class AuthService {
     params.set('docNotUsedPrint', notusedprint);
     params.set('docFlagPrint', flagprint);
     params.set('docEditorialOnly', editorialOnly);
+    params.set('docNotFinal', notFinal);
     params.set('afterAcceptDate', afterAcceptDate);
     params.set('beforeAcceptDate', beforeAcceptDate);
+    params.set('afterOnline', afterOnline);
+    params.set('beforeOnline', beforeOnline);
     params.set('editor', editor);
     params.set('status', status);
     options.headers = headers;

@@ -117,7 +117,10 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     HttpModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)   
+    //RouterModule.forRoot(appRoutes)   
+    RouterModule.forRoot(appRoutes, {
+      scrollPositionRestoration: 'top'
+    })   
   ],
   providers: [ValidateService, AuthService, AuthGuard, AdminGuard],
   bootstrap: [AppComponent]

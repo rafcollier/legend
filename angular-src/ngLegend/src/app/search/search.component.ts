@@ -29,6 +29,8 @@ export class SearchComponent implements OnInit {
   docDOI: Number;
   afterAcceptDate: Date;
   beforeAcceptDate: Date;
+  afterOnline: Date;
+  beforeOnline: Date;
   editor: String;
   status: String;
   sections: Object[] = []; 
@@ -39,8 +41,10 @@ export class SearchComponent implements OnInit {
   username: String;
   editorsMenu: string []; 
   docFlagPrint: Boolean;
+  docNotFinal: Boolean;
   docEditorialOnly: Boolean;
   printIssueFormatted: string;
+  numResults: number;
 
 constructor(
   	private authService: AuthService,
@@ -68,8 +72,11 @@ constructor(
       this.docNotUsedPrint,
       this.docFlagPrint,
       this.docEditorialOnly,
+      this.docNotFinal,
       this.afterAcceptDate,
       this.beforeAcceptDate,
+      this.afterOnline,
+      this.beforeOnline,
       this.editor,
       this.status
     ).subscribe(entries => {
@@ -77,8 +84,10 @@ constructor(
         this.noResults = true;
       } else { 
         console.log(entries);
+        this.numResults = entries.length;
         this.showResults = true;
         this.displayDocs = entries;
+        window.scrollTo(0, 0);
       }
     }, 
     err => {
@@ -97,8 +106,11 @@ constructor(
     this.docNotUsedPrint = null;
     this.docFlagPrint = null;
     this.docEditorialOnly = null;
+    this.docNotFinal = null;
     this.afterAcceptDate = null;
     this.beforeAcceptDate = null;
+    this.afterOnline = null;
+    this.beforeOnline = null;
   	this.ngOnInit();
   }
 
@@ -125,6 +137,10 @@ constructor(
       {  
         label: 'Section',
         value: 'docSection' 
+      },
+      {
+        label: 'Status',
+        value: 'docStatus' 
       },
       {
         label: 'Department',
@@ -325,10 +341,7 @@ constructor(
         label: 'Senior Editor 2',
         value: 'docSE2' 
    },
-   {
-        label: 'Status',
-        value: 'docStatus' 
-   },
+
 
   //NOTES
    {
@@ -386,6 +399,7 @@ constructor(
         value: 'docPrintPosition' 
   },
 
+  /*
   //PRINT ADS
 
   {
@@ -408,17 +422,9 @@ constructor(
         label: 'Ad Last Page',
         value: 'docAdLastPagePrint' 
   },
+  */
   
-    //NEWS ONLY
 
-  {
-        label: 'News Invoice Amount',
-        value: 'docNewsInvoiceAmount' 
-  },
-  { 
-        label: 'ETOC Date',
-        value: 'docETOCDateFormatted' 
-  },
   { 
         label: 'InCopy Enter Date',
         value: 'docEnteredDateFormatted' 
@@ -466,22 +472,6 @@ constructor(
   {
         label: 'Finalize Date',
         value: 'docFinalizeDateFormatted' 
-  },
-  {
-        label: 'News Ready Date',
-        value: 'docNewsReadyFormatted' 
-  },
-  { 
-        label: 'Posted CMAJ News Date',
-        value: 'docPublishDateCMAJnewsFormatted' 
-  },
-  {
-        label: 'Commission News Date',
-        value: 'docNewsCommissionDateFormatted' 
-  },
-  {
-        label: 'Invoice News Date',
-        value: 'docNewsInvoiceDateFormatted' 
   }
   ];
 
@@ -495,7 +485,196 @@ constructor(
     let blob = new Blob([csv], { type: 'text/csv' });
     let url= window.URL.createObjectURL(blob);
     a.href = url;
-    a.download = 'Search_Results.csv';
+    a.download = 'Editorial_Search_Results.csv';
+    a.click();
+    return 'success';
+  }
+
+  onDownloadNews() {
+
+    const fields = [
+      {
+        label: 'Title',
+        value: 'docTitle'
+      },
+      {  
+        label: 'DOI', 
+        value: 'docDOI'
+      },
+      {
+        label: 'Status',
+        value: 'docStatus' 
+      },
+      {
+        label: 'Author',
+        value: 'docAuthor'
+      },
+      {
+        label: 'Commission Date',
+        value: 'docNewsCommissionDateFormatted' 
+      },
+      {
+        label: 'Receive Date',
+        value: 'docAcceptDateFormatted' 
+      },
+      {
+        label: 'Duty Edit Date',
+        value: 'docSendSEDateFormatted' 
+      },
+      {
+        label: 'Ready Date',
+        value: 'docNewsReadyFormatted' 
+      },
+      {
+        label: 'Posted Date',
+        value: 'docPublishDateCMAJnewsFormatted' 
+      },
+      {
+        label: 'ETOC Date',
+        value: 'docETOCDateFormatted' 
+      },
+      {
+        label: 'Online Issue',
+        value: 'docOnlineIssueFormatted' 
+      },
+      {
+        label: 'Print Issue',
+        value: 'docPrintIssueFormatted' 
+      },
+      {
+        label: 'Web Blurb',
+        value: 'docWebBlurb' 
+      },
+      {
+        label: 'Web Image URL',
+        value: 'docWebImageURL' 
+      },
+      {
+        label: 'Web Image Credit',
+        value: 'docWebImageCredit' 
+      },
+      {
+        label: 'Focus Area',
+        value: 'docFocusArea' 
+      },
+      {
+        label: 'Print Ad Conflicts',
+        value: 'docAdConflicts' 
+      },
+      {
+        label: 'URL',
+        value: 'docURL' 
+      },
+      {
+        label: 'Collection Code 1',
+        value: 'docCollectionCode1' 
+      },
+      {
+        label: 'Collection Code 2',
+        value: 'docCollectionCode2' 
+      },
+      {
+        label: 'Collection Code 3',
+        value: 'docCollectionCode3' 
+      },
+      {
+        label: 'Collection Code 4',
+        value: 'docCollectionCode4' 
+      },
+      {
+        label: 'Collection Code 5',
+        value: 'docCollectionCode5' 
+      },
+      {
+        label: 'Collection Code 6',
+        value: 'docCollectionCode6' 
+      },
+      {
+        label: 'General Notes',
+        value: 'docNotes' 
+      },
+      {
+        label: 'Online Notes',
+        value: 'docOnlineNotes' 
+      },
+      {
+        label: 'Print Notes',
+        value: 'docPrintNotes' 
+      },
+      {
+        label: 'Number of Pages',
+        value: 'docNumPages' 
+      },
+      {
+        label: 'Online First Page',
+        value: 'docFirstPageOnline' 
+      },
+      {
+        label: 'Online Last Page',
+        value: 'docLastPageOnline' 
+      },
+      {
+        label: 'Online position',
+        value: 'docOnlinePosition' 
+      },
+      {
+        label: 'Online Volume',
+        value: 'docOnlineVolume' 
+      },
+      {
+        label: 'Online Issue Number',
+        value: 'docOnlineIssueNumber' 
+      },
+      {
+        label: 'Print First Page',
+        value: 'docFirstPagePrint' 
+      },
+      {
+        label: 'Print Last Page',
+        value: 'docLastPagePrint' 
+      },
+      {
+        label: 'Print position',
+        value: 'docPrintPosition' 
+      }
+
+  /*
+  //PRINT ADS
+
+  {
+        label: 'Ad Client',
+        value: 'docAdClient' 
+  },
+  {
+        label: 'Ad Description',
+        value: 'docAdDescription' 
+  },
+  {
+        label: 'Ad Size',
+        value: 'docAdSize' 
+  },
+  {
+        label: 'Ad First Page',
+        value: 'docAdFirstPagePrint' 
+  },
+  {
+        label: 'Ad Last Page',
+        value: 'docAdLastPagePrint' 
+  },
+  */
+  
+  ];
+
+    const data = this.displayDocs; 
+    const json2csvParser = new Json2csvParser({ fields });
+    const csv = json2csvParser.parse(data);
+    let a = document.createElement("a");
+    a.setAttribute('style', 'display:none;');
+    document.body.appendChild(a);
+    let blob = new Blob([csv], { type: 'text/csv' });
+    let url= window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = 'News_Search_Results.csv';
     a.click();
     return 'success';
   }

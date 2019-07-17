@@ -28,6 +28,11 @@
           <mat-checkbox [(ngModel)]="docEditorialOnly" name="docEditorialOnly">Editorial Only</mat-checkbox>
       </mat-form-field>
 
+      <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
+        <input matInput placeholder="" style="display: none">
+          <mat-checkbox [(ngModel)]="docNotFinal" name="docNotFinal">Excluded Finalized </mat-checkbox>
+      </mat-form-field>
+
       <mat-form-field class="example-full-width">
         <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
           <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
@@ -35,15 +40,27 @@
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
-        <input matInput [matDatepicker]="afterAcceptDatePicker" placeholder="Accepted after this date:" [(ngModel)]="afterAcceptDate" name="afterAcceptDate">
+        <input matInput [matDatepicker]="afterAcceptDatePicker" placeholder="Accepted after/on:" [(ngModel)]="afterAcceptDate" name="afterAcceptDate">
         <mat-datepicker-toggle matSuffix [for]="afterAcceptDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #afterAcceptDatePicker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
-        <input matInput [matDatepicker]="beforeAcceptDatePicker" placeholder="Accepted before this date:" [(ngModel)]="beforeAcceptDate" name="beforeAcceptDate">
+        <input matInput [matDatepicker]="beforeAcceptDatePicker" placeholder="Accepted before/on:" [(ngModel)]="beforeAcceptDate" name="beforeAcceptDate">
         <mat-datepicker-toggle matSuffix [for]="beforeAcceptDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #beforeAcceptDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="afterOnlineDatePicker" placeholder="Online issue after/on:" [(ngModel)]="afterOnline" name="afterOnline">
+        <mat-datepicker-toggle matSuffix [for]="afterOnlineDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #afterOnlineDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="beforeOnlineDatePicker" placeholder="Online issue before/on:" [(ngModel)]="beforeOnline" name="beforeOnline">
+        <mat-datepicker-toggle matSuffix [for]="beforeOnlineDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #beforeOnlineDatePicker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">  
@@ -96,6 +113,10 @@
 
   <section class="mat-typography">
 
+    <h1 class="red-link">
+      Your query returned {{ numResults }} documents
+    </h1>
+
     <div *ngFor="let d of displayDocs; let i = index">
       <h2>
          {{ d.docTitle }}
@@ -111,6 +132,12 @@
       </p>
       <p>
         Status: {{ d.docStatus }}
+      </p>
+      <p *ngIf="d.docOnlineIssue">
+        Published Online: {{ d.docOnlineIssueFormatted }}
+      </p>
+      <p *ngIf="d.docPrintIssue">
+        Published Print: {{ d.docPrintIssueFormatted }}
       </p>
 
       <a href="" onClick="return false;" style="display: inline" class="red-link">
@@ -132,7 +159,11 @@
         </span>
         &nbsp;
         <span (click)="onDownload()">
-          <button mat-raised-button>Download CSV</button>
+          <button mat-raised-button>Download Editorial CSV</button>
+        </span>
+        &nbsp;
+        <span (click)="onDownloadNews()">
+          <button mat-raised-button>Download News CSV</button>
         </span>
       </div>
     </section>

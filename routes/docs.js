@@ -390,6 +390,11 @@ router.get('/getSearchResults', (req, res, next) => {
   let query12A = {};
   let query12B = {};
   let query12C = {};
+  let query13 = {};
+  let query14 = {};
+  let query15 = {};
+  let query15A = {};
+  let query15B = {};
 
   if(req.query.status)
     query1 = {'docStatus' : req.query.status};
@@ -428,10 +433,10 @@ router.get('/getSearchResults', (req, res, next) => {
   }
 
   if(req.query.afterAcceptDate)
-    query9 = {docAcceptDate: {$gte: new Date(req.query.afterAcceptDate)}};
+    query9 = {'docAcceptDate': {$gte: new Date(req.query.afterAcceptDate)}};
 
   if(req.query.beforeAcceptDate)
-    query10 = {docAcceptDate: {$lte: new Date(req.query.beforeAcceptDate)}};
+    query10 = {'docAcceptDate': {$lte: new Date(req.query.beforeAcceptDate)}};
 
   if(req.query.docFlagPrint) { 
     query11 = {'docFlagPrint' : true};
@@ -445,7 +450,27 @@ router.get('/getSearchResults', (req, res, next) => {
     query12 = {$or: [query12A, query12B, query12C]};
   }
 
-  Doc.find({$and: [query1, query2, query3, query4, query5, query6, query7, query8, query9, query10, query11, query12]}, 
+  if(req.query.afterOnline)
+    query13 = {'docOnlineIssue': {$gte: new Date(req.query.afterOnline)}};
+
+  if(req.query.beforeOnline)
+    query14 = {'docOnlineIssue': {$lte: new Date(req.query.beforeOnline)}};
+ 
+  console.log(req.query.docNotFinal);
+  if(req.query.docNotFinal) {
+   // query15A = {'docStatus': {$ne: {$regex: '8 - Final', $options: 'i'}}};
+   // query15B = {'docStatus': {$ne: {$regex: 'F - News Posted', $options: 'i'}}};
+    query15A = {'docStatus': {$ne: '8 - Final'}};
+    query15B = {'docStatus': {$ne: 'F - News Posted'}};
+    query15 = {$and: [query15A, query15B]};
+  }
+
+  Doc.find({$and: [query1, query2, query3, query4, 
+                   query5, query6, query7, query8, 
+                   query9, query10, query11, query12,
+                   query13, query14, query15
+
+                  ]}, 
            null, 
            {sort: {docStatus: 1}
            }, 
