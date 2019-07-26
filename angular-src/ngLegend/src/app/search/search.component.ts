@@ -45,6 +45,7 @@ export class SearchComponent implements OnInit {
   docEditorialOnly: Boolean;
   printIssueFormatted: string;
   numResults: number;
+  index: number;
 
 constructor(
   	private authService: AuthService,
@@ -60,9 +61,10 @@ constructor(
     this.statusConfig = config.status;
     this.showResults = false;
     this.noResults = false;
+    this.index = null;
   }
 
-  onSearchSubmit() {
+  onSearchSubmit(sortValue) {
     this.authService.getSearchResults(
     	this.docSection,
     	this.docAuthor,
@@ -78,12 +80,12 @@ constructor(
       this.afterOnline,
       this.beforeOnline,
       this.editor,
-      this.status
+      this.status,
+      sortValue
     ).subscribe(entries => {
       if(entries.length == 0) {
         this.noResults = true;
       } else { 
-        console.log(entries);
         this.numResults = entries.length;
         this.showResults = true;
         this.displayDocs = entries;
@@ -116,6 +118,14 @@ constructor(
 
   onModifySearch() {
     this.ngOnInit();
+  }
+
+  onDocExpand(doc, index) {
+    this.index = index;
+  }
+
+  onDocClose(doc, index) {
+    this.index = null;
   }
 
   onDocClick(doc, index) {

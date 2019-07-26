@@ -6,7 +6,31 @@
   <section class = "mat-typography">
     <h4>Welcome {{username}}</h4> 
     <h2>Enter Search Query</h2>
-    <form (submit)="onSearchSubmit()" class="example-form">  
+    <form (submit)="onSearchSubmit('docStatus')" class="example-form">  
+
+     <mat-form-field class="example-full-width">  
+        <input type="number" matInput placeholder="DOI" [(ngModel)]="docDOI" name="docDOI">
+      </mat-form-field>  
+
+     <mat-form-field class="example-full-width">
+        <mat-select [(ngModel)]="status" name="status" placeholder="Status">
+          <mat-option *ngFor="let s of statusConfig" [value]="s"> {{s}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="Title Keywords" [(ngModel)]="docTitle" name="docTitle">  
+      </mat-form-field>  
+
+      <mat-form-field class="example-full-width">
+        <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
+          <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="Author" [(ngModel)]="docAuthor" name="docAuthor">
+      </mat-form-field> 
 
       <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
         <input matInput placeholder="" style="display: none">
@@ -30,13 +54,7 @@
 
       <mat-form-field floatPlaceholder="always" class="mat-form-field--no-underline example-full-width">
         <input matInput placeholder="" style="display: none">
-          <mat-checkbox [(ngModel)]="docNotFinal" name="docNotFinal">Excluded Finalized </mat-checkbox>
-      </mat-form-field>
-
-      <mat-form-field class="example-full-width">
-        <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
-          <mat-option *ngFor="let s of sections" [value]="s"> {{s}} </mat-option>
-        </mat-select>
+          <mat-checkbox [(ngModel)]="docNotFinal" name="docNotFinal">Exclude Finalized </mat-checkbox>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
@@ -63,27 +81,9 @@
         <mat-datepicker #beforeOnlineDatePicker></mat-datepicker>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">  
-        <input type="text" matInput placeholder="Title Keywords" [(ngModel)]="docTitle" name="docTitle">  
-      </mat-form-field>  
-
-      <mat-form-field class="example-full-width">  
-        <input type="text" matInput placeholder="Author" [(ngModel)]="docAuthor" name="docAuthor">
-      </mat-form-field>  
-
-      <mat-form-field class="example-full-width">  
-        <input type="number" matInput placeholder="DOI" [(ngModel)]="docDOI" name="docDOI">
-      </mat-form-field>  
-
       <mat-form-field class="example-full-width">
         <mat-select [(ngModel)]="editor" name="editor" placeholder="Editor">
           <mat-option *ngFor="let e of editorsMenu" [value]="e"> {{e}} </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="example-full-width">
-        <mat-select [(ngModel)]="status" name="status" placeholder="Status">
-          <mat-option *ngFor="let s of statusConfig" [value]="s"> {{s}} </mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -113,9 +113,24 @@
 
   <section class="mat-typography">
 
-    <h1 class="red-link">
+    <h1>
       Your query returned {{ numResults }} documents
     </h1>
+
+    <div>
+      <p style="display: inline">Sort by: &nbsp;</p> 
+      <a href="" onClick="return false;" style="display: inline" class="red-link">
+        <span (click)="onSearchSubmit('docStatus')">Status </span>
+      </a>&mdash; 
+      <a href="" onClick="return false;" style="display: inline" class="red-link">
+        <span (click)="onSearchSubmit('docAcceptDate')">Accept Date </span>
+      </a>
+      &mdash; 
+      <a href="" onClick="return false;" style="display: inline" class="red-link">
+        <span (click)="onSearchSubmit('docOnlineIssue')">Published Online </span>
+      </a>
+    </div>
+    <br><br>
 
     <div *ngFor="let d of displayDocs; let i = index">
       <h2>
@@ -125,14 +140,18 @@
         Section: {{ d.docSection }}
       </p>
       <p>
-        Author: {{ d.docAuthor }} 
-      </p>
-      <p>
         DOI: {{ d.docDOI }}
       </p>
       <p>
+        Author: {{ d.docAuthor }} 
+      </p>
+
+      <p>
         Status: {{ d.docStatus }}
       </p>
+      <p *ngIf="d.docAcceptDate">
+        Accept Date: {{ d.docAcceptDateFormatted }}
+     </p>
       <p *ngIf="d.docOnlineIssue">
         Published Online: {{ d.docOnlineIssueFormatted }}
       </p>
@@ -140,12 +159,67 @@
         Published Print: {{ d.docPrintIssueFormatted }}
       </p>
 
+      <a *ngIf="i != index" href="" onClick="return false;" style="display: inline" class="red-link">
+        <span (click)="onDocExpand(d, i)"> Preview </span>
+      </a>
+
+      <div *ngIf="i == index" class = "edit-div">
+        <div class = "align-form">
+          <section class = "mat-typography">
+            <p *ngIf="d.docDepartment"><b>Department:</b> {{ d.docDepartment }}</p>
+            <p *ngIf="d.docPaymentDate"> <b>Payment Date:</b> {{ d.docPaymentDateFormatted }}</p>
+            <p *ngIf="d.docEditor"><b>Editor:</b> {{ d.docEditor }}</p>
+            <p *ngIf="d.docCoordinator"><b>Coordinator:</b> {{ d.docCoordinator }}</p>
+            <p *ngIf="d.docSE1"><b>SE1:</b> {{ d.docSE1 }}</p>
+            <p *ngIf="d.docFocusArea"><b>Area of Focus:</b> {{ d.docFocusArea }}</p>
+            <p *ngIf="d.docAdConflicts"><b>Ad Conflicts:</b> {{ d.docAdConflicts }}</p>
+            <p *ngIf="d.docShortTitle"><b>Short Title:</b> {{ d.docShortTitle }}</p>
+            <p *ngIf="d.docRelatedMaterial"><b>Related Material:</b> {{ d.docRelatedMaterial }}</p>
+            <p *ngIf="d.docOutStandingMaterial"><b>Outstanding Material:</b> {{ d.docOutStandingMaterial }}</p>
+            <p *ngIf="d.docFlagPrint"><b>Flag Print:</b> yes </p>
+            <p *ngIf="d.docOpenAccess"><b>Open Access:</b> yes </p>
+            <p *ngIf="d.docTranslation"><b>Translation:</b> yes </p>
+            <p *ngIf="d.docPressRelease"><b>Press Release:</b> yes </p>
+            <p *ngIf="d.docMultiMedia1"><b>Multimedia 1:</b> {{ d.docMultiMedia1 }}</p>
+            <p *ngIf="d.docMultiMedia2"><b>Multimedia 2:</b> {{ d.docMultiMedia2 }}</p>
+            <p *ngIf="d.docMultiMedia3"><b>Multimedia 3:</b> {{ d.docMultiMedia3 }}</p>
+            <p *ngIf="d.docVideoLink"><b>Video Link:</b> {{ d.docVideoLink }}</p>
+            <p *ngIf="d.docCollectionCode1"><b>Collection Code 1:</b> {{ d.docCollectionCode1 }} </p>
+            <p *ngIf="d.docCollectionCode2"><b>Collection Code 2:</b> {{ d.docCollectionCode2 }} </p>
+            <p *ngIf="d.docCollectionCode3"><b>Collection Code 3:</b> {{ d.docCollectionCode3 }} </p>
+            <p *ngIf="d.docCollectionCode4"><b>Collection Code 4:</b> {{ d.docCollectionCode4 }} </p>
+            <p *ngIf="d.docCollectionCode5"><b>Collection Code 5:</b> {{ d.docCollectionCode5 }} </p>
+            <p *ngIf="d.docCollectionCode6"><b>Collection Code 6:</b> {{ d.docCollectionCode6 }} </p>
+            <p *ngIf="d.docOnlineNotes" class="white-space-pre-line"><b>Online Issue Notes:</b> {{ d.docOnlineNotes }}</p>
+            <p *ngIf="d.docPrintNotes" class="white-space-pre-line"><b>Print Issue Notes:</b> {{ d.docPrintNotes }}</p>
+            <p *ngIf="d.docNotes" class="white-space-pre-line"><b>General Notes:</b> {{ d.docNotes }}</p>
+
+            <a href="" onClick="return false;" style="display: inline" class="red-link">
+              <span (click)="onDocClose(d, i)"> Close </span>
+            </a>
+
+            &nbsp; &nbsp;
+
+            <a href="" onClick="return false;" style="display: inline" class="red-link">
+              <span (click)="onDocClick(d, i)"> See full entry </span>
+            </a>
+
+          </section>
+        </div>
+      </div>
+
+  <!--
       <a href="" onClick="return false;" style="display: inline" class="red-link">
         <span (click)="onDocClick(d, i)"> See full entry</span>
       </a>
+  --> 
       <br><br>
     </div>
+
+
+
   </section>
+
   <div class = "align-form">
     <section class = "mat-typography">
       <div class="flex-center">

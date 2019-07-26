@@ -395,6 +395,14 @@ router.get('/getSearchResults', (req, res, next) => {
   let query15 = {};
   let query15A = {};
   let query15B = {};
+  let sortBy = {};
+
+  if(req.query.sortValue == 'docStatus') sortBy = {sort: {'docStatus': 1 }};
+  else if (req.query.sortValue == 'docAcceptDate') sortBy = {sort: {'docAcceptDate': -1 }};
+  else if (req.query.sortValue == 'docOnlineIssue') sortBy = {sort: {'docOnlineIssue': -1 }};
+
+  console.log(sortBy);
+
 
   if(req.query.status)
     query1 = {'docStatus' : req.query.status};
@@ -456,7 +464,6 @@ router.get('/getSearchResults', (req, res, next) => {
   if(req.query.beforeOnline)
     query14 = {'docOnlineIssue': {$lte: new Date(req.query.beforeOnline)}};
  
-  console.log(req.query.docNotFinal);
   if(req.query.docNotFinal) {
    // query15A = {'docStatus': {$ne: {$regex: '8 - Final', $options: 'i'}}};
    // query15B = {'docStatus': {$ne: {$regex: 'F - News Posted', $options: 'i'}}};
@@ -472,14 +479,14 @@ router.get('/getSearchResults', (req, res, next) => {
 
                   ]}, 
            null, 
-           {sort: {docStatus: 1}
-           }, 
-    (err, docs) => {
-      if (err) throw err;
-      else {
-        res.json(docs);
-      }
-    });
+           sortBy,
+           //{sort: {'docStatus': -1 }},
+           (err, docs) => {
+             if (err) throw err;
+             else {
+               res.json(docs);
+             }
+           });
   });
 
 router.get('/getNumDocs', (req, res, next) => {

@@ -416,8 +416,11 @@ export class AuthService {
       .pipe(map(res => res.json()));
   }
 
-  getSearchResults(section, author, DOI, title, notusedonline, notusedprint, flagprint, editorialOnly,
-                   notFinal, afterAcceptDate, beforeAcceptDate, afterOnline, beforeOnline, editor, status) {
+
+  getSearchResults(section, author, DOI, title, notusedonline, notusedprint, 
+                   flagprint, editorialOnly, notFinal, afterAcceptDate, 
+                   beforeAcceptDate, afterOnline, beforeOnline, editor, 
+                   status, sortValue) {
     let headers = new Headers();
     let params = new URLSearchParams();
     let options = new RequestOptions();
@@ -437,6 +440,7 @@ export class AuthService {
     params.set('beforeOnline', beforeOnline);
     params.set('editor', editor);
     params.set('status', status);
+    params.set('sortValue', sortValue);
     options.headers = headers;
     options.search = params;
     return this.http.get('docs/getSearchResults', options) 
@@ -666,7 +670,6 @@ export class AuthService {
 }
 
 /*
-
 
 
 
@@ -1090,8 +1093,10 @@ export class AuthService {
   }
 
 
-  getSearchResults(section, author, DOI, title, notusedonline, notusedprint, flagprint, editorialOnly,
-                   notFinal, afterAcceptDate, beforeAcceptDate, afterOnline, beforeOnline, editor, status) {
+  getSearchResults(section, author, DOI, title, notusedonline, notusedprint, 
+                   flagprint, editorialOnly, notFinal, afterAcceptDate, 
+                   beforeAcceptDate, afterOnline, beforeOnline, editor, 
+                   status, sortValue) {
     let headers = new Headers();
     let params = new URLSearchParams();
     let options = new RequestOptions();
@@ -1111,6 +1116,7 @@ export class AuthService {
     params.set('beforeOnline', beforeOnline);
     params.set('editor', editor);
     params.set('status', status);
+    params.set('sortValue', sortValue);
     options.headers = headers;
     options.search = params;
     return this.http.get('http://localhost:3000/docs/getSearchResults', options) 
