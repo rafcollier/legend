@@ -321,6 +321,8 @@ router.put('/updateDoc', (req, res, next) => {
   const query = {_id:req.body.docID};
   const updatedDoc = req.body;
 
+  console.log(updatedDoc);
+
   //Check if document has a DOI and check it against other documents for duplicate DOI if the DOI was changed
   if(updatedDoc.docDOI) {
     console.log(updatedDoc.docDOI);

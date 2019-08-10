@@ -464,8 +464,12 @@ MAIN DOCUMENT INPUT SECTION
       <h2>Edit Document</h2>
 
       <form (submit)="onEditedDocSubmit()" class="example-form">  
-        Section: {{docSection}}
-        <br><br>
+
+        <mat-form-field class="example-full-width">
+          <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
+            <mat-option *ngFor="let s of sectionsMenu" [value]="s"> {{s}} </mat-option>
+          </mat-select>
+        </mat-form-field>
  
         <mat-form-field class="example-full-width">  
           <input type="number" matInput placeholder="DOI" [(ngModel)]="docDOI" name="docDOI">
@@ -970,7 +974,12 @@ NEWS INPUT SECTION
       <h2>Edit Document</h2>
 
       <form (submit)="onEditedDocSubmit()" class="example-form">  
-        Section: {{docSection}}
+
+        <mat-form-field class="example-full-width">
+          <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
+            <mat-option *ngFor="let s of sectionsMenu" [value]="s"> {{s}} </mat-option>
+          </mat-select>
+        </mat-form-field>
 
         <mat-form-field class="example-full-width">  
           <input type="number" matInput placeholder="DOI" [(ngModel)]="docDOI" name="docDOI">
@@ -1228,8 +1237,12 @@ LETTER INPUT SECTION
       <h2>Edit Document</h2>
 
       <form (submit)="onEditedDocSubmit()" class="example-form">  
-        Section: {{docSection}}
-        <br><br>
+
+       <mat-form-field class="example-full-width">
+          <mat-select [(ngModel)]="docSection" name="docSection" placeholder="Section">
+            <mat-option *ngFor="let s of sectionsMenu" [value]="s"> {{s}} </mat-option>
+          </mat-select>
+        </mat-form-field>
 
         <mat-form-field class="example-full-width">  
           <input type="number" matInput placeholder="DOI" [(ngModel)]="docDOI" name="docDOI">

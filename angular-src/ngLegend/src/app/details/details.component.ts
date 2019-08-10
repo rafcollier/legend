@@ -53,9 +53,6 @@ export class DetailsComponent implements OnInit {
   onlineOrder: [Object];
 
   //loaded from config data 
-  sections: object[]; 
-  sectionsUnique: object[]; 
-  sectionsMenu: string[]; 
   departments: object[]; 
   departmentsMenu: string[]; 
   configFile: object;
@@ -68,7 +65,10 @@ export class DetailsComponent implements OnInit {
   seMenu: string []; 
   codesMenu: string []; 
   multimedia: string []; 
-  focusareas: string []; 
+  focusareas: string [];   sections: object[]; 
+  sectionsUnique: object[]; 
+  sectionsMenu: string[]; 
+
 
   prevOnlineIssue: Object;
 
@@ -321,14 +321,22 @@ export class DetailsComponent implements OnInit {
     this.onlineIssueDates = this.online.map(x => moment(x['date']).format('MMMM DD, YYYY'));
     this.departments = this.authService.localGetDepartments();
     this.sectionsUnique = this.authService.localGetUniqueSections(); 
+
     this.sectionsMenu = this.authService.localGetUniqueSections().map(x => x.section); 
+    this.sectionsMenu.unshift("None");
     this.departmentsMenu = this.authService.localGetDepartments().map(x => x.department); 
+    this.departmentsMenu.unshift("None");
     this.editorsMenu = this.authService.localGetEditors().filter(x => x.docEditor).map(x => x.name);
+    this.editorsMenu.unshift("None");
     this.coordinatorsMenu = this.authService.localGetEditors().filter(x => x.docCoordinator).map(x => x.name);
+    this.coordinatorsMenu.unshift("None");
     this.proofersMenu = this.authService.localGetEditors().filter(x => x.docProofReader).map(x => x.name);
+    this.proofersMenu.unshift("None");
     this.seMenu = this.authService.localGetEditors().filter(x => x.docSE).map(x => x.name);
+    this.seMenu.unshift("None");
     this.codesMenu = this.authService.localGetCodes().map(x => x.description.concat(' - ', x.code.toString()));
     this.focusareas = this.authService.localGetCodes().filter(x => x.focus).map(x => x.description);
+    this.focusareas.unshift("None");
       
     const mediaArray: string [] = [
                          this.configFile['multiMedia1'], 
@@ -340,6 +348,7 @@ export class DetailsComponent implements OnInit {
                        ];
 
     this.multimedia = mediaArray.filter(x => x.length > 0);
+    this.multimedia.unshift("None");
 
     this.route.params.subscribe(params => {
       this.detailsID = params['doc'];

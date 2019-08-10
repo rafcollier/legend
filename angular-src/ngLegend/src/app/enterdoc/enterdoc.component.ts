@@ -303,13 +303,20 @@ export class EnterdocComponent implements OnInit {
     this.onlineIssueDates = this.online.map(x => moment(x['date']).format('MMMM DD, YYYY'));
     this.departments = this.authService.localGetDepartments();
     this.sectionsUnique = this.authService.localGetUniqueSections(); 
+
     this.departmentsMenu = this.authService.localGetDepartments().map(x => x.department); 
+    this.departmentsMenu.unshift("None");
     this.editorsMenu = this.authService.localGetEditors().filter(x => x.docEditor).map(x => x.name);
+    this.editorsMenu.unshift("None");
     this.coordinatorsMenu = this.authService.localGetEditors().filter(x => x.docCoordinator).map(x => x.name);
+    this.coordinatorsMenu.unshift("None");
     this.proofersMenu = this.authService.localGetEditors().filter(x => x.docProofReader).map(x => x.name);
+    this.proofersMenu.unshift("None");
     this.seMenu = this.authService.localGetEditors().filter(x => x.docSE).map(x => x.name);
+    this.seMenu.unshift("None");
     this.codesMenu = this.authService.localGetCodes().map(x => x.description.concat(' - ', x.code.toString()));
     this.focusareas = this.authService.localGetCodes().filter(x => x.focus).map(x => x.description);
+    this.focusareas.unshift("None");
 
     const mediaArray: string [] = [
                          this.configFile['multiMedia1'], 
@@ -321,6 +328,7 @@ export class EnterdocComponent implements OnInit {
                        ];
 
     this.multimedia = mediaArray.filter(x => x.length > 0);
+    this.multimedia.unshift("None");
 
     //Get name of section from previous screen.
     this.route.params.subscribe(params => {
