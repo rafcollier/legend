@@ -485,6 +485,7 @@ constructor(
 
   onEditEntry(doc, index) {
     console.log("edit");
+    this.index = index;
     this.editSearchResult = true;
     console.log(this.editSearchResult);
     this.docID = doc["_id"]; 

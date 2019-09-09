@@ -159,6 +159,10 @@
         <a *ngIf="i != index" href="" onClick="return false;" style="display: inline" class="red-link">
           <span (click)="onDocExpand(d, i)">See more</span>
         </a>
+        &nbsp; &nbsp;
+        <a href="" onClick="return false;" class="red-link">
+          <span (click)="onEditEntry(d, i)"> Edit </span>
+        </a>
 
         <hr class="hr-style">
 
@@ -166,6 +170,21 @@
 
       <div *ngIf="i == index" class = "edit-div">
         <div *ngIf="!editSearchResult">
+          <div class="container1">
+            &nbsp; &nbsp;
+            <a href="" onClick="return false;" style="display: inline" class="red-link">
+              <span (click)="onDocClick(d, i)"> See full entry </span>
+            </a>
+            &nbsp; &nbsp;
+            <a href="" onClick="return false;" class="red-link">
+              <span (click)="onEditEntry(d, i)"> Edit </span>
+            </a>
+            &nbsp; &nbsp;
+            <a href="" onClick="return false;" style="display: inline" class="red-link">
+              <span (click)="onDocClose(d, i)"> Close </span>
+            </a>
+            &nbsp; &nbsp;
+          </div>
           <h3 class="red-link">TIMELINE:</h3>
           <p *ngIf="d.docPaymentDate"> <b>Payment Date:</b> {{   d.docPaymentDateFormatted }}</p>
           <p *ngIf="d.docAcceptDate"> <b>Accept Date:</b> {{ d.docAcceptDateFormatted }}</p>
@@ -218,22 +237,7 @@
           <p *ngIf="d.docOnlineNotes" class="white-space-pre-line"><b>Online Issue Notes:</b> {{ d.docOnlineNotes }}</p>
           <p *ngIf="d.docPrintNotes" class="white-space-pre-line"><b>Print Issue Notes:</b> {{ d.docPrintNotes }}</p>
           <p *ngIf="d.docNotes" class="white-space-pre-line"><b>General Notes:</b> {{ d.docNotes }}</p>
-          <div class="container1">
 
-            &nbsp; &nbsp;
-            <a href="" onClick="return false;" style="display: inline" class="red-link">
-              <span (click)="onDocClick(d, i)"> See full entry </span>
-            </a>
-            &nbsp; &nbsp;
-            <a href="" onClick="return false;" class="red-link">
-              <span (click)="onEditEntry(d, i)"> Edit </span>
-            </a>
-            &nbsp; &nbsp;
-            <a href="" onClick="return false;" style="display: inline" class="red-link">
-              <span (click)="onDocClose(d, i)"> Close </span>
-            </a>
-            &nbsp; &nbsp;
-          </div>
         </div>
 
         <div *ngIf="editSearchResult">
@@ -760,7 +764,7 @@
             </div>
 
             <button mat-raised-button type="submit">Submit</button>&nbsp;
-            <button mat-raised-button type="button" (click)="onEditedDocCancel()">Cancel</button>
+            <button mat-raised-button type="button" (click)="onDocClose()">Cancel</button>
 
           </form>
 
