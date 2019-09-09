@@ -186,6 +186,8 @@ MAIN DOCUMENT INPUT SECTION
         <p *ngIf="oneDoc.docCollectionCode4">{{ docCollectionCode4 }} </p>
         <p *ngIf="oneDoc.docCollectionCode5">{{ docCollectionCode5 }} </p>
         <p *ngIf="oneDoc.docCollectionCode6">{{ docCollectionCode6 }} </p>
+        <p *ngIf="oneDoc.docCollectionCode7">{{ docCollectionCode7 }} </p>
+        <p *ngIf="oneDoc.docCollectionCode8">{{ docCollectionCode8 }} </p>
       </mat-expansion-panel> 
     </mat-accordion>
     <br>
@@ -313,6 +315,8 @@ NEWS INPUT SECTION
           <p *ngIf="oneDoc.docCollectionCode4"><b>Collection Code 4:</b> {{ docCollectionCode4 }}</p>
           <p *ngIf="oneDoc.docCollectionCode5"><b>Collection Code 5:</b> {{ docCollectionCode5 }}</p>
           <p *ngIf="oneDoc.docCollectionCode6"><b>Collection Code 6:</b> {{ docCollectionCode6 }}</p>
+          <p *ngIf="oneDoc.docCollectionCode7"><b>Collection Code 7:</b> {{ docCollectionCode7 }}</p>
+          <p *ngIf="oneDoc.docCollectionCode8"><b>Collection Code 8:</b> {{ docCollectionCode8 }}</p>
         </mat-expansion-panel> 
       </mat-accordion>
       <br>
@@ -852,8 +856,8 @@ MAIN DOCUMENT INPUT SECTION
             </mat-expansion-panel-header>
 
             <mat-form-field class="example-full-width">
-              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode1" name="docCollectionCode1" aria-label="Number" matInput [formControl]="myControlCodes1" [matAutocomplete]="auto2">
-              <mat-autocomplete #auto2="matAutocomplete">
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode1" name="docCollectionCode1" aria-label="Number" matInput [formControl]="myControlCodes1" [matAutocomplete]="auto1">
+              <mat-autocomplete #auto1="matAutocomplete">
                 <mat-option *ngFor="let f of filteredCodes1 | async" [value]="f">
                   {{f}}
                 </mat-option>
@@ -861,8 +865,8 @@ MAIN DOCUMENT INPUT SECTION
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode2" name="docCollectionCode2" aria-label="Number" matInput [formControl]="myControlCodes2" [matAutocomplete]="auto3">
-              <mat-autocomplete #auto3="matAutocomplete">
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode2" name="docCollectionCode2" aria-label="Number" matInput [formControl]="myControlCodes2" [matAutocomplete]="auto2">
+              <mat-autocomplete #auto2="matAutocomplete">
                 <mat-option *ngFor="let f of filteredCodes2 | async" [value]="f">
                   {{f}}
                 </mat-option>
@@ -870,8 +874,8 @@ MAIN DOCUMENT INPUT SECTION
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode3" name="docCollectionCode3" aria-label="Number" matInput [formControl]="myControlCodes3" [matAutocomplete]="auto4">
-              <mat-autocomplete #auto4="matAutocomplete">
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode3" name="docCollectionCode3" aria-label="Number" matInput [formControl]="myControlCodes3" [matAutocomplete]="auto3">
+              <mat-autocomplete #auto3="matAutocomplete">
                 <mat-option *ngFor="let f of filteredCodes3 | async" [value]="f">
                   {{f}}
                 </mat-option>
@@ -879,8 +883,8 @@ MAIN DOCUMENT INPUT SECTION
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode4" name="docCollectionCode4" aria-label="Number" matInput [formControl]="myControlCodes4" [matAutocomplete]="auto5">
-              <mat-autocomplete #auto5="matAutocomplete">
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode4" name="docCollectionCode4" aria-label="Number" matInput [formControl]="myControlCodes4" [matAutocomplete]="auto4">
+              <mat-autocomplete #auto4="matAutocomplete">
                 <mat-option *ngFor="let f of filteredCodes4 | async" [value]="f">
                   {{f}}
                 </mat-option>
@@ -888,8 +892,8 @@ MAIN DOCUMENT INPUT SECTION
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode5" name="docCollectionCode5" aria-label="Number" matInput [formControl]="myControlCodes5" [matAutocomplete]="auto6">
-              <mat-autocomplete #auto6="matAutocomplete">
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode5" name="docCollectionCode5" aria-label="Number" matInput [formControl]="myControlCodes5" [matAutocomplete]="auto5">
+              <mat-autocomplete #auto5="matAutocomplete">
                 <mat-option *ngFor="let f of filteredCodes5 | async" [value]="f">
                   {{f}}
                 </mat-option>
@@ -897,9 +901,27 @@ MAIN DOCUMENT INPUT SECTION
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode6" name="docCollectionCode6" aria-label="Number" matInput [formControl]="myControlCodes6" [matAutocomplete]="auto7">
-              <mat-autocomplete #auto7="matAutocomplete">
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode6" name="docCollectionCode6" aria-label="Number" matInput [formControl]="myControlCodes6" [matAutocomplete]="auto6">
+              <mat-autocomplete #auto6="matAutocomplete">
                 <mat-option *ngFor="let f of filteredCodes6 | async" [value]="f">
+                  {{f}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode7" name="docCollectionCode7" aria-label="Number" matInput [formControl]="myControlCodes7" [matAutocomplete]="auto7">
+              <mat-autocomplete #auto7="matAutocomplete">
+                <mat-option *ngFor="let f of filteredCodes7 | async" [value]="f">
+                  {{f}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode8" name="docCollectionCode8" aria-label="Number" matInput [formControl]="myControlCodes8" [matAutocomplete]="auto8">
+              <mat-autocomplete #auto8="matAutocomplete">
+                <mat-option *ngFor="let f of filteredCodes8 | async" [value]="f">
                   {{f}}
                 </mat-option>
               </mat-autocomplete>
@@ -1116,8 +1138,8 @@ NEWS INPUT SECTION
             </mat-expansion-panel-header>
 
             <mat-form-field class="example-full-width">
-              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode1" name="docCollectionCode1" aria-label="Number" matInput [formControl]="myControlCodes1" [matAutocomplete]="auto2">
-              <mat-autocomplete #auto2="matAutocomplete">
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode1" name="docCollectionCode1" aria-label="Number" matInput [formControl]="myControlCodes1" [matAutocomplete]="auto1">
+              <mat-autocomplete #auto1="matAutocomplete">
                 <mat-option *ngFor="let f of filteredCodes1 | async" [value]="f">
                   {{f}}
                 </mat-option>
@@ -1125,8 +1147,8 @@ NEWS INPUT SECTION
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode2" name="docCollectionCode2" aria-label="Number" matInput [formControl]="myControlCodes2" [matAutocomplete]="auto3">
-              <mat-autocomplete #auto3="matAutocomplete">
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode2" name="docCollectionCode2" aria-label="Number" matInput [formControl]="myControlCodes2" [matAutocomplete]="auto2">
+              <mat-autocomplete #auto2="matAutocomplete">
                 <mat-option *ngFor="let f of filteredCodes2 | async" [value]="f">
                   {{f}}
                 </mat-option>
@@ -1134,8 +1156,8 @@ NEWS INPUT SECTION
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode3" name="docCollectionCode3" aria-label="Number" matInput [formControl]="myControlCodes3" [matAutocomplete]="auto4">
-              <mat-autocomplete #auto4="matAutocomplete">
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode3" name="docCollectionCode3" aria-label="Number" matInput [formControl]="myControlCodes3" [matAutocomplete]="auto3">
+              <mat-autocomplete #auto3="matAutocomplete">
                 <mat-option *ngFor="let f of filteredCodes3 | async" [value]="f">
                   {{f}}
                 </mat-option>
@@ -1143,8 +1165,8 @@ NEWS INPUT SECTION
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode4" name="docCollectionCode4" aria-label="Number" matInput [formControl]="myControlCodes4" [matAutocomplete]="auto5">
-              <mat-autocomplete #auto5="matAutocomplete">
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode4" name="docCollectionCode4" aria-label="Number" matInput [formControl]="myControlCodes4" [matAutocomplete]="auto4">
+              <mat-autocomplete #auto4="matAutocomplete">
                 <mat-option *ngFor="let f of filteredCodes4 | async" [value]="f">
                   {{f}}
                 </mat-option>
@@ -1152,8 +1174,8 @@ NEWS INPUT SECTION
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode5" name="docCollectionCode5" aria-label="Number" matInput [formControl]="myControlCodes5" [matAutocomplete]="auto6">
-              <mat-autocomplete #auto6="matAutocomplete">
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode5" name="docCollectionCode5" aria-label="Number" matInput [formControl]="myControlCodes5" [matAutocomplete]="auto5">
+              <mat-autocomplete #auto5="matAutocomplete">
                 <mat-option *ngFor="let f of filteredCodes5 | async" [value]="f">
                   {{f}}
                 </mat-option>
@@ -1161,9 +1183,27 @@ NEWS INPUT SECTION
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode6" name="docCollectionCode6" aria-label="Number" matInput [formControl]="myControlCodes6" [matAutocomplete]="auto7">
-              <mat-autocomplete #auto7="matAutocomplete">
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode6" name="docCollectionCode6" aria-label="Number" matInput [formControl]="myControlCodes6" [matAutocomplete]="auto6">
+              <mat-autocomplete #auto6="matAutocomplete">
                 <mat-option *ngFor="let f of filteredCodes6 | async" [value]="f">
+                  {{f}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode7" name="docCollectionCode7" aria-label="Number" matInput [formControl]="myControlCodes7" [matAutocomplete]="auto7">
+              <mat-autocomplete #auto7="matAutocomplete">
+                <mat-option *ngFor="let f of filteredCodes7 | async" [value]="f">
+                  {{f}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <input type="text" placeholder="Choose HighWire Code" [(ngModel)]="docCollectionCode8" name="docCollectionCode8" aria-label="Number" matInput [formControl]="myControlCodes8" [matAutocomplete]="auto8">
+              <mat-autocomplete #auto8="matAutocomplete">
+                <mat-option *ngFor="let f of filteredCodes8 | async" [value]="f">
                   {{f}}
                 </mat-option>
               </mat-autocomplete>

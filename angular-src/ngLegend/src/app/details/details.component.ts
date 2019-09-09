@@ -86,6 +86,10 @@ export class DetailsComponent implements OnInit {
   filteredCodes5: Observable<string[]>;
   myControlCodes6 = new FormControl();
   filteredCodes6: Observable<string[]>;
+  myControlCodes7 = new FormControl();
+  filteredCodes7: Observable<string[]>;
+  myControlCodes8 = new FormControl();
+  filteredCodes8: Observable<string[]>;
 
   //Same as in Enter Document Component
 
@@ -153,6 +157,8 @@ export class DetailsComponent implements OnInit {
   docCollectionCode4: String;
   docCollectionCode5: String;
   docCollectionCode6: String;
+  docCollectionCode7: String;
+  docCollectionCode8: String;
 
   //DOCUMENT TIMELINE
   docAcceptDate: Date;
@@ -305,6 +311,19 @@ export class DetailsComponent implements OnInit {
         map(value => this._filterCode(value))
     );
 
+    
+    this.filteredCodes7 = this.myControlCodes7.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterCode(value))
+    );
+
+    this.filteredCodes8 = this.myControlCodes8.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterCode(value))
+    );
+
     this.showNews = false;
     this.showLetter = false;
     this.showAd = false;
@@ -439,6 +458,8 @@ export class DetailsComponent implements OnInit {
       this.docCollectionCode4 = doc.docCollectionCode4;
       this.docCollectionCode5 = doc.docCollectionCode5;
       this.docCollectionCode6 = doc.docCollectionCode6;
+      this.docCollectionCode7 = doc.docCollectionCode7;
+      this.docCollectionCode8 = doc.docCollectionCode8;
     
       //DOCUMENT TIMELINE
     
@@ -783,6 +804,8 @@ export class DetailsComponent implements OnInit {
       docCollectionCode4: this.docCollectionCode4,
       docCollectionCode5: this.docCollectionCode5,
       docCollectionCode6: this.docCollectionCode6,
+      docCollectionCode7: this.docCollectionCode7,
+      docCollectionCode8: this.docCollectionCode8,
     
       //DOCUMENT TIMELINE
     

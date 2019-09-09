@@ -210,6 +210,18 @@ let DocSchema = new Schema({
 	code6Code: {
 	  type: Number
 	},
+	docCollectionCode7: {
+	  type: String
+	},
+	code7Code: {
+	  type: Number
+	},
+	docCollectionCode8: {
+	  type: String
+	},
+	code8Code: {
+	  type: Number
+	},
 
     //DOCUMENT TIMELINE
 
