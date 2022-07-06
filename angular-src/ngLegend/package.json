@@ -31,7 +31,7 @@
     "fs": "0.0.1-security",
     "http": "0.0.0",
     "json2csv": "^4.3.5",
-    "moment": "^2.22.1",
+    "moment": "^2.29.4",
     "mongo-xlsx": "^1.0.12",
     "mongoose-to-csv": "^0.1.1",
     "os": "^0.1.1",
