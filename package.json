@@ -24,7 +24,7 @@
     "express": "^4.16.4",
     "fs": "0.0.1-security",
     "http-errors": "^1.7.1",
-    "jsonwebtoken": "^8.4.0",
+    "jsonwebtoken": "^9.0.0",
     "moment": "^2.23.0",
     "momentjs": "^2.0.0",
     "mongoose": "^5.4.0",
